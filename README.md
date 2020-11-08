@@ -14,7 +14,7 @@ GitHub account | Name and surname
 
   * Spring Boot framework
   * Apache Maven
-  * PostreSQL DBMS
+  * PostgreSQL DBMS
 
 **Folder_name FRONT-END folder**
   
