@@ -27,4 +27,9 @@ GitHub account | Name and surname
 
   * isa-podjela-rada.txt - description of what funcionalties each teammember got, defined by the given specification  
 
-  
+## Staring up application
+
+**pharmacy-app
+
+ * npm install
+ * npm start
