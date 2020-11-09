@@ -10,16 +10,18 @@ GitHub account | Name and surname
 
 ## Pharmacy web application
 
-**Folder_name BACK-END folder**
+**pharmacyapp BACK-END folder**
 
   * Spring Boot framework
   * Apache Maven
   * PostgreSQL DBMS
 
-**Folder_name FRONT-END folder**
+**front/pharmacy-app FRONT-END folder**
   
-  * Node.js 12.16.2
-  * React library 
+  * Node.js
+  * React library
+  * React-bootstrap
+  * Bootstrap
   
 **Other folder and files**
 
