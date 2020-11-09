@@ -28,7 +28,7 @@ GitHub account | Name and surname
   * isa-podjela-rada.txt - description of what funcionalties each teammember got, defined by the given specification  
   * ISA-PROJEKAT-MODEL-20_21 - folder that containts class diagram of the project, tool used Sybase PowerDesigner15
 
-## Staring up application
+## Starting up application
 
 **pharmacy-app**
 
