@@ -38,7 +38,7 @@ GitHub account | Name and surname
 
  - from console or bash
    - mvn clean install
-   - move to pharmacypp/target folder
+   - move to pharmacyapp/target folder
    - java -jar pharmacyapp-0.0.1-SNAPSHOT
   
 * run application from IDE
