@@ -29,7 +29,7 @@ GitHub account | Name and surname
 
 ## Staring up application
 
-**pharmacy-app
+**pharmacy-app**
 
  * npm install
  * npm start
