@@ -26,6 +26,7 @@ GitHub account | Name and surname
 **Other folder and files**
 
   * isa-podjela-rada.txt - description of what funcionalties each teammember got, defined by the given specification  
+  * ISA-PROJEKAT-MODEL-20_21 - folder that containts class diagram of the project, tool udes Sybase PowerDesigner15
 
 ## Staring up application
 
