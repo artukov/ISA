@@ -26,16 +26,16 @@ GitHub account | Name and surname
 **Other folder and files**
 
   * isa-podjela-rada.txt - description of what funcionalties each teammember got, defined by the given specification  
-  * ISA-PROJEKAT-MODEL-20_21 - folder that containts class diagram of the project, tool used Sybase PowerDesigner15
+  * ISA-PROJEKAT-MODEL-20_21 - folder that contains class diagram of the project, tool used Sybase PowerDesigner15
 
 ## Starting up application
 
-**pharmacy-app**
+***pharmacy-app***
 
  * npm install
  * npm start
  
-**pharmacyapp**
+***pharmacyapp***
 
  - from console or bash
    - mvn clean install
