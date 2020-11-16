@@ -1,4 +1,4 @@
-/***********************************************************************
+package isa.project.pharmacyapp.model; /***********************************************************************
  * Module:  EReceipt.java
  * Author:  User
  * Purpose: Defines the Class EReceipt

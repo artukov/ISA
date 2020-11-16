@@ -1,8 +1,11 @@
-/***********************************************************************
+package isa.project.pharmacyapp.model; /***********************************************************************
  * Module:  Pharmacist.java
  * Author:  User
  * Purpose: Defines the Class Pharmacist
  ***********************************************************************/
+
+import isa.project.pharmacyapp.model.Appointment;
+import isa.project.pharmacyapp.model.User;
 
 import java.util.*;
 

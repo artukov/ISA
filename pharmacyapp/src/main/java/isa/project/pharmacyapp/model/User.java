@@ -1,13 +1,24 @@
+package isa.project.pharmacyapp.model;
 /***********************************************************************
  * Module:  User.java
  * Author:  User
  * Purpose: Defines the Class User
  ***********************************************************************/
 
+import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.Table;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.*;
 
 /** @pdOid ec55a7e0-adf7-49f8-be3c-0032c8378e0d */
+
 public class User {
+
+
+
    /** @pdOid 4ad3776b-e8c2-48d7-9f42-85a84b147179 */
    protected String email;
    /** @pdOid 9932bea1-50f2-4c08-add5-5de579952cd5 */
