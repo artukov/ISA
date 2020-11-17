@@ -1,4 +1,4 @@
-/***********************************************************************
+package isa.project.pharmacyapp.model; /***********************************************************************
  * Module:  Examination.java
  * Author:  User
  * Purpose: Defines the Class Examination

@@ -1,4 +1,4 @@
-/***********************************************************************
+package isa.project.pharmacyapp.model; /***********************************************************************
  * Module:  AbsenseRequest.java
  * Author:  User
  * Purpose: Defines the Class AbsenseRequest
