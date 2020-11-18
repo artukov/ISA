@@ -4,6 +4,9 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class Pharmacist
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.Appointment;
+import isa.project.pharmacyapp.model.User;
+
 import java.util.*;
 
 /** @pdOid f3ced588-eb04-41f5-93d0-b29a2c7718b4 */

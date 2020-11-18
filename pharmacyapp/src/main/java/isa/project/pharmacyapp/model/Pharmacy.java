@@ -1,4 +1,6 @@
-package isa.project.pharmacyapp.model; /***********************************************************************
+
+package isa.project.pharmacyapp.model;
+/***********************************************************************
  * Module:  Pharmacy.java
  * Author:  User
  * Purpose: Defines the Class Pharmacy
