@@ -21,7 +21,7 @@ public class Address {
    @Column(nullable = true)
    private String street;
    /** @pdOid 31d5e5c0-8cb6-4b19-afc0-1aa1d06ee65f */
-   @Column
+   @Column(name = "streetNumber")
    private int streetNumber;
    /** @pdOid 33342b88-66ed-4d99-befb-e6a32d6823b6 */
    @Column
