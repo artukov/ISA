@@ -13,12 +13,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.*;
 
+
 @Entity
 @Table(name = "address")
 /** @pdOid 176e15b0-8fe8-4183-845d-aba7ce69df77 */
 public class Address {
-
-
+  
+  
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
@@ -37,6 +38,7 @@ public class Address {
 
 
    public Address() {
+
    }
 
    public Long getId() {
