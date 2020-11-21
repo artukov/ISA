@@ -1,4 +1,5 @@
-package isa.project.pharmacyapp.model; /***********************************************************************
+package isa.project.pharmacyapp.model;
+/***********************************************************************
  * Module:  Address.java
  * Author:  User
  * Purpose: Defines the Class Address

@@ -1,33 +1,56 @@
-package isa.project.pharmacyapp.model; /***********************************************************************
+package isa.project.pharmacyapp.model;
+/***********************************************************************
  * Module:  Patient.java
  * Author:  User
  * Purpose: Defines the Class Patient
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid 8fd28308-0982-428d-b3b0-4b7e59801216 */
+@Entity
+@Table(name = "patient")
 public class Patient extends User {
+
+
    /** @pdOid 79dd33ff-4755-445d-b350-7ad428e6ccd4 */
+   @Column(nullable = true)
    private int points = 0;
    /** @pdOid 90b59b78-6b39-457e-9480-03cba740dcc8 */
+   @Column(nullable = true)
    private String category;
    /** @pdOid 166fec65-4553-4ceb-ba38-454d3592a0c9 */
+   @Column(nullable = true)
    private Integer penatlies = 0;
    
    /** @pdRoleInfo migr=no name=Address assc=association12 mult=1..1 */
+   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinColumn(name = "address_id")
    public Address address;
    /** @pdRoleInfo migr=no name=Reservation assc=association13 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "patient_id")
    public java.util.List<Reservation> reservation;
    /** @pdRoleInfo migr=no name=Appointment assc=association15 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "appointment_id")
    public java.util.List<Appointment> appointment;
    /** @pdRoleInfo migr=no name=Allergy assc=association20 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "allergy_id")
    public java.util.List<Allergy> allergy;
    /** @pdRoleInfo migr=no name=Promotions assc=association26 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "promotion_id")
    public java.util.List<Promotions> promotions;
    /** @pdRoleInfo migr=no name=Complaints assc=association28 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "complaint_id")
    public java.util.List<Complaints> complaints;
    /** @pdRoleInfo migr=no name=EReceipt assc=association30 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "recepit_id")
    public java.util.List<EReceipt> eReceipt;
    
    
