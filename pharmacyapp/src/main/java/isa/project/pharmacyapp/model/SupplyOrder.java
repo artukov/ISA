@@ -5,18 +5,60 @@ package isa.project.pharmacyapp.model; /****************************************
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid cd2c2f65-f35f-46a4-b587-c7a9716a8ed9 */
+@Entity
+@Table(name = "order")
 public class SupplyOrder {
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Long id;
+
    /** @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700 */
+   @Column(nullable = true)
    private Boolean status;
    /** @pdOid a470a81c-268d-456b-934f-6cdb8867caac */
+   @Column(nullable = false, name = "delivery_date")
    private Date deliveryDate;
    
    /** @pdRoleInfo migr=no name=Drug assc=association10 coll=java.util.Set impl=java.util.HashSet mult=1..* */
+   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(
+           name = "order_drug",
+           joinColumns = @JoinColumn(name = "order_id"),
+           inverseJoinColumns = @JoinColumn(name = "drug_id")
+   )
    public java.util.Set<Drug> drug;
-   
-   
+
+   public SupplyOrder() {
+   }
+
+   public Long getId() {
+      return id;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
+   }
+
+   public Boolean getStatus() {
+      return status;
+   }
+
+   public void setStatus(Boolean status) {
+      this.status = status;
+   }
+
+   public Date getDeliveryDate() {
+      return deliveryDate;
+   }
+
+   public void setDeliveryDate(Date deliveryDate) {
+      this.deliveryDate = deliveryDate;
+   }
+
    /** @pdGenerated default getter */
    public java.util.Set<Drug> getDrug() {
       if (drug == null)

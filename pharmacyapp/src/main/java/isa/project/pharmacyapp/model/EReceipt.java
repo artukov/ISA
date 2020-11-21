@@ -5,17 +5,35 @@ package isa.project.pharmacyapp.model; /****************************************
  ***********************************************************************/
 
 import java.util.*;
-
+import javax.persistence.*;
 /** @pdOid 6d965712-ddc8-4ec3-9e5a-604bb4d19211 */
+@Entity
+@Table(name = "erecepit")
 public class EReceipt {
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Long id;
+
    /** @pdOid cbb94b01-2793-42f0-ad1b-979645b9f450 */
+   @Column(nullable = false, unique = true)
    private Long code;
    /** @pdOid a95fcce8-8d85-49ca-b8df-43463b648ca3 */
+   @Column(nullable = false, name = "issue_date")
    private Date issueDate;
    
    /** @pdRoleInfo migr=no name=Drug assc=association31 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinTable(
+           name = "recepit_drug",
+           joinColumns = @JoinColumn(name = "recepit_id"),
+           inverseJoinColumns = @JoinColumn(name = "drug_id")
+   )
    public java.util.List<Drug> drug;
    /** @pdRoleInfo migr=no name=Patient assc=association30 mult=1..1 side=A */
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "patient_id")
    public Patient patient;
    
    
