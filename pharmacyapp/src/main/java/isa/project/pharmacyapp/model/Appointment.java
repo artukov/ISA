@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "appointment")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Appointment {
+public abstract class Appointment {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,9 +44,7 @@ public class Appointment {
    
    /** @param attendance
     * @pdOid 80190f73-ae6b-4bb8-8356-6284e6a152ce */
-   public void patientAttendence(Boolean attendance) {
-      // TODO: implement
-   }
+   public abstract void patientAttendance(Boolean attendance);
 
    public Appointment() {
    }

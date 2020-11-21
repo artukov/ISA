@@ -28,6 +28,11 @@ public class Examination extends Appointment {
    }
 
    @Override
+   public void patientAttendance(Boolean attendance) {
+
+   }
+
+   @Override
    public Long getId() {
       return id;
    }
