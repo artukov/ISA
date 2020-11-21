@@ -29,7 +29,7 @@ public class PharmacyAdminDTO extends UserDTO {
     }
 
     /**
-     * Static method that return DTO object of the Object
+     * Static method that returns DTO object of the Object
      * @param admin
      * */
     public static PharmacyAdminDTO pharmacyAdmin2DTO(PharmacyAdmin admin){
@@ -43,17 +43,8 @@ public class PharmacyAdminDTO extends UserDTO {
                 admin.getPhoneNumber(),
                 admin.getPharmacy().getId()
         );
-
         return adminDTO;
     }
 
-    public static void dto2pharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO dto){
-        //admin.setId(dto.getId());
-        admin.setEmail(dto.getEmail());
-        admin.setPassword(dto.getPassword());
-        admin.setFirstname(dto.getFirstname());
-        admin.setLastname(dto.getLastname());
-        admin.setPhoneNumber(dto.getPhoneNumber());
 
-    }
 }
