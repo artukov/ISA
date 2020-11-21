@@ -1,8 +1,6 @@
 package isa.project.pharmacyapp.dto;
 
-import isa.project.pharmacyapp.model.Address;
-
-import javax.persistence.*;
+import isa.project.pharmacyapp.model.User;
 
 public class UserDTO {
 
@@ -26,6 +24,31 @@ public class UserDTO {
         this.address_id = address_id;
         this.phoneNumber = phoneNumber;
     }
+
+    public static UserDTO user2DTO(User user){
+        UserDTO userDTO = new UserDTO(
+                user.getId(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getAddress().getId(),
+                user.getPhoneNumber()
+        );
+
+        return userDTO;
+
+    }
+    public static void dto2User(User user, UserDTO userDTO){
+
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setFirstname(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+
+    }
+
 
     public Long getId() {
         return id;
