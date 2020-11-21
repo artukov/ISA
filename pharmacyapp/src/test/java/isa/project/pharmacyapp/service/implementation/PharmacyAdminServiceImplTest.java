@@ -20,6 +20,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 class PharmacyAdminServiceImplTest {
@@ -73,6 +75,7 @@ class PharmacyAdminServiceImplTest {
         PharmacyAdminDTO expected  = adminImplService.findById(id);
 
         assertNotEquals(null,expected);
+        verify(adminRepository, times(1)).findById(id);
 
     }
 
