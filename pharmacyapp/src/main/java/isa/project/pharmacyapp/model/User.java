@@ -16,9 +16,9 @@ import java.util.*;
 /** @pdOid ec55a7e0-adf7-49f8-be3c-0032c8378e0d */
 @Entity
 @Table(name = "user_table")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@MappedSuperclass
-public class User {
+public abstract class User {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +38,7 @@ public class User {
    @Column(nullable = false)
    protected String lastname;
    /** @pdOid 70fdc350-344d-4159-984b-a4f5e957ad56 */
-   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
    @JoinColumn(name = "address_id")
    protected Address address;
    /** @pdOid 41cf5bc2-d383-4bec-bec0-13aa7eafd22d */

@@ -25,7 +25,8 @@ class HelloController{
 
 	@GetMapping
 	public String helloWorld(){
-		return "<br/><h2>Hello world</h2>";
+		return "<br/><h2>Hello world</h2>" +
+				"<h1>Pharmacy App</h1>";
 	}
 
 }
