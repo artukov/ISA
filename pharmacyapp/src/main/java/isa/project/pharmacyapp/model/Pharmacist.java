@@ -1,33 +1,51 @@
-package isa.project.pharmacyapp.model; /***********************************************************************
+package isa.project.pharmacyapp.model;
+/***********************************************************************
  * Module:  Pharmacist.java
  * Author:  User
  * Purpose: Defines the Class Pharmacist
  ***********************************************************************/
 
-import isa.project.pharmacyapp.model.Appointment;
-import isa.project.pharmacyapp.model.User;
-
 import java.util.*;
+import javax.persistence.*;
+
 
 /** @pdOid f3ced588-eb04-41f5-93d0-b29a2c7718b4 */
+@Entity
+@Table(name = "pharmacist")
 public class Pharmacist extends User {
+
+
+
+
    /** @pdOid ef54d13e-a883-42ec-b396-f28eebc9ba66 */
+   @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
-   
+
+   /** @pdRoleInfo migr=no name=Appointment assc=association16 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+   @JoinColumn(name = "appointment_id")
+   public java.util.List<Appointment> appointment;
+
    /** @pdOid ae9862db-768d-4ac0-a45e-5fbda16edd5f */
    protected void finalize() {
       // TODO: implement
    }
    
-   /** @pdRoleInfo migr=no name=Appointment assc=association16 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   public java.util.List<Appointment> appointment;
-   
    /** @pdOid b7374aa2-10a7-4e46-ae72-358159effaaf */
    public Pharmacist() {
       // TODO: implement
    }
-   
-   
+
+
+
+   public List<Double> getRatings() {
+      return ratings;
+   }
+
+   public void setRatings(List<Double> ratings) {
+      this.ratings = ratings;
+   }
+
    /** @pdGenerated default getter */
    public java.util.List<Appointment> getAppointment() {
       if (appointment == null)

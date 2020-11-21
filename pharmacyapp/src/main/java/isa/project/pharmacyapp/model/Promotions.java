@@ -5,15 +5,27 @@ package isa.project.pharmacyapp.model; /****************************************
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid baf6987a-bc04-49f5-ba4f-5653aa32b47d */
+@Entity
+@Table(name = "promotions")
 public class Promotions {
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Long id;
+
    /** @pdOid 1435405c-8bf9-49d5-b1fe-23c66c99bb26 */
+   @Column(nullable = false, name = "start_date")
    private Date startDate;
    /** @pdOid 15feddbb-8638-4867-b5eb-5335b4d8b326 */
+   @Column(nullable = false, name = "end_date")
    private Date endDate;
    
    /** @pdRoleInfo migr=no name=Pharmacy assc=association21 mult=1..1 side=A */
+   @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
    public Pharmacy pharmacy;
    
    

@@ -7,36 +7,125 @@ package isa.project.pharmacyapp.model;
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid 0be80692-2b24-42fd-8ea3-a7ecf4a30110 */
+@Entity
+@Table(name = "pharamcy")
 public class Pharmacy {
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Long id;
+
    /** @pdOid d2895207-1d32-4cbf-bd48-9aad5d77fda2 */
+   @Column(nullable = false)
    private String name;
    /** @pdOid 2cb9f03b-ec2b-4a12-9bfb-2e6a49cef2ec */
+   @Column(nullable = false)
    private String description;
    /** @pdOid 29a4cc5d-959d-4ad7-a190-ba72ba5b1279 */
+   @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
    
    /** @pdRoleInfo migr=no name=Pharmacist assc=association1 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacist_id")
    public java.util.List<Pharmacist> pharmacist;
    /** @pdRoleInfo migr=no name=Dermatologist assc=association2 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+   @JoinTable(
+           name = "pharmacy_derma",
+           joinColumns = @JoinColumn(name = "pharmacy_id"),
+           inverseJoinColumns = @JoinColumn(name = "derma_id")
+   )
    public java.util.List<Dermatologist> dermatologist;
    /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+   @JoinTable(
+           name = "pharmacy_drug",
+           joinColumns = @JoinColumn(name = "pharmacy_id"),
+           inverseJoinColumns = @JoinColumn(name = "drug_id")
+   )
    public java.util.List<Drug> drug;
    /** @pdRoleInfo migr=no name=PriceList assc=association5 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "priceList_id")
    public java.util.List<PriceList> priceList;
    /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_admin_id")
    public java.util.List<PharmacyAdmin> pharmacyAdmin;
    /** @pdRoleInfo migr=no name=Calendar assc=association8 mult=1..1 */
+   @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+   @JoinColumn(name = "calendar_id")
    public Calendar calendar;
    /** @pdRoleInfo migr=no name=Address assc=association11 mult=1..1 */
+   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinColumn(name = "address_id")
    public Address address;
    /** @pdRoleInfo migr=no name=AbsenseRequest assc=association19 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "request_id")
    public java.util.List<AbsenseRequest> absenseRequest;
    /** @pdRoleInfo migr=no name=Promotions assc=association21 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+   @JoinColumn(name = "promotions_id")
    public java.util.List<Promotions> promotions;
-   
-   
+
+
+   public Pharmacy() {
+   }
+
+
+   public Long getId() {
+      return id;
+   }
+
+   public void setId(Long id) {
+      this.id = id;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getDescription() {
+      return description;
+   }
+
+   public void setDescription(String description) {
+      this.description = description;
+   }
+
+   public List<Double> getRatings() {
+      return ratings;
+   }
+
+   public void setRatings(List<Double> ratings) {
+      this.ratings = ratings;
+   }
+
+   public Calendar getCalendar() {
+      return calendar;
+   }
+
+   public void setCalendar(Calendar calendar) {
+      this.calendar = calendar;
+   }
+
+   public Address getAddress() {
+      return address;
+   }
+
+   public void setAddress(Address address) {
+      this.address = address;
+   }
+
    /** @pdGenerated default getter */
    public java.util.List<Pharmacist> getPharmacist() {
       if (pharmacist == null)
