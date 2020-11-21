@@ -54,7 +54,7 @@ public class Pharmacy {
    public java.util.List<PriceList> priceList;
    /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_admin_id")
+   @JoinColumn
    public java.util.List<PharmacyAdmin> pharmacyAdmin;
    /** @pdRoleInfo migr=no name=Calendar assc=association8 mult=1..1 */
    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
