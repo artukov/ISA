@@ -17,6 +17,7 @@ import java.util.NoSuchElementException;
 @Controller
 @RestController
 @RequestMapping(value = "/pharmacyadmin")
+@CrossOrigin
 public class PharmacyAdminController {
 
     @Autowired

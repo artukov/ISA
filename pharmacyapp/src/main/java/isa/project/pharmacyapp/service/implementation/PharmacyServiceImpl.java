@@ -1,12 +1,17 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
+import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.repository.AddressRepository;
+import isa.project.pharmacyapp.repository.CalendarRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,8 +21,14 @@ public class PharmacyServiceImpl implements PharmacyService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
+
     @Override
-    public PharmacyDTO findById(Long id) {
+    public PharmacyDTO findById(Long id) throws NoSuchElementException {
         Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
 
         if(pharmacy == null){
@@ -31,21 +42,80 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     @Override
     public List<PharmacyDTO> findAll() {
-        return null;
+
+        ArrayList<Pharmacy> pharmacies = (ArrayList<Pharmacy>) pharmacyRepository.findAll();
+        ArrayList<PharmacyDTO> retList = new ArrayList<>();
+
+
+        for(Pharmacy pharmacy : pharmacies){
+            retList.add(PharmacyDTO.pharmacy2DTO(pharmacy));
+        }
+
+        return retList;
     }
 
     @Override
-    public void createNewPharmacy(PharmacyDTO pharmacyDTO) {
+    public void createNewPharmacy(PharmacyDTO pharmacyDTO) throws Exception {
+
+        Pharmacy pharmacy = new Pharmacy();
+
+        this.savePharmacy(pharmacy, pharmacyDTO);
+
 
     }
 
     @Override
-    public void modifyPharmacy(Long id, PharmacyDTO pharmacyDTO) {
+    public void modifyPharmacy(Long id, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {
+
+        Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
+
+        if(pharmacy == null){
+            throw new NoSuchElementException("PharmacyServiceImpl::modifyPharmacy There is no pharmacy with this id");
+        }
+
+        savePharmacy(pharmacy,pharmacyDTO);
 
     }
 
     @Override
-    public void deletePharmacy(Long id) {
+    public void deletePharmacy(Long id) throws Exception {
+        Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
+
+        if(pharmacy == null){
+            throw new NoSuchElementException("PharmacyServiceImpl::modifyPharmacy There is no pharmacy with this id");
+        }
+
+        try{
+            pharmacyRepository.deleteById(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("PharmacyServiceImpl::deletePharmacy deleting did not execute successfully");
+        }
+
+    }
+
+    private void savePharmacy(Pharmacy pharmacy, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {
+
+        PharmacyDTO.dto2Pharmacy(pharmacy, pharmacyDTO);
+
+        pharmacy.setAddress(addressRepository.findById(pharmacyDTO.getAddressID()).orElse(null));
+        pharmacy.setCalendar(calendarRepository.findById(pharmacyDTO.getCalendarID()).orElse(null));
+
+        if(pharmacy.getAddress() == null){
+            throw new NoSuchElementException("PharmacyServiceImpl::savePharmacy there is no address by this id");
+        }
+
+        if(pharmacy.getCalendar() == null)
+            throw  new  NoSuchElementException("PharmacyServiceImpl::savePharmacy there is no calendar by this id");
+
+        try{
+            pharmacyRepository.save(pharmacy);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("PharmacyServiceImpl::savePharmacy Saving pharmacy did not execute");
+        }
 
     }
 }

@@ -58,6 +58,13 @@ public class PharmacyDTO {
 
     }
 
+    public static void dto2Pharmacy(Pharmacy pharmacy, PharmacyDTO pharmacyDTO) {
+        pharmacy.setName(pharmacyDTO.getName());
+        pharmacy.setDescription(pharmacyDTO.getDescription());
+        pharmacy.setRatings(pharmacyDTO.getRatings());
+
+    }
+
     public Long getId() {
         return id;
     }
