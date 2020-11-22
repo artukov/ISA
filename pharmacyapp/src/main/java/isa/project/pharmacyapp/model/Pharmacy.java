@@ -1,4 +1,3 @@
-
 package isa.project.pharmacyapp.model;
 /***********************************************************************
  * Module:  Pharmacy.java
@@ -11,7 +10,7 @@ import javax.persistence.*;
 
 /** @pdOid 0be80692-2b24-42fd-8ea3-a7ecf4a30110 */
 @Entity
-@Table(name = "pharamcy")
+@Table(name = "pharmacy")
 public class Pharmacy {
 
    @Id
@@ -27,11 +26,38 @@ public class Pharmacy {
    /** @pdOid 29a4cc5d-959d-4ad7-a190-ba72ba5b1279 */
    @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
-   
+
+   /**
+    * OneToMany
+    * */
+
    /** @pdRoleInfo migr=no name=Pharmacist assc=association1 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacist_id")
+   @JoinColumn
    public java.util.List<Pharmacist> pharmacist;
+
+   /** @pdRoleInfo migr=no name=PriceList assc=association5 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn
+   public java.util.List<PriceList> priceList;
+
+   /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn
+   public java.util.List<PharmacyAdmin> pharmacyAdmin;
+
+   /** @pdRoleInfo migr=no name=AbsenceRequest assc=association19 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn
+   public java.util.List<AbsenceRequest> absenceRequest;
+   /** @pdRoleInfo migr=no name=Promotions assc=association21 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+   @JoinColumn
+   public java.util.List<Promotions> promotions;
+
+
+
+
    /** @pdRoleInfo migr=no name=Dermatologist assc=association2 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JoinTable(
@@ -48,14 +74,8 @@ public class Pharmacy {
            inverseJoinColumns = @JoinColumn(name = "drug_id")
    )
    public java.util.List<Drug> drug;
-   /** @pdRoleInfo migr=no name=PriceList assc=association5 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "priceList_id")
-   public java.util.List<PriceList> priceList;
-   /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<PharmacyAdmin> pharmacyAdmin;
+
+
    /** @pdRoleInfo migr=no name=Calendar assc=association8 mult=1..1 */
    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
    @JoinColumn(name = "calendar_id")
@@ -64,14 +84,7 @@ public class Pharmacy {
    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "address_id")
    public Address address;
-   /** @pdRoleInfo migr=no name=AbsenseRequest assc=association19 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "request_id")
-   public java.util.List<AbsenseRequest> absenseRequest;
-   /** @pdRoleInfo migr=no name=Promotions assc=association21 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-   @JoinColumn(name = "promotions_id")
-   public java.util.List<Promotions> promotions;
+
 
 
    public Pharmacy() {
@@ -381,52 +394,52 @@ public class Pharmacy {
       }
    }
    /** @pdGenerated default getter */
-   public java.util.List<AbsenseRequest> getAbsenseRequest() {
-      if (absenseRequest == null)
-         absenseRequest = new java.util.ArrayList<AbsenseRequest>();
-      return absenseRequest;
+   public java.util.List<AbsenceRequest> getAbsenceRequest() {
+      if (absenceRequest == null)
+         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+      return absenceRequest;
    }
    
    /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorAbsenseRequest() {
-      if (absenseRequest == null)
-         absenseRequest = new java.util.ArrayList<AbsenseRequest>();
-      return absenseRequest.iterator();
+   public java.util.Iterator getIteratorAbsenceRequest() {
+      if (absenceRequest == null)
+         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+      return absenceRequest.iterator();
    }
    
    /** @pdGenerated default setter
-     * @param newAbsenseRequest */
-   public void setAbsenseRequest(java.util.List<AbsenseRequest> newAbsenseRequest) {
-      removeAllAbsenseRequest();
-      for (java.util.Iterator iter = newAbsenseRequest.iterator(); iter.hasNext();)
-         addAbsenseRequest((AbsenseRequest)iter.next());
+     * @param newAbsenceRequest */
+   public void setAbsenceRequest(java.util.List<AbsenceRequest> newAbsenceRequest) {
+      removeAllAbsenceRequest();
+      for (java.util.Iterator iter = newAbsenceRequest.iterator(); iter.hasNext();)
+         addAbsenceRequest((AbsenceRequest)iter.next());
    }
    
    /** @pdGenerated default add
-     * @param newAbsenseRequest */
-   public void addAbsenseRequest(AbsenseRequest newAbsenseRequest) {
-      if (newAbsenseRequest == null)
+     * @param newAbsenceRequest */
+   public void addAbsenceRequest(AbsenceRequest newAbsenceRequest) {
+      if (newAbsenceRequest == null)
          return;
-      if (this.absenseRequest == null)
-         this.absenseRequest = new java.util.ArrayList<AbsenseRequest>();
-      if (!this.absenseRequest.contains(newAbsenseRequest))
-         this.absenseRequest.add(newAbsenseRequest);
+      if (this.absenceRequest == null)
+         this.absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+      if (!this.absenceRequest.contains(newAbsenceRequest))
+         this.absenceRequest.add(newAbsenceRequest);
    }
    
    /** @pdGenerated default remove
-     * @param oldAbsenseRequest */
-   public void removeAbsenseRequest(AbsenseRequest oldAbsenseRequest) {
-      if (oldAbsenseRequest == null)
+     * @param oldAbsenceRequest */
+   public void removeAbsenceRequest(AbsenceRequest oldAbsenceRequest) {
+      if (oldAbsenceRequest == null)
          return;
-      if (this.absenseRequest != null)
-         if (this.absenseRequest.contains(oldAbsenseRequest))
-            this.absenseRequest.remove(oldAbsenseRequest);
+      if (this.absenceRequest != null)
+         if (this.absenceRequest.contains(oldAbsenceRequest))
+            this.absenceRequest.remove(oldAbsenceRequest);
    }
    
    /** @pdGenerated default removeAll */
-   public void removeAllAbsenseRequest() {
-      if (absenseRequest != null)
-         absenseRequest.clear();
+   public void removeAllAbsenceRequest() {
+      if (absenceRequest != null)
+         absenceRequest.clear();
    }
    /** @pdGenerated default getter */
    public java.util.List<Promotions> getPromotions() {

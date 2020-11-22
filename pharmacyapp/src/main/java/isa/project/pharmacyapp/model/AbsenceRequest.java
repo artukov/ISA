@@ -16,8 +16,8 @@ import java.util.*;
 
 /** @pdOid 19dc7e07-fef3-42c9-948a-926fbb86535f */
 @Entity
-@Table(name = "absense_request")
-public class AbsenseRequest {
+@Table(name = "absence_request")
+public class AbsenceRequest {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,7 +46,7 @@ public class AbsenseRequest {
    @JoinColumn(name = "pharmacy_id")
    public Pharmacy pharmacy;
 
-   public AbsenseRequest() {
+   public AbsenceRequest() {
    }
 
    public Pharmacy getPharmacy() {
