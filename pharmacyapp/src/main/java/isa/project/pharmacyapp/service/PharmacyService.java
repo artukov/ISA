@@ -1,8 +1,5 @@
 package isa.project.pharmacyapp.service;
 
-<<<<<<< HEAD
-public interface PharmacyService {
-=======
 
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import org.springframework.stereotype.Service;
@@ -21,5 +18,5 @@ public interface PharmacyService {
     public abstract void modifyPharmacy(Long id, PharmacyDTO pharmacyDTO);
 
     public abstract void deletePharmacy(Long id);
->>>>>>> srdjan
+
 }
