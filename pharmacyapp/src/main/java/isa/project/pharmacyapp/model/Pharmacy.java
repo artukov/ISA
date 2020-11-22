@@ -24,7 +24,7 @@ public class Pharmacy {
    @Column(nullable = false)
    private String description;
    /** @pdOid 29a4cc5d-959d-4ad7-a190-ba72ba5b1279 */
-   @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
+   @ElementCollection(fetch = FetchType.EAGER, targetClass = Double.class)
    private java.util.List<Double> ratings;
 
    /**
@@ -67,7 +67,7 @@ public class Pharmacy {
    )
    public java.util.List<Dermatologist> dermatologist;
    /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JoinTable(
            name = "pharmacy_drug",
            joinColumns = @JoinColumn(name = "pharmacy_id"),
