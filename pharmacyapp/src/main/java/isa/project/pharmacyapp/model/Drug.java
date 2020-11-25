@@ -30,7 +30,7 @@ public class Drug {
    private String shape;
    /** @pdOid f9e070fe-5620-44b2-8262-fe4ef41ef25b */
    @Column(nullable = false)
-   private String manifacturer;
+   private String manufacturer;
    /** @pdOid 66c31f60-6ca1-48e4-af34-697d90836105 */
    @Column(nullable = true)
    private Boolean receipt = null;
@@ -38,7 +38,7 @@ public class Drug {
    /** @pdRoleInfo migr=no name=DrugSpecification assc=association9 mult=1..1 */
    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "spec_id")
-   public DrugSpecification drugSpecification;
+   private DrugSpecification drugSpecification;
    /** @pdRoleInfo migr=no name=Drug assc=association29 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(
@@ -46,7 +46,7 @@ public class Drug {
            joinColumns = @JoinColumn(name = "original_id"),
            inverseJoinColumns = @JoinColumn(name = "substitute_id")
    )
-   public java.util.List<Drug> substituteDrugs;
+   private java.util.List<Drug> substituteDrugs;
 
    public Drug() {
    }
@@ -91,12 +91,12 @@ public class Drug {
       this.shape = shape;
    }
 
-   public String getManifacturer() {
-      return manifacturer;
+   public String getManufacturer() {
+      return manufacturer;
    }
 
-   public void setManifacturer(String manifacturer) {
-      this.manifacturer = manifacturer;
+   public void setManufacturer(String manufacturer) {
+      this.manufacturer = manufacturer;
    }
 
    public Boolean getReceipt() {
