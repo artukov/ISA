@@ -15,8 +15,6 @@ import javax.persistence.*;
 public class Pharmacist extends User {
 
 
-
-
    /** @pdOid ef54d13e-a883-42ec-b396-f28eebc9ba66 */
    @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
@@ -25,6 +23,10 @@ public class Pharmacist extends User {
    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JoinColumn(name = "appointment_id")
    public java.util.List<Appointment> appointment;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   public Pharmacy pharmacy;
 
    /** @pdOid ae9862db-768d-4ac0-a45e-5fbda16edd5f */
    protected void finalize() {
@@ -95,4 +97,11 @@ public class Pharmacist extends User {
          appointment.clear();
    }
 
+   public Pharmacy getPharmacies() {
+      return pharmacy;
+   }
+
+   public void setPharmacies(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
+   }
 }
