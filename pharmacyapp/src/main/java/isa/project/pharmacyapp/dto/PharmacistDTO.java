@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.dto;
 import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Pharmacist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PharmacistDTO extends UserDTO{
@@ -36,7 +37,7 @@ public class PharmacistDTO extends UserDTO{
                 pharmacist.getAddress().getId(),
                 pharmacist.getPhoneNumber(),
                 pharmacist.getRatings(),
-                null
+                new ArrayList<>()
         );
         for(Appointment appointment : pharmacist.getAppointment()){
             retDto.consultationId.add(appointment.getId());

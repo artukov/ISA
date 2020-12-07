@@ -39,7 +39,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
         ArrayList<PharmacistDTO> pharmacistDTOS = new ArrayList<>();
         for(Pharmacist pharmacist : pharmacistList){
-            pharmacistDTOS.add(this.findById(pharmacist.getId()));
+            pharmacistDTOS.add(PharmacistDTO.pharmacist2Dto(pharmacist));
         }
 
 

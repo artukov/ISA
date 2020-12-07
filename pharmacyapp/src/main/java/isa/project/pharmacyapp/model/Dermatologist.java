@@ -20,13 +20,15 @@ public class Dermatologist extends User {
    //private java.util.Map<Long,java.util.List<Double>> ratings;
 
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "derma_ratings_id")
+   @JoinColumn
    private List<DermatologistRatings> dermatologistRatings;
    
    /** @pdRoleInfo migr=no name=Appointment assc=association17 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "appointment_id")
    protected java.util.List<Appointment> appointment;
+
+
    
    /** @pdOid 78e678c6-0907-4cd1-83c9-3df27513740e */
    protected void finalize() {
