@@ -24,7 +24,7 @@ public class Pharmacy {
    @Column(nullable = false)
    private String description;
    /** @pdOid 29a4cc5d-959d-4ad7-a190-ba72ba5b1279 */
-   @ElementCollection(fetch = FetchType.EAGER, targetClass = Double.class)
+   @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
 
    /**

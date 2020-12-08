@@ -19,7 +19,7 @@ public class PharmacyAdmin extends User {
 
 
    /** @pdRoleInfo migr=no name=Pharmacy assc=association7 mult=1..1 side=A */
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "pharmacy_id")
    public Pharmacy pharmacy;
 

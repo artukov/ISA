@@ -7,10 +7,17 @@ package isa.project.pharmacyapp.model;
  * Purpose: Defines the Class User
  ***********************************************************************/
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.sql.Timestamp;
 import java.util.*;
 
 /** @pdOid ec55a7e0-adf7-49f8-be3c-0032c8378e0d */
@@ -18,39 +25,63 @@ import java.util.*;
 @Table(name = "user_table")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@MappedSuperclass
-public abstract class User {
+public abstract class User implements UserDetails {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    protected Long id;
 
 
-   /** @pdOid 4ad3776b-e8c2-48d7-9f42-85a84b147179 */
+
    @Column(nullable = false, unique = true, name = "email")
    protected String email;
-   /** @pdOid 9932bea1-50f2-4c08-add5-5de579952cd5 */
+
+   @JsonIgnore
    @Column(nullable = false, unique = false)
    protected String password;
-   /** @pdOid 87fa4181-18d9-4ddc-b93d-46f84ab7d450 */
+
    @Column(nullable = false)
    protected String firstname;
-   /** @pdOid 9e6173ac-8ad4-4930-abdd-926ffc45fbdf */
+
    @Column(nullable = false)
    protected String lastname;
-   /** @pdOid 70fdc350-344d-4159-984b-a4f5e957ad56 */
-   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+
+   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
    @JoinColumn(name = "address_id")
    protected Address address;
-   /** @pdOid 41cf5bc2-d383-4bec-bec0-13aa7eafd22d */
+
    @Column(nullable = true, name = "phone_number")
    protected String phoneNumber;
+
+
+   /************************
+    * Security attributes
+       *  lastPasswordResetDate
+       *  enabled
+       *  authorities
+    ************************/
+
+   @Column(name = "last_password_reset_date", nullable = true)
+   private Timestamp lastPasswordResetDate;
+
+   @Column(name = "enabled")
+   private Boolean enabled = true;
+
+
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinTable(
+           name = "user_authority",
+           joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+           inverseJoinColumns = @JoinColumn(name = "authority_id",referencedColumnName = "id")
+   )
+   private List<Authority> authorities;
    
-   /** @pdOid 60abe2b8-4b64-47d7-977c-01e1657e9319 */
+
    protected void finalize() {
       // TODO: implement
    }
    
-   /** @pdOid 51ba5d4d-89b2-414c-aa2a-690f8d7de3e2 */
+
    public User() {
       // TODO: implement
    }
@@ -76,6 +107,8 @@ public abstract class User {
    }
 
    public void setPassword(String password) {
+      Timestamp now = new Timestamp(DateTime.now().getMillis());
+      this.setLastPasswordResetDate(now);
       this.password = password;
    }
 
@@ -109,5 +142,69 @@ public abstract class User {
 
    public void setPhoneNumber(String phoneNumber) {
       this.phoneNumber = phoneNumber;
+   }
+
+
+   /******************************************
+    * Security methods
+       * lastPasswordResetDate getter and setters
+       * enable getters and setters
+       * authorities getters and setters
+       * isAccountNonExpired
+       * isAccountNonLocked
+       * isCredentialsNonExpired
+    ******************************************/
+
+   public Timestamp getLastPasswordResetDate() {
+      return lastPasswordResetDate;
+   }
+
+   public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+      this.lastPasswordResetDate = lastPasswordResetDate;
+   }
+
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      return this.authorities;
+   }
+
+   public void setAuthorities(List<Authority> authorities) {
+      this.authorities = authorities;
+   }
+
+   public Boolean getEnabled() {
+      return enabled;
+   }
+
+   @Override
+   public boolean isEnabled() {
+      return this.enabled;
+   }
+
+   public void setEnabled(Boolean enabled) {
+      this.enabled = enabled;
+   }
+
+   @JsonIgnore
+   @Override
+   public boolean isAccountNonExpired() {
+      return true;
+   }
+
+   @JsonIgnore
+   @Override
+   public boolean isAccountNonLocked() {
+      return true;
+   }
+
+   @JsonIgnore
+   @Override
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
+
+   @Override
+   public String getUsername() {
+      return this.email;
    }
 }
