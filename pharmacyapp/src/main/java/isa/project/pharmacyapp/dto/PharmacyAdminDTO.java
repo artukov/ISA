@@ -20,6 +20,8 @@ public class PharmacyAdminDTO extends UserDTO {
         this.pharmacy_id = pharmacy_id;
     }
 
+
+
     public Long getPharmacy_id() {
         return pharmacy_id;
     }
@@ -44,6 +46,19 @@ public class PharmacyAdminDTO extends UserDTO {
                 admin.getPharmacy().getId()
         );
         return adminDTO;
+    }
+
+    public static PharmacyAdminDTO createPharmacyDTO(UserDTO userDTO) {
+        return new PharmacyAdminDTO(
+                userDTO.getId(),
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                userDTO.getFirstname(),
+                userDTO.getLastname(),
+                userDTO.address_id,
+                userDTO.getPhoneNumber(),
+                1L
+        );
     }
 
 

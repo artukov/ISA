@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AuthenticationServiceImpl implements AuthorityService {
+public class AuthorityServiceImpl implements AuthorityService {
 
     @Autowired
     private AuthenticationRepository repository;

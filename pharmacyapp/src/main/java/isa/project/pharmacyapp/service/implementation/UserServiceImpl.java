@@ -32,20 +32,6 @@ public class UserServiceImpl implements UserService {
     private static final String UNSUCCESSFUL_EXECUTION = "did not execute successfully";
 
     @Override
-    public User findById(Long id) throws AccessDeniedException {
-
-        User user = userRepository.findById(id).orElse(null);
-
-        if(user == null){
-            throw  new NoSuchElementException(CLASS_NAME + "findById" + DOES_NOT_EXISTS);
-        }
-
-        return user;
-
-
-    }
-
-    @Override
     public User findByEmail(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if(user == null){
@@ -56,13 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() throws AccessDeniedException {
-        List<User> users = userRepository.findAll();
-        return users;
-    }
-
-    @Override
-    public User saveUser(UserDTO userDTO) {
+    public User saveNewUser(UserDTO userDTO) throws Exception {
+        /**
+         * TODO
+         * Save unregistered user
+         * */
         return null;
     }
 }

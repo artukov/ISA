@@ -2,12 +2,16 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.model.Authority;
 import isa.project.pharmacyapp.model.PharmacyAdmin;
+import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.AddressRepository;
 import isa.project.pharmacyapp.repository.PharmacyAdminRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.service.AuthorityService;
 import isa.project.pharmacyapp.service.PharmacyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +29,12 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthorityService authorityService;
 
 
     @Override
@@ -95,7 +105,7 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
         PharmacyAdmin admin = adminRepository.findById(adminId).orElse(null);
         if(admin == null){
-            throw new NoSuchElementException("PharamcyAdminServiceImpl::deletePharmacyAdmin" +
+            throw new NoSuchElementException("PharmacyAdminServiceImpl::deletePharmacyAdmin" +
                     "admin does not exists");
         }
 
@@ -110,9 +120,10 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     }
 
-    private void savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO) throws Exception {
+    @Override
+    public PharmacyAdmin savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO) throws Exception {
 
-        //PharmacyAdminDTO.dto2pharmacyAdmin(admin,adminDTO);
+
         UserDTO.dto2User(admin,adminDTO);
 
         try{
@@ -124,6 +135,9 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
                     "pharamcy or address does not exists");
         }
 
+        List<Authority> authorities = authorityService.findByName("USER");
+        admin.setAuthorities(authorities);
+
         try {
             adminRepository.save(admin);
         }
@@ -133,5 +147,17 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
                     "saving admin exception ");
         }
 
+        return admin;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return this.adminRepository.findByEmail(email);
+    }
+
+    @Override
+    public User saveNewUser(UserDTO userDTO) throws Exception {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        return this.savePharmacyAdmin(new PharmacyAdmin(),  PharmacyAdminDTO.createPharmacyDTO(userDTO));
     }
 }

@@ -2,14 +2,12 @@ package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.User;
-
-import java.util.List;
+import isa.project.pharmacyapp.model.UserRoles;
 
 public interface UserService {
 
-    public abstract User findById(Long id);
     public abstract User findByEmail(String email);
-    public abstract List<User> findAll();
-    public abstract User saveUser(UserDTO userDTO);
+    public abstract User saveNewUser(UserDTO userDTO) throws Exception;
+
 
 }

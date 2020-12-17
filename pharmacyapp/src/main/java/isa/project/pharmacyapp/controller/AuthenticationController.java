@@ -9,7 +9,10 @@ import isa.project.pharmacyapp.security.TokenUtils;
 import isa.project.pharmacyapp.security.authetication.JwtAuthenticationRequest;
 import isa.project.pharmacyapp.service.UserService;
 import isa.project.pharmacyapp.service.implementation.CustomUserDetailsService;
+import isa.project.pharmacyapp.user_factory.UserFactory;
+import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +50,10 @@ public class AuthenticationController {
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private UserService userService;
+    private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private UserFactory userFactory;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
@@ -70,12 +76,12 @@ public class AuthenticationController {
 
         User user = (User) authentication.getPrincipal();
 
-        System.out.println("Login user:" + user.getUsername());
+//        System.out.println("Login user:" + user.getUsername());
 
         Collection<?> roles = user.getAuthorities();
         Authority role = (Authority) roles.iterator().next();
 
-        System.out.println("Login user role: "+ role.getAuthority());
+//        System.out.println("Login user role: "+ role.getAuthority());
 
         String JWT = tokenUtils.generateToken(user, role);
         int expires = tokenUtils.getExpiredIn();
@@ -83,18 +89,28 @@ public class AuthenticationController {
         return new ResponseEntity<>(new UserTokenState(JWT,expires), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/singup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> singUpAnUser(@RequestBody UserDTO userDTO, UriComponentsBuilder builder){
-        User user = this.userService.findByEmail(userDTO.getEmail());
-        if(user != null){
-            throw new ResourceConflictException("User with given email already exists", user.getId());
-        }
         /**
          * TODO
          * Sign up of an user
          * Factory Pattern
          * */
-        user = this.userService.saveUser(userDTO);
+        UserService service = this.serviceFactory.getUserService(userDTO.getRole());
+        User user = service.findByEmail(userDTO.getEmail());
+
+        if(user != null){
+            throw new ResourceConflictException("User with given email already exists", user.getId());
+        }
+
+
+        try {
+            user  = service.saveNewUser(userDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(this.getClass().getName() +"::singUpAnUser saving user",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         /**
          * TODO
          * Redirection after the user sings up

@@ -1,7 +1,10 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.PharmacistDTO;
+import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Pharmacist;
+import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.service.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +63,29 @@ public class PharmacistServiceImpl implements PharmacistService {
     public void deletePharmacistById(Long id) throws Exception {
 
     }
+
+    @Override
+    public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) {
+        /**
+         * TODO
+         * Saving pharmacist
+         * */
+        return null;
+    }
+
+    /**
+     * UserService methods
+     *
+     * */
+
+    @Override
+    public User findByEmail(String email) {
+        return this.pharmacistRepository.findByEmail(email);
+    }
+
+    @Override
+    public User saveNewUser(UserDTO userDTO) {
+        return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
+    }
+
 }

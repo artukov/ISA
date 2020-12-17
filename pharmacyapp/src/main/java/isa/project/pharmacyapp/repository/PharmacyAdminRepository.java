@@ -22,4 +22,5 @@ public interface PharmacyAdminRepository extends JpaRepository<PharmacyAdmin, Lo
     @Query(value = "DELETE FROM public.pharmacy_admin WHERE id = :adminId", nativeQuery = true)
     public void deleteById(@Param("adminId") Long id);
 
+    PharmacyAdmin findByEmail(String email);
 }

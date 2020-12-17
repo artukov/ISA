@@ -2,10 +2,12 @@ package isa.project.pharmacyapp.service;
 
 
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
+import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.model.PharmacyAdmin;
 
 import java.util.List;
 
-public interface PharmacyAdminService {
+public interface PharmacyAdminService extends UserService {
 
     /**
      * Return DTO of PharmacyAdmin found in the database, based on the input parameter id
@@ -32,6 +34,8 @@ public interface PharmacyAdminService {
      * Deletes PharmacyAdmin from the database
      * @param adminId */
     public void deletePharmacyAdmin(Long adminId) throws Exception;
+
+    public abstract PharmacyAdmin savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO) throws Exception;
 
 
 }

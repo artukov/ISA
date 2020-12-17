@@ -1,7 +1,9 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DermatologistDTO;
+import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Dermatologist;
+import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +62,20 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Override
     public void deleteDermatologist(Long id) throws Exception {
 
+    }
+
+    @Override
+    public Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO) {
+        return null;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return this.dermatologistRepository.findByEmail(email);
+    }
+
+    @Override
+    public User saveNewUser(UserDTO userDTO) throws Exception {
+        return this.saveDermatologist(new Dermatologist(), (DermatologistDTO) userDTO);
     }
 }

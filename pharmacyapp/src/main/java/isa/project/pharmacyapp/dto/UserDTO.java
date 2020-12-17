@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.dto;
 
 import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.model.UserRoles;
 
 public class UserDTO {
 
@@ -11,6 +12,8 @@ public class UserDTO {
     protected String lastname;
     protected Long address_id;
     protected String phoneNumber;
+
+    protected UserRoles role;
 
     public UserDTO() {
     }
@@ -46,6 +49,7 @@ public class UserDTO {
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setPhoneNumber(userDTO.getPhoneNumber());
+
 
     }
 
@@ -104,5 +108,13 @@ public class UserDTO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public UserRoles getRole() {
+        return role;
+    }
+
+    public void setRole(UserRoles role) {
+        this.role = role;
     }
 }
