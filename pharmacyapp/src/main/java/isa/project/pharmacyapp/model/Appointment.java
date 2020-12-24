@@ -16,7 +16,7 @@ public abstract class Appointment {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
-   private Long id;
+   protected Long id;
 
    /** @pdOid 9ad910a3-867d-4f0c-83ed-e3fd1439b842 */
    @Column(nullable = true)
@@ -35,11 +35,11 @@ public abstract class Appointment {
            joinColumns = @JoinColumn(name = "appointment_id"),
            inverseJoinColumns = @JoinColumn(name = "drug_id")
    )
-   public java.util.List<Drug> drug;
+   protected java.util.List<Drug> drug;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "patient_id")
-   private Patient patient;
+   protected Patient patient;
 
    
    /** @param attendance

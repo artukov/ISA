@@ -14,9 +14,6 @@ import javax.persistence.*;
 public class Dermatologist extends User {
 
 
-
-   /** @pdOid 66a45f1c-c8b7-4690-ad23-6a73f3abec25 */
-
    //private java.util.Map<Long,java.util.List<Double>> ratings;
 
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -25,13 +22,17 @@ public class Dermatologist extends User {
    
    /** @pdRoleInfo migr=no name=Appointment assc=association17 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "appointment_id")
+   @JoinColumn
    protected java.util.List<Appointment> appointment;
-
 
    
    /** @pdOid 78e678c6-0907-4cd1-83c9-3df27513740e */
    protected void finalize() {
+      // TODO: implement
+   }
+
+   /** @pdOid 602a41a1-8fe0-42e0-9654-838a2dc2d785 */
+   public Dermatologist() {
       // TODO: implement
    }
 
@@ -93,9 +94,6 @@ public class Dermatologist extends User {
          appointment.clear();
    }
    
-   /** @pdOid 602a41a1-8fe0-42e0-9654-838a2dc2d785 */
-   public Dermatologist() {
-      // TODO: implement
-   }
+
 
 }

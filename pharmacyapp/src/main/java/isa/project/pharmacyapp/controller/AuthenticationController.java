@@ -92,8 +92,6 @@ public class AuthenticationController {
     @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> singUpAnUser(@RequestBody UserDTO userDTO, UriComponentsBuilder builder){
         /**
-         * TODO
-         * Sign up of an user
          * Factory Pattern
          * */
         UserService service = this.serviceFactory.getUserService(userDTO.getRole());

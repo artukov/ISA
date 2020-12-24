@@ -5,6 +5,7 @@ package isa.project.pharmacyapp.model;
  * Purpose: Defines the Class Pharmacist
  ***********************************************************************/
 
+import java.sql.Timestamp;
 import java.util.*;
 import javax.persistence.*;
 
@@ -21,12 +22,18 @@ public class Pharmacist extends User {
 
    /** @pdRoleInfo migr=no name=Appointment assc=association16 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-   @JoinColumn(name = "appointment_id")
+   @JoinColumn
    public java.util.List<Appointment> appointment;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "pharmacy_id")
    public Pharmacy pharmacy;
+
+   @Column(nullable = false, name = "start_hour")
+   private Timestamp start_hour;
+
+   @Column(nullable = false, name = "hours")
+   private Integer hours;
 
    /** @pdOid ae9862db-768d-4ac0-a45e-5fbda16edd5f */
    protected void finalize() {
@@ -97,11 +104,27 @@ public class Pharmacist extends User {
          appointment.clear();
    }
 
-   public Pharmacy getPharmacies() {
+   public Pharmacy getPharmacy() {
       return pharmacy;
    }
 
-   public void setPharmacies(Pharmacy pharmacy) {
+   public void setPharmacy(Pharmacy pharmacy) {
       this.pharmacy = pharmacy;
+   }
+
+   public Timestamp getStart_hour() {
+      return start_hour;
+   }
+
+   public void setStart_hour(Timestamp start_hour) {
+      this.start_hour = start_hour;
+   }
+
+   public Integer getHours() {
+      return hours;
+   }
+
+   public void setHours(Integer hours) {
+      this.hours = hours;
    }
 }

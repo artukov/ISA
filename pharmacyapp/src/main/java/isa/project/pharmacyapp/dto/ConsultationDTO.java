@@ -1,4 +1,4 @@
 package isa.project.pharmacyapp.dto;
 
-public class ConsultationDTO {
+public class ConsultationDTO extends AppointmentDTO {
 }

@@ -64,6 +64,7 @@ public class Pharmacy {
            name = "pharmacy_derma",
            joinColumns = @JoinColumn(name = "pharmacy_id"),
            inverseJoinColumns = @JoinColumn(name = "derma_id")
+
    )
    public java.util.List<Dermatologist> dermatologist;
    /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */

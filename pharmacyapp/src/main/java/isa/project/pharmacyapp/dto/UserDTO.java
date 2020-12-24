@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 
@@ -13,6 +14,7 @@ public class UserDTO {
     protected Long address_id;
     protected String phoneNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     protected UserRoles role;
 
     public UserDTO() {

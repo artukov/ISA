@@ -98,7 +98,7 @@ class PharmacyServiceImplTest {
         Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
 
 
-        assertEquals(pharmacy,null);
+        assertNull(pharmacy);
 
         verify(addressRepository, times(1)).findById(id);
         //verify(pharmacyRepository, times(1)).save(pharmacy);
