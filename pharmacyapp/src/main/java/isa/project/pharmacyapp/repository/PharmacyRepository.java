@@ -12,7 +12,12 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
 
     @Modifying
     @Query(value = "DELETE FROM pharmacy where id = :id", nativeQuery = true)
-    public void deleteById(@Param("id") Long id);
+    void deleteById(@Param("id") Long id);
+
+    @Query(value = "SELECT avg(pr.ratings) FROM pharmacy_ratings pr WHERE pr.pharmacy_id= :pharmacyId"
+            ,nativeQuery = true)
+    Double getAvgRating(@Param("pharmacyId") Long pharmacyId);
+
 
 
 }

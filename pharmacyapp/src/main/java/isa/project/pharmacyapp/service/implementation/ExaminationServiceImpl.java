@@ -8,6 +8,7 @@ import isa.project.pharmacyapp.repository.ExaminationRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -26,6 +27,13 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private DrugRepository drugRepository;
 
+    private String CLASS_NAME = this.getClass().getName();
+
+    @Value("examination not found by given id")
+    private String NOT_FOUND;
+
+    @Value("unsuccessful save")
+    private String UNSUCCESSFUL;
 
     @Override
     public Examination findById(Long id) {
@@ -56,10 +64,13 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public void saveExamination(Examination examination, ExaminationDTO examinationDTO) throws Exception {
         ExaminationDTO.dto2Examination(examination, examinationDTO);
-
+        /**
+         * TODO
+         * Check if examination is possible
+         * */
         try {
             examination.setDermatologist(dermatologistRepository.findById(examinationDTO.getDermatologist_id()).orElse(null));
-            examination.setPatient(patientRepository.getOne(examinationDTO.getPatient_id()));
+            examination.setPatient(patientRepository.findById(examinationDTO.getPatient_id()).orElse(null));
 
             for(Long drugID : examinationDTO.getDrugs()){
                 examination.getDrug().add(drugRepository.findById(drugID).orElse(null));
@@ -67,7 +78,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
         catch (Exception e){
             e.printStackTrace();
-            throw new Exception();
+            throw new Exception(CLASS_NAME+"::saveExamination " + e.getMessage());
         }
 
         try {
@@ -75,7 +86,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
         catch (Exception e){
             e.printStackTrace();
-            throw new Exception();
+            throw new Exception(CLASS_NAME + "::saveExamination " + UNSUCCESSFUL);
         }
 
     }

@@ -17,4 +17,11 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
     List<Dermatologist> findAllByPharmacy(@Param("pharmacyId") Long pharmacyId);
 
     Dermatologist findByEmail(String email);
+
+    @Query(value = "SELECT AVG(drr.ratings) FROM  derma_ratings dr inner join " +
+            "dermatologist_ratings_ratings drr on dr.derma_id = drr.dermatologist_ratings_derma_id " +
+            "and dr.pharmacy_id = drr.dermatologist_ratings_pharmacy_id " +
+            "WHERE dr.derma_id = :dermaID AND dr.pharmacy_id = :pharmacyID",
+            nativeQuery = true)
+    Double getAvgRatings(@Param("dermaID") Long dermaID, @Param("pharmacyID") Long pharmacyID);
 }

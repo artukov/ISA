@@ -14,4 +14,6 @@ public interface DermatologistService extends UserService {
     public abstract void modifyDermatologist(Long id, DermatologistDTO dermatologistDTO) throws Exception;
     public abstract void deleteDermatologist(Long id) throws Exception;
     public abstract Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO);
+
+    Double getAvgRatings(Long dermaID, Long pharmacyID) throws Exception;
 }

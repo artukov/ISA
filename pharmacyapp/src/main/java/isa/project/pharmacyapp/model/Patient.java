@@ -16,7 +16,7 @@ public class Patient extends User {
 
    /** @pdOid 79dd33ff-4755-445d-b350-7ad428e6ccd4 */
    @Column(nullable = true)
-   private int points = 0;
+   private Integer points = 0;
    /** @pdOid 90b59b78-6b39-457e-9480-03cba740dcc8 */
    @Column(nullable = true)
    private String category;

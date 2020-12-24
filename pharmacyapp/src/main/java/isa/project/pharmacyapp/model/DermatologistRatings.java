@@ -72,4 +72,20 @@ class DermaPharmacyId implements Serializable {
     public int hashCode() {
         return Objects.hash(dermatologist, pharmacy);
     }
+
+    public Dermatologist getDermatologist() {
+        return dermatologist;
+    }
+
+    public void setDermatologist(Dermatologist dermatologist) {
+        this.dermatologist = dermatologist;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
 }

@@ -16,4 +16,8 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Long> {
     List<Pharmacist> findAllByPharmacy(@Param("pharmacyId") Long pharmacyId);
 
     Pharmacist findByEmail(String email);
+
+    @Query(value = "SELECT AVG(pr.ratings) FROM pharmacist_ratings pr WHERE pharmacist_id = :id "
+            ,nativeQuery = true)
+    Double getAvgRatings(@Param("id") Long id);
 }

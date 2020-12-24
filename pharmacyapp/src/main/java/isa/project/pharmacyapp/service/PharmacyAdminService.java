@@ -38,4 +38,5 @@ public interface PharmacyAdminService extends UserService {
     public abstract PharmacyAdmin savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO) throws Exception;
 
 
+    Double getAvgRating(Long pharmacyId) throws Exception;
 }

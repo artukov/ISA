@@ -3,8 +3,10 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Dermatologist;
+import isa.project.pharmacyapp.model.DermatologistRatings;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
+import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Autowired
     private DermatologistRepository dermatologistRepository;
+
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
 
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
@@ -67,6 +72,16 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Override
     public Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO) {
         return null;
+    }
+
+    @Override
+    public Double getAvgRatings(Long dermaID, Long pharmacyID) throws Exception {
+
+        if(( dermatologistRepository.findById(dermaID) == null) || (pharmacyRepository.findById(pharmacyID).orElse(null) == null ))
+            throw new Exception(getClass().getName()+"::getAvgRatings not exists");
+
+        return dermatologistRepository.getAvgRatings(dermaID, pharmacyID);
+
     }
 
     @Override

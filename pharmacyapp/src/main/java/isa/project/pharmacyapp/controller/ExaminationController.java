@@ -14,22 +14,38 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class ExaminationController {
 
+    private static final String authority = "hasAuthority('USER')";
+
     @Autowired
     private ExaminationService examinationService;
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize(value = authority)
     public ResponseEntity<?> newExamination(@RequestBody ExaminationDTO dto){
 
         try {
             this.examinationService.createNewExamination(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(this.getClass().getName()+"::newExamination Server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @PutMapping(value = "/modify/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(value = authority)
+    public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO modifyDTO, @PathVariable("id") Long id){
+
+        try {
+            examinationService.modifyExamination(id, modifyDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(this.getClass().getName()+"::modifyExamination Server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

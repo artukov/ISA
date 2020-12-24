@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Authority;
+import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.PharmacyAdmin;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.AddressRepository;
@@ -159,5 +160,17 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     public User saveNewUser(UserDTO userDTO) throws Exception {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return this.savePharmacyAdmin(new PharmacyAdmin(),  PharmacyAdminDTO.createPharmacyDTO(userDTO));
+    }
+
+    @Override
+    public Double getAvgRating(Long pharmacyId) throws Exception {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId).orElse(null);
+
+        if(pharmacy == null){
+            throw new Exception(getClass().getName()+"::getAvgRating pharmacy does not exists");
+        }
+
+        return pharmacyRepository.getAvgRating(pharmacyId);
+
     }
 }

@@ -88,4 +88,14 @@ public class PharmacistServiceImpl implements PharmacistService {
         return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
     }
 
+    @Override
+    public Double getAvgRating(Long id) throws Exception {
+
+        if(pharmacistRepository.findById(id).orElse(null) == null){
+            throw new Exception(getClass().getName()+"::getAvgRating pharmacist does not exists");
+        }
+
+
+        return pharmacistRepository.getAvgRatings(id);
+    }
 }
