@@ -1,4 +1,5 @@
 package isa.project.pharmacyapp.service;
+import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +18,5 @@ public interface PharmacyService {
 
     public abstract void deletePharmacy(Long id) throws Exception;
 
+    Double calculateFinances(DateLimitsDTO limitsDTO, Long id);
 }

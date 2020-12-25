@@ -1,7 +1,9 @@
 package isa.project.pharmacyapp.service.implementation;
 
 
+import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
+import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.repository.AddressRepository;
@@ -92,6 +94,14 @@ public class PharmacyServiceImpl implements PharmacyService {
             e.printStackTrace();
             throw new Exception("PharmacyServiceImpl::deletePharmacy deleting did not execute successfully");
         }
+
+    }
+
+    @Override
+    public Double calculateFinances(DateLimitsDTO limitsDTO, Long id) {
+        Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
+        return calendarRepository.getAppointmentsBasedOnDate(pharmacy.getCalendar().getId(),
+                limitsDTO.getLowerLimit(), limitsDTO.getUpperLimit());
 
     }
 

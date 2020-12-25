@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -45,4 +47,11 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             "GROUP BY EXTRACT(year FROM appointment_date);"
             ,nativeQuery = true)
     List<Double> getAllYears(@Param("id") Long id);
+
+
+    @Query(value = "SELECT sum(e.price) FROM  examination e " +
+            "inner join calendar_appointments ca on e.id = ca.appointment_id " +
+            "WHERE ca.appointment_date between :lowerLimit and :upperLimit AND ca.calendar_id = :id"
+            ,nativeQuery = true)
+    Double getAppointmentsBasedOnDate(@Param("id") Long id,@Param("lowerLimit") Date lowerLimit,@Param("upperLimit")  Date upperLimit);
 }

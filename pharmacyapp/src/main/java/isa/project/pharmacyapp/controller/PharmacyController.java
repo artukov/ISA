@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value = "/pharmacy")
 @CrossOrigin
 public class PharmacyController {
+
+    private static final String AUTHORITY = "hasAuthority('USER')";
 
     @Autowired
     private PharmacyService pharmacyService;
@@ -95,6 +100,22 @@ public class PharmacyController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/finances/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacyFinances(@RequestBody DateLimitsDTO limitsDTO , @PathVariable("pharmacyID") Long pharmacyID){
+
+        Double priceSum = this.pharmacyService.calculateFinances(limitsDTO, pharmacyID);
+
+        if(priceSum == null){
+            return new ResponseEntity<>(0,HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(priceSum, HttpStatus.OK);
+
+    }
+
+
 
 
 
