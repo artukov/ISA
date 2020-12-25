@@ -2,15 +2,14 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
-import isa.project.pharmacyapp.model.Authority;
-import isa.project.pharmacyapp.model.Pharmacy;
-import isa.project.pharmacyapp.model.PharmacyAdmin;
-import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.AddressRepository;
 import isa.project.pharmacyapp.repository.PharmacyAdminRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.AuthorityService;
 import isa.project.pharmacyapp.service.PharmacyAdminService;
+import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
+import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +35,9 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     @Autowired
     private AuthorityService authorityService;
+
+    @Autowired
+    private BeanFactoryDynamicService beanFactoryDynamicService;
 
 
     @Override
@@ -152,17 +154,6 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return this.adminRepository.findByEmail(email);
-    }
-
-    @Override
-    public User saveNewUser(UserDTO userDTO) throws Exception {
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        return this.savePharmacyAdmin(new PharmacyAdmin(),  PharmacyAdminDTO.createPharmacyDTO(userDTO));
-    }
-
-    @Override
     public Double getAvgRating(Long pharmacyId) throws Exception {
         Pharmacy pharmacy = pharmacyRepository.findById(pharmacyId).orElse(null);
 
@@ -173,4 +164,30 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
         return pharmacyRepository.getAvgRating(pharmacyId);
 
     }
+
+    @Override
+    public List<Double> getExaminationStatistics(Long id, TimeSpam timeSpam) {
+
+        Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
+
+        StatisticsStrategy strategy = beanFactoryDynamicService.getStrategyStatistics(timeSpam);
+        System.out.println("Strategy class: " + strategy.getClass().getName());
+        ArrayList<Double> stats = (ArrayList<Double>) strategy.calculateStatistics(pharmacy);
+
+
+        return stats;
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return this.adminRepository.findByEmail(email);
+    }
+
+    @Override
+    public User saveNewUser(UserDTO userDTO) throws Exception {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        return this.savePharmacyAdmin(new PharmacyAdmin(),  PharmacyAdminDTO.createPharmacyDTO(userDTO));
+    }
+
+
 }

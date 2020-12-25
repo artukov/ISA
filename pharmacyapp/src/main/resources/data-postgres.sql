@@ -1,4 +1,12 @@
 
+create index email_index_pharmacy_admin on pharmacy_admin (email);
+create index email_index_dermatologist on dermatologist (email);
+create index email_index_pharmacist on pharmacist (email);
+create index email_index_patient on patient (email);
+create index email_index_supplier on supplier (email);
+
+alter table calendar_appointments add appointment_date timestamp;
+
 alter table pharmacy_derma add start_hour timestamp;
 alter table pharmacy_derma add hours numeric;
 
@@ -105,3 +113,29 @@ VALUES (500, 1);
 INSERT INTO public.user_authority(
     user_id, authority_id)
 VALUES (600, 2);
+
+--------------------------------------------------
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
+VALUES (10, date('05-05-2020'),20,'report',400,null,'diagnose',25.5,300);
+
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
+VALUES (20, date('05-06-2020'),20,'report',400,null,'diagnose',25.5,300);
+
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
+VALUES (30, date('05-08-2020'),20,'report',400,null,'diagnose',25.5,300);
+
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
+VALUES (40, date('05-07-2020'),20,'report',400,null,'diagnose',25.5,300);
+
+-----------------------
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,10,date('05-05-2020'));
+
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,20,date('06-06-2020'));
+
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,30,date('07-08-2020'));
+
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,40,date('08-07-2019'));

@@ -2,8 +2,47 @@ package isa.project.pharmacyapp.repository;
 
 import isa.project.pharmacyapp.model.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Timestamp;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Repository
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
+    @Query(value = "SELECT appointment_date FROM calendar_appointments WHERE calendar_id = :id ",
+            nativeQuery = true)
+    List<Timestamp> getDateExaminations(Long id);
+
+
+    @Query(value = "SELECT COUNT(appointment_date) FROM calendar_appointments WHERE calendar_id = :id" +
+            " AND EXTRACT(month FROM appointment_date) = :month " +
+            "AND EXTRACT(year FROM appointment_date) = :year"
+            ,nativeQuery = true)
+    Double getMonthlyExaminations(@Param("id") Long id,@Param("month") int month, @Param("year") Double year );
+
+
+
+    @Query(value = "SELECT COUNT(appointment_date) from calendar_appointments " +
+            "WHERE calendar_id = :id " +
+            "AND " +
+            "EXTRACT(month FROM appointment_date) BETWEEN  :month AND :month+3 " +
+            "AND " +
+            "EXTRACT(year FROM appointment_date) = :year",
+            nativeQuery = true)
+    Double getQuarterlyExaminations(@Param("id") Long id,@Param("month") int month, @Param("year") Double year);
+
+
+    @Query(value = "SELECT COUNT( appointment_date)  FROM calendar_appointments " +
+            "WHERE calendar_id = 200 " +
+            "GROUP BY EXTRACT(year FROM appointment_date)", nativeQuery = true)
+    List<Double> getYearlyExaminations(@Param("id") Long id);
+
+    @Query(value = "SELECT EXTRACT(year FROM appointment_date)  FROM calendar_appointments\n" +
+            "WHERE calendar_id = :id " +
+            "GROUP BY EXTRACT(year FROM appointment_date);"
+            ,nativeQuery = true)
+    List<Double> getAllYears(@Param("id") Long id);
 }

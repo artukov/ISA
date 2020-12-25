@@ -24,9 +24,11 @@ public abstract class Appointment {
    /** @pdOid 1bb72927-18bd-44f0-b1c7-85a70871e6e0 */
    @Column(nullable = false, name = "beg_date")
    protected Date beggingDateTime;
+
+
    /** @pdOid ab6b7d96-4a16-4991-a7f3-465b7e183036 */
    @Column(nullable = false)
-   protected int duration;
+   protected Integer duration;
    
    /** @pdRoleInfo migr=no name=Drug assc=association24 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -41,6 +43,7 @@ public abstract class Appointment {
    @JoinColumn(name = "patient_id")
    protected Patient patient;
 
+   
    
    /** @param attendance
     * @pdOid 80190f73-ae6b-4bb8-8356-6284e6a152ce */
@@ -122,19 +125,20 @@ public abstract class Appointment {
       this.report = report;
    }
 
+
+   public Integer getDuration() {
+      return duration;
+   }
+
+   public void setDuration(Integer duration) {
+      this.duration = duration;
+   }
+
    public Date getBeggingDateTime() {
       return beggingDateTime;
    }
 
    public void setBeggingDateTime(Date beggingDateTime) {
       this.beggingDateTime = beggingDateTime;
-   }
-
-   public int getDuration() {
-      return duration;
-   }
-
-   public void setDuration(int duration) {
-      this.duration = duration;
    }
 }

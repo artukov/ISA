@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface DermatologistRepository  extends JpaRepository<Dermatologist, Long> {
 
-    @Query(value = "SELECT d.* FROM dermatologist d INNER JOIN pharmacy_derma pd ON pd.derma_id = d.id WHERE pd.pharmacy_id = :pharmacyId",
+    @Query(value = "SELECT d.* FROM dermatologist d INNER JOIN pharmacy_derma pd ON pd.derma_id = d.id" +
+            " WHERE pd.pharmacy_id = :pharmacyId",
             nativeQuery = true)
     List<Dermatologist> findAllByPharmacy(@Param("pharmacyId") Long pharmacyId);
 

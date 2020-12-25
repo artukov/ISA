@@ -4,6 +4,7 @@ package isa.project.pharmacyapp.service;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.PharmacyAdmin;
+import isa.project.pharmacyapp.model.TimeSpam;
 
 import java.util.List;
 
@@ -39,4 +40,6 @@ public interface PharmacyAdminService extends UserService {
 
 
     Double getAvgRating(Long pharmacyId) throws Exception;
+
+    List<Double> getExaminationStatistics(Long id, TimeSpam timeSpam);
 }
