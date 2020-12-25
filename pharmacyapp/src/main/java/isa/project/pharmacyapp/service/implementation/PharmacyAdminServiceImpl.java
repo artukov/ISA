@@ -8,8 +8,6 @@ import isa.project.pharmacyapp.repository.PharmacyAdminRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.AuthorityService;
 import isa.project.pharmacyapp.service.PharmacyAdminService;
-import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
-import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,9 +33,6 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     @Autowired
     private AuthorityService authorityService;
-
-    @Autowired
-    private BeanFactoryDynamicService beanFactoryDynamicService;
 
 
     @Override
@@ -167,15 +162,9 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     @Override
     public List<Double> getExaminationStatistics(Long id, TimeSpam timeSpam) {
+        
 
-        Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
-
-        StatisticsStrategy strategy = beanFactoryDynamicService.getStrategyStatistics(timeSpam);
-        System.out.println("Strategy class: " + strategy.getClass().getName());
-        ArrayList<Double> stats = (ArrayList<Double>) strategy.calculateStatistics(pharmacy);
-
-
-        return stats;
+        return null;
     }
 
     @Override
