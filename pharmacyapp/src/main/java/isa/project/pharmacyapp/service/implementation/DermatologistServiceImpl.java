@@ -3,7 +3,6 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Dermatologist;
-import isa.project.pharmacyapp.model.DermatologistRatings;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
