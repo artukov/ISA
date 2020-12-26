@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class ExaminationServiceImpl implements ExaminationService {
@@ -89,5 +92,19 @@ public class ExaminationServiceImpl implements ExaminationService {
             throw new Exception(CLASS_NAME + "::saveExamination " + UNSUCCESSFUL);
         }
 
+    }
+
+    @Override
+    public List<ExaminationDTO> findFreeExaminations(Long dermaID, Long pharmacyID) {
+
+        List<Examination> examinations = repository.findByDermaPharmacy(dermaID, pharmacyID);
+
+        ArrayList<ExaminationDTO> examinationDTOS = new ArrayList<>();
+        for(Examination e : examinations){
+            examinationDTOS.add(ExaminationDTO.examination2DTO(e));
+        }
+
+
+        return examinationDTOS;
     }
 }
