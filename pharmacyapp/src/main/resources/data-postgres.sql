@@ -40,16 +40,29 @@ INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec
 VALUES (500, 457887, 'manufacturer', 'name4', false, 'shape','type',null);
 
 
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id) VALUES (200,200);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id) VALUES (200,300);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id) VALUES (200,400);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id) VALUES (200,500);
+
 --inserting users
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
 VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname', '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 200);
 
+INSERT INTO public.dermatologist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname', '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 200);
+
+
 --inserting dermatologist's working hours in a pharmacy
 INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
 VALUES (200, 300, now(),8);
 
+
+INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
+VALUES (200, 301, now(),6);
 --dermatologist ratings for one pharmacy
 
 INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (200,300,null);
@@ -80,9 +93,22 @@ INSERT INTO public.pharmacist(
 VALUES (500, 'pharmacist@live.com' ,true, 'pharmacist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
 
+INSERT INTO public.pharmacist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
+    pharmacy_id, pharmacist_id,start_hour,hours )
+VALUES (501, 'pharmacist1@live.com' ,true, 'pharmacist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
+
+INSERT INTO public.pharmacist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
+    pharmacy_id, pharmacist_id,start_hour,hours )
+VALUES (502, 'pharmacist2@live.com' ,true, 'pharmacist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
+
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 5.0);
+
 
 INSERT INTO public.pharmacy_admin(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, pharmacy_id, pharmacy_admin_id)
@@ -155,3 +181,6 @@ INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (20, 200);
 INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (30, 500);
 INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (40, 500);
 INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (40, 300);
+
+------------------------------------------------------------------
+

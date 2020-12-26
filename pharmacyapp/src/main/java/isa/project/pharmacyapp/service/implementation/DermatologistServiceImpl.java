@@ -2,15 +2,20 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Dermatologist;
+import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -45,9 +50,17 @@ public class DermatologistServiceImpl implements DermatologistService {
         List<Dermatologist> dermatologistList = this.dermatologistRepository.findAllByPharmacy(pharmacyId);
 
         ArrayList<DermatologistDTO> dermatologistDTOs = new ArrayList<>();
-
         for(Dermatologist dermatologist : dermatologistList){
-            dermatologistDTOs.add(DermatologistDTO.dermatologist2Dto(dermatologist));
+            DermatologistDTO dto = DermatologistDTO.dermatologist2Dto(dermatologist);
+
+            List<Object[]> workingHours = this.dermatologistRepository.getWorkingHours(dermatologist.getId(),pharmacyId);
+
+            Object[] arrayO = workingHours.get(0);
+            dto.setStart_hour((Date) arrayO[0]);
+            dto.setHours((Integer) arrayO[1]);
+            dto.setRole(UserRoles.DERMATOLOGIST);
+
+            dermatologistDTOs.add(dto);
         }
 
         return dermatologistDTOs;
@@ -92,4 +105,6 @@ public class DermatologistServiceImpl implements DermatologistService {
     public User saveNewUser(UserDTO userDTO) throws Exception {
         return this.saveDermatologist(new Dermatologist(), (DermatologistDTO) userDTO);
     }
+
+
 }

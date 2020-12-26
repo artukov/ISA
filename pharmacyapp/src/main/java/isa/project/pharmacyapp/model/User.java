@@ -31,8 +31,6 @@ public abstract class User implements UserDetails {
    @GeneratedValue(strategy = GenerationType.AUTO)
    protected Long id;
 
-
-
    @Column(nullable = false, unique = true, name = "email")
    protected String email;
 
@@ -62,10 +60,10 @@ public abstract class User implements UserDetails {
     ************************/
 
    @Column(name = "last_password_reset_date", nullable = true)
-   private Timestamp lastPasswordResetDate;
+   protected Timestamp lastPasswordResetDate;
 
    @Column(name = "enabled")
-   private Boolean enabled = true;
+   protected Boolean enabled = true;
 
 
    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
