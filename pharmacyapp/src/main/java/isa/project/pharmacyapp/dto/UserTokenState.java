@@ -1,4 +1,4 @@
-package isa.project.pharmacyapp.model;
+package isa.project.pharmacyapp.dto;
 
 public class UserTokenState {
 

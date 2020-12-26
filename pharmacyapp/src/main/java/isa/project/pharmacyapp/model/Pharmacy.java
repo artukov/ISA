@@ -27,9 +27,10 @@ public class Pharmacy {
    @ElementCollection(fetch = FetchType.LAZY, targetClass = Double.class)
    private java.util.List<Double> ratings;
 
-   /**
+   /**********************************************************
     * OneToMany
-    * */
+    *
+    ************************************************************/
 
    /** @pdRoleInfo migr=no name=Pharmacist assc=association1 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,18 +56,26 @@ public class Pharmacy {
    @JoinColumn
    public java.util.List<Promotions> promotions;
 
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "derma_id")
+   private List<PharmacyDermatologist> dermatologists;
 
 
+   /**********************************************************
+    * ManyToMany
+    * Drugs
+    ************************************************************/
 
-   /** @pdRoleInfo migr=no name=Dermatologist assc=association2 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-   @JoinTable(
-           name = "pharmacy_derma",
-           joinColumns = @JoinColumn(name = "pharmacy_id"),
-           inverseJoinColumns = @JoinColumn(name = "derma_id")
 
-   )
-   public java.util.List<Dermatologist> dermatologist;
+//   /** @pdRoleInfo migr=no name=Dermatologist assc=association2 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+//   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//   @JoinTable(
+//           name = "pharmacy_derma",
+//           joinColumns = @JoinColumn(name = "pharmacy_id"),
+//           inverseJoinColumns = @JoinColumn(name = "derma_id")
+//
+//   )
+//   public java.util.List<Dermatologist> dermatologist;
    /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JoinTable(
@@ -76,6 +85,10 @@ public class Pharmacy {
    )
    public java.util.List<Drug> drug;
 
+   /**********************************************************
+    * OneToOne
+    *
+    ************************************************************/
 
    /** @pdRoleInfo migr=no name=Calendar assc=association8 mult=1..1 */
    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -188,54 +201,63 @@ public class Pharmacy {
       if (pharmacist != null)
          pharmacist.clear();
    }
-   /** @pdGenerated default getter */
-   public java.util.List<Dermatologist> getDermatologist() {
-      if (dermatologist == null)
-         dermatologist = new java.util.ArrayList<Dermatologist>();
-      return dermatologist;
+
+   public List<PharmacyDermatologist> getDermatologists() {
+      return dermatologists;
    }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorDermatologist() {
-      if (dermatologist == null)
-         dermatologist = new java.util.ArrayList<Dermatologist>();
-      return dermatologist.iterator();
+
+   public void setDermatologists(List<PharmacyDermatologist> dermatologists) {
+      this.dermatologists = dermatologists;
    }
-   
-   /** @pdGenerated default setter
-     * @param newDermatologist */
-   public void setDermatologist(java.util.List<Dermatologist> newDermatologist) {
-      removeAllDermatologist();
-      for (java.util.Iterator iter = newDermatologist.iterator(); iter.hasNext();)
-         addDermatologist((Dermatologist)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newDermatologist */
-   public void addDermatologist(Dermatologist newDermatologist) {
-      if (newDermatologist == null)
-         return;
-      if (this.dermatologist == null)
-         this.dermatologist = new java.util.ArrayList<Dermatologist>();
-      if (!this.dermatologist.contains(newDermatologist))
-         this.dermatologist.add(newDermatologist);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldDermatologist */
-   public void removeDermatologist(Dermatologist oldDermatologist) {
-      if (oldDermatologist == null)
-         return;
-      if (this.dermatologist != null)
-         if (this.dermatologist.contains(oldDermatologist))
-            this.dermatologist.remove(oldDermatologist);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllDermatologist() {
-      if (dermatologist != null)
-         dermatologist.clear();
-   }
+
+   //   /** @pdGenerated default getter */
+//   public java.util.List<Dermatologist> getDermatologist() {
+//      if (dermatologist == null)
+//         dermatologist = new java.util.ArrayList<Dermatologist>();
+//      return dermatologist;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorDermatologist() {
+//      if (dermatologist == null)
+//         dermatologist = new java.util.ArrayList<Dermatologist>();
+//      return dermatologist.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newDermatologist */
+//   public void setDermatologist(java.util.List<Dermatologist> newDermatologist) {
+//      removeAllDermatologist();
+//      for (java.util.Iterator iter = newDermatologist.iterator(); iter.hasNext();)
+//         addDermatologist((Dermatologist)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newDermatologist */
+//   public void addDermatologist(Dermatologist newDermatologist) {
+//      if (newDermatologist == null)
+//         return;
+//      if (this.dermatologist == null)
+//         this.dermatologist = new java.util.ArrayList<Dermatologist>();
+//      if (!this.dermatologist.contains(newDermatologist))
+//         this.dermatologist.add(newDermatologist);
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldDermatologist */
+//   public void removeDermatologist(Dermatologist oldDermatologist) {
+//      if (oldDermatologist == null)
+//         return;
+//      if (this.dermatologist != null)
+//         if (this.dermatologist.contains(oldDermatologist))
+//            this.dermatologist.remove(oldDermatologist);
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllDermatologist() {
+//      if (dermatologist != null)
+//         dermatologist.clear();
+//   }
    /** @pdGenerated default getter */
    public java.util.List<Drug> getDrug() {
       if (drug == null)

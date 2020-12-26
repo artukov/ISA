@@ -4,7 +4,7 @@ import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.exception.ResourceConflictException;
 import isa.project.pharmacyapp.model.Authority;
 import isa.project.pharmacyapp.model.User;
-import isa.project.pharmacyapp.model.UserTokenState;
+import isa.project.pharmacyapp.dto.UserTokenState;
 import isa.project.pharmacyapp.security.TokenUtils;
 import isa.project.pharmacyapp.security.authetication.JwtAuthenticationRequest;
 import isa.project.pharmacyapp.service.UserService;
@@ -12,7 +12,6 @@ import isa.project.pharmacyapp.service.implementation.CustomUserDetailsService;
 import isa.project.pharmacyapp.user_factory.UserFactory;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -143,7 +142,7 @@ public class AuthenticationController {
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer){
         userDetailsService.changePassword(changer.oldPassword,changer.newPassword);
 
-        Map<String, String > result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<String, String>();
         result.put("result", "success");
 
         return new ResponseEntity<>(result,HttpStatus.ACCEPTED);

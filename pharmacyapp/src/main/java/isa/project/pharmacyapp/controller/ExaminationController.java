@@ -9,18 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/examination")
 @CrossOrigin
 public class ExaminationController {
 
-    private static final String authority = "hasAuthority('USER')";
+    private static final String AUTHORITY = "hasAuthority('USER')";
 
     @Autowired
     private ExaminationService examinationService;
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(value = authority)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> newExamination(@RequestBody ExaminationDTO dto){
 
         try {
@@ -35,7 +37,7 @@ public class ExaminationController {
     }
 
     @PutMapping(value = "/modify/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(value = authority)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO modifyDTO, @PathVariable("id") Long id){
 
         try {
@@ -46,6 +48,17 @@ public class ExaminationController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/freeDermaExam/{dermaID}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermatologistFreeExaminations(@PathVariable("dermaID") Long dermaID,
+                                                              @PathVariable("pharmacyID") Long pharmacyID){
+
+        List<ExaminationDTO> examinationDTOList = this.examinationService.findFreeExaminations(dermaID, pharmacyID);
+
+        return new ResponseEntity<>(examinationDTOList, HttpStatus.OK);
 
     }
 

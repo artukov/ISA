@@ -1,16 +1,39 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.DermatologistDTO;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
+import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/dermatologist")
 public class DermatologistController {
 
+    private static final String AUTHORITY = "hasAuthority('USER')";
+
+//    @Autowired
+//    private DermatologistService dermatologistService;
     @Autowired
-    private DermatologistService dermatologistService;
+    private UserServiceFactory serviceFactory;
+
+    @GetMapping(value = "/findByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermatologistInPharmacy(@PathVariable("id")Long id){
+
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        List<DermatologistDTO> dermatologistDTOList = dermatologistService.findAllByPharmacy(id);
+
+        return new ResponseEntity<>(dermatologistDTOList, HttpStatus.OK);
+
+    }
 }

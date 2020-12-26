@@ -1,5 +1,7 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.dto.DermatologistDTO;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Dermatologist;
 import isa.project.pharmacyapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +14,7 @@ import java.util.List;
 @Repository
 public interface DermatologistRepository  extends JpaRepository<Dermatologist, Long> {
 
-    @Query(value = "SELECT d.* FROM dermatologist d INNER JOIN pharmacy_derma pd ON pd.derma_id = d.id" +
+    @Query(value = "SELECT  d.*  FROM dermatologist d INNER JOIN pharmacy_derma pd ON pd.derma_id = d.id " +
             " WHERE pd.pharmacy_id = :pharmacyId",
             nativeQuery = true)
     List<Dermatologist> findAllByPharmacy(@Param("pharmacyId") Long pharmacyId);
@@ -25,4 +27,9 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
             "WHERE dr.derma_id = :dermaID AND dr.pharmacy_id = :pharmacyID",
             nativeQuery = true)
     Double getAvgRatings(@Param("dermaID") Long dermaID, @Param("pharmacyID") Long pharmacyID);
+
+    @Query(value = "SELECT pd.start_hour, pd.hours FROM pharmacy_derma pd " +
+            "WHERE pharmacy_id = :pharmacyId AND derma_id = :dermaId",
+            nativeQuery = true)
+    List<Object[]> getWorkingHours(@Param("dermaId") Long dermaId,@Param("pharmacyId") Long pharmacyId);
 }

@@ -3,6 +3,8 @@ package isa.project.pharmacyapp.service;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.model.Examination;
 
+import java.util.List;
+
 public interface ExaminationService {
 
     public abstract Examination findById(Long id);
@@ -12,4 +14,5 @@ public interface ExaminationService {
 
     public abstract void saveExamination(Examination examination, ExaminationDTO examinationDTO) throws Exception;
 
+    List<ExaminationDTO> findFreeExaminations(Long dermaID, Long pharmacyID);
 }
