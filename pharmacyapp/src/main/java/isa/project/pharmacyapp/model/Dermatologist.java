@@ -25,6 +25,10 @@ public class Dermatologist extends User {
    @JoinColumn
    protected java.util.List<Appointment> appointment;
 
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private List<PharmacyDermatologist> pharmacies;
+
    
    /** @pdOid 78e678c6-0907-4cd1-83c9-3df27513740e */
    protected void finalize() {
@@ -93,7 +97,12 @@ public class Dermatologist extends User {
       if (appointment != null)
          appointment.clear();
    }
-   
 
+   public List<PharmacyDermatologist> getPharmacies() {
+      return pharmacies;
+   }
 
+   public void setPharmacies(List<PharmacyDermatologist> pharmacies) {
+      this.pharmacies = pharmacies;
+   }
 }

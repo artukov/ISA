@@ -24,7 +24,7 @@ public class SupplyOrder {
    private Date deliveryDate;
    
    /** @pdRoleInfo migr=no name=Drug assc=association10 coll=java.util.Set impl=java.util.HashSet mult=1..* */
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinTable(
            name = "order_drug",
            joinColumns = @JoinColumn(name = "order_id"),

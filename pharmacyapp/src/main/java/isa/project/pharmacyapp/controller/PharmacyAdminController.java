@@ -1,8 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
-import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
-import isa.project.pharmacyapp.model.PharmacyAdmin;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
@@ -17,8 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
