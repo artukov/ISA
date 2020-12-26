@@ -42,7 +42,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             "GROUP BY EXTRACT(year FROM appointment_date)", nativeQuery = true)
     List<Double> getYearlyExaminations(@Param("id") Long id);
 
-    @Query(value = "SELECT EXTRACT(year FROM appointment_date)  FROM calendar_appointments\n" +
+    @Query(value = "SELECT EXTRACT(year FROM appointment_date)  FROM calendar_appointments " +
             "WHERE calendar_id = :id " +
             "GROUP BY EXTRACT(year FROM appointment_date);"
             ,nativeQuery = true)

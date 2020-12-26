@@ -19,4 +19,25 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
     @Modifying
     @Query(value = "DELETE FROM drug d WHERE d.id = :id",nativeQuery = true)
     public void deleteDrug(@Param("id") Long id);
+
+    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
+            "WHERE calendar_id = :id " +
+            "AND EXTRACT(month FROM ca.appointment_date) = :month " +
+            "AND EXTRACT(year FROM ca.appointment_date) = :year" ,
+            nativeQuery = true)
+    Double getMonthlyConsumptionStatistics(@Param("id") Long id,@Param("month") Integer month,@Param("year") Double year);
+
+
+    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id\n" +
+            "WHERE calendar_id = :id " +
+            "AND EXTRACT(month FROM ca.appointment_date) BETWEEN  :month AND :month+3 " +
+            "AND EXTRACT(year FROM ca.appointment_date) = :year"
+            , nativeQuery = true)
+    Double getQuarterlyDrugConsumptionStatistics(@Param("id") Long id,@Param("month") Integer month,@Param("year") Double year);
+
+    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
+            "WHERE ca.calendar_id = :id " +
+            "GROUP BY EXTRACT(year FROM ca.appointment_date)"
+            ,nativeQuery = true)
+    List<Double> getYearlyDrugConsumptionStatistics(@Param("id") Long id);
 }

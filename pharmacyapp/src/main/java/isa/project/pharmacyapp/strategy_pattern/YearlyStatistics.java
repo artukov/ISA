@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.strategy_pattern;
 
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.repository.CalendarRepository;
+import isa.project.pharmacyapp.repository.DrugRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +15,16 @@ public class YearlyStatistics implements StatisticsStrategy {
     @Autowired
     private CalendarRepository repository;
 
+    @Autowired
+    private DrugRepository drugRepository;
+
     @Override
     public List<Double> calculateStatistics(Pharmacy pharmacy) {
-
         return repository.getYearlyExaminations(pharmacy.getCalendar().getId());
+    }
 
+    @Override
+    public List<Double> calculateDrugStatistics(Pharmacy pharmacy) {
+        return drugRepository.getYearlyDrugConsumptionStatistics(pharmacy.getCalendar().getId());
     }
 }

@@ -2,8 +2,13 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.model.Drug;
+import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.repository.DrugRepository;
+import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DrugService;
+import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
+import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,12 @@ import java.util.NoSuchElementException;
 public class DrugServiceImpl implements DrugService {
     @Autowired
     private DrugRepository drugRepository;
+
+    @Autowired
+    private BeanFactoryDynamicService beanFactoryDynamicService;
+
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
 
 
     final private static String EXCEPTION_TEXT = "DrugServiceImpl::";
@@ -91,6 +102,18 @@ public class DrugServiceImpl implements DrugService {
 
         drugRepository.deleteDrug(id);
 
+    }
+
+    @Override
+    public List<Double> getConsumptionStatistics(TimeSpam timeSpam, Long pharmacyID) {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+        /**
+         * TODO
+         * if pharmacy id is not valid exemption
+         * */
+        StatisticsStrategy strategy = beanFactoryDynamicService.getStrategyStatistics(timeSpam);
+
+        return strategy.calculateDrugStatistics(pharmacy);
     }
 
     private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs){
