@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Card } from 'react-bootstrap';
-import '../../src/globalCSS.css';
+import { Link } from 'react-router-dom';
 
 class loginPage extends Component {
     constructor(props) {
@@ -53,6 +53,10 @@ class loginPage extends Component {
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
+
+                    <p className="forgot-password text-right">
+                        Do you need to <Link to='/registration'>registare?</Link>
+                    </p>
                 </Form>
             </div>
         );

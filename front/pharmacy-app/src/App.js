@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './css/global.css';
 
 import HomePage from './components/homePage';
 import LoginPage from './components/loginPage';
@@ -8,9 +9,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/' exact component={HomePage} />
         <Route path='/login' exact component={LoginPage} />
+        <Route path='/home' exact component={HomePage} />
         <Route path='/registration' exact component={RegistrationPage} />
+        <Route path='/'>404 not here sry</Route>
       </Switch>
     </Router>
   );
