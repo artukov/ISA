@@ -2,13 +2,12 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
-import isa.project.pharmacyapp.model.Pharmacist;
-import isa.project.pharmacyapp.model.User;
-import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.service.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +58,19 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     }
 
+    @Transactional
     @Override
     public void deletePharmacistById(Long id) throws Exception {
+        Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
+        if(pharmacist == null){
+            throw new Exception("There is no pharmacist with given id");
+        }
+
+        if(pharmacistRepository.existsUnfinishedConsultation(id) != 0.0){
+            throw new Exception("Pharmacist has a consultation");
+        }
+
+        pharmacistRepository.deletePharmacistFromPharmacy(id);
 
     }
 
@@ -73,10 +83,21 @@ public class PharmacistServiceImpl implements PharmacistService {
         return null;
     }
 
-    /**
+    @Override
+    public Double getAvgRating(Long id) throws Exception {
+
+        if(pharmacistRepository.findById(id).orElse(null) == null){
+            throw new Exception(getClass().getName()+"::getAvgRating pharmacist does not exists");
+        }
+
+
+        return pharmacistRepository.getAvgRatings(id);
+    }
+
+    /**************************************
      * UserService methods
      *
-     * */
+     * *************************************/
 
     @Override
     public User findByEmail(String email) {
@@ -88,14 +109,5 @@ public class PharmacistServiceImpl implements PharmacistService {
         return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
     }
 
-    @Override
-    public Double getAvgRating(Long id) throws Exception {
 
-        if(pharmacistRepository.findById(id).orElse(null) == null){
-            throw new Exception(getClass().getName()+"::getAvgRating pharmacist does not exists");
-        }
-
-
-        return pharmacistRepository.getAvgRatings(id);
-    }
 }

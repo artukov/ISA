@@ -211,3 +211,11 @@ INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (40, 300);
 
 ------------------------------------------------------------------
 
+INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
+VALUES (200,now(),25,false,'report',400,null,500);
+
+INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
+VALUES (201,now(),25,true,'report',400,null,500);
+
+INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
+VALUES (202,now(),25,true,'report',400,null,500);
