@@ -3,7 +3,9 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.PharmacyDrug;
 import isa.project.pharmacyapp.model.TimeSpam;
+import isa.project.pharmacyapp.model.embedded_ids.PharmacyDrugID;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DrugService;
@@ -11,6 +13,7 @@ import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynami
 import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,8 @@ public class DrugServiceImpl implements DrugService {
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
+
+
 
 
     final private static String EXCEPTION_TEXT = "DrugServiceImpl::";
@@ -114,6 +119,61 @@ public class DrugServiceImpl implements DrugService {
         StatisticsStrategy strategy = beanFactoryDynamicService.getStrategyStatistics(timeSpam);
 
         return strategy.calculateDrugStatistics(pharmacy);
+    }
+
+    @Transactional //if we are using update/delete operations, needed annotation
+    @Override
+    public void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+        if(pharmacy == null){
+            throw new Exception("pharmacy not found");
+        }
+        Drug drug = drugRepository.findById(drugDTO.getId()).orElse(null);
+        if(drug == null){
+            throw new Exception("drug not found");
+        }
+
+        if(drugDTO.getAmount() == null){
+            drugDTO.setAmount(0);
+        }
+
+        /**
+         * If drug does not exists in the pharmacy than we need to create a new row in the database
+         * pharmacy_drug table
+         * */
+        if(drugRepository.findInPharmacy(pharmacyID, drug.getId()) == 0.0 ){
+            List<PharmacyDrug> pharmacyDrugs = drug.getPharmacies();
+
+            /**
+             * Inserting new row into pharmacy_drug table
+             * Need new instances of {@code PharmacyDrug} and {@code PharmacyDrugID} classes
+             * */
+
+            PharmacyDrug pd = new PharmacyDrug();
+
+            /**
+             * Setting the ids
+             * */
+            PharmacyDrugID id = new PharmacyDrugID();
+            id.setPharmacy(pharmacy);
+            id.setDrug(drug);
+
+            pd.setId(id);
+            pd.setAmount(drugDTO.getAmount());
+
+            pharmacyDrugs.add(pd);
+
+            drugRepository.save(drug);
+        }
+        else{
+            /**
+             * Update database if the relationship already exists between pharmacy and drug
+             * */
+            drugRepository.addDrugToPharmacy(drugDTO.getId(), pharmacyID, drugDTO.getAmount());
+        }
+
+
+
     }
 
     private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs){

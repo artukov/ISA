@@ -16,4 +16,6 @@ public interface DrugService {
     public void deleteDrug(Long id) throws Exception;
 
     List<Double> getConsumptionStatistics(TimeSpam timeSpam, Long pharmacyID);
+
+    void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception;
 }

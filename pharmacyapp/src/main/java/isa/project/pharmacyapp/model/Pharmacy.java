@@ -57,9 +57,12 @@ public class Pharmacy {
    public java.util.List<Promotions> promotions;
 
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "derma_id")
+   @JoinColumn(name = "pharmacy_id")
    private List<PharmacyDermatologist> dermatologists;
 
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private List<PharmacyDrug> drugs;
 
    /**********************************************************
     * ManyToMany
@@ -76,14 +79,17 @@ public class Pharmacy {
 //
 //   )
 //   public java.util.List<Dermatologist> dermatologist;
-   /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-   @JoinTable(
-           name = "pharmacy_drug",
-           joinColumns = @JoinColumn(name = "pharmacy_id"),
-           inverseJoinColumns = @JoinColumn(name = "drug_id")
-   )
-   public java.util.List<Drug> drug;
+//   /** @pdRoleInfo migr=no name=Drug assc=association4 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+//   @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//   @JoinTable(
+//           name = "pharmacy_drug",
+//           joinColumns = @JoinColumn(name = "pharmacy_id"),
+//           inverseJoinColumns = @JoinColumn(name = "drug_id")
+//   )
+//   public java.util.List<Drug> drug;
+
+
+
 
    /**********************************************************
     * OneToOne
@@ -258,54 +264,64 @@ public class Pharmacy {
 //      if (dermatologist != null)
 //         dermatologist.clear();
 //   }
-   /** @pdGenerated default getter */
-   public java.util.List<Drug> getDrug() {
-      if (drug == null)
-         drug = new java.util.ArrayList<Drug>();
-      return drug;
+//   /** @pdGenerated default getter */
+//   public java.util.List<Drug> getDrug() {
+//      if (drug == null)
+//         drug = new java.util.ArrayList<Drug>();
+//      return drug;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorDrug() {
+//      if (drug == null)
+//         drug = new java.util.ArrayList<Drug>();
+//      return drug.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newDrug */
+//   public void setDrug(java.util.List<Drug> newDrug) {
+//      removeAllDrug();
+//      for (java.util.Iterator iter = newDrug.iterator(); iter.hasNext();)
+//         addDrug((Drug)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newDrug */
+//   public void addDrug(Drug newDrug) {
+//      if (newDrug == null)
+//         return;
+//      if (this.drug == null)
+//         this.drug = new java.util.ArrayList<Drug>();
+//      if (!this.drug.contains(newDrug))
+//         this.drug.add(newDrug);
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldDrug */
+//   public void removeDrug(Drug oldDrug) {
+//      if (oldDrug == null)
+//         return;
+//      if (this.drug != null)
+//         if (this.drug.contains(oldDrug))
+//            this.drug.remove(oldDrug);
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllDrug() {
+//      if (drug != null)
+//         drug.clear();
+//   }
+
+
+   public List<PharmacyDrug> getDrugs() {
+      return drugs;
    }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorDrug() {
-      if (drug == null)
-         drug = new java.util.ArrayList<Drug>();
-      return drug.iterator();
+
+   public void setDrugs(List<PharmacyDrug> drugs) {
+      this.drugs = drugs;
    }
-   
-   /** @pdGenerated default setter
-     * @param newDrug */
-   public void setDrug(java.util.List<Drug> newDrug) {
-      removeAllDrug();
-      for (java.util.Iterator iter = newDrug.iterator(); iter.hasNext();)
-         addDrug((Drug)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newDrug */
-   public void addDrug(Drug newDrug) {
-      if (newDrug == null)
-         return;
-      if (this.drug == null)
-         this.drug = new java.util.ArrayList<Drug>();
-      if (!this.drug.contains(newDrug))
-         this.drug.add(newDrug);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldDrug */
-   public void removeDrug(Drug oldDrug) {
-      if (oldDrug == null)
-         return;
-      if (this.drug != null)
-         if (this.drug.contains(oldDrug))
-            this.drug.remove(oldDrug);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllDrug() {
-      if (drug != null)
-         drug.clear();
-   }
+
    /** @pdGenerated default getter */
    public java.util.List<PriceList> getPriceList() {
       if (priceList == null)

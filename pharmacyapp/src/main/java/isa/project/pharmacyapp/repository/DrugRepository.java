@@ -40,4 +40,15 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "GROUP BY EXTRACT(year FROM ca.appointment_date)"
             ,nativeQuery = true)
     List<Double> getYearlyDrugConsumptionStatistics(@Param("id") Long id);
+
+
+    @Modifying
+    @Query(value = "UPDATE pharmacy_drug " +
+            "SET amount = :amount " +
+            "WHERE pharmacy_id = :pharmacyID AND drug_id = :drugID "
+            ,nativeQuery = true)
+    void addDrugToPharmacy(@Param("drugID") Long drugID,@Param("pharmacyID") Long pharmacyID,@Param("amount") Integer amount);
+
+    @Query(value = "SELECT COUNT(*) FROM pharmacy_drug WHERE drug_id = :drugID and pharmacy_id = :pharmacyID",nativeQuery = true)
+    Double findInPharmacy(@Param("pharmacyID") Long pharmacyID, @Param("drugID") Long drugID);
 }

@@ -48,7 +48,7 @@ class DrugServiceImplTest {
 
         Pharmacy pharmacy = new Pharmacy();
         pharmacy.setId(pharmacyId);
-        pharmacy.setDrug(drugs);
+        //pharmacy.setDrug(drugs);
 
         given(drugRepository.findAllByPharmacyId(pharmacyId)).willReturn(drugs);
 

@@ -22,6 +22,22 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
+    @PostMapping(value = "/add/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addToPharmacyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("pharmacyID") Long pharmacyID){
+
+        try {
+            drugService.addToPharmacyDrug(drugDTO, pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
     @GetMapping(value = "/avgConsumption/{timespam}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<?> getAverageDrugConsumption(@PathVariable("timespam")TimeSpam timeSpam,
