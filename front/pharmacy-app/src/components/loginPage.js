@@ -1,56 +1,49 @@
 import React, { Component } from 'react';
 import { Button, Form, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class loginPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
 
+        }
     }
 
-    componentWillMount() {
+    login = e => {
+        e.preventDefault();
 
-    }
+        const user = {
+            email: this.state.email,
+            password: this.state.password
 
-    componentDidMount() {
+        }
 
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-
-    }
-
-    componentWillUnmount() {
-
+        axios.post(`http://localhost:8080/auth/login`, user)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 
     render() {
         return (
             <div className='login'>
-                <Form>
+                <Form onSubmit={this.login}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" name="email" placeholder="Enter email" onChange={(e) => this.setState({ email: e.target.value })} />
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Control type="password" name="password" placeholder="Password" onChange={(e) => this.setState({ password: e.target.value })} />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type='submit'>
                         Submit
                     </Button>
 
