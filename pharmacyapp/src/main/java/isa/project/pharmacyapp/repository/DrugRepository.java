@@ -14,11 +14,12 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
     @Query(value = "SELECT d.* FROM drug d INNER JOIN pharmacy_drug pd ON d.id = pd.drug_id WHERE pd.pharmacy_id = :pharmacy_id",
             nativeQuery = true)
-    public List<Drug> findAllByPharmacyId(@Param("pharmacy_id")Long id);
+    List<Drug> findAllByPharmacyId(@Param("pharmacy_id")Long id);
 
     @Modifying
-    @Query(value = "DELETE FROM drug d WHERE d.id = :id",nativeQuery = true)
-    public void deleteDrug(@Param("id") Long id);
+    @Query(value = "DELETE FROM pharmacy_drug WHERE drug_id = :id"
+            ,nativeQuery = true)
+    void deleteDrug(@Param("id") Long id);
 
     @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
             "WHERE calendar_id = :id " +

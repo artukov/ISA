@@ -51,8 +51,6 @@ public class AuthenticationController {
     @Autowired
     private UserServiceFactory serviceFactory;
 
-    @Autowired
-    private UserFactory userFactory;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,

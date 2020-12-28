@@ -19,7 +19,10 @@ public class Reservation {
    /** @pdOid b41dfd4c-5da7-4015-a2b0-01c0423858ed */
    @Column(nullable = false, name = "acceptance_date")
    private Date acceptanceDate;
-   
+
+   @Column(name = "accepted")
+   private Boolean accepted;
+
    /** @pdRoleInfo migr=no name=Drug assc=association14 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(
@@ -27,11 +30,16 @@ public class Reservation {
            joinColumns = @JoinColumn(name = "reservation_id"),
            inverseJoinColumns = @JoinColumn(name = "drug_id")
    )
-   public java.util.List<Drug> drug;
+   private java.util.List<Drug> drug;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "patient_id")
-   public Patient patient;
+   private Patient patient;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private Pharmacy pharmacy;
+
 
    public Reservation() {
    }
@@ -52,6 +60,14 @@ public class Reservation {
       this.acceptanceDate = acceptanceDate;
    }
 
+   public Boolean getAccepted() {
+      return accepted;
+   }
+
+   public void setAccepted(Boolean accepted) {
+      this.accepted = accepted;
+   }
+
    public Patient getPatient() {
       return patient;
    }
@@ -59,6 +75,16 @@ public class Reservation {
    public void setPatient(Patient patient) {
       this.patient = patient;
    }
+
+   public Pharmacy getPharmacy() {
+      return pharmacy;
+   }
+
+   public void setPharmacy(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
+   }
+
+
 
    /** @pdGenerated default getter */
    public java.util.List<Drug> getDrug() {

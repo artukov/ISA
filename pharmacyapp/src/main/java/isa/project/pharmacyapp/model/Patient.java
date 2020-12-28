@@ -22,7 +22,7 @@ public class Patient extends User {
    private String category;
    /** @pdOid 166fec65-4553-4ceb-ba38-454d3592a0c9 */
    @Column(nullable = true)
-   private Integer penatlies = 0;
+   private Integer penalties = 0;
    
    /** @pdRoleInfo migr=no name=Address assc=association12 mult=1..1 */
    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -50,7 +50,7 @@ public class Patient extends User {
    public java.util.List<Complaints> complaints;
    /** @pdRoleInfo migr=no name=EReceipt assc=association30 coll=java.util.List impl=java.util.ArrayList mult=1..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "recepit_id")
+   @JoinColumn(name = "receipt_id")
    public java.util.List<EReceipt> eReceipt;
    
    

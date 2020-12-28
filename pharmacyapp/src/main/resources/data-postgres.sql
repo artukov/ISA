@@ -83,9 +83,28 @@ VALUES (300,300,5.0);
 --patient
 
 INSERT INTO public.patient(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, category, penatlies, points)
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, category, penalties, points)
 VALUES (400, 'patient@live.com', true, 'patient', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, null, null, null);
+
+
+INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
+VALUES (200, now(), true,400, 200);
+
+INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
+VALUES (201, now(), false,400, 200);
+
+INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
+VALUES (202, now(), true,400, 200);
+
+INSERT INTO reservation_drug(reservation_id, drug_id)
+VALUES (200, 200);
+
+INSERT INTO reservation_drug(reservation_id, drug_id)
+VALUES (201, 300);
+
+INSERT INTO reservation_drug(reservation_id, drug_id)
+VALUES (202, 300);
 
 --pharmacist
 

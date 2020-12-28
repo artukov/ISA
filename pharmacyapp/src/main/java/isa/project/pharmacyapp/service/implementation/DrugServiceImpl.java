@@ -8,6 +8,7 @@ import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.model.embedded_ids.PharmacyDrugID;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.repository.ReservationRepository;
 import isa.project.pharmacyapp.service.DrugService;
 import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
 import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
@@ -30,7 +31,8 @@ public class DrugServiceImpl implements DrugService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
-
+    @Autowired
+    private ReservationRepository reservationRepository;
 
 
     final private static String EXCEPTION_TEXT = "DrugServiceImpl::";
@@ -97,16 +99,51 @@ public class DrugServiceImpl implements DrugService {
 
     }
 
+    @Transactional
     @Override
-    public void deleteDrug(Long id) throws Exception {
+    public void deleteDrug(Long id, Long pharmacyID) throws Exception {
 
         Drug drug = drugRepository.findById(id).orElse(null);
         if(drug == null){
             throw  new Exception(EXCEPTION_TEXT + "deleteDrug" + DOES_NOT_EXISTS);
         }
 
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+        if(pharmacy == null){
+            throw new Exception(EXCEPTION_TEXT + "delete drug pharmacy does not exists");
+        }
+
+        /**
+         * TODO
+         * Check if the drug reserved
+         * */
+        if(reservationRepository.countReservedDrugsInPharmacy(id, pharmacyID) == 0.0){
+            throw  new Exception("Drug is reserved");
+        }
+
         drugRepository.deleteDrug(id);
 
+    }
+
+    @Override
+    public void saveDrug(Drug drug, DrugDTO drugDTO) throws Exception {
+        DrugDTO.dto2Drug(drug,drugDTO);
+
+        for(Long id : drugDTO.getSubstituteDrugs()){
+            try{
+                drug.getSubstituteDrugs().add(drugRepository.findById(id).orElse(null));
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new Exception(EXCEPTION_TEXT + "saveDrug" + DOES_NOT_EXISTS);
+            }
+        }
+        try{
+            drugRepository.save(drug);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception(EXCEPTION_TEXT + "saveDrug saving drug" + UNSUCCESSFUL_EXECUTION);
+        }
     }
 
     @Override
@@ -185,23 +222,5 @@ public class DrugServiceImpl implements DrugService {
         return  drugDTOS;
     }
 
-    private void saveDrug(Drug drug, DrugDTO drugDTO) throws Exception {
-        DrugDTO.dto2Drug(drug,drugDTO);
 
-        for(Long id : drugDTO.getSubstituteDrugs()){
-            try{
-                drug.getSubstituteDrugs().add(drugRepository.findById(id).orElse(null));
-            }catch (Exception e){
-                e.printStackTrace();
-                throw new Exception(EXCEPTION_TEXT + "saveDrug" + DOES_NOT_EXISTS);
-            }
-        }
-        try{
-            drugRepository.save(drug);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            throw new Exception(EXCEPTION_TEXT + "saveDrug saving drug" + UNSUCCESSFUL_EXECUTION);
-        }
-    }
 }
