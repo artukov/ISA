@@ -25,10 +25,12 @@ public abstract class Appointment {
    @Column(nullable = false, name = "beg_date")
    protected Date beggingDateTime;
 
-
    /** @pdOid ab6b7d96-4a16-4991-a7f3-465b7e183036 */
    @Column(nullable = false)
    protected Integer duration;
+
+   @Column
+   protected Boolean finished;
    
    /** @pdRoleInfo migr=no name=Drug assc=association24 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -58,6 +60,14 @@ public abstract class Appointment {
 
    public void setPatient(Patient patient) {
       this.patient = patient;
+   }
+
+   public Boolean getFinished() {
+      return finished;
+   }
+
+   public void setFinished(Boolean finished) {
+      this.finished = finished;
    }
 
    /** @pdGenerated default getter */

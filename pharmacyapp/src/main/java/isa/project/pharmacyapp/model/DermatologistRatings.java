@@ -1,9 +1,9 @@
 package isa.project.pharmacyapp.model;
 
+import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Class that holds information about dermatologist's ratings in a particular pharmacies

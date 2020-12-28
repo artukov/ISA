@@ -22,6 +22,53 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
+    @PostMapping(value = "/add/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addToPharmacyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("pharmacyID") Long pharmacyID){
+
+        try {
+            drugService.addToPharmacyDrug(drugDTO, pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @PostMapping(value = "/modify/{drugID}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("drugID") Long drugID){
+
+        try {
+            drugService.modifyDrug(drugID,drugDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @DeleteMapping(value = "delete/{drugID}/{pharmacyID}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deleteDrugFromPharmacy(@PathVariable("drugID")Long drugID,
+                                                    @PathVariable("pharmacyID") Long pharmacyID){
+
+        try {
+            drugService.deleteDrug(drugID, pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
     @GetMapping(value = "/avgConsumption/{timespam}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<?> getAverageDrugConsumption(@PathVariable("timespam")TimeSpam timeSpam,

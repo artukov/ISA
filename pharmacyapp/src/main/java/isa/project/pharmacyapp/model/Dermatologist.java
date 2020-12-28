@@ -26,7 +26,7 @@ public class Dermatologist extends User {
    protected java.util.List<Appointment> appointment;
 
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
+   @JoinColumn(name = "derma_id")
    private List<PharmacyDermatologist> pharmacies;
 
    
