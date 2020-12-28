@@ -1,5 +1,7 @@
 package isa.project.pharmacyapp.model;
 
+import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
+
 import javax.persistence.*;
 import java.util.Date;
 

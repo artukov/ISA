@@ -36,4 +36,22 @@ public class DermatologistController {
         return new ResponseEntity<>(dermatologistDTOList, HttpStatus.OK);
 
     }
+
+    @DeleteMapping(value = "/delete/pharmacy/{dermaID}/{pharmacyID}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deleteDermatologistFromPharmacy(@PathVariable("dermaID") Long dermaID,
+                                                             @PathVariable("pharmacyID") Long pharmacyID){
+
+        DermatologistService service = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        try {
+            service.deleteDermatologistPharmacy(dermaID, pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
 }

@@ -48,8 +48,22 @@ public class Drug {
    )
    private java.util.List<Drug> substituteDrugs;
 
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "drug_id")
+   private List<PharmacyDrug> pharmacies;
+
    public Drug() {
    }
+
+   public List<PharmacyDrug> getPharmacies() {
+      return pharmacies;
+   }
+
+   public void setPharmacies(List<PharmacyDrug> pharmacies) {
+      this.pharmacies = pharmacies;
+   }
+
+
 
    public Long getId() {
       return id;

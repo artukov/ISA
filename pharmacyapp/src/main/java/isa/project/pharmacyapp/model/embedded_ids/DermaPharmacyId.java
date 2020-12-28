@@ -1,11 +1,14 @@
-package isa.project.pharmacyapp.model;
+package isa.project.pharmacyapp.model.embedded_ids;
+
+import isa.project.pharmacyapp.model.Dermatologist;
+import isa.project.pharmacyapp.model.Pharmacy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-class DermaPharmacyId implements Serializable {
+public class DermaPharmacyId implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "derma_id")

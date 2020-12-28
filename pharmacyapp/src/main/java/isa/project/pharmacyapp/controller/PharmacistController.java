@@ -31,5 +31,19 @@ public class PharmacistController {
 
     }
 
+    @DeleteMapping(value = "/delete/pharmacy/{id}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deletePharmacistFromPharmacy(@PathVariable("id")Long id){
+
+        try {
+            pharmacistService.deletePharmacistById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

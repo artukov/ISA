@@ -18,11 +18,13 @@ public class DrugDTO {
     private DrugSpecification drugSpecification;
     private List<Long> substituteDrugs;
 
+    private Integer amount;
+
     public DrugDTO() {
     }
 
     public DrugDTO(Long id, String name, Long code, String type,
-                   String shape, String manufacturer, Boolean receipt, DrugSpecification drugSpecification) {
+                   String shape, String manufacturer, Boolean receipt, DrugSpecification drugSpecification, Integer amount) {
         this.id = id;
         this.name = name;
         this.code = code;
@@ -31,6 +33,7 @@ public class DrugDTO {
         this.manufacturer = manufacturer;
         this.receipt = receipt;
         this.drugSpecification = drugSpecification;
+        this.amount = amount;
     }
 
     public static DrugDTO drug2DTO(Drug drug){
@@ -42,7 +45,8 @@ public class DrugDTO {
                 drug.getShape(),
                 drug.getManufacturer(),
                 drug.getReceipt(),
-                drug.getDrugSpecification()
+                drug.getDrugSpecification(),
+                null
         );
 
         for(Drug iter : drug.getSubstituteDrugs()){
@@ -134,5 +138,13 @@ public class DrugDTO {
 
     public void setDrugSpecification(DrugSpecification drugSpecification) {
         this.drugSpecification = drugSpecification;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 }
