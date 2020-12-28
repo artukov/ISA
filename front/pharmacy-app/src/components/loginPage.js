@@ -22,11 +22,11 @@ class loginPage extends Component {
 
         axios.post(`http://localhost:8080/auth/login`, user)
             .then(res => {
-                console.log(res);
+                if (res.status == 200) {
+                    window.location = "/home"
+                }
             })
-            .catch(function (error) {
-                console.log(error);
-            })
+
     }
 
     render() {
