@@ -3,15 +3,13 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
-import isa.project.pharmacyapp.model.Dermatologist;
-import isa.project.pharmacyapp.model.Examination;
-import isa.project.pharmacyapp.model.User;
-import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -89,10 +87,33 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Override
     public Double getAvgRatings(Long dermaID, Long pharmacyID) throws Exception {
 
-        if(( dermatologistRepository.findById(dermaID) == null) || (pharmacyRepository.findById(pharmacyID).orElse(null) == null ))
+        if(( dermatologistRepository.findById(dermaID) == null) ||
+                (pharmacyRepository.findById(pharmacyID).orElse(null) == null ))
             throw new Exception(getClass().getName()+"::getAvgRatings not exists");
 
         return dermatologistRepository.getAvgRatings(dermaID, pharmacyID);
+
+    }
+
+    @Transactional
+    @Override
+    public void deleteDermatologistPharmacy(Long dermaID, Long pharmacyID) throws Exception {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+        if(pharmacy == null){
+            throw  new Exception("Pharmacy does not exists");
+        }
+        Dermatologist dermatologist = dermatologistRepository.findById(dermaID).orElse(null);
+        if(dermatologist == null){
+            throw new Exception("Dermatologist does not exists");
+        }
+
+        if(dermatologistRepository.existsUnfinishedExamination(dermaID, pharmacyID) != 0.0){
+            throw  new Exception("Dermatologist is taken");
+        }
+
+        dermatologistRepository.deleteDermaFromPharmacy(dermaID, pharmacyID);
+
+
 
     }
 

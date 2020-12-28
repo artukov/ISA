@@ -168,23 +168,23 @@ INSERT INTO public.user_authority(
 VALUES (600, 2);
 
 --------------------------------------------------
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (10, date('05-05-2020'),20,'report',400,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (10, date('05-05-2020'),20,'report',400,null,'diagnose',25.5,300, true);
 
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (20, date('06-06-2020'),20,'report',400,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (20, date('06-06-2020'),20,'report',400,null,'diagnose',25.5,300, true);
 
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (30, date('07-08-2020'),20,'report',400,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (30, date('07-08-2020'),20,'report',400,null,'diagnose',25.5,300, true);
 
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (40, date('08-07-2019'),20,'report',400,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (40, date('08-07-2019'),20,'report',400,null,'diagnose',25.5,300, true);
 
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (41, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (41, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300, false);
 
-INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id)
-VALUES (42, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300);
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (42, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300, false);
 
 -----------------------
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
@@ -199,6 +199,8 @@ VALUES (200,30,date('07-08-2020'));
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,40,date('08-07-2019'));
 
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200, 41, now());
 ----------------------------------------
 
 INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (10, 200);
