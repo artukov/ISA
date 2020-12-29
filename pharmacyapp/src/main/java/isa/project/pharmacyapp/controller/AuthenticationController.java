@@ -52,7 +52,7 @@ public class AuthenticationController {
     private UserServiceFactory serviceFactory;
 
 
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                         HttpServletResponse response) throws AuthenticationException, IOException {
         Authentication authentication = null;

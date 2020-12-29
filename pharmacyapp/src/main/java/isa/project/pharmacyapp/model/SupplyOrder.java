@@ -4,6 +4,8 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class SupplyOrder
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
+
 import java.util.*;
 import javax.persistence.*;
 
@@ -20,17 +22,24 @@ public class SupplyOrder {
    @Column(nullable = true)
    private Boolean status;
    /** @pdOid a470a81c-268d-456b-934f-6cdb8867caac */
+   @Column(nullable = false, name = "deadline_date")
+   private Date deadlineDate;
+
    @Column(nullable = false, name = "delivery_date")
    private Date deliveryDate;
-   
-   /** @pdRoleInfo migr=no name=Drug assc=association10 coll=java.util.Set impl=java.util.HashSet mult=1..* */
-   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-   @JoinTable(
-           name = "order_drug",
-           joinColumns = @JoinColumn(name = "order_id"),
-           inverseJoinColumns = @JoinColumn(name = "drug_id")
-   )
-   public java.util.Set<Drug> drug;
+
+   @Column(nullable = true, name = "offer")
+   private Double priceOffer;
+
+   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JoinColumn(name = "supply_id")
+   private List<SupplyOrderDrug> drugs;
+
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private Pharmacy pharmacy;
+
+
 
    public SupplyOrder() {
    }
@@ -51,6 +60,14 @@ public class SupplyOrder {
       this.status = status;
    }
 
+   public Date getDeadlineDate() {
+      return deadlineDate;
+   }
+
+   public void setDeadlineDate(Date deadlineDate) {
+      this.deadlineDate = deadlineDate;
+   }
+
    public Date getDeliveryDate() {
       return deliveryDate;
    }
@@ -59,53 +76,27 @@ public class SupplyOrder {
       this.deliveryDate = deliveryDate;
    }
 
-   /** @pdGenerated default getter */
-   public java.util.Set<Drug> getDrug() {
-      if (drug == null)
-         drug = new java.util.HashSet<Drug>();
-      return drug;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorDrug() {
-      if (drug == null)
-         drug = new java.util.HashSet<Drug>();
-      return drug.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newDrug */
-   public void setDrug(java.util.Set<Drug> newDrug) {
-      removeAllDrug();
-      for (java.util.Iterator iter = newDrug.iterator(); iter.hasNext();)
-         addDrug((Drug)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newDrug */
-   public void addDrug(Drug newDrug) {
-      if (newDrug == null)
-         return;
-      if (this.drug == null)
-         this.drug = new java.util.HashSet<Drug>();
-      if (!this.drug.contains(newDrug))
-         this.drug.add(newDrug);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldDrug */
-   public void removeDrug(Drug oldDrug) {
-      if (oldDrug == null)
-         return;
-      if (this.drug != null)
-         if (this.drug.contains(oldDrug))
-            this.drug.remove(oldDrug);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllDrug() {
-      if (drug != null)
-         drug.clear();
+   public List<SupplyOrderDrug> getDrugs() {
+      return drugs;
    }
 
+   public void setDrugs(List<SupplyOrderDrug> drugs) {
+      this.drugs = drugs;
+   }
+
+   public Double getPriceOffer() {
+      return priceOffer;
+   }
+
+   public void setPriceOffer(Double priceOffer) {
+      this.priceOffer = priceOffer;
+   }
+
+   public Pharmacy getPharmacy() {
+      return pharmacy;
+   }
+
+   public void setPharmacy(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
+   }
 }

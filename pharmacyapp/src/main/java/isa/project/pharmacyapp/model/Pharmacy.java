@@ -5,6 +5,9 @@ package isa.project.pharmacyapp.model;
  * Purpose: Defines the Class Pharmacy
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
+import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
+
 import java.util.*;
 import javax.persistence.*;
 

@@ -3,7 +3,7 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
-import isa.project.pharmacyapp.model.PharmacyDrug;
+import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.model.embedded_ids.PharmacyDrugID;
 import isa.project.pharmacyapp.repository.DrugRepository;

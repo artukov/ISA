@@ -26,9 +26,11 @@ public class Promotions {
    /** @pdRoleInfo migr=no name=Pharmacy assc=association21 mult=1..1 side=A */
    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
    @JoinColumn(name = "pharmacy_id")
-   public Pharmacy pharmacy;
-   
-   
+   private Pharmacy pharmacy;
+
+   public Promotions() {
+   }
+
    /** @pdGenerated default parent getter */
    public Pharmacy getPharmacy() {
       return pharmacy;

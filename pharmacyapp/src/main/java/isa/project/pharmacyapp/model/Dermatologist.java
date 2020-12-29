@@ -5,6 +5,9 @@ package isa.project.pharmacyapp.model;
  * Purpose: Defines the Class Dermatologist
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.DermatologistRatings;
+import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
+
 import java.util.*;
 import javax.persistence.*;
 
