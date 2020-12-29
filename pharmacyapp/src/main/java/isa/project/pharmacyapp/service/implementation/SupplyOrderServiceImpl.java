@@ -3,11 +3,14 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.SupplyOrder;
 import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderDrugID;
+import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderID;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.repository.SupplierRepository;
 import isa.project.pharmacyapp.repository.SupplyOrderRepository;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
+
+    @Autowired
+    private SupplierRepository supplierRepository;
 
 
     @Override
@@ -63,9 +69,17 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             throw new Exception("Pharmacy does not exists");
         }
 
+        Supplier supplier = supplierRepository.findById(orderDTO.getSupplierID()).orElse(null);
+        if(supplier == null){
+            throw new Exception("Supplier does not exists");
+        }
+
         SupplyOrderDTO.dto2Order(order, orderDTO);
 
+
+
         order.setPharmacy(pharmacy);
+        order.setSupplier(supplier);
 
         try {
             order = orderRepository.save(order);

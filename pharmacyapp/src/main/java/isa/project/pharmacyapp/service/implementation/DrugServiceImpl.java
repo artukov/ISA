@@ -178,7 +178,7 @@ public class DrugServiceImpl implements DrugService {
          * If drug does not exists in the pharmacy than we need to create a new row in the database
          * pharmacy_drug table
          * */
-        if(drugRepository.findInPharmacy(pharmacyID, drug.getId()) == 0.0 ){
+        if(!this.drugExistsInPharmacy(drugDTO.getId(), pharmacyID)){
             List<PharmacyDrug> pharmacyDrugs = drug.getPharmacies();
 
             /**
@@ -211,6 +211,21 @@ public class DrugServiceImpl implements DrugService {
 
 
 
+    }
+
+    /**
+     * Returns true if the drug exists in pharmacy records
+     * Returns false if the other case
+     * @param drugID
+     * @param pharmacyID
+     * */
+    @Override
+    public boolean drugExistsInPharmacy(Long drugID, Long pharmacyID) {
+
+        if(drugRepository.findInPharmacy(pharmacyID, drugID) == 0.0 ){
+            return false;
+        }
+        return true;
     }
 
     private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs){

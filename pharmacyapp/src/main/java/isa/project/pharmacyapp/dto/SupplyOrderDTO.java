@@ -21,12 +21,13 @@ public class SupplyOrderDTO {
 
     private List<Integer> amount;
     private Long pharmacyID;
+    private Long supplierID;
 
     public SupplyOrderDTO() {
     }
 
     public SupplyOrderDTO(Long id, OrderStatus status, Date deadlineDate, Date deliveryDate,
-                          List<Long> drugs, Double priceOffer, List<Integer> amount, Long pharmacyID) {
+                          List<Long> drugs, Double priceOffer, List<Integer> amount, Long pharmacyID, Long supplierID) {
         this.id = id;
         this.status = status;
         this.deadlineDate = deadlineDate;
@@ -35,6 +36,7 @@ public class SupplyOrderDTO {
         this.priceOffer = priceOffer;
         this.amount = amount;
         this.pharmacyID = pharmacyID;
+        this.supplierID = supplierID;
     }
 
     public static void dto2Order(SupplyOrder order, SupplyOrderDTO orderDTO) {
@@ -107,5 +109,13 @@ public class SupplyOrderDTO {
 
     public void setPharmacyID(Long pharmacyID) {
         this.pharmacyID = pharmacyID;
+    }
+
+    public Long getSupplierID() {
+        return supplierID;
+    }
+
+    public void setSupplierID(Long supplierID) {
+        this.supplierID = supplierID;
     }
 }

@@ -4,6 +4,7 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class SupplyOrder
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderID;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 
 import java.util.*;
@@ -39,6 +40,9 @@ public class SupplyOrder {
    @JoinColumn(name = "pharmacy_id")
    private Pharmacy pharmacy;
 
+   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "supplier_id")
+   private Supplier supplier;
 
 
    public SupplyOrder() {
@@ -50,6 +54,14 @@ public class SupplyOrder {
 
    public void setId(Long id) {
       this.id = id;
+   }
+
+   public Supplier getSupplier() {
+      return supplier;
+   }
+
+   public void setSupplier(Supplier supplier) {
+      this.supplier = supplier;
    }
 
    public OrderStatus getStatus() {
