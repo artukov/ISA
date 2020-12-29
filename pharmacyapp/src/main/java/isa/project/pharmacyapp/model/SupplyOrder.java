@@ -20,7 +20,7 @@ public class SupplyOrder {
 
    /** @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700 */
    @Column(nullable = true)
-   private Boolean status;
+   private OrderStatus status;
    /** @pdOid a470a81c-268d-456b-934f-6cdb8867caac */
    @Column(nullable = false, name = "deadline_date")
    private Date deadlineDate;
@@ -52,11 +52,11 @@ public class SupplyOrder {
       this.id = id;
    }
 
-   public Boolean getStatus() {
+   public OrderStatus getStatus() {
       return status;
    }
 
-   public void setStatus(Boolean status) {
+   public void setStatus(OrderStatus status) {
       this.status = status;
    }
 

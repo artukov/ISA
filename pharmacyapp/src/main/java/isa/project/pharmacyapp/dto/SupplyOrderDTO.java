@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.SupplyOrder;
 
 import java.util.Date;
@@ -9,7 +10,8 @@ import java.util.List;
 public class SupplyOrderDTO {
 
     private Long id;
-    private Boolean status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private OrderStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
     private Date deadlineDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
@@ -23,7 +25,7 @@ public class SupplyOrderDTO {
     public SupplyOrderDTO() {
     }
 
-    public SupplyOrderDTO(Long id, Boolean status, Date deadlineDate, Date deliveryDate,
+    public SupplyOrderDTO(Long id, OrderStatus status, Date deadlineDate, Date deliveryDate,
                           List<Long> drugs, Double priceOffer, List<Integer> amount, Long pharmacyID) {
         this.id = id;
         this.status = status;
@@ -51,11 +53,11 @@ public class SupplyOrderDTO {
         this.id = id;
     }
 
-    public Boolean getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
