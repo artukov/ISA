@@ -52,8 +52,10 @@ public class Patient extends User {
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "receipt_id")
    public java.util.List<EReceipt> eReceipt;
-   
-   
+
+   public Patient() {
+   }
+
    /** @pdGenerated default getter */
    public java.util.List<Reservation> getReservation() {
       if (reservation == null)

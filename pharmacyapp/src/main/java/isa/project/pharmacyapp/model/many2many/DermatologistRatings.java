@@ -1,4 +1,4 @@
-package isa.project.pharmacyapp.model;
+package isa.project.pharmacyapp.model.many2many;
 
 import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
 

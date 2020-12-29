@@ -4,6 +4,8 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class Drug
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
+
 import java.util.*;
 import javax.persistence.*;
 /** @pdOid 61c8608a-4d7a-4c58-a985-fea7e9bef4ed */

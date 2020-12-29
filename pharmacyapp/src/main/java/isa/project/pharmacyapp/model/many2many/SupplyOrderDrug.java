@@ -1,6 +1,6 @@
-package isa.project.pharmacyapp.model;
+package isa.project.pharmacyapp.model.many2many;
 
-import isa.project.pharmacyapp.model.embedded_ids.PharmacyDrugID;
+import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderDrugID;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -8,23 +8,23 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pharmacy_drug")
-public class PharmacyDrug {
+@Table(name = "supply_drug")
+public class SupplyOrderDrug  {
 
     @EmbeddedId
-    private PharmacyDrugID id;
+    private SupplyOrderDrugID id;
 
-    @Column(name = "amount")
+    @Column(nullable = false)
     private Integer amount;
 
-    public PharmacyDrug() {
+    public SupplyOrderDrug() {
     }
 
-    public PharmacyDrugID getId() {
+    public SupplyOrderDrugID getId() {
         return id;
     }
 
-    public void setId(PharmacyDrugID id) {
+    public void setId(SupplyOrderDrugID id) {
         this.id = id;
     }
 
