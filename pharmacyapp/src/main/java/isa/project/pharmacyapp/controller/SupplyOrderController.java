@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
+import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.service.DrugService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,19 @@ public class SupplyOrderController {
     @Autowired
     private SupplyOrderService supplyOrderService;
 
-    @Autowired
-    private DrugService drugService;
+//    @Autowired
+//    private DrugService drugService;
+
+    @GetMapping(value = "/findStatus/{status}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllPharmacyOrders(@PathVariable("status") OrderStatus status,
+                                                  @PathVariable("pharmacyID") Long pharmacyID){
+
+        List<SupplyOrderDTO> orderDTOS = supplyOrderService.findPharmacyOrders(pharmacyID, status);
+
+        return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
+
+    }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -71,9 +83,11 @@ public class SupplyOrderController {
             supplyOrderService.modifySupplyOrderOffer(orderDTO.getId(), orderDTO);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
 }

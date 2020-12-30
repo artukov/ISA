@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
+import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.SupplyOrder;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface SupplyOrderService {
 
     SupplyOrderDTO findById(Long id);
-    List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID);
+    List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID, OrderStatus status);
 
     void createNewSupplyOrder(SupplyOrderDTO orderDTO) throws Exception;
     void modifySupplyOrder(Long id, SupplyOrderDTO orderDTO);

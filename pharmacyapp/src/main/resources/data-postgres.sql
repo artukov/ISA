@@ -1,14 +1,5 @@
 
--- create index email_index_pharmacy_admin on pharmacy_admin (email);
--- create index email_index_dermatologist on dermatologist (email);
--- create index email_index_pharmacist on pharmacist (email);
--- create index email_index_patient on patient (email);
--- create index email_index_supplier on supplier (email);
-
 alter table calendar_appointments add appointment_date timestamp;
-
--- alter table pharmacy_derma add start_hour timestamp;
--- alter table pharmacy_derma add hours numeric;
 
 insert into public.address(id, street, street_number, city, country) values (200,'street', 15,'city','country');
 

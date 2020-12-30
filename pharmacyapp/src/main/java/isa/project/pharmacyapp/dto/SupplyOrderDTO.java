@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.SupplyOrder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,28 @@ public class SupplyOrderDTO {
         order.setDeadlineDate(orderDTO.getDeadlineDate());
         order.setDeliveryDate(orderDTO.getDeliveryDate());
         order.setPriceOffer(orderDTO.getPriceOffer());
+    }
+
+    public static SupplyOrderDTO order2DTO(SupplyOrder order) {
+        SupplyOrderDTO dto = new SupplyOrderDTO(
+                order.getId(),
+                order.getStatus(),
+                order.getDeadlineDate(),
+                order.getDeliveryDate(),
+                new ArrayList<>(),
+                order.getPriceOffer(),
+                new ArrayList<>(),
+                order.getPharmacy().getId(),
+                order.getSupplier().getId()
+        );
+
+        for(int i = 0; i < order.getDrugs().size(); i++){
+            dto.getDrugs().add(order.getDrugs().get(i).getId().getDrug().getId());
+            dto.getAmount().add(order.getDrugs().get(i).getAmount());
+        }
+
+        return dto;
+
     }
 
 

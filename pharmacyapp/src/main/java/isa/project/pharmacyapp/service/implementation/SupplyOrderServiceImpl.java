@@ -1,10 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
-import isa.project.pharmacyapp.model.Drug;
-import isa.project.pharmacyapp.model.Pharmacy;
-import isa.project.pharmacyapp.model.Supplier;
-import isa.project.pharmacyapp.model.SupplyOrder;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderDrugID;
 import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderID;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
@@ -45,8 +42,16 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     }
 
     @Override
-    public List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID) {
-        return null;
+    public List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID, OrderStatus status) {
+
+        List<SupplyOrder> orders = orderRepository.findByStatusPharmacyID(status,pharmacyID);
+        ArrayList<SupplyOrderDTO> retOrders = new ArrayList<>();
+        for(SupplyOrder order : orders){
+            retOrders.add(SupplyOrderDTO.order2DTO(order));
+        }
+
+        return retOrders;
+
     }
 
     @Override

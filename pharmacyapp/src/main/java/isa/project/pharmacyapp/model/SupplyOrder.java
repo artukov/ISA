@@ -12,7 +12,10 @@ import javax.persistence.*;
 
 /** @pdOid cd2c2f65-f35f-46a4-b587-c7a9716a8ed9 */
 @Entity
-@Table(name = "supply_order")
+@Table(name = "supply_order",
+        uniqueConstraints = {@UniqueConstraint(
+                columnNames = {"id", "supplier_id"}
+        )})
 public class SupplyOrder {
 
    @Id
