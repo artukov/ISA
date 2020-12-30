@@ -8,10 +8,8 @@ import isa.project.pharmacyapp.model.SupplyOrder;
 import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderDrugID;
 import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderID;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
-import isa.project.pharmacyapp.repository.DrugRepository;
-import isa.project.pharmacyapp.repository.PharmacyRepository;
-import isa.project.pharmacyapp.repository.SupplierRepository;
-import isa.project.pharmacyapp.repository.SupplyOrderRepository;
+import isa.project.pharmacyapp.repository.*;
+import isa.project.pharmacyapp.security.TimeProvider;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +31,12 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    @Autowired
+    private WareHouseRepository wareHouseRepository;
+
+    @Autowired
+    private TimeProvider timeProvider;
 
 
     @Override
@@ -133,6 +137,44 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
         }
 
 
+
+    }
+
+    @Override
+    public void modifySupplyOrderOffer(Long id, SupplyOrderDTO orderDTO) throws Exception {
+
+        if(timeProvider.now().after(orderDTO.getDeadlineDate())){
+            throw  new Exception("Change of order is not available, because of the deadline");
+        }
+
+        SupplyOrder order = orderRepository.findById(id).orElse(null);
+        if(order == null){
+            throw new Exception("Order does not exist");
+        }
+
+        if(order.getSupplier().getId() != orderDTO.getSupplierID()){
+            throw  new Exception("Supplier id does not equal supplyorder supplier id");
+        }
+
+        Supplier supplier = supplierRepository.findById(orderDTO.getSupplierID()).orElse(null);
+
+        for(int i = 0; i < orderDTO.getDrugs().size(); i++){
+            Integer stashedAmount = wareHouseRepository.getAmountOfDrugs(orderDTO.getDrugs().get(i), supplier.getId());
+
+            if(stashedAmount < orderDTO.getAmount().get(i)){
+                throw new Exception("Supplier does not have enough amount for drugs in warehouse");
+            }
+        }
+
+        order.setPriceOffer(orderDTO.getPriceOffer());
+        order.setDeliveryDate(orderDTO.getDeliveryDate());
+
+        try{
+            orderRepository.save(order);
+        }
+        catch (Exception e){
+            throw new Exception("Saving order with price offer");
+        }
 
     }
 }

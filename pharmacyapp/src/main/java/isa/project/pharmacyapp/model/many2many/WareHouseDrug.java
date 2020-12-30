@@ -1,0 +1,38 @@
+package isa.project.pharmacyapp.model.many2many;
+
+import isa.project.pharmacyapp.model.embedded_ids.WareHouseDrugID;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "warehouse_drug")
+public class WareHouseDrug {
+
+    @EmbeddedId
+    private WareHouseDrugID id;
+
+    @Column(nullable =  false)
+    private Integer amount;
+
+    public WareHouseDrug() {
+    }
+
+    public WareHouseDrugID getId() {
+        return id;
+    }
+
+    public void setId(WareHouseDrugID id) {
+        this.id = id;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+}
