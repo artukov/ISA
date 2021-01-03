@@ -19,22 +19,8 @@ public class SupplyOrder {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
-   /**
-    * @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700
-    */
-   @Column(nullable = true)
-   private OrderStatus status;
-   /**
-    * @pdOid a470a81c-268d-456b-934f-6cdb8867caac
-    */
    @Column(nullable = false, name = "deadline_date")
    private Date deadlineDate;
-
-//   @Column(nullable = false, name = "delivery_date")
-//   private Date deliveryDate;
-//
-//   @Column(nullable = true, name = "offer")
-//   private Double priceOffer;
 
    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "supply_id")
@@ -44,9 +30,6 @@ public class SupplyOrder {
    @JoinColumn(name = "admin_id", referencedColumnName = "id")
    private PharmacyAdmin pharmacyAdmin;
 
-//   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//   @JoinColumn(name = "supplier_id")
-//   private Supplier supplier;
 
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "order_id", referencedColumnName = "id")
@@ -62,14 +45,6 @@ public class SupplyOrder {
 
    public void setId(Long id) {
       this.id = id;
-   }
-
-   public OrderStatus getStatus() {
-      return status;
-   }
-
-   public void setStatus(OrderStatus status) {
-      this.status = status;
    }
 
    public Date getDeadlineDate() {

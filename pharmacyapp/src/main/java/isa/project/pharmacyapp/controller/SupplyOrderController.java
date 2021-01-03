@@ -1,8 +1,11 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.OrderStatus;
+import isa.project.pharmacyapp.model.SupplyOrder;
+import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.service.DrugService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +27,10 @@ public class SupplyOrderController {
     @Autowired
     private SupplyOrderService supplyOrderService;
 
-//    @Autowired
-//    private DrugService drugService;
+    @Autowired
+    private DrugService drugService;
 
-    @GetMapping(value = "/findStatus/{status}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findWithStatus/{status}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPharmacyOrders(@PathVariable("status") OrderStatus status,
                                                   @PathVariable("pharmacyID") Long pharmacyID){
@@ -46,9 +49,6 @@ public class SupplyOrderController {
          * TODO
          * Check if drug exists in the pharmacy
          * */
-//        for(Long drugID : orderDTO.getDrugs()){
-//            if(drugService.drugExistsInPharmacy(drugID, orderDTO.getPharmacyID()));
-//        }
 
         try {
             this.supplyOrderService.createNewSupplyOrder(orderDTO);
@@ -62,16 +62,27 @@ public class SupplyOrderController {
 
     }
 
-    @PostMapping(value = "/new/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/acceptOffer", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public  ResponseEntity<?> createListOfSupplyOrders(@RequestBody List<SupplyOrderDTO> orderDTOS){
+    public  ResponseEntity<?> acceptOfferForOrder(@RequestBody OrderSupplierDTO dto){
 
-        for(SupplyOrderDTO orderDTO : orderDTOS){
+        SupplyOrder order = null;
+
+        try {
+            order =  supplyOrderService.acceptOfferForOrder(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        for(SupplyOrderDrug drug : order.getDrugs()){
+//            DrugDTO drugDTO = drugService.findById(drug.getId().getDrug().getId());
             try {
-                supplyOrderService.createNewSupplyOrder(orderDTO);
+                drugService.addToPharmacyDrug(drug.getId().getDrug(),
+                        order.getPharmacyAdmin().getPharmacy().getId(),drug.getAmount());
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 

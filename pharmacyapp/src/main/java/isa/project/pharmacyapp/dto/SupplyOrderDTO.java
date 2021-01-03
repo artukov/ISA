@@ -11,8 +11,7 @@ import java.util.List;
 public class SupplyOrderDTO {
 
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private OrderStatus status;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
     private Date deadlineDate;
     private Long adminID;
@@ -20,10 +19,6 @@ public class SupplyOrderDTO {
     private List<Long> drugs;
     private List<Integer> amount;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
-//    private Date deliveryDate;
-//    private Double priceOffer;
-//    private Long supplierID;
 
     private List<OrderSupplierDTO> supplierDTOS;
 
@@ -35,10 +30,9 @@ public class SupplyOrderDTO {
     }
 
 
-    public SupplyOrderDTO(Long id, OrderStatus status, Date deadlineDate, Long adminID,
+    public SupplyOrderDTO(Long id, Date deadlineDate, Long adminID,
                           List<Long> drugs, List<Integer> amount, List<OrderSupplierDTO> supplierDTOS) {
         this.id = id;
-        this.status = status;
         this.deadlineDate = deadlineDate;
         this.adminID = adminID;
         this.drugs = drugs;
@@ -47,14 +41,12 @@ public class SupplyOrderDTO {
     }
 
     public static void dto2Order(SupplyOrder order, SupplyOrderDTO orderDTO) {
-        order.setStatus(orderDTO.getStatus());
         order.setDeadlineDate(orderDTO.getDeadlineDate());
     }
 
     public static SupplyOrderDTO order2DTO(SupplyOrder order) {
         SupplyOrderDTO dto = new SupplyOrderDTO(
                 order.getId(),
-                order.getStatus(),
                 order.getDeadlineDate(),
                 order.getPharmacyAdmin().getId(),
                 new ArrayList<>(),//drugs
@@ -77,14 +69,6 @@ public class SupplyOrderDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
     }
 
     public Date getDeadlineDate() {

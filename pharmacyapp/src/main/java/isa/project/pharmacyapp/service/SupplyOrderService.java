@@ -18,4 +18,7 @@ public interface SupplyOrderService {
     void saveSupplyOrder(SupplyOrder order, SupplyOrderDTO orderDTO) throws Exception;
 
     void modifyOrderWithOffer(OrderSupplierDTO dto) throws Exception;
+
+
+    SupplyOrder acceptOfferForOrder(OrderSupplierDTO dto) throws Exception;
 }

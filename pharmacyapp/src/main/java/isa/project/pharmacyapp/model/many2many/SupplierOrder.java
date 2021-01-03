@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.model.many2many;
 
+import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.embedded_ids.OrderSupplierID;
 
 import javax.persistence.Column;
@@ -20,6 +21,9 @@ public class SupplierOrder {
 
     @Column(nullable = true, name = "price_offer")
     private Double priceOffer;
+
+    @Column(nullable = false)
+    private OrderStatus status;
 
     public SupplierOrder() {
     }
@@ -46,5 +50,13 @@ public class SupplierOrder {
 
     public void setPriceOffer(Double priceOffer) {
         this.priceOffer = priceOffer;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

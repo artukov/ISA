@@ -24,4 +24,6 @@ public interface DrugService {
 
 
     boolean drugExistsInPharmacy(Long drugID, Long pharmacyID);
+
+    void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception;
 }

@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import isa.project.pharmacyapp.model.OrderStatus;
 
 import java.util.Date;
 
@@ -11,6 +12,8 @@ public class OrderSupplierDTO {
     private Double priceOffer;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
     private Date deliveryDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private OrderStatus status;
 
     public OrderSupplierDTO() {
     }
@@ -45,5 +48,13 @@ public class OrderSupplierDTO {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

@@ -138,12 +138,22 @@ INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, la
 VALUES (700, 'supplier@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
 
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
+
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
+INSERT INTO warehouse(id, size, supplier_id) VALUES (101, 500, 701);
 
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 200, 100);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 100);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 100);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 100);
+
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 200, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101);
 
 --inserting authority
 

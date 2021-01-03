@@ -47,6 +47,10 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     @Override
     public List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID, OrderStatus status) {
 
+        /**
+         * TODO
+         * Fix finding by status
+         * */
         List<SupplyOrder> orders = orderRepository.findByStatusPharmacyID(status,pharmacyID);
         ArrayList<SupplyOrderDTO> retOrders = new ArrayList<>();
         for(SupplyOrder order : orders){
@@ -93,12 +97,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             throw new Exception("saving supply order");
         }
 
-        /**
-         * TODO
-         * Set price offer
-         * Set deliveryDate
-         * Set supplier
-         * */
+
 
         ArrayList<SupplierOrder> suppliers = new ArrayList<>();
 
@@ -118,6 +117,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             supplierOrder.setId(id);
             supplierOrder.setPriceOffer(supplierDTO.getPriceOffer());
             supplierOrder.setDeliveryDate(supplierDTO.getDeliveryDate());
+            supplierOrder.setStatus(OrderStatus.PENDING);
 
             suppliers.add(supplierOrder);
 
@@ -182,8 +182,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             throw new Exception("Order does not exists");
         }
 
-        if((timeProvider.now().after(order.getDeadlineDate()))
-                || (!order.getStatus().equals(OrderStatus.PENDING)) ){
+        if((timeProvider.now().after(order.getDeadlineDate()))){
             throw new Exception("To late to place an offer");
         }
 
@@ -211,6 +210,44 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
            throw new Exception("Updating order");
         }
     }
+
+    @Override
+    public SupplyOrder acceptOfferForOrder(OrderSupplierDTO dto) throws Exception {
+        SupplyOrder order = orderRepository.findById(dto.getOrderID()).orElse(null);
+        if(order == null){
+            throw new Exception("Order does not exists");
+        }
+        Supplier supplier = supplierRepository.findById(dto.getSupplierID()).orElse(null);
+        if(supplier == null){
+            throw new Exception("Supplier does not exists");
+        }
+
+        for(SupplierOrder supplierOrder : order.getSuppliers()){
+            if(supplierOrder.getId().getSupplier().getId() == dto.getSupplierID()){
+                supplierOrder.setStatus(OrderStatus.ACCEPTED);
+            }
+            else{
+                supplierOrder.setStatus(OrderStatus.DENIED);
+            }
+
+        }
+
+        try{
+            orderRepository.save(order);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Saving accepted order");
+        }
+
+        return  order;
+
+    }
+
+    /**
+     * TODO
+     * Decrease size in the warehouse after accepting drug order
+     * */
 
 //    @Override
 //    public void modifySupplyOrderOffer(Long id, SupplyOrderDTO orderDTO) throws Exception {
