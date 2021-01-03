@@ -45,7 +45,7 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
     @Modifying
     @Query(value = "UPDATE pharmacy_drug " +
-            "SET amount = :amount " +
+            "SET amount = amount + :amount " +
             "WHERE pharmacy_id = :pharmacyID AND drug_id = :drugID "
             ,nativeQuery = true)
     void addDrugToPharmacy(@Param("drugID") Long drugID,@Param("pharmacyID") Long pharmacyID,@Param("amount") Integer amount);

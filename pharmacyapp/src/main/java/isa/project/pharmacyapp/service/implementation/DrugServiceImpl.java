@@ -45,7 +45,8 @@ public class DrugServiceImpl implements DrugService {
         if(drug == null){
             throw  new NoSuchElementException(EXCEPTION_TEXT + "findById" + DOES_NOT_EXISTS);
         }
-        return DrugDTO.drug2DTO(drug);
+
+        return  DrugDTO.drug2DTO(drug);
     }
 
     @Override
@@ -178,7 +179,7 @@ public class DrugServiceImpl implements DrugService {
          * If drug does not exists in the pharmacy than we need to create a new row in the database
          * pharmacy_drug table
          * */
-        if(drugRepository.findInPharmacy(pharmacyID, drug.getId()) == 0.0 ){
+        if(!this.drugExistsInPharmacy(drugDTO.getId(), pharmacyID)){
             List<PharmacyDrug> pharmacyDrugs = drug.getPharmacies();
 
             /**
@@ -212,6 +213,67 @@ public class DrugServiceImpl implements DrugService {
 
 
     }
+
+    @Transactional
+    @Override
+    public void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+        if(pharmacy == null){
+            throw new Exception("pharmacy not found");
+        }
+        /**
+         * If drug does not exists in the pharmacy than we need to create a new row in the database
+         * pharmacy_drug table
+         * */
+        if(!this.drugExistsInPharmacy(drug.getId(), pharmacyID)){
+            List<PharmacyDrug> pharmacyDrugs = drug.getPharmacies();
+
+            /**
+             * Inserting new row into pharmacy_drug table
+             * Need new instances of {@code PharmacyDrug} and {@code PharmacyDrugID} classes
+             * */
+
+            PharmacyDrug pd = new PharmacyDrug();
+
+            /**
+             * Setting the ids
+             * */
+            PharmacyDrugID id = new PharmacyDrugID();
+            id.setPharmacy(pharmacy);
+            id.setDrug(drug);
+
+            pd.setId(id);
+            pd.setAmount(amount);
+
+            pharmacyDrugs.add(pd);
+
+            drugRepository.save(drug);
+        }
+        else{
+            /**
+             * Update database if the relationship already exists between pharmacy and drug
+             * */
+
+            drugRepository.addDrugToPharmacy(drug.getId(), pharmacyID, amount);
+        }
+    }
+
+    /**
+     * Returns true if the drug exists in pharmacy records
+     * Returns false if the other case
+     * @param drugID
+     * @param pharmacyID
+     * */
+    @Override
+    public boolean drugExistsInPharmacy(Long drugID, Long pharmacyID) {
+
+        if(drugRepository.findInPharmacy(pharmacyID, drugID) == 0.0 ){
+            return false;
+        }
+        return true;
+    }
+
+
 
     private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs){
         ArrayList<DrugDTO> drugDTOS = new ArrayList<>();

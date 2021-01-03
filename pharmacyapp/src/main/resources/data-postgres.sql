@@ -1,14 +1,5 @@
 
--- create index email_index_pharmacy_admin on pharmacy_admin (email);
--- create index email_index_dermatologist on dermatologist (email);
--- create index email_index_pharmacist on pharmacist (email);
--- create index email_index_patient on patient (email);
--- create index email_index_supplier on supplier (email);
-
 alter table calendar_appointments add appointment_date timestamp;
-
--- alter table pharmacy_derma add start_hour timestamp;
--- alter table pharmacy_derma add hours numeric;
 
 insert into public.address(id, street, street_number, city, country) values (200,'street', 15,'city','country');
 
@@ -141,6 +132,28 @@ INSERT INTO public.system_admin(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
 VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764', 200);
+
+
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+VALUES (700, 'supplier@live.com', true, 'system admin', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
+
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
+
+INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
+INSERT INTO warehouse(id, size, supplier_id) VALUES (101, 500, 701);
+
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 200, 100);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 100);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 100);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 100);
+
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 200, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 101);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101);
 
 --inserting authority
 

@@ -4,6 +4,8 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class Supplier
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.SupplierOrder;
+
 import java.util.*;
 import javax.persistence.*;
 
@@ -19,6 +21,10 @@ public class Supplier extends User {
    @JoinColumn(name = "address")
    public Address address;
 
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+   private List<SupplierOrder> orders;
+
    public Supplier() {
    }
 
@@ -30,5 +36,13 @@ public class Supplier extends User {
    @Override
    public void setAddress(Address address) {
       this.address = address;
+   }
+
+   public List<SupplierOrder> getOrders() {
+      return orders;
+   }
+
+   public void setOrders(List<SupplierOrder> orders) {
+      this.orders = orders;
    }
 }

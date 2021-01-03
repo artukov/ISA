@@ -4,6 +4,7 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class SupplyOrder
  ***********************************************************************/
 
+import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 
 import java.util.*;
@@ -18,27 +19,21 @@ public class SupplyOrder {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
-   /** @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700 */
-   @Column(nullable = true)
-   private Boolean status;
-   /** @pdOid a470a81c-268d-456b-934f-6cdb8867caac */
    @Column(nullable = false, name = "deadline_date")
    private Date deadlineDate;
-
-   @Column(nullable = false, name = "delivery_date")
-   private Date deliveryDate;
-
-   @Column(nullable = true, name = "offer")
-   private Double priceOffer;
 
    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "supply_id")
    private List<SupplyOrderDrug> drugs;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
-   private Pharmacy pharmacy;
+   @JoinColumn(name = "admin_id", referencedColumnName = "id")
+   private PharmacyAdmin pharmacyAdmin;
 
+
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "order_id", referencedColumnName = "id")
+   private List<SupplierOrder> suppliers;
 
 
    public SupplyOrder() {
@@ -52,28 +47,12 @@ public class SupplyOrder {
       this.id = id;
    }
 
-   public Boolean getStatus() {
-      return status;
-   }
-
-   public void setStatus(Boolean status) {
-      this.status = status;
-   }
-
    public Date getDeadlineDate() {
       return deadlineDate;
    }
 
    public void setDeadlineDate(Date deadlineDate) {
       this.deadlineDate = deadlineDate;
-   }
-
-   public Date getDeliveryDate() {
-      return deliveryDate;
-   }
-
-   public void setDeliveryDate(Date deliveryDate) {
-      this.deliveryDate = deliveryDate;
    }
 
    public List<SupplyOrderDrug> getDrugs() {
@@ -84,19 +63,19 @@ public class SupplyOrder {
       this.drugs = drugs;
    }
 
-   public Double getPriceOffer() {
-      return priceOffer;
+   public PharmacyAdmin getPharmacyAdmin() {
+      return pharmacyAdmin;
    }
 
-   public void setPriceOffer(Double priceOffer) {
-      this.priceOffer = priceOffer;
+   public void setPharmacyAdmin(PharmacyAdmin pharmacyAdmin) {
+      this.pharmacyAdmin = pharmacyAdmin;
    }
 
-   public Pharmacy getPharmacy() {
-      return pharmacy;
+   public List<SupplierOrder> getSuppliers() {
+      return suppliers;
    }
 
-   public void setPharmacy(Pharmacy pharmacy) {
-      this.pharmacy = pharmacy;
+   public void setSuppliers(List<SupplierOrder> suppliers) {
+      this.suppliers = suppliers;
    }
 }

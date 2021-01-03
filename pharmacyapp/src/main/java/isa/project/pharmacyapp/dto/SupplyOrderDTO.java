@@ -1,45 +1,65 @@
 package isa.project.pharmacyapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.SupplyOrder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class SupplyOrderDTO {
 
     private Long id;
-    private Boolean status;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
     private Date deadlineDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
-    private Date deliveryDate;
-    private List<Long> drugs;
-    private Double priceOffer;
+    private Long adminID;
 
+    private List<Long> drugs;
     private List<Integer> amount;
-    private Long pharmacyID;
+
+
+    private List<OrderSupplierDTO> supplierDTOS;
+
+
+
+
 
     public SupplyOrderDTO() {
     }
 
-    public SupplyOrderDTO(Long id, Boolean status, Date deadlineDate, Date deliveryDate,
-                          List<Long> drugs, Double priceOffer, List<Integer> amount, Long pharmacyID) {
+
+    public SupplyOrderDTO(Long id, Date deadlineDate, Long adminID,
+                          List<Long> drugs, List<Integer> amount, List<OrderSupplierDTO> supplierDTOS) {
         this.id = id;
-        this.status = status;
         this.deadlineDate = deadlineDate;
-        this.deliveryDate = deliveryDate;
+        this.adminID = adminID;
         this.drugs = drugs;
-        this.priceOffer = priceOffer;
         this.amount = amount;
-        this.pharmacyID = pharmacyID;
+        this.supplierDTOS = supplierDTOS;
     }
 
     public static void dto2Order(SupplyOrder order, SupplyOrderDTO orderDTO) {
-        order.setStatus(orderDTO.getStatus());
         order.setDeadlineDate(orderDTO.getDeadlineDate());
-        order.setDeliveryDate(orderDTO.getDeliveryDate());
-        order.setPriceOffer(orderDTO.getPriceOffer());
+    }
+
+    public static SupplyOrderDTO order2DTO(SupplyOrder order) {
+        SupplyOrderDTO dto = new SupplyOrderDTO(
+                order.getId(),
+                order.getDeadlineDate(),
+                order.getPharmacyAdmin().getId(),
+                new ArrayList<>(),//drugs
+                new ArrayList<>(), // amount,
+                new ArrayList<>() // Order Supplier
+        );
+
+        for(int i = 0; i < order.getDrugs().size(); i++){
+            dto.getDrugs().add(order.getDrugs().get(i).getId().getDrug().getId());
+            dto.getAmount().add(order.getDrugs().get(i).getAmount());
+        }
+        return dto;
+
     }
 
 
@@ -51,28 +71,12 @@ public class SupplyOrderDTO {
         this.id = id;
     }
 
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
     public Date getDeadlineDate() {
         return deadlineDate;
     }
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
-    }
-
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
     }
 
     public List<Long> getDrugs() {
@@ -83,14 +87,6 @@ public class SupplyOrderDTO {
         this.drugs = drugs;
     }
 
-    public Double getPriceOffer() {
-        return priceOffer;
-    }
-
-    public void setPriceOffer(Double priceOffer) {
-        this.priceOffer = priceOffer;
-    }
-
     public List<Integer> getAmount() {
         return amount;
     }
@@ -99,11 +95,19 @@ public class SupplyOrderDTO {
         this.amount = amount;
     }
 
-    public Long getPharmacyID() {
-        return pharmacyID;
+    public Long getAdminID() {
+        return adminID;
     }
 
-    public void setPharmacyID(Long pharmacyID) {
-        this.pharmacyID = pharmacyID;
+    public void setAdminID(Long adminID) {
+        this.adminID = adminID;
+    }
+
+    public List<OrderSupplierDTO> getSupplierDTOS() {
+        return supplierDTOS;
+    }
+
+    public void setSupplierDTOS(List<OrderSupplierDTO> supplierDTOS) {
+        this.supplierDTOS = supplierDTOS;
     }
 }

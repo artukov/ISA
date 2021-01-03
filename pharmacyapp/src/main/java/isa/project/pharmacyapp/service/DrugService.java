@@ -21,4 +21,9 @@ public interface DrugService {
     List<Double> getConsumptionStatistics(TimeSpam timeSpam, Long pharmacyID);
 
     void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception;
+
+
+    boolean drugExistsInPharmacy(Long drugID, Long pharmacyID);
+
+    void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception;
 }
