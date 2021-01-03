@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.service;
 
+import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.SupplyOrder;
@@ -16,5 +17,5 @@ public interface SupplyOrderService {
 
     void saveSupplyOrder(SupplyOrder order, SupplyOrderDTO orderDTO) throws Exception;
 
-    void modifySupplyOrderOffer(Long id, SupplyOrderDTO orderDTO) throws Exception;
+    void modifyOrderWithOffer(OrderSupplierDTO dto) throws Exception;
 }

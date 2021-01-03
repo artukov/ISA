@@ -4,7 +4,7 @@ package isa.project.pharmacyapp.model; /****************************************
  * Purpose: Defines the Class SupplyOrder
  ***********************************************************************/
 
-import isa.project.pharmacyapp.model.embedded_ids.SupplyOrderID;
+import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 
 import java.util.*;
@@ -12,40 +12,45 @@ import javax.persistence.*;
 
 /** @pdOid cd2c2f65-f35f-46a4-b587-c7a9716a8ed9 */
 @Entity
-@Table(name = "supply_order",
-        uniqueConstraints = {@UniqueConstraint(
-                columnNames = {"id", "supplier_id"}
-        )})
+@Table(name = "supply_order")
 public class SupplyOrder {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
-   /** @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700 */
+   /**
+    * @pdOid 60cd11b0-d93a-4789-9eac-fc819e958700
+    */
    @Column(nullable = true)
    private OrderStatus status;
-   /** @pdOid a470a81c-268d-456b-934f-6cdb8867caac */
+   /**
+    * @pdOid a470a81c-268d-456b-934f-6cdb8867caac
+    */
    @Column(nullable = false, name = "deadline_date")
    private Date deadlineDate;
 
-   @Column(nullable = false, name = "delivery_date")
-   private Date deliveryDate;
-
-   @Column(nullable = true, name = "offer")
-   private Double priceOffer;
+//   @Column(nullable = false, name = "delivery_date")
+//   private Date deliveryDate;
+//
+//   @Column(nullable = true, name = "offer")
+//   private Double priceOffer;
 
    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "supply_id")
    private List<SupplyOrderDrug> drugs;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
-   private Pharmacy pharmacy;
+   @JoinColumn(name = "admin_id", referencedColumnName = "id")
+   private PharmacyAdmin pharmacyAdmin;
 
-   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "supplier_id")
-   private Supplier supplier;
+//   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn(name = "supplier_id")
+//   private Supplier supplier;
+
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "order_id", referencedColumnName = "id")
+   private List<SupplierOrder> suppliers;
 
 
    public SupplyOrder() {
@@ -57,14 +62,6 @@ public class SupplyOrder {
 
    public void setId(Long id) {
       this.id = id;
-   }
-
-   public Supplier getSupplier() {
-      return supplier;
-   }
-
-   public void setSupplier(Supplier supplier) {
-      this.supplier = supplier;
    }
 
    public OrderStatus getStatus() {
@@ -83,14 +80,6 @@ public class SupplyOrder {
       this.deadlineDate = deadlineDate;
    }
 
-   public Date getDeliveryDate() {
-      return deliveryDate;
-   }
-
-   public void setDeliveryDate(Date deliveryDate) {
-      this.deliveryDate = deliveryDate;
-   }
-
    public List<SupplyOrderDrug> getDrugs() {
       return drugs;
    }
@@ -99,19 +88,19 @@ public class SupplyOrder {
       this.drugs = drugs;
    }
 
-   public Double getPriceOffer() {
-      return priceOffer;
+   public PharmacyAdmin getPharmacyAdmin() {
+      return pharmacyAdmin;
    }
 
-   public void setPriceOffer(Double priceOffer) {
-      this.priceOffer = priceOffer;
+   public void setPharmacyAdmin(PharmacyAdmin pharmacyAdmin) {
+      this.pharmacyAdmin = pharmacyAdmin;
    }
 
-   public Pharmacy getPharmacy() {
-      return pharmacy;
+   public List<SupplierOrder> getSuppliers() {
+      return suppliers;
    }
 
-   public void setPharmacy(Pharmacy pharmacy) {
-      this.pharmacy = pharmacy;
+   public void setSuppliers(List<SupplierOrder> suppliers) {
+      this.suppliers = suppliers;
    }
 }

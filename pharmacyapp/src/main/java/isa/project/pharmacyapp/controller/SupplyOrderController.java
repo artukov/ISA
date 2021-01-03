@@ -42,6 +42,10 @@ public class SupplyOrderController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> createNewSupplyOrder(@RequestBody SupplyOrderDTO orderDTO) {
 
+        /**
+         * TODO
+         * Check if drug exists in the pharmacy
+         * */
 //        for(Long drugID : orderDTO.getDrugs()){
 //            if(drugService.drugExistsInPharmacy(drugID, orderDTO.getPharmacyID()));
 //        }
@@ -72,22 +76,6 @@ public class SupplyOrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    @PutMapping(value = "/makeAnOffer", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> makeAnOfferForSupply(@RequestBody SupplyOrderDTO orderDTO){
-
-        try {
-            supplyOrderService.modifySupplyOrderOffer(orderDTO.getId(), orderDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
 }
