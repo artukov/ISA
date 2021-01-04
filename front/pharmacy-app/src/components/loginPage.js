@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Form, Card } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+/* import axios from 'axios';
+
+
+import {urlAuthLogin} from '../services/UrlService';
+import token from '../services/TokenService';  */
+
+import login from '../services/LoginService';
 
 class loginPage extends Component {
     constructor(props) {
@@ -11,7 +17,7 @@ class loginPage extends Component {
         }
     }
 
-    login = e => {
+    loginFunc = async e => {
         e.preventDefault();
 
         const user = {
@@ -19,20 +25,35 @@ class loginPage extends Component {
             password: this.state.password
 
         }
+        
+        
+        try{
+            login(user.email, user.password);
+        }
+        catch(err){
+            alert('error');
+        }
+        
 
-        axios.post(`http://localhost:8080/auth/login`, user)
-            .then(res => {
-                if (res.status == 200) {
-                    window.location = "/home"
-                }
-            })
+        /* await axios.post(urlAuthLogin,user)
+        .then(res => {
+            token.setToken(res.data.accessToken, res.data.expiresIn);
+            console.log(token);
+            localStorage.setItem('token', token);
+            //window.location = "/home"
+        })
+        .catch(err => {
+            alert('You have entered wrong email or password\n'); 
+        }); */
 
+            
+        
     }
 
     render() {
         return (
             <div className='login'>
-                <Form onSubmit={this.login}>
+                <Form onSubmit={ this.loginFunc}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" name="email" placeholder="Enter email" onChange={(e) => this.setState({ email: e.target.value })} />

@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, Button, NavDropdown, FormControl } from 'react-bootstrap'
+//import axios from 'axios'
+import token from '../services/TokenService'
+import axiosConfig from '../config/AxiosConfig';
 
 class homePage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            token
+        }
 
     }
 
-    componentWillMount() {
+    /* componentWillMount() {
 
     }
 
-    componentDidMount() {
-
-    }
+    
 
     componentWillReceiveProps(nextProps) {
 
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
+  
 
     componentWillUpdate(nextProps, nextState) {
 
@@ -33,6 +35,21 @@ class homePage extends Component {
 
     componentWillUnmount() {
 
+    } */
+
+    shouldComponentUpdate(nextProps, nextState) {
+        
+    }
+
+    componentDidMount() {
+      
+    }
+
+    getAvg = () =>{
+        
+        axiosConfig.get('pharmacyadmin/avgPharmacyRating/200')
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
 
     render() {
@@ -59,6 +76,7 @@ class homePage extends Component {
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>
+                <Button onClick = {this.getAvg}>Get average pharmacy rating</Button>
             </div>
         );
     }
