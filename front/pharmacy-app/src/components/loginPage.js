@@ -28,7 +28,7 @@ class loginPage extends Component {
         
         
         try{
-            login(user.email, user.password);
+            await login(user.email, user.password);
         }
         catch(err){
             alert('error');

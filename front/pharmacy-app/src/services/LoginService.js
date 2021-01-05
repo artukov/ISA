@@ -2,18 +2,19 @@ import {urlAuthLogin} from './UrlService'
 import axiosConfig from '../config/AxiosConfig';
 import token from './TokenService'
 
-async function login(email,password){
+function login(email,password){
 
     const user = {
         email,
         password
     }
 
-
-    await axiosConfig.post(urlAuthLogin,user)
+    console.log('token before logion \n', token);
+    axiosConfig.post(urlAuthLogin,user)
     .then(res => {
 
         token.setToken(res.data.accessToken, res.data.expiresIn);    
+        console.log('token after login', token);
 
         localStorage.setItem('token', JSON.stringify(token)); 
        

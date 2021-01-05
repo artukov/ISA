@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, Button, NavDropdown, FormControl } from 'react-bootstrap'
-//import axios from 'axios'
-import token from '../services/TokenService'
+
 import axiosConfig from '../config/AxiosConfig';
 
 class homePage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            token
-        }
-
     }
 
     /* componentWillMount() {
