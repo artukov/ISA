@@ -10,7 +10,7 @@ import java.util.Objects;
 @Embeddable
 public class DermaPharmacyId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "derma_id")
     private Dermatologist dermatologist;
 

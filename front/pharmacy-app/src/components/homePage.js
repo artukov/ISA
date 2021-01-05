@@ -4,9 +4,9 @@ import { Navbar, Nav, Form, Button, NavDropdown, FormControl } from 'react-boots
 import axiosConfig from '../config/AxiosConfig';
 
 class homePage extends Component {
-    constructor(props) {
+    /* constructor(props) {
         super(props);
-    }
+    } */
 
     /* componentWillMount() {
 
@@ -40,9 +40,9 @@ class homePage extends Component {
       
     }
 
-    getAvg = () =>{
+    getCurrent = () =>{
         
-        axiosConfig.get('pharmacyadmin/avgPharmacyRating/200')
+        axiosConfig.post('/user/current')
         .then(res => console.log(res))
         .catch(err => console.log(err));
     }
@@ -71,7 +71,8 @@ class homePage extends Component {
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>
-                <Button onClick = {this.getAvg}>Get average pharmacy rating</Button>
+                <Button onClick = {() => this.getCurrent}>Get current user</Button>
+                <Button onClick = {() => window.location = '/pharmacy'}>Pharmacy</Button>
             </div>
         );
     }

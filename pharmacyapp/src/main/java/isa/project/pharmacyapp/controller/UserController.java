@@ -27,6 +27,7 @@ public class UserController {
     public ResponseEntity<?> currentUser(Principal user){
         System.out.println("User current " + user);
         User current = userService.findByEmail(user.getName());
+        System.out.println("User current \t\t\t\t\t\t\t" + current);
 
         return new ResponseEntity<>(current, HttpStatus.OK);
 
