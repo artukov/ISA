@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePharmacy } from '../../hooks/usePharmacy';
-//import usePharmacy from '../../hooks/usePharmacy';
-//import loadPharmacy from '../../services/LoadPharmacy';
-
+import AddressComponent from '../AddressComponent';
 
 const PharmacyComponent = () => {
 
@@ -18,6 +16,7 @@ const PharmacyComponent = () => {
     return ( 
         <div>
             {pharmacy.name}
+            <AddressComponent address = {pharmacy.address} ></AddressComponent>
         </div>
      );
 }

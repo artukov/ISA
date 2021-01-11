@@ -78,10 +78,12 @@ class PharmacyServiceImplTest {
 
         final Long id = 200L;
         final Double[] ratings = {1.5, 3.75, 4.0};
-        PharmacyDTO dto = new PharmacyDTO(id,"test_name","test_description",Arrays.asList(ratings),id,id);
-
         Address address = new Address();
         address.setId(id);
+
+        PharmacyDTO dto = new PharmacyDTO(id,"test_name","test_description",Arrays.asList(ratings),id, address);
+
+
 
         Calendar calendar = new Calendar();
         calendar.setId(id);
@@ -110,12 +112,14 @@ class PharmacyServiceImplTest {
     void shouldModifyPharmacyWithPassedDTO(){
         final Long id = 200L;
         final Double[] ratings = {1.5, 3.75, 4.0};
-        PharmacyDTO dto = new PharmacyDTO(id,"test_name","test_description",Arrays.asList(ratings),id,id);
+        Address address = new Address();
+        address.setId(id);
+
+        PharmacyDTO dto = new PharmacyDTO(id,"test_name","test_description",Arrays.asList(ratings),id,address);
         Pharmacy pharmacy = new Pharmacy();
         pharmacy.setId(id);
 
-        Address address = new Address();
-        address.setId(id);
+
 
         Calendar calendar = new Calendar();
         calendar.setId(id);

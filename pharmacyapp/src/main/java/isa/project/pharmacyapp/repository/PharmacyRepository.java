@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.model.Address;
 import isa.project.pharmacyapp.model.Pharmacy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,5 +20,8 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
     Double getAvgRating(@Param("pharmacyId") Long pharmacyId);
 
 
-
+    @Query(value = "SELECT a.* FROM address a " +
+            " INNER JOIN pharmacy p on a.id = p.address_id \n" +
+            "WHERE p.id = :pharmacyID",nativeQuery = true)
+    Address getAddress(@Param("pharmacyID") Long pharmacyID);
 }

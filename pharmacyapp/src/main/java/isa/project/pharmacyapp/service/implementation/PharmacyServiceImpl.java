@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
+import isa.project.pharmacyapp.model.Address;
 import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -105,11 +106,17 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     }
 
+    @Override
+    public Address getAddress(Long id) {
+        Address  pharmacyAddress = pharmacyRepository.getAddress(id);
+        return pharmacyAddress;
+    }
+
     private void savePharmacy(Pharmacy pharmacy, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {
 
         PharmacyDTO.dto2Pharmacy(pharmacy, pharmacyDTO);
 
-        pharmacy.setAddress(addressRepository.findById(pharmacyDTO.getAddressID()).orElse(null));
+        pharmacy.setAddress(addressRepository.findById(pharmacyDTO.getAddress().getId()).orElse(null));
         pharmacy.setCalendar(calendarRepository.findById(pharmacyDTO.getCalendarID()).orElse(null));
 
         if(pharmacy.getAddress() == null){

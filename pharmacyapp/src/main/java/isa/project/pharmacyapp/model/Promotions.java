@@ -36,23 +36,23 @@ public class Promotions {
       return pharmacy;
    }
    
-   /** @pdGenerated default parent setter
-     * @param newPharmacy */
-   public void setPharmacy(Pharmacy newPharmacy) {
-      if (this.pharmacy == null || !this.pharmacy.equals(newPharmacy))
-      {
-         if (this.pharmacy != null)
-         {
-            Pharmacy oldPharmacy = this.pharmacy;
-            this.pharmacy = null;
-            oldPharmacy.removePromotions(this);
-         }
-         if (newPharmacy != null)
-         {
-            this.pharmacy = newPharmacy;
-            this.pharmacy.addPromotions(this);
-         }
-      }
-   }
+//   /** @pdGenerated default parent setter
+//     * @param newPharmacy */
+//   public void setPharmacy(Pharmacy newPharmacy) {
+//      if (this.pharmacy == null || !this.pharmacy.equals(newPharmacy))
+//      {
+//         if (this.pharmacy != null)
+//         {
+//            Pharmacy oldPharmacy = this.pharmacy;
+//            this.pharmacy = null;
+//            oldPharmacy.removePromotions(this);
+//         }
+//         if (newPharmacy != null)
+//         {
+//            this.pharmacy = newPharmacy;
+//            this.pharmacy.addPromotions(this);
+//         }
+//      }
+//   }
 
 }

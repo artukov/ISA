@@ -21,12 +21,14 @@ public class PharmacyDTO {
 //    public List<Long> drugIDs;
 
     public Long calendarID;
-    public Long addressID;
+//    public Long addressID;
+
+    public Address address;
 
     public PharmacyDTO() {
     }
 
-    public PharmacyDTO(Long id, String name, String description, List<Double> ratings,  Long calendarID, Long addressID) {
+    public PharmacyDTO(Long id, String name, String description, List<Double> ratings,  Long calendarID, Address address) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,7 +41,8 @@ public class PharmacyDTO {
 //        this.dermatologistIDs = dermatologistIDs;
 //        this.drugIDs = drugIDs;
         this.calendarID = calendarID;
-        this.addressID = addressID;
+//        this.addressID = addressID;
+        this.address = address;
     }
 
 
@@ -50,7 +53,7 @@ public class PharmacyDTO {
                 pharmacy.getDescription(),
                 pharmacy.getRatings(),
                 pharmacy.getCalendar().getId(),
-                pharmacy.getAddress().getId()
+                pharmacy.getAddress()
         );
 
         return retDTO;
@@ -104,69 +107,14 @@ public class PharmacyDTO {
         this.calendarID = calendarID;
     }
 
-    public Long getAddressID() {
-        return addressID;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressID(Long addressID) {
-        this.addressID = addressID;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-//    public List<Long> getPharmacistIDs() {
-//        return pharmacistIDs;
-//    }
-//
-//    public void setPharmacistIDs(List<Long> pharmacistIDs) {
-//        this.pharmacistIDs = pharmacistIDs;
-//    }
-//
-//    public List<Long> getPriceListIDs() {
-//        return priceListIDs;
-//    }
-//
-//    public void setPriceListIDs(List<Long> priceListIDs) {
-//        this.priceListIDs = priceListIDs;
-//    }
-//
-//    public List<Long> getPharmacyAdminIDs() {
-//        return pharmacyAdminIDs;
-//    }
-//
-//    public void setPharmacyAdminIDs(List<Long> pharmacyAdminIDs) {
-//        this.pharmacyAdminIDs = pharmacyAdminIDs;
-//    }
-//
-//    public List<Long> getAbsenceRequestIDs() {
-//        return absenceRequestIDs;
-//    }
-//
-//    public void setAbsenceRequestIDs(List<Long> absenceRequestIDs) {
-//        this.absenceRequestIDs = absenceRequestIDs;
-//    }
-//
-//    public List<Long> getPromotionsIDs() {
-//        return promotionsIDs;
-//    }
-//
-//    public void setPromotionsIDs(List<Long> promotionsIDs) {
-//        this.promotionsIDs = promotionsIDs;
-//    }
-//
-//    public List<Long> getDermatologistIDs() {
-//        return dermatologistIDs;
-//    }
-//
-//    public void setDermatologistIDs(List<Long> dermatologistIDs) {
-//        this.dermatologistIDs = dermatologistIDs;
-//    }
-//
-//    public List<Long> getDrugIDs() {
-//        return drugIDs;
-//    }
-//
-//    public void setDrugIDs(List<Long> drugIDs) {
-//        this.drugIDs = drugIDs;
-//    }
 
 
 }
