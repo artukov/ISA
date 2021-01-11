@@ -1,6 +1,5 @@
 import React, {  } from 'react';
 
-
 const AddressComponent = ({address}) => {
 
     if(address === null || address === undefined){

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePharmacy } from '../../hooks/usePharmacy';
-import AddressComponent from '../AddressComponent';
+import AddressComponent from '../address/AddressComponent';
+import RatingsComponent from '../ratings/RatingsComponent';
 
 const PharmacyComponent = () => {
 
@@ -16,7 +17,9 @@ const PharmacyComponent = () => {
     return ( 
         <div>
             {pharmacy.name}
+            {pharmacy.description}
             <AddressComponent address = {pharmacy.address} ></AddressComponent>
+            <RatingsComponent ratings = {pharmacy.ratings} ></RatingsComponent>
         </div>
      );
 }
