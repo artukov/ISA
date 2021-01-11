@@ -26,6 +26,7 @@ public class PharmacyController {
     private PharmacyService pharmacyService;
 
     @GetMapping(value = "/find/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> findPharmacyById(@PathVariable("id") Long id){
         PharmacyDTO dto = null;
        try{
@@ -43,6 +44,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> findAllPharmacies(){
 
         ArrayList<PharmacyDTO> pharmacyDTOS = (ArrayList<PharmacyDTO>) pharmacyService.findAll();
@@ -55,6 +57,7 @@ public class PharmacyController {
     }
 
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> createNewPharmacy(@RequestBody PharmacyDTO dto){
 
         try {
@@ -71,6 +74,7 @@ public class PharmacyController {
     }
 
     @PutMapping(value = "/modify/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> modifyPharmacy(@PathVariable("id") Long id, @RequestBody PharmacyDTO dto){
 
 
@@ -90,6 +94,7 @@ public class PharmacyController {
     }
 
     @DeleteMapping(value = "/delete/id")
+    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> deletePharmacy(@PathVariable("id") Long id){
 
         try {

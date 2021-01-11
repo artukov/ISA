@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, Button, NavDropdown, FormControl } from 'react-bootstrap'
 
+import axiosConfig from '../config/AxiosConfig';
+
 class homePage extends Component {
-    constructor(props) {
+    /* constructor(props) {
         super(props);
+    } */
+
+    /* componentWillMount() {
 
     }
 
-    componentWillMount() {
-
-    }
-
-    componentDidMount() {
-
-    }
+    
 
     componentWillReceiveProps(nextProps) {
 
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
+  
 
     componentWillUpdate(nextProps, nextState) {
 
@@ -33,6 +30,21 @@ class homePage extends Component {
 
     componentWillUnmount() {
 
+    } */
+
+    shouldComponentUpdate(nextProps, nextState) {
+        
+    }
+
+    componentDidMount() {
+      
+    }
+
+    getCurrent = () =>{
+        
+        axiosConfig.post('/user/current')
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
 
     render() {
@@ -59,6 +71,8 @@ class homePage extends Component {
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>
+                <Button onClick = {() => this.getCurrent}>Get current user</Button>
+                <Button onClick = {() => window.location = '/pharmacy'}>Pharmacy</Button>
             </div>
         );
     }

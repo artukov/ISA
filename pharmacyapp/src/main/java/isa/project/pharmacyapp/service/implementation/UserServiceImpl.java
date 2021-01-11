@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) throws UsernameNotFoundException {
+        System.out.println("Email \t\t\t\t" + email);
         User user = userRepository.findByEmail(email);
         if(user == null){
             throw  new NoSuchElementException(CLASS_NAME + "findByEmail" + DOES_NOT_EXISTS);
