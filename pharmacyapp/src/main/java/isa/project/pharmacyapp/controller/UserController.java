@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,9 @@ public class UserController {
         System.out.println("User current " + user);
         User current = userService.findByEmail(user.getName());
         System.out.println("User current \t\t\t\t\t\t\t" + current);
+        UserDTO dto = UserDTO.user2DTO(current);
 
-        return new ResponseEntity<>(current, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
 
     }
 

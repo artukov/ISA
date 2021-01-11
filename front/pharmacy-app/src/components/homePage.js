@@ -71,7 +71,7 @@ class homePage extends Component {
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>
-                <Button onClick = {() => this.getCurrent}>Get current user</Button>
+                <Button onClick = {() => this.getCurrent()}>Get current user</Button>
                 <Button onClick = {() => window.location = '/pharmacy'}>Pharmacy</Button>
             </div>
         );

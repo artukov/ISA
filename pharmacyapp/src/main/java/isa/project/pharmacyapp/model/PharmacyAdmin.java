@@ -32,24 +32,28 @@ public class PharmacyAdmin extends User {
    public Pharmacy getPharmacy() {
       return pharmacy;
    }
-   
-   /** @pdGenerated default parent setter
-     * @param newPharmacy */
-   public void setPharmacy(Pharmacy newPharmacy) {
-      if (this.pharmacy == null || !this.pharmacy.equals(newPharmacy))
-      {
-         if (this.pharmacy != null)
-         {
-            Pharmacy oldPharmacy = this.pharmacy;
-            this.pharmacy = null;
-            oldPharmacy.removePharmacyAdmin(this);
-         }
-         if (newPharmacy != null)
-         {
-            this.pharmacy = newPharmacy;
-            this.pharmacy.addPharmacyAdmin(this);
-         }
-      }
+
+   public void setPharmacy(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
    }
+
+   //   /** @pdGenerated default parent setter
+//     * @param newPharmacy */
+//   public void setPharmacy(Pharmacy newPharmacy) {
+//      if (this.pharmacy == null || !this.pharmacy.equals(newPharmacy))
+//      {
+//         if (this.pharmacy != null)
+//         {
+//            Pharmacy oldPharmacy = this.pharmacy;
+//            this.pharmacy = null;
+//            oldPharmacy.removePharmacyAdmin(this);
+//         }
+//         if (newPharmacy != null)
+//         {
+//            this.pharmacy = newPharmacy;
+//            this.pharmacy.addPharmacyAdmin(this);
+//         }
+//      }
+//   }
 
 }

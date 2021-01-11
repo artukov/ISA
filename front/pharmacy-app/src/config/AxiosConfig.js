@@ -6,6 +6,10 @@ const instance = axios.create({
     baseURL: urlStart
 });
 
+if(localStorage.getItem('token') === null){
+    localStorage.setItem('token', JSON.stringify('token'));
+}
+
 instance.defaults.headers.Authorization = 'Bearer ' + JSON.parse(localStorage.getItem('token')).token;
 //instance.defaults.headers.common['Content-Type'] = 'application/json';
 instance.defaults.headers.post['Content-Type'] = 'application/json,charset=UTF-8';

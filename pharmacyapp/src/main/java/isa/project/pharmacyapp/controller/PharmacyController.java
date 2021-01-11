@@ -120,6 +120,13 @@ public class PharmacyController {
 
     }
 
+    @GetMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacyAddress(@PathVariable("id") Long id){
+       return  new ResponseEntity<>( pharmacyService.getAddress(id), HttpStatus.OK);
+
+    }
+
 
 
 

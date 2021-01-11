@@ -101,21 +101,21 @@ VALUES (202, 300);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
-                              pharmacy_id, pharmacist_id,start_hour,hours )
+                              pharmacy_id,start_hour,hours )
 VALUES (500, 'pharmacist@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
-    pharmacy_id, pharmacist_id,start_hour,hours )
+    pharmacy_id,start_hour,hours )
 VALUES (501, 'pharmacist1@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
-    pharmacy_id, pharmacist_id,start_hour,hours )
+    pharmacy_id,start_hour,hours )
 VALUES (502, 'pharmacist2@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, null, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
 
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
@@ -123,10 +123,10 @@ INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 5.0);
 
 
 INSERT INTO public.pharmacy_admin(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, pharmacy_id, pharmacy_admin_id)
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, pharmacy_id)
 VALUES (200, 'phAdmin@live.com', true, 'pharmacy admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6',
-        '45613', 200, 200, null);
+        '45613', 200, 200);
 
 INSERT INTO public.system_admin(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)

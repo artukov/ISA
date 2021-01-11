@@ -35,37 +35,37 @@ public class Pharmacy {
     *
     ************************************************************/
 
-   /** @pdRoleInfo migr=no name=Pharmacist assc=association1 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<Pharmacist> pharmacist;
+//   /** @pdRoleInfo migr=no name=Pharmacist assc=association1 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn
+//   public java.util.List<Pharmacist> pharmacist;
+//
+//   /** @pdRoleInfo migr=no name=PriceList assc=association5 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn
+//   public java.util.List<PriceList> priceList;
+//
+//   /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn
+//   public java.util.List<PharmacyAdmin> pharmacyAdmin;
+//
+//   /** @pdRoleInfo migr=no name=AbsenceRequest assc=association19 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn
+//   public java.util.List<AbsenceRequest> absenceRequest;
+//   /** @pdRoleInfo migr=no name=Promotions assc=association21 coll=java.util.List impl=java.util.ArrayList mult=0..* */
+//   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//   @JoinColumn
+//   public java.util.List<Promotions> promotions;
 
-   /** @pdRoleInfo migr=no name=PriceList assc=association5 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<PriceList> priceList;
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn(name = "pharmacy_id")
+//   private List<PharmacyDermatologist> dermatologists;
 
-   /** @pdRoleInfo migr=no name=PharmacyAdmin assc=association7 coll=java.util.List impl=java.util.ArrayList mult=1..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<PharmacyAdmin> pharmacyAdmin;
-
-   /** @pdRoleInfo migr=no name=AbsenceRequest assc=association19 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<AbsenceRequest> absenceRequest;
-   /** @pdRoleInfo migr=no name=Promotions assc=association21 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-   @JoinColumn
-   public java.util.List<Promotions> promotions;
-
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
-   private List<PharmacyDermatologist> dermatologists;
-
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
-   private List<PharmacyDrug> drugs;
+//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//   @JoinColumn(name = "pharmacy_id")
+//   private List<PharmacyDrug> drugs;
 
    /**********************************************************
     * ManyToMany
@@ -162,62 +162,294 @@ public class Pharmacy {
       this.address = address;
    }
 
-   /** @pdGenerated default getter */
-   public java.util.List<Pharmacist> getPharmacist() {
-      if (pharmacist == null)
-         pharmacist = new java.util.ArrayList<Pharmacist>();
-      return pharmacist;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorPharmacist() {
-      if (pharmacist == null)
-         pharmacist = new java.util.ArrayList<Pharmacist>();
-      return pharmacist.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newPharmacist */
-   public void setPharmacist(java.util.List<Pharmacist> newPharmacist) {
-      removeAllPharmacist();
-      for (java.util.Iterator iter = newPharmacist.iterator(); iter.hasNext();)
-         addPharmacist((Pharmacist)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newPharmacist */
-   public void addPharmacist(Pharmacist newPharmacist) {
-      if (newPharmacist == null)
-         return;
-      if (this.pharmacist == null)
-         this.pharmacist = new java.util.ArrayList<Pharmacist>();
-      if (!this.pharmacist.contains(newPharmacist))
-         this.pharmacist.add(newPharmacist);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldPharmacist */
-   public void removePharmacist(Pharmacist oldPharmacist) {
-      if (oldPharmacist == null)
-         return;
-      if (this.pharmacist != null)
-         if (this.pharmacist.contains(oldPharmacist))
-            this.pharmacist.remove(oldPharmacist);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllPharmacist() {
-      if (pharmacist != null)
-         pharmacist.clear();
-   }
+//   /** @pdGenerated default getter */
+//   public java.util.List<Pharmacist> getPharmacist() {
+//      if (pharmacist == null)
+//         pharmacist = new java.util.ArrayList<Pharmacist>();
+//      return pharmacist;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorPharmacist() {
+//      if (pharmacist == null)
+//         pharmacist = new java.util.ArrayList<Pharmacist>();
+//      return pharmacist.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newPharmacist */
+//   public void setPharmacist(java.util.List<Pharmacist> newPharmacist) {
+//      removeAllPharmacist();
+//      for (java.util.Iterator iter = newPharmacist.iterator(); iter.hasNext();)
+//         addPharmacist((Pharmacist)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newPharmacist */
+//   public void addPharmacist(Pharmacist newPharmacist) {
+//      if (newPharmacist == null)
+//         return;
+//      if (this.pharmacist == null)
+//         this.pharmacist = new java.util.ArrayList<Pharmacist>();
+//      if (!this.pharmacist.contains(newPharmacist))
+//         this.pharmacist.add(newPharmacist);
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldPharmacist */
+//   public void removePharmacist(Pharmacist oldPharmacist) {
+//      if (oldPharmacist == null)
+//         return;
+//      if (this.pharmacist != null)
+//         if (this.pharmacist.contains(oldPharmacist))
+//            this.pharmacist.remove(oldPharmacist);
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllPharmacist() {
+//      if (pharmacist != null)
+//         pharmacist.clear();
+//   }
 
-   public List<PharmacyDermatologist> getDermatologists() {
-      return dermatologists;
-   }
+//   public List<PharmacyDermatologist> getDermatologists() {
+//      return dermatologists;
+//   }
+//
+//   public void setDermatologists(List<PharmacyDermatologist> dermatologists) {
+//      this.dermatologists = dermatologists;
+//   }
 
-   public void setDermatologists(List<PharmacyDermatologist> dermatologists) {
-      this.dermatologists = dermatologists;
-   }
+
+
+//   public List<PharmacyDrug> getDrugs() {
+//      return drugs;
+//   }
+//
+//   public void setDrugs(List<PharmacyDrug> drugs) {
+//      this.drugs = drugs;
+//   }
+
+//   /** @pdGenerated default getter */
+//   public java.util.List<PriceList> getPriceList() {
+//      if (priceList == null)
+//         priceList = new java.util.ArrayList<PriceList>();
+//      return priceList;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorPriceList() {
+//      if (priceList == null)
+//         priceList = new java.util.ArrayList<PriceList>();
+//      return priceList.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newPriceList */
+//   public void setPriceList(java.util.List<PriceList> newPriceList) {
+//      removeAllPriceList();
+//      for (java.util.Iterator iter = newPriceList.iterator(); iter.hasNext();)
+//         addPriceList((PriceList)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newPriceList */
+//   public void addPriceList(PriceList newPriceList) {
+//      if (newPriceList == null)
+//         return;
+//      if (this.priceList == null)
+//         this.priceList = new java.util.ArrayList<PriceList>();
+//      if (!this.priceList.contains(newPriceList))
+//         this.priceList.add(newPriceList);
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldPriceList */
+//   public void removePriceList(PriceList oldPriceList) {
+//      if (oldPriceList == null)
+//         return;
+//      if (this.priceList != null)
+//         if (this.priceList.contains(oldPriceList))
+//            this.priceList.remove(oldPriceList);
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllPriceList() {
+//      if (priceList != null)
+//         priceList.clear();
+//   }
+//   /** @pdGenerated default getter */
+//   public java.util.List<PharmacyAdmin> getPharmacyAdmin() {
+//      if (pharmacyAdmin == null)
+//         pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
+//      return pharmacyAdmin;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorPharmacyAdmin() {
+//      if (pharmacyAdmin == null)
+//         pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
+//      return pharmacyAdmin.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newPharmacyAdmin */
+//   public void setPharmacyAdmin(java.util.List<PharmacyAdmin> newPharmacyAdmin) {
+//      removeAllPharmacyAdmin();
+//      for (java.util.Iterator iter = newPharmacyAdmin.iterator(); iter.hasNext();)
+//         addPharmacyAdmin((PharmacyAdmin)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newPharmacyAdmin */
+//   public void addPharmacyAdmin(PharmacyAdmin newPharmacyAdmin) {
+//      if (newPharmacyAdmin == null)
+//         return;
+//      if (this.pharmacyAdmin == null)
+//         this.pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
+//      if (!this.pharmacyAdmin.contains(newPharmacyAdmin))
+//      {
+//         this.pharmacyAdmin.add(newPharmacyAdmin);
+//         newPharmacyAdmin.setPharmacy(this);
+//      }
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldPharmacyAdmin */
+//   public void removePharmacyAdmin(PharmacyAdmin oldPharmacyAdmin) {
+//      if (oldPharmacyAdmin == null)
+//         return;
+//      if (this.pharmacyAdmin != null)
+//         if (this.pharmacyAdmin.contains(oldPharmacyAdmin))
+//         {
+//            this.pharmacyAdmin.remove(oldPharmacyAdmin);
+//            oldPharmacyAdmin.setPharmacy((Pharmacy)null);
+//         }
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllPharmacyAdmin() {
+//      if (pharmacyAdmin != null)
+//      {
+//         PharmacyAdmin oldPharmacyAdmin;
+//         for (java.util.Iterator iter = getIteratorPharmacyAdmin(); iter.hasNext();)
+//         {
+//            oldPharmacyAdmin = (PharmacyAdmin)iter.next();
+//            iter.remove();
+//            oldPharmacyAdmin.setPharmacy((Pharmacy)null);
+//         }
+//      }
+//   }
+//   /** @pdGenerated default getter */
+//   public java.util.List<AbsenceRequest> getAbsenceRequest() {
+//      if (absenceRequest == null)
+//         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+//      return absenceRequest;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorAbsenceRequest() {
+//      if (absenceRequest == null)
+//         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+//      return absenceRequest.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newAbsenceRequest */
+//   public void setAbsenceRequest(java.util.List<AbsenceRequest> newAbsenceRequest) {
+//      removeAllAbsenceRequest();
+//      for (java.util.Iterator iter = newAbsenceRequest.iterator(); iter.hasNext();)
+//         addAbsenceRequest((AbsenceRequest)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newAbsenceRequest */
+//   public void addAbsenceRequest(AbsenceRequest newAbsenceRequest) {
+//      if (newAbsenceRequest == null)
+//         return;
+//      if (this.absenceRequest == null)
+//         this.absenceRequest = new java.util.ArrayList<AbsenceRequest>();
+//      if (!this.absenceRequest.contains(newAbsenceRequest))
+//         this.absenceRequest.add(newAbsenceRequest);
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldAbsenceRequest */
+//   public void removeAbsenceRequest(AbsenceRequest oldAbsenceRequest) {
+//      if (oldAbsenceRequest == null)
+//         return;
+//      if (this.absenceRequest != null)
+//         if (this.absenceRequest.contains(oldAbsenceRequest))
+//            this.absenceRequest.remove(oldAbsenceRequest);
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllAbsenceRequest() {
+//      if (absenceRequest != null)
+//         absenceRequest.clear();
+//   }
+//   /** @pdGenerated default getter */
+//   public java.util.List<Promotions> getPromotions() {
+//      if (promotions == null)
+//         promotions = new java.util.ArrayList<Promotions>();
+//      return promotions;
+//   }
+//
+//   /** @pdGenerated default iterator getter */
+//   public java.util.Iterator getIteratorPromotions() {
+//      if (promotions == null)
+//         promotions = new java.util.ArrayList<Promotions>();
+//      return promotions.iterator();
+//   }
+//
+//   /** @pdGenerated default setter
+//     * @param newPromotions */
+//   public void setPromotions(java.util.List<Promotions> newPromotions) {
+//      removeAllPromotions();
+//      for (java.util.Iterator iter = newPromotions.iterator(); iter.hasNext();)
+//         addPromotions((Promotions)iter.next());
+//   }
+//
+//   /** @pdGenerated default add
+//     * @param newPromotions */
+//   public void addPromotions(Promotions newPromotions) {
+//      if (newPromotions == null)
+//         return;
+//      if (this.promotions == null)
+//         this.promotions = new java.util.ArrayList<Promotions>();
+//      if (!this.promotions.contains(newPromotions))
+//      {
+//         this.promotions.add(newPromotions);
+//         newPromotions.setPharmacy(this);
+//      }
+//   }
+//
+//   /** @pdGenerated default remove
+//     * @param oldPromotions */
+//   public void removePromotions(Promotions oldPromotions) {
+//      if (oldPromotions == null)
+//         return;
+//      if (this.promotions != null)
+//         if (this.promotions.contains(oldPromotions))
+//         {
+//            this.promotions.remove(oldPromotions);
+//            oldPromotions.setPharmacy((Pharmacy)null);
+//         }
+//   }
+//
+//   /** @pdGenerated default removeAll */
+//   public void removeAllPromotions() {
+//      if (promotions != null)
+//      {
+//         Promotions oldPromotions;
+//         for (java.util.Iterator iter = getIteratorPromotions(); iter.hasNext();)
+//         {
+//            oldPromotions = (Promotions)iter.next();
+//            iter.remove();
+//            oldPromotions.setPharmacy((Pharmacy)null);
+//         }
+//      }
+//   }
+
 
    //   /** @pdGenerated default getter */
 //   public java.util.List<Dermatologist> getDermatologist() {
@@ -316,234 +548,5 @@ public class Pharmacy {
 //         drug.clear();
 //   }
 
-
-   public List<PharmacyDrug> getDrugs() {
-      return drugs;
-   }
-
-   public void setDrugs(List<PharmacyDrug> drugs) {
-      this.drugs = drugs;
-   }
-
-   /** @pdGenerated default getter */
-   public java.util.List<PriceList> getPriceList() {
-      if (priceList == null)
-         priceList = new java.util.ArrayList<PriceList>();
-      return priceList;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorPriceList() {
-      if (priceList == null)
-         priceList = new java.util.ArrayList<PriceList>();
-      return priceList.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newPriceList */
-   public void setPriceList(java.util.List<PriceList> newPriceList) {
-      removeAllPriceList();
-      for (java.util.Iterator iter = newPriceList.iterator(); iter.hasNext();)
-         addPriceList((PriceList)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newPriceList */
-   public void addPriceList(PriceList newPriceList) {
-      if (newPriceList == null)
-         return;
-      if (this.priceList == null)
-         this.priceList = new java.util.ArrayList<PriceList>();
-      if (!this.priceList.contains(newPriceList))
-         this.priceList.add(newPriceList);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldPriceList */
-   public void removePriceList(PriceList oldPriceList) {
-      if (oldPriceList == null)
-         return;
-      if (this.priceList != null)
-         if (this.priceList.contains(oldPriceList))
-            this.priceList.remove(oldPriceList);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllPriceList() {
-      if (priceList != null)
-         priceList.clear();
-   }
-   /** @pdGenerated default getter */
-   public java.util.List<PharmacyAdmin> getPharmacyAdmin() {
-      if (pharmacyAdmin == null)
-         pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
-      return pharmacyAdmin;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorPharmacyAdmin() {
-      if (pharmacyAdmin == null)
-         pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
-      return pharmacyAdmin.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newPharmacyAdmin */
-   public void setPharmacyAdmin(java.util.List<PharmacyAdmin> newPharmacyAdmin) {
-      removeAllPharmacyAdmin();
-      for (java.util.Iterator iter = newPharmacyAdmin.iterator(); iter.hasNext();)
-         addPharmacyAdmin((PharmacyAdmin)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newPharmacyAdmin */
-   public void addPharmacyAdmin(PharmacyAdmin newPharmacyAdmin) {
-      if (newPharmacyAdmin == null)
-         return;
-      if (this.pharmacyAdmin == null)
-         this.pharmacyAdmin = new java.util.ArrayList<PharmacyAdmin>();
-      if (!this.pharmacyAdmin.contains(newPharmacyAdmin))
-      {
-         this.pharmacyAdmin.add(newPharmacyAdmin);
-         newPharmacyAdmin.setPharmacy(this);      
-      }
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldPharmacyAdmin */
-   public void removePharmacyAdmin(PharmacyAdmin oldPharmacyAdmin) {
-      if (oldPharmacyAdmin == null)
-         return;
-      if (this.pharmacyAdmin != null)
-         if (this.pharmacyAdmin.contains(oldPharmacyAdmin))
-         {
-            this.pharmacyAdmin.remove(oldPharmacyAdmin);
-            oldPharmacyAdmin.setPharmacy((Pharmacy)null);
-         }
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllPharmacyAdmin() {
-      if (pharmacyAdmin != null)
-      {
-         PharmacyAdmin oldPharmacyAdmin;
-         for (java.util.Iterator iter = getIteratorPharmacyAdmin(); iter.hasNext();)
-         {
-            oldPharmacyAdmin = (PharmacyAdmin)iter.next();
-            iter.remove();
-            oldPharmacyAdmin.setPharmacy((Pharmacy)null);
-         }
-      }
-   }
-   /** @pdGenerated default getter */
-   public java.util.List<AbsenceRequest> getAbsenceRequest() {
-      if (absenceRequest == null)
-         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
-      return absenceRequest;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorAbsenceRequest() {
-      if (absenceRequest == null)
-         absenceRequest = new java.util.ArrayList<AbsenceRequest>();
-      return absenceRequest.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newAbsenceRequest */
-   public void setAbsenceRequest(java.util.List<AbsenceRequest> newAbsenceRequest) {
-      removeAllAbsenceRequest();
-      for (java.util.Iterator iter = newAbsenceRequest.iterator(); iter.hasNext();)
-         addAbsenceRequest((AbsenceRequest)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newAbsenceRequest */
-   public void addAbsenceRequest(AbsenceRequest newAbsenceRequest) {
-      if (newAbsenceRequest == null)
-         return;
-      if (this.absenceRequest == null)
-         this.absenceRequest = new java.util.ArrayList<AbsenceRequest>();
-      if (!this.absenceRequest.contains(newAbsenceRequest))
-         this.absenceRequest.add(newAbsenceRequest);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldAbsenceRequest */
-   public void removeAbsenceRequest(AbsenceRequest oldAbsenceRequest) {
-      if (oldAbsenceRequest == null)
-         return;
-      if (this.absenceRequest != null)
-         if (this.absenceRequest.contains(oldAbsenceRequest))
-            this.absenceRequest.remove(oldAbsenceRequest);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllAbsenceRequest() {
-      if (absenceRequest != null)
-         absenceRequest.clear();
-   }
-   /** @pdGenerated default getter */
-   public java.util.List<Promotions> getPromotions() {
-      if (promotions == null)
-         promotions = new java.util.ArrayList<Promotions>();
-      return promotions;
-   }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorPromotions() {
-      if (promotions == null)
-         promotions = new java.util.ArrayList<Promotions>();
-      return promotions.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newPromotions */
-   public void setPromotions(java.util.List<Promotions> newPromotions) {
-      removeAllPromotions();
-      for (java.util.Iterator iter = newPromotions.iterator(); iter.hasNext();)
-         addPromotions((Promotions)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newPromotions */
-   public void addPromotions(Promotions newPromotions) {
-      if (newPromotions == null)
-         return;
-      if (this.promotions == null)
-         this.promotions = new java.util.ArrayList<Promotions>();
-      if (!this.promotions.contains(newPromotions))
-      {
-         this.promotions.add(newPromotions);
-         newPromotions.setPharmacy(this);      
-      }
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldPromotions */
-   public void removePromotions(Promotions oldPromotions) {
-      if (oldPromotions == null)
-         return;
-      if (this.promotions != null)
-         if (this.promotions.contains(oldPromotions))
-         {
-            this.promotions.remove(oldPromotions);
-            oldPromotions.setPharmacy((Pharmacy)null);
-         }
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllPromotions() {
-      if (promotions != null)
-      {
-         Promotions oldPromotions;
-         for (java.util.Iterator iter = getIteratorPromotions(); iter.hasNext();)
-         {
-            oldPromotions = (Promotions)iter.next();
-            iter.remove();
-            oldPromotions.setPharmacy((Pharmacy)null);
-         }
-      }
-   }
 
 }
