@@ -51,6 +51,9 @@ public abstract class User implements UserDetails {
    @Column(nullable = true, name = "phone_number")
    protected String phoneNumber;
 
+   @Column(name = "role", nullable = true)
+   protected UserRoles role;
+
 
    /************************
     * Security attributes
@@ -142,6 +145,13 @@ public abstract class User implements UserDetails {
       this.phoneNumber = phoneNumber;
    }
 
+   public UserRoles getRole() {
+      return role;
+   }
+
+   public void setRole(UserRoles role) {
+      this.role = role;
+   }
 
    /******************************************
     * Security methods

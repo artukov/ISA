@@ -11,7 +11,7 @@ export const usePharmaDerma =  (pharmacyID) =>{
         if(pharmacyID !== undefined)
             axiosConfig.get(urlGetPhramacyDermatologists + pharmacyID)
             .then(res => {
-                console.log(res.data);
+                
                 setDermatologists(res.data);
             })
             .catch(err => alert(err.response.data));

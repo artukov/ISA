@@ -18,6 +18,7 @@ const RatingsComponent = ({ratings}) => {
 
         return ( 
             <div>
+                <h4>RatingsComponent</h4>
                 { avgRating }
             </div>
          );
