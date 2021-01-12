@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Pharmacist;
+import isa.project.pharmacyapp.model.UserRoles;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,16 +28,25 @@ public class PharmacistDTO extends UserDTO{
         this.consultationId = consultationId;
     }
 
-    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname,
-                         Long address_id, String phoneNumber, Date start_hour, Integer hours,
-                         List<Double> ratings, List<Long> consultationId) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber);
+//    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname,
+//                         Long address_id, String phoneNumber, Date start_hour, Integer hours,
+//                         List<Double> ratings, List<Long> consultationId) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber);
+//        this.ratings = ratings;
+//        this.consultationId = consultationId;
+//        this.start_hour = start_hour;
+//        this.hours = hours;
+//    }
+
+    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname, Long address_id,
+                         String phoneNumber, UserRoles role, List<Double> ratings, List<Long> consultationId,
+                         Date start_hour, Integer hours) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
         this.ratings = ratings;
         this.consultationId = consultationId;
         this.start_hour = start_hour;
         this.hours = hours;
     }
-
 
     public static PharmacistDTO pharmacist2Dto(Pharmacist pharmacist) {
         PharmacistDTO retDto = new PharmacistDTO(
@@ -47,10 +57,11 @@ public class PharmacistDTO extends UserDTO{
                 pharmacist.getLastname(),
                 pharmacist.getAddress().getId(),
                 pharmacist.getPhoneNumber(),
-                pharmacist.getStart_hour(),
-                pharmacist.getHours(),
+                UserRoles.PHARMACIST,
                 pharmacist.getRatings(),
-                new ArrayList<>()
+                new ArrayList<>(),
+                pharmacist.getStart_hour(),
+                pharmacist.getHours()
         );
         for(Appointment appointment : pharmacist.getAppointment()){
             retDto.consultationId.add(appointment.getId());

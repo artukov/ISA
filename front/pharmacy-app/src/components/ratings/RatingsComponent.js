@@ -9,7 +9,7 @@ const RatingsComponent = ({ratings}) => {
     }
     else {
         let avgRating = 0.0;
-        ratings.map((rating, index) =>{
+        ratings.map(rating =>{
             avgRating += rating;
             return rating;
         });
@@ -18,8 +18,8 @@ const RatingsComponent = ({ratings}) => {
 
         return ( 
             <div>
+                <h4>RatingsComponent</h4>
                 { avgRating }
-                
             </div>
          );
     }
