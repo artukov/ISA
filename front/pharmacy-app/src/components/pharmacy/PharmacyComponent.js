@@ -3,6 +3,7 @@ import { usePharmacy } from '../../hooks/usePharmacy';
 import AddressComponent from '../address/AddressComponent';
 import RatingsComponent from '../ratings/RatingsComponent';
 import DermatologistList from './DermatologistList';
+import DrugList from './DrugList';
 import PharmacistList from './PharmacistList';
 
 const PharmacyComponent = () => {
@@ -21,10 +22,11 @@ const PharmacyComponent = () => {
             <h4>PharmacyComponent</h4>
             <p>{pharmacy.name}</p>
             <p>{pharmacy.description}</p>
-            <AddressComponent address = {pharmacy.address} ></AddressComponent>
+           {/*  <AddressComponent address = {pharmacy.address} ></AddressComponent>
             <RatingsComponent ratings = {pharmacy.ratings} ></RatingsComponent>
             <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
-            <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
+            <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList> */}
+            <DrugList pharmacyID = {pharmacy.id}></DrugList>
         </div>
      );
 }

@@ -52,4 +52,7 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM pharmacy_drug WHERE drug_id = :drugID and pharmacy_id = :pharmacyID",nativeQuery = true)
     Double findInPharmacy(@Param("pharmacyID") Long pharmacyID, @Param("drugID") Long drugID);
+
+    @Query(value = "SELECT amount FROM pharmacy_drug WHERE drug_id = :drugID AND pharmacy_id = :pharmacyID",nativeQuery = true)
+    Integer getAmount(@Param("drugID") Long drugID, @Param("pharmacyID") Long pharmacyID);
 }

@@ -53,7 +53,7 @@ public class DrugServiceImpl implements DrugService {
     public List<DrugDTO> findAll() {
         List<Drug> drugs = drugRepository.findAll();
 
-        return this.listCreationDrug2DTO(drugs);
+        return this.listCreationDrug2DTO(drugs, null);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class DrugServiceImpl implements DrugService {
        List<Drug> drugs =  drugRepository.findAllByPharmacyId(pharmacyId);
 
 
-       return this.listCreationDrug2DTO(drugs);
+       return this.listCreationDrug2DTO(drugs, pharmacyId);
     }
 
     @Override
@@ -275,10 +275,16 @@ public class DrugServiceImpl implements DrugService {
 
 
 
-    private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs){
+    private List<DrugDTO> listCreationDrug2DTO(List<Drug> drugs, Long pharmacyID){
         ArrayList<DrugDTO> drugDTOS = new ArrayList<>();
+        Integer amount  = null;
         for(Drug drug : drugs){
-            drugDTOS.add(DrugDTO.drug2DTO(drug));
+            DrugDTO drugDTO = DrugDTO.drug2DTO(drug);
+            if(pharmacyID != null){
+                amount = drugRepository.getAmount(drug.getId(), pharmacyID);
+                drugDTO.setAmount(amount);
+            }
+            drugDTOS.add(drugDTO);
         }
 
         return  drugDTOS;
