@@ -18,6 +18,7 @@ const PharmacyComponent = () => {
 
     return ( 
         <div>
+            <h4>PharmacyComponent</h4>
             <p>{pharmacy.name}</p>
             <p>{pharmacy.description}</p>
             <AddressComponent address = {pharmacy.address} ></AddressComponent>

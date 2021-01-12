@@ -20,7 +20,19 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber) {
+//    public UserDTO(Long id, String email, String password, String firstname, String lastname,
+//                   Long address_id, String phoneNumber) {
+//        this.id = id;
+//        this.email = email;
+//        this.password = password;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.address_id = address_id;
+//        this.phoneNumber = phoneNumber;
+//    }
+
+    public UserDTO(Long id, String email, String password, String firstname,
+                   String lastname, Long address_id, String phoneNumber, UserRoles role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -28,6 +40,7 @@ public class UserDTO {
         this.lastname = lastname;
         this.address_id = address_id;
         this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
     public static UserDTO user2DTO(User user){
@@ -38,7 +51,8 @@ public class UserDTO {
                 user.getFirstname(),
                 user.getLastname(),
                 user.getAddress().getId(),
-                user.getPhoneNumber()
+                user.getPhoneNumber(),
+                user.getRole()
         );
 
         return userDTO;
@@ -51,6 +65,7 @@ public class UserDTO {
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setRole(userDTO.getRole());
 
 
     }

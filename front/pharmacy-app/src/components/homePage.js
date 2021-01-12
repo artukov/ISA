@@ -11,8 +11,8 @@ class homePage extends Component {
     getCurrent = () => {
 
         axiosConfig.post('/user/current')
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err.response.data));
     }
 
     render() {

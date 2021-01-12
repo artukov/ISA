@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.dto;
 
 import isa.project.pharmacyapp.model.Address;
 import isa.project.pharmacyapp.model.PharmacyAdmin;
+import isa.project.pharmacyapp.model.UserRoles;
 
 /**
  * DTO pattern implementation
@@ -15,8 +16,9 @@ public class PharmacyAdminDTO extends UserDTO {
         super();
     }
 
-    public PharmacyAdminDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber, Long pharmacy_id) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber);
+    public PharmacyAdminDTO(Long id, String email, String password, String firstname, String lastname,
+                            Long address_id, String phoneNumber, UserRoles role, Long pharmacy_id) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
         this.pharmacy_id = pharmacy_id;
     }
 
@@ -43,6 +45,7 @@ public class PharmacyAdminDTO extends UserDTO {
                 admin.getLastname(),
                 admin.getAddress().getId(),
                 admin.getPhoneNumber(),
+                UserRoles.PHARMACY_ADMIN,
                 admin.getPharmacy().getId()
         );
         return adminDTO;
@@ -57,6 +60,7 @@ public class PharmacyAdminDTO extends UserDTO {
                 userDTO.getLastname(),
                 userDTO.address_id,
                 userDTO.getPhoneNumber(),
+                userDTO.getRole(),
                 1L
         );
     }

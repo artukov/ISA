@@ -10,6 +10,7 @@ const AddressComponent = ({address}) => {
     else{
         return (  
             <div>
+                <h4>AddressComponent</h4>
                 <p>{address.street}</p>
                 <p>{address.streetNumber}</p>
                 <p>{address.city}</p>

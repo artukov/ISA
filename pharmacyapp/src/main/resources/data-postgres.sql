@@ -41,12 +41,14 @@ INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount) VALUES (200,500,45);
 --inserting users
 
 INSERT INTO public.dermatologist(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
-VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname', '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 200);
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
-VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname', '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 200);
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 
 --inserting dermatologist's working hours in a pharmacy
@@ -74,9 +76,9 @@ VALUES (300,300,5.0);
 --patient
 
 INSERT INTO public.patient(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, category, penalties, points)
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
 VALUES (400, 'patient@live.com', true, 'patient', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, null, null, null);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 
 
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
@@ -100,22 +102,22 @@ VALUES (202, 300);
 --pharmacist
 
 INSERT INTO public.pharmacist(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
                               pharmacy_id,start_hour,hours )
 VALUES (500, 'pharmacist@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
 VALUES (501, 'pharmacist1@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id,
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
 VALUES (502, 'pharmacist2@live.com' ,true, 'pharmacist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
@@ -123,24 +125,24 @@ INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 5.0);
 
 
 INSERT INTO public.pharmacy_admin(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id, pharmacy_id)
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, pharmacy_id)
 VALUES (200, 'phAdmin@live.com', true, 'pharmacy admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6',
-        '45613', 200, 200);
+        '45613',3,200, 200);
 
 INSERT INTO public.system_admin(
-    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764', 200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764', 5,200);
 
 
-INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (700, 'supplier@live.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
-INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, address_id)
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
 INSERT INTO warehouse(id, size, supplier_id) VALUES (101, 500, 701);
@@ -161,24 +163,13 @@ INSERT INTO public.authority(id,name) VALUES (1,'USER');
 INSERT INTO public.authority(id, name) VALUES (2,'ADMIN');
 
 --inserting user_authority
-INSERT INTO public.user_authority(
-    user_id, authority_id)
-VALUES (200, 1);
-INSERT INTO public.user_authority(
-    user_id, authority_id)
-VALUES (300, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (300, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (400, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (500, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (700, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (600, 2);
 
-INSERT INTO public.user_authority(
-    user_id, authority_id)
-VALUES (400, 1);
-
-INSERT INTO public.user_authority(
-    user_id, authority_id)
-VALUES (500, 1);
-
-INSERT INTO public.user_authority(
-    user_id, authority_id)
-VALUES (600, 2);
 
 --------------------------------------------------
 INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)

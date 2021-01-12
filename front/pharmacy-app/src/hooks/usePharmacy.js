@@ -10,7 +10,7 @@ export const usePharmacy =  (id) =>{
        
     axiosConfig.get(urlGetPharmacy + id)
         .then(res =>{
-                console.log(res.data);
+                //console.log(res.data);
                 setPharmacy(res.data);   
     })
     .catch(err => alert(err.response.data));
