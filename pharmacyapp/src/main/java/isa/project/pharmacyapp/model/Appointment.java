@@ -36,8 +36,8 @@ public abstract class Appointment {
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(
            name = "appointment_drug",
-           joinColumns = @JoinColumn(name = "appointment_id"),
-           inverseJoinColumns = @JoinColumn(name = "drug_id")
+           joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"),
+           inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id")
    )
    protected java.util.List<Drug> drug;
 

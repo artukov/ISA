@@ -13,7 +13,15 @@ export const usePharmacy =  (id) =>{
                 //console.log(res.data);
                 setPharmacy(res.data);   
     })
-    .catch(err => alert(err.response.data));
+    .catch(err => {
+        if(err.response.status === 401)
+            alert(err.response.data.message) 
+        else{
+            alert(err.response.data)  
+            
+        }
+             
+    });
     }, [id]);
 
     return pharmacy;

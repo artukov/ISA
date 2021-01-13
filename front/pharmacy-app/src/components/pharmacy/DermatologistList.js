@@ -17,15 +17,13 @@ const DermatologistList = ({pharmacyID}) => {
     return ( 
     <div>
         <h3>Dermatologists component</h3>
-        <ul>
-            {
-                dermatologists.length ? dermatologists.map(dermatologist => {
-                    return (
-                        <DermatologistDetails key={dermatologist.email} dermatologist = {dermatologist}/>
-                    )
-                }) : <p>no dermatologists</p>
-            }
-        </ul>
+        {
+            dermatologists.length ? dermatologists.map(dermatologist => {
+                return (
+                    <DermatologistDetails key={dermatologist.email} dermatologist = {dermatologist}/>
+                )
+            }) : <p>no dermatologists</p>
+        }
     </div> 
     );
 }

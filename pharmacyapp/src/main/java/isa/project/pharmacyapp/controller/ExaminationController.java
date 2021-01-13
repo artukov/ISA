@@ -62,8 +62,13 @@ public class ExaminationController {
 
     }
 
+    @GetMapping(value = "/freePharmacyExam/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacyExaminations(@PathVariable("pharmacyID")Long pharmacyID){
 
+        List<ExaminationDTO> examinationDTOList = this.examinationService.findFreeExaminations(pharmacyID);
 
-
+        return new ResponseEntity<>(examinationDTOList, HttpStatus.OK);
+    }
 
 }

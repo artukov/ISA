@@ -15,4 +15,6 @@ public interface ExaminationService {
     public abstract void saveExamination(Examination examination, ExaminationDTO examinationDTO) throws Exception;
 
     List<ExaminationDTO> findFreeExaminations(Long dermaID, Long pharmacyID);
+
+    List<ExaminationDTO> findFreeExaminations(Long pharmacyID);
 }

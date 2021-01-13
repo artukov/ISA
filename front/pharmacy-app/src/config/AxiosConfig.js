@@ -37,4 +37,4 @@ instance.interceptors.request.use(
 );
 
 
-export default instance;
+export  {instance as axiosConfig, instance as default};

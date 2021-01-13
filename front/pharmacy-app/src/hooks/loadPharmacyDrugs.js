@@ -10,7 +10,7 @@ export const usePharmacyDrugs = (pharmacyID) => {
         if(pharmacyID !== undefined){
             axiosConfig.get(urlGetPharmacyDrugs + pharmacyID)
             .then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 setDrugs(res.data);
             })
             .catch(err => alert(err.response.data));

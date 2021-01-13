@@ -25,7 +25,7 @@ public class Examination extends Appointment {
    private String diagnose;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "derma_id")
+   @JoinColumn(name = "derma_id", referencedColumnName = "id")
    private Dermatologist dermatologist;
 
    public Examination() {

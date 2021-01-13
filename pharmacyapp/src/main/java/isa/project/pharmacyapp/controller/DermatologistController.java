@@ -37,6 +37,18 @@ public class DermatologistController {
 
     }
 
+
+    @GetMapping(value = "/findByID/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermatologist(@PathVariable("id") Long id){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        DermatologistDTO dto = dermatologistService.findById(id);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+
+    }
+
     @DeleteMapping(value = "/delete/pharmacy/{dermaID}/{pharmacyID}")
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> deleteDermatologistFromPharmacy(@PathVariable("dermaID") Long dermaID,

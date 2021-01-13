@@ -4,12 +4,16 @@ const urlPharmacy = '/pharmacy';
 const urlDermatologist = '/dermatologist'
 const urlPharmacist = '/pharmacist';
 const urlDrug = '/drug'
+const urlExamination = '/examination'
 
 const urlGetPharmacy = urlPharmacy + '/find/';
 const urlGetPhramacyDermatologists = urlDermatologist + '/findByPharmacy/';
 const urlGetPharmacyPharmacists = urlPharmacist + '/findAllByPharmacy/';
 const urlGetPharmacyDrugs = urlDrug +'/allPharmacyDrugs/';
+const urlGetPharmacyFreeExaminations = urlExamination + '/freePharmacyExam/'
 
+
+const urlGetDermatologist = urlDermatologist + "/findByID/";
 
 export {
     urlStart,
@@ -17,5 +21,7 @@ export {
     urlGetPharmacy,
     urlGetPhramacyDermatologists,
     urlGetPharmacyPharmacists,
-    urlGetPharmacyDrugs
+    urlGetPharmacyDrugs,
+    urlGetPharmacyFreeExaminations,
+    urlGetDermatologist
 }

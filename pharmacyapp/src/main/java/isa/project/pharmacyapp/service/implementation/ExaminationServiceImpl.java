@@ -1,11 +1,10 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Examination;
-import isa.project.pharmacyapp.repository.DermatologistRepository;
-import isa.project.pharmacyapp.repository.DrugRepository;
-import isa.project.pharmacyapp.repository.ExaminationRepository;
-import isa.project.pharmacyapp.repository.PatientRepository;
+import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +29,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private DrugRepository drugRepository;
 
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
+
     private String CLASS_NAME = this.getClass().getName();
 
     @Value("examination not found by given id")
@@ -51,6 +53,8 @@ public class ExaminationServiceImpl implements ExaminationService {
         this.saveExamination(examination, examinationDTO);
 
     }
+
+
 
     @Override
     public void modifyExamination(Long id, ExaminationDTO examinationDTO) throws Exception {
@@ -106,5 +110,21 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 
         return examinationDTOS;
+    }
+
+    @Override
+    public List<ExaminationDTO> findFreeExaminations(Long pharmacyID) {
+        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+
+        List<Examination> examinations = repository.findByPharmacy(pharmacyID);
+        ArrayList<ExaminationDTO> examinationDTOS = new ArrayList<>();
+        for(Examination e : examinations){
+            examinationDTOS.add(ExaminationDTO.examination2DTO(e));
+        }
+
+
+        return examinationDTOS;
+
+
     }
 }
