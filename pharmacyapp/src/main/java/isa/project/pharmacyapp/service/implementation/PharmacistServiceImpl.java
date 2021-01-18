@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
+import isa.project.pharmacyapp.repository.CalendarRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.service.PharmacistService;
@@ -23,6 +24,9 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
 
     final private static String EXCEPTION_TEXT = "PharmacistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " pharmacist with given id does not exists";
@@ -64,6 +68,13 @@ public class PharmacistServiceImpl implements PharmacistService {
             patientDTOs.add(dto);
         }
         return patientDTOs;
+    }
+
+    @Override
+    public List<Object[]> getPharmacistCalendar(Long pharmaId){
+        List<Object[]> calendar = this.calendarRepository.getPharmacistCalendar(pharmaId);
+
+        return calendar;
     }
 
     @Override

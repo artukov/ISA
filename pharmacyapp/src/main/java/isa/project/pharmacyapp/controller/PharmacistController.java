@@ -2,17 +2,21 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
+import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
 import isa.project.pharmacyapp.service.PharmacistService;
+import isa.project.pharmacyapp.service.UserService;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,6 +25,10 @@ import java.util.List;
 public class PharmacistController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+
+    @Qualifier("userServiceImpl")
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserServiceFactory serviceFactory;
@@ -61,6 +69,16 @@ public class PharmacistController {
         List<PatientDTO> patientDTOList = pharmacistService.findAllPatients(pharmaId, orderCondition);
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacistCalendar(Principal user){
+        User current = userService.findByEmail(user.getName());
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+        List<Object[]> calendar = pharmacistService.getPharmacistCalendar(current.getId());
+
+        return new ResponseEntity<>(calendar,HttpStatus.OK);
     }
 
 
