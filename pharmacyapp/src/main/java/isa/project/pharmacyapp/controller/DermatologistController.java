@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DermatologistDTO;
+import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
@@ -65,5 +66,15 @@ public class DermatologistController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/findPatients/{dermaId}/{orderCondition}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> findAllPatients(@PathVariable("dermaId") Long dermaId, @PathVariable("orderCondition") String orderCondition ){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        List<PatientDTO> patientDTOList = dermatologistService.findAllPatients(dermaId, orderCondition);
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
 }

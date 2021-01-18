@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.Pharmacist;
 import isa.project.pharmacyapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,7 +28,6 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Long> {
             "AND p.id = :id"
             ,nativeQuery = true)
     double existsUnfinishedConsultation(@Param("id")Long id);
-
 
     @Modifying
     @Query(value = "UPDATE pharmacist " +
