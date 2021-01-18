@@ -1,8 +1,10 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
+import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.service.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
     private PharmacistRepository pharmacistRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     final private static String EXCEPTION_TEXT = "PharmacistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " pharmacist with given id does not exists";
@@ -46,6 +51,19 @@ public class PharmacistServiceImpl implements PharmacistService {
 
 
         return pharmacistDTOS;
+    }
+
+    @Override
+    public List<PatientDTO> findAllPatients(Long pharmaId, String orderCondition) {
+        List<Patient> patientList = this.patientRepository.findPharmacistPatients(pharmaId,orderCondition);
+
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
     }
 
     @Override

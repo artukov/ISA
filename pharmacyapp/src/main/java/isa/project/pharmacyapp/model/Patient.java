@@ -56,6 +56,40 @@ public class Patient extends User {
    public Patient() {
    }
 
+   public Integer getPoints() {
+      return points;
+   }
+
+   public void setPoints(Integer points) {
+      this.points = points;
+   }
+
+   public String getCategory() {
+      return category;
+   }
+
+   public void setCategory(String category) {
+      this.category = category;
+   }
+
+   public Integer getPenalties() {
+      return penalties;
+   }
+
+   public void setPenalties(Integer penalties) {
+      this.penalties = penalties;
+   }
+
+   @Override
+   public Address getAddress() {
+      return address;
+   }
+
+   @Override
+   public void setAddress(Address address) {
+      this.address = address;
+   }
+
    /** @pdGenerated default getter */
    public java.util.List<Reservation> getReservation() {
       if (reservation == null)

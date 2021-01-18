@@ -1,10 +1,12 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DermatologistDTO;
+import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
+import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
@@ -62,6 +67,18 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
 
         return dermatologistDTOs;
+    }
+    @Override
+    public List<PatientDTO> findAllPatients(Long dermaId, String orderCondition) {
+        List<Patient> patientList = this.patientRepository.findDermatologistPatients(dermaId,orderCondition);
+
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
     }
 
     @Override
