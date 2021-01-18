@@ -54,4 +54,11 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             "WHERE ca.appointment_date between :lowerLimit and :upperLimit AND ca.calendar_id = :id"
             ,nativeQuery = true)
     Double getAppointmentsBasedOnDate(@Param("id") Long id,@Param("lowerLimit") Date lowerLimit,@Param("upperLimit")  Date upperLimit);
+
+    @Query(value = "select c.*\n" +
+            "from pharmacist p inner join pharmacy ph\n" +
+            "    on p.pharmacy_id = ph.id\n" +
+            "    inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join consultation con on c.appointment_id = con.id\n" +
+            "where p.id = :pharmaId ",nativeQuery = true)
+    List<Object[]> getPharmacistCalendar(@Param("pharmaId") Long pharmaId);
 }

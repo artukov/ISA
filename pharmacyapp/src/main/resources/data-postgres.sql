@@ -225,3 +225,10 @@ VALUES (201,now(),25,true,'report',400,null,500);
 
 INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
 VALUES (202,now(),25,true,'report',400,null,500);
+
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,200,now());
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,201,now());
+INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
+VALUES (200,202,now());
