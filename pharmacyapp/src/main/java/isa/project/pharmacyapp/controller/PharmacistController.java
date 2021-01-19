@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.model.User;
@@ -76,10 +77,8 @@ public class PharmacistController {
     public ResponseEntity<?> getPharmacistCalendar(Principal user){
         User current = userService.findByEmail(user.getName());
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
-        List<Object[]> calendar = pharmacistService.getPharmacistCalendar(current.getId());
+        List<CalendarDTO> calendar = pharmacistService.getPharmacistCalendar(current.getId());
 
         return new ResponseEntity<>(calendar,HttpStatus.OK);
     }
-
-
 }

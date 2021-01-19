@@ -28,16 +28,6 @@ public class PharmacistDTO extends UserDTO{
         this.consultationId = consultationId;
     }
 
-//    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname,
-//                         Long address_id, String phoneNumber, Date start_hour, Integer hours,
-//                         List<Double> ratings, List<Long> consultationId) {
-//        super(id, email, password, firstname, lastname, address_id, phoneNumber);
-//        this.ratings = ratings;
-//        this.consultationId = consultationId;
-//        this.start_hour = start_hour;
-//        this.hours = hours;
-//    }
-
     public PharmacistDTO(Long id, String email, String password, String firstname, String lastname, Long address_id,
                          String phoneNumber, UserRoles role, List<Double> ratings, List<Long> consultationId,
                          Date start_hour, Integer hours) {
