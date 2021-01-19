@@ -55,10 +55,15 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             ,nativeQuery = true)
     Double getAppointmentsBasedOnDate(@Param("id") Long id,@Param("lowerLimit") Date lowerLimit,@Param("upperLimit")  Date upperLimit);
 
-    @Query(value = "select c.*\n" +
+    @Query(value = "select c.*, p.id\n" +
             "from pharmacist p inner join pharmacy ph\n" +
             "    on p.pharmacy_id = ph.id\n" +
             "    inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join consultation con on c.appointment_id = con.id\n" +
             "where p.id = :pharmaId ",nativeQuery = true)
     List<Object[]> getPharmacistCalendar(@Param("pharmaId") Long pharmaId);
+
+    @Query(value = "select c.*, ph.id\n" +
+            "from pharmacy_derma pd inner join pharmacy ph on pd.pharmacy_id = ph.id inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join examination e on e.id = c.appointment_id\n" +
+            "where pd.derma_id = :dermaId", nativeQuery = true)
+    List<Object[]> getDermatologistCalendar(@Param("dermaId") Long dermaId);
 }

@@ -1,10 +1,8 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.DermatologistDTO;
-import isa.project.pharmacyapp.dto.PatientDTO;
-import isa.project.pharmacyapp.dto.UserDTO;
-import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.*;
+import isa.project.pharmacyapp.repository.CalendarRepository;
 import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +29,9 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
 
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
@@ -68,6 +70,7 @@ public class DermatologistServiceImpl implements DermatologistService {
 
         return dermatologistDTOs;
     }
+
     @Override
     public List<PatientDTO> findAllPatients(Long dermaId, String orderCondition) {
         List<Patient> patientList = this.patientRepository.findDermatologistPatients(dermaId,orderCondition);
@@ -79,6 +82,21 @@ public class DermatologistServiceImpl implements DermatologistService {
             patientDTOs.add(dto);
         }
         return patientDTOs;
+    }
+
+    @Override
+    public List<CalendarDTO> getDermatologistCalendar(Long dermaId){
+        List<Object[]> calendar = this.calendarRepository.getDermatologistCalendar(dermaId);
+        ArrayList<CalendarDTO> calendarDTOs = new ArrayList<>();
+        for(Object[] obj : calendar){
+            CalendarDTO dto = new CalendarDTO();
+            dto.setCalendar_id((BigInteger) obj[0]);
+            dto.setAppointment_id((BigInteger) obj[1]);
+            dto.setDate((Date) obj[2]);
+            dto.setPharmacy_id((BigInteger) obj[3]);
+            calendarDTOs.add(dto);
+        }
+        return calendarDTOs;
     }
 
     @Override

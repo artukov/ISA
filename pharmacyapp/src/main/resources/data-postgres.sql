@@ -205,6 +205,7 @@ VALUES (200,40,date('08-07-2019'));
 
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200, 41, now());
+
 ----------------------------------------
 
 INSERT INTO appointment_drug(appointment_id, drug_id) VALUES (10, 200);

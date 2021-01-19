@@ -1,17 +1,23 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
+import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
+import isa.project.pharmacyapp.service.PharmacistService;
+import isa.project.pharmacyapp.service.UserService;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,8 +27,10 @@ public class DermatologistController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
 
-//    @Autowired
-//    private DermatologistService dermatologistService;
+    @Qualifier("userServiceImpl")
+    @Autowired
+    private UserService userService;
+
     @Autowired
     private UserServiceFactory serviceFactory;
 
@@ -76,5 +84,14 @@ public class DermatologistController {
         List<PatientDTO> patientDTOList = dermatologistService.findAllPatients(dermaId, orderCondition);
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermatologistCalendar(Principal user){
+        User current = userService.findByEmail(user.getName());
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        List<CalendarDTO> calendar = dermatologistService.getDermatologistCalendar(current.getId());
+        return new ResponseEntity<>(calendar,HttpStatus.OK);
     }
 }
