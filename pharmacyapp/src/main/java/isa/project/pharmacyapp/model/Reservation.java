@@ -27,17 +27,17 @@ public class Reservation {
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinTable(
            name = "reservation_drug",
-           joinColumns = @JoinColumn(name = "reservation_id"),
-           inverseJoinColumns = @JoinColumn(name = "drug_id")
+           joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
+           inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id")
    )
    private java.util.List<Drug> drug;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "patient_id")
+   @JoinColumn(name = "patient_id", referencedColumnName = "id")
    private Patient patient;
 
    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "pharmacy_id")
+   @JoinColumn(name = "pharmacy_id", referencedColumnName = "id")
    private Pharmacy pharmacy;
 
 

@@ -24,4 +24,5 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
             " INNER JOIN pharmacy p on a.id = p.address_id \n" +
             "WHERE p.id = :pharmacyID",nativeQuery = true)
     Address getAddress(@Param("pharmacyID") Long pharmacyID);
+
 }

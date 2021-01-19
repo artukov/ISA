@@ -11,7 +11,7 @@ export function usePharmacyExaminations(pharmacyID){
         if(pharmacyID !== undefined){
             axiosConfig.get(urlGetPharmacyFreeExaminations + pharmacyID)
             .then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 setExaminations(res.data);
             })
         }
