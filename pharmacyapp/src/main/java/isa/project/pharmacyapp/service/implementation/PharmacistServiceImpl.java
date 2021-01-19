@@ -1,10 +1,12 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.CalendarRepository;
+import isa.project.pharmacyapp.repository.ExaminationRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.service.PharmacistService;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -71,10 +75,18 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public List<Object[]> getPharmacistCalendar(Long pharmaId){
+    public List<CalendarDTO> getPharmacistCalendar(Long pharmaId){
         List<Object[]> calendar = this.calendarRepository.getPharmacistCalendar(pharmaId);
-
-        return calendar;
+        ArrayList<CalendarDTO> calendarDTOs = new ArrayList<>();
+        for(Object[] obj : calendar){
+            CalendarDTO dto = new CalendarDTO();
+            dto.setCalendar_id((BigInteger) obj[0]);
+            dto.setAppointment_id((BigInteger) obj[1]);
+            dto.setDate((Date) obj[2]);
+            //CalendarDTO dto = CalendarDTO.calendar2Dto((Long) obj[0], (Long) obj[1], (Date) obj[2]);
+            calendarDTOs.add(dto);
+        }
+        return calendarDTOs;
     }
 
     @Override

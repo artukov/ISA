@@ -26,4 +26,11 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             "WHERE p.id = :pharmacyID AND ( e.patient_id IS NULL OR e.patient_id = 0 OR e.finished = false );"
             ,nativeQuery = true)
     List<Examination> findByPharmacy(@Param("pharmacyID")Long pharmacyID);
+
+    @Query(value = "select c.*\n" +
+            "from pharmacist p inner join pharmacy ph\n" +
+            "    on p.pharmacy_id = ph.id\n" +
+            "    inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join consultation con on c.appointment_id = con.id\n" +
+            "where p.id = :pharmaId ",nativeQuery = true)
+    List<Object[]> getPharmacistCalendar(@Param("pharmaId") Long pharmaId);
 }
