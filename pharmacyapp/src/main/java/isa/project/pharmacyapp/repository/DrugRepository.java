@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface DrugRepository extends JpaRepository<Drug, Long> {
 
-    @Query(value = "SELECT d.* FROM drug d INNER JOIN pharmacy_drug pd ON d.id = pd.drug_id WHERE pd.pharmacy_id = :pharmacy_id",
+    @Query(value = "SELECT d.* FROM drug d INNER JOIN pharmacy_drug pd ON d.id = pd.drug_id WHERE pd.pharmacy_id = :pharmacy_id " +
+            "ORDER BY d.id",
             nativeQuery = true)
     List<Drug> findAllByPharmacyId(@Param("pharmacy_id")Long id);
 

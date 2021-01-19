@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import formatDate from '../../config/DateFormatConfig';
+import { urlNewReservation } from '../../services/UrlService';
 
 const DrugDetails = ({drug}) => {
 
@@ -20,7 +21,7 @@ const DrugDetails = ({drug}) => {
             drugs : [ drug.id]
         }
 
-        await axiosConfig.post("/reservation/new/" + 200, reservation)
+        await axiosConfig.post(urlNewReservation + 200, reservation)
         .then(res => {
             console.log(res);
         })

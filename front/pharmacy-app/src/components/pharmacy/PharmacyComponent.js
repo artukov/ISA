@@ -3,6 +3,7 @@ import { Col, Container, Navbar, Row, Tab, Tabs } from 'react-bootstrap';
 import { usePharmacy } from '../../hooks/usePharmacy';
 import AddressComponent from '../address/AddressComponent';
 import RatingsComponent from '../ratings/RatingsComponent';
+import ConsultationList from './ConsultationList';
 import DermatologistList from './DermatologistList';
 import DrugList from './DrugList';
 import ExaminationList from './ExaminationList';
@@ -44,6 +45,9 @@ const PharmacyComponent = () => {
                 </Tab>
                 <Tab eventKey="examination" title="Examinations">
                     <ExaminationList pharmacyID = {pharmacy.id} ></ExaminationList>
+                </Tab>
+                <Tab eventKey="consultation" title="Conslutations">
+                    <ConsultationList pharmacyID = {pharmacy.id}></ConsultationList>
                 </Tab>
                 <Tab eventKey="drugReservation" title="Reserve drug" disabled = {false}
                >

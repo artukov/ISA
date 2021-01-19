@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import axiosConfig from '../../config/AxiosConfig';
-import {urlGetDermatologist} from '../../services/UrlService';
+import {urlGetDermatologist, urlModifyExamination} from '../../services/UrlService';
 
 const ExaminationDetails = ({examination}) => {
 
@@ -14,7 +14,19 @@ const ExaminationDetails = ({examination}) => {
         .catch(err => alert(err.response.data));
         return () => {
         }
-    }, [examination])
+    }, [examination]);
+
+    const makeAppointment = async (id) =>{
+        await axiosConfig.put(urlModifyExamination + id, examination)
+        .then(res => {
+            console.log(res);
+            /**
+             * @TODO
+             * Reload examinations when appointment is made successful
+             *  */
+        })
+        .catch(err => console.log(err.response));
+    }
 
     return ( 
     <div>
@@ -23,7 +35,7 @@ const ExaminationDetails = ({examination}) => {
             <Card.Body>
                 <Container>
                     <Row>
-                        <Col>{ dermatologist.firstname}</Col>
+                        <Col>{dermatologist.firstname}</Col>
                         <Col>{dermatologist.lastname}</Col>
                     </Row>
                 </Container>
@@ -33,7 +45,9 @@ const ExaminationDetails = ({examination}) => {
                 <ListGroup.Item>Duration : {examination.duration}</ListGroup.Item>
                 <ListGroup.Item>Price : {examination.price} $</ListGroup.Item>
             </ListGroup>
-            <Card.Footer></Card.Footer>
+            <Card.Footer>
+                <Button onClick={()=>makeAppointment(examination.id)}>Make an appointment</Button>
+            </Card.Footer>
         </Card>
     </div> );
 }
