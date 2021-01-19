@@ -83,7 +83,7 @@ public class PharmacistServiceImpl implements PharmacistService {
             dto.setCalendar_id((BigInteger) obj[0]);
             dto.setAppointment_id((BigInteger) obj[1]);
             dto.setDate((Date) obj[2]);
-            //CalendarDTO dto = CalendarDTO.calendar2Dto((Long) obj[0], (Long) obj[1], (Date) obj[2]);
+            dto.setPharmacy_id((BigInteger) obj[3]);
             calendarDTOs.add(dto);
         }
         return calendarDTOs;
