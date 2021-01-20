@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.model.Dermatologist;
 import isa.project.pharmacyapp.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
+
+    Patient findByEmail(String email);
 
     @Query(value = "select p.*\n" +
             "from examination e inner join patient p on e.patient_id = p.id\n" +
