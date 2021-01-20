@@ -13,12 +13,16 @@ function login(email,password){
     axiosConfig.post(urlAuthLogin,user)
     .then(res => {
 
-        token.setToken(res.data.accessToken, res.data.expiresIn);    
+        let expiresDate = new Date();
+        let time = expiresDate.getTime();
+        expiresDate.setTime(res.data.expiresIn + time);
+        //console.log(expiresDate);
+        token.setToken(res.data.accessToken, res.data.expiresIn,expiresDate);    
         console.log('token after login', token);
 
         localStorage.setItem('token', JSON.stringify(token)); 
        
-        window.location = "/home"
+        //window.location = "/home"
     })
     .catch(err => {
         /* console.log(err.response.status);

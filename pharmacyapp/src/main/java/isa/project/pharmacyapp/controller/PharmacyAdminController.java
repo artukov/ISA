@@ -61,6 +61,7 @@ public class PharmacyAdminController {
     }
 
     @GetMapping(value = "/findPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasAuthority('PHARMACY_ADMIN')")
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAdminsPharmacy(Principal admin){
         PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);

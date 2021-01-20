@@ -172,6 +172,7 @@ public class TokenUtils {
                     .getBody();
         }
         catch (Exception e){
+            e.printStackTrace();
             claims = null;
         }
         return  claims;

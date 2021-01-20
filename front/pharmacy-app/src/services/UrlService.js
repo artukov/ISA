@@ -1,5 +1,6 @@
 const urlStart = 'http://localhost:8080';
 const urlAuthLogin = '/auth/login';
+const urlRefreshToken = 'auth/refresh';
 const urlPharmacy = '/pharmacy';
 const urlDermatologist = '/dermatologist'
 const urlPharmacist = '/pharmacist';
@@ -23,6 +24,7 @@ const urlModifyExamination = urlExamination + "/modify/";
 export {
     urlStart,
     urlAuthLogin,
+    urlRefreshToken,
     urlGetPharmacy,
     urlGetPhramacyDermatologists,
     urlGetPharmacyPharmacists,

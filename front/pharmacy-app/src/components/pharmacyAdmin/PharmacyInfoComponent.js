@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Form, Tab, Tabs, Button} from 'react-bootstrap';
+import { Col, Form,  Button} from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import AddressComponent from '../address/AddressComponent';
 

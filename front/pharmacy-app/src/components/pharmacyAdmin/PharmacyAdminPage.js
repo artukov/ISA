@@ -3,6 +3,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 // import PharmacyComponent from '../pharmacy/PharmacyComponent';
 import PharmacyInfoComponent from './PharmacyInfoComponent';
+import refreshToken from '../../services/RefreshToken';
 
 
 const PharmacyAdminPage = () => {
@@ -20,6 +21,7 @@ const PharmacyAdminPage = () => {
                 if(err.response.status === 401){
                     alert('Login is needed \n' + err.response.data.message);
                     console.log(err.response);
+                    //refreshToken();
                 }
                     
                 else

@@ -161,9 +161,11 @@ INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101)
 
 INSERT INTO public.authority(id,name) VALUES (1,'USER');
 INSERT INTO public.authority(id, name) VALUES (2,'ADMIN');
+INSERT INTO public.authority(id, name) VALUES (3,'PHARMACY_ADMIN');
 
 --inserting user_authority
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 1);
+INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 3);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (300, 1);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (400, 1);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (500, 1);

@@ -5,6 +5,7 @@ import axiosConfig from '../config/AxiosConfig';
 import UserProfile from '../components/view/userProfile';
 import Drugstore from "../components/view/drugstore";
 import Medicaments from '../components/view/medicaments';
+import refreshToken from '../services/RefreshToken';
 
 class homePage extends Component {
 
@@ -13,6 +14,7 @@ class homePage extends Component {
         axiosConfig.post('/user/current')
             .then(res => console.log(res.data))
             .catch(err => console.log(err.response.data));
+        refreshToken();
     }
 
     render() {
