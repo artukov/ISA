@@ -15,6 +15,8 @@ public interface PharmacistService extends UserService {
     public abstract List<PharmacistDTO> findAllByPharmacy(Long pharmacyId);
     public abstract List<CalendarDTO> getPharmacistCalendar(Long pharmaId);
     public abstract List<PatientDTO> findAllPharmacistPatients(Long pharmaId, String orderCondition);
+    public abstract List<PatientDTO> getAllPatients();
+    public abstract List<PatientDTO> findPatientbyNameAndSurname(String firstName, String lastName);
     public abstract void createNewPharmacist(PharmacistDTO dto) throws Exception;
     public abstract void modifyPharmacist(Long id, PharmacistDTO dto) throws Exception;
     public abstract void deletePharmacistById(Long id) throws Exception;

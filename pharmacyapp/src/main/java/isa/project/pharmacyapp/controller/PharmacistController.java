@@ -74,6 +74,25 @@ public class PharmacistController {
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/getAllPatients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllPatients(){
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+        List<PatientDTO> patientDTOList = pharmacistService.getAllPatients();
+
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllPatients/{firstName}/{lastName}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPatientsByNameAndSurname(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName){
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+        List<PatientDTO> patientDTOList = pharmacistService.findPatientbyNameAndSurname(firstName,lastName);
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/calendar", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getPharmacistCalendar(Principal user){
