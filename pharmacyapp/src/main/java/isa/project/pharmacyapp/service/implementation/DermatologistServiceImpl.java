@@ -2,10 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.*;
-import isa.project.pharmacyapp.repository.CalendarRepository;
-import isa.project.pharmacyapp.repository.DermatologistRepository;
-import isa.project.pharmacyapp.repository.PatientRepository;
-import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,9 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Autowired
     private CalendarRepository calendarRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
@@ -105,8 +105,21 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
-    public void modifyDermatologist(Long id, DermatologistDTO dermatologistDTO) throws Exception {
+    public void modifyDermatologist(Long dermaId, DermatologistDTO dermatologistDTO) throws Exception {
+        Dermatologist dermatologist = dermatologistRepository.findById(dermaId).orElse(null);
 
+        if(dermatologist == null){
+            throw new NoSuchElementException("DermatologistSerivceImpl::modifyDermatologist(Long id, DermatologistDTO dermatologistDTO)" +
+                    "dermatologist could not be find by the given id");
+        }
+
+        try {
+            this.saveDermatologist(dermatologist, dermatologistDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("DermatologistServiceImpl::modifyDermatologist(Long id, DermatologistDTO dermatologistDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 
     @Override
@@ -115,8 +128,27 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
-    public Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO) {
-        return null;
+    public Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO) throws Exception{
+        UserDTO.dto2User(dermatologist,dermatologistDTO);
+
+        try{
+            dermatologist.setAddress(addressRepository.findById(dermatologistDTO.getAddress_id()).orElse(null));
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
+                    " address does not exists");
+        }
+
+        try {
+            dermatologistRepository.save(dermatologist);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
+                    "saving dermatologist exception ");
+        }
+
+        return dermatologist;
     }
 
     @Override
