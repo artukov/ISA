@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.model.Dermatologist;
 import isa.project.pharmacyapp.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
+
+    Patient findByEmail(String email);
 
     @Query(value = "select p.*\n" +
             "from examination e inner join patient p on e.patient_id = p.id\n" +
@@ -22,4 +25,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "where c.pharmacist_id = :pharmaId\n" +
             "order by :orderCondition", nativeQuery = true)
     List<Patient> findPharmacistPatients(@Param("pharmaId") Long pharmaId, @Param("orderCondition") String orderCondition);
+
+    @Query(value = "select *\n" +
+            "from patient\n" +
+            "where firstname = :firstName and lastname = :lastName", nativeQuery = true)
+    List<Patient> findPatientByNameAndSurname(@Param("firstName") String firstName, @Param("lastName") String lastName);
 }

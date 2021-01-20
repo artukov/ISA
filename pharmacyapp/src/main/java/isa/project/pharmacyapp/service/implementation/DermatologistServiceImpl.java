@@ -72,7 +72,7 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
-    public List<PatientDTO> findAllPatients(Long dermaId, String orderCondition) {
+    public List<PatientDTO> findAllDermaPatients(Long dermaId, String orderCondition) {
         List<Patient> patientList = this.patientRepository.findDermatologistPatients(dermaId,orderCondition);
 
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
@@ -83,6 +83,31 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
         return patientDTOs;
     }
+
+    @Override
+    public List<PatientDTO> getAllPatients(){
+        List<Patient> patientList = this.patientRepository.findAll();
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
+    }
+    @Override
+    public List<PatientDTO> findPatientbyNameAndSurname(String firstName, String lastName){
+        List<Patient> patientList = this.patientRepository.findPatientByNameAndSurname(firstName,lastName);
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
+    }
+
+
 
     @Override
     public List<CalendarDTO> getDermatologistCalendar(Long dermaId){

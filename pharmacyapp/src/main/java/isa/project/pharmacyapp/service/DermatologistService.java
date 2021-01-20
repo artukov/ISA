@@ -13,7 +13,9 @@ public interface DermatologistService extends UserService {
     public abstract DermatologistDTO findById(Long id);
     public abstract List<DermatologistDTO> findAllByPharmacy(Long pharmacyId);
     public abstract List<CalendarDTO> getDermatologistCalendar(Long dermaId);
-    public abstract List<PatientDTO> findAllPatients(Long dermaId, String orderCondition);
+    public abstract List<PatientDTO> findAllDermaPatients(Long dermaId, String orderCondition);
+    public abstract List<PatientDTO> getAllPatients();
+    public abstract List<PatientDTO> findPatientbyNameAndSurname(String firstName, String lastName);
     public abstract void createNewDermatologist(DermatologistDTO dermatologistDTO) throws Exception;
     public abstract void modifyDermatologist(Long dermaId, DermatologistDTO dermatologistDTO) throws Exception;
     public abstract void deleteDermatologist(Long id) throws Exception;

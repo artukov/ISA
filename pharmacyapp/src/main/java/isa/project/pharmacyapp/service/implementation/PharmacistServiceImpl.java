@@ -62,7 +62,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public List<PatientDTO> findAllPatients(Long pharmaId, String orderCondition) {
+    public List<PatientDTO> findAllPharmacistPatients(Long pharmaId, String orderCondition) {
         List<Patient> patientList = this.patientRepository.findPharmacistPatients(pharmaId,orderCondition);
 
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();

@@ -66,10 +66,10 @@ public class PharmacistController {
 
     @GetMapping(value = "/findPatients/{pharmaId}/{orderCondition}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> findAllPatients(@PathVariable("pharmaId") Long pharmaId, @PathVariable("orderCondition") String orderCondition ){
+    public ResponseEntity<?> findAllPharmacistPatients(@PathVariable("pharmaId") Long pharmaId, @PathVariable("orderCondition") String orderCondition ){
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
 
-        List<PatientDTO> patientDTOList = pharmacistService.findAllPatients(pharmaId, orderCondition);
+        List<PatientDTO> patientDTOList = pharmacistService.findAllPharmacistPatients(pharmaId, orderCondition);
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }

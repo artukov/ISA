@@ -4,12 +4,10 @@ import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
+import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
-import isa.project.pharmacyapp.service.DermatologistService;
-import isa.project.pharmacyapp.service.PharmacistService;
-import isa.project.pharmacyapp.service.PharmacyAdminService;
-import isa.project.pharmacyapp.service.UserService;
+import isa.project.pharmacyapp.service.*;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -81,10 +79,28 @@ public class DermatologistController {
 
     @GetMapping(value = "/findPatients/{dermaId}/{orderCondition}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> findAllPatients(@PathVariable("dermaId") Long dermaId, @PathVariable("orderCondition") String orderCondition ){
+    public ResponseEntity<?> findAllDermaPatients(@PathVariable("dermaId") Long dermaId, @PathVariable("orderCondition") String orderCondition ){
         DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
 
-        List<PatientDTO> patientDTOList = dermatologistService.findAllPatients(dermaId, orderCondition);
+        List<PatientDTO> patientDTOList = dermatologistService.findAllDermaPatients(dermaId, orderCondition);
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+    @GetMapping(value = "/getAllPatients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllPatients(){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        List<PatientDTO> patientDTOList = dermatologistService.getAllPatients();
+
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllPatients/{firstName}/{lastName}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPatientsByNameAndSurname(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        List<PatientDTO> patientDTOList = dermatologistService.findPatientbyNameAndSurname(firstName,lastName);
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
