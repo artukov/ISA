@@ -1,14 +1,18 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.service.ExaminationService;
+import isa.project.pharmacyapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,9 +25,15 @@ public class ExaminationController {
     @Autowired
     private ExaminationService examinationService;
 
+    @Qualifier("userServiceImpl")
+    @Autowired
+    private UserService userService;
+
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> newExamination(@RequestBody ExaminationDTO dto){
+
+
 
         try {
             this.examinationService.createNewExamination(dto);
@@ -38,7 +48,11 @@ public class ExaminationController {
 
     @PutMapping(value = "/modify/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO modifyDTO, @PathVariable("id") Long id){
+    public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO modifyDTO, @PathVariable("id") Long id, Principal user){
+
+        User current = userService.findByEmail(user.getName());
+
+        modifyDTO.setPatient_id(current.getId());
 
         try {
             examinationService.modifyExamination(id, modifyDTO);

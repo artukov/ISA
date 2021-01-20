@@ -1,25 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Container, Navbar, Row, Tab, Tabs } from 'react-bootstrap';
-import { usePharmacy } from '../../hooks/usePharmacy';
+import { axiosConfig } from '../../config/AxiosConfig';
+import { urlGetPharmacy } from '../../services/UrlService';
 import AddressComponent from '../address/AddressComponent';
 import RatingsComponent from '../ratings/RatingsComponent';
+import ConsultationList from './ConsultationList';
 import DermatologistList from './DermatologistList';
 import DrugList from './DrugList';
 import ExaminationList from './ExaminationList';
 import PharmacistList from './PharmacistList';
 
-const PharmacyComponent = () => {
+const PharmacyComponent = ({pharmacyID}) => {
 
-    const [pharmacy, setPharmacy] = useState([]);
-    const fetchPharmacy = usePharmacy(200);
+    const [pharmacy, setPharmacy] = useState({});
+    const [isLoaded, setIsLoaded] = useState(false);
+    // const fetchPharmacy = usePharmacy(200);
 
     useEffect(() => {
-        setPharmacy(fetchPharmacy);
+        async function loadPharmacy(id){
+            try{
+                const resault = await axiosConfig.get(urlGetPharmacy + id);
+                setPharmacy(resault.data);
+                setIsLoaded(true);
+            }
+            catch(e){
+                alert(e.response.data.message);
+            }
+        }
+        if(pharmacyID !== undefined){
+            loadPharmacy(pharmacyID);
+            
+        }
         
-    }, [fetchPharmacy]);
+        
+    }, [pharmacyID]);
+
 
     return ( 
         <div>
+            {
+                (isLoaded) ? 
+            (<div>
             <Navbar bg = "dark" variant = "dark">
                 <Navbar.Brand>{pharmacy.name}</Navbar.Brand>
             </Navbar>
@@ -45,12 +66,18 @@ const PharmacyComponent = () => {
                 <Tab eventKey="examination" title="Examinations">
                     <ExaminationList pharmacyID = {pharmacy.id} ></ExaminationList>
                 </Tab>
+                <Tab eventKey="consultation" title="Conslutations">
+                    <ConsultationList pharmacyID = {pharmacy.id}></ConsultationList>
+                </Tab>
                 <Tab eventKey="drugReservation" title="Reserve drug" disabled = {false}
                >
                 </Tab>
                 <Tab eventKey="promotion" title="Pharmacy promotions">
                 </Tab>
             </Tabs>
+            </div>) 
+            : (<p>Loading pharmacy info...</p>)
+            }
             
         </div>
      );

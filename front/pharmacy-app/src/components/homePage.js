@@ -5,6 +5,7 @@ import axiosConfig from '../config/AxiosConfig';
 import UserProfile from '../components/view/userProfile';
 import Drugstore from "../components/view/drugstore";
 import Medicaments from '../components/view/medicaments';
+import refreshToken from '../services/RefreshToken';
 
 class homePage extends Component {
 
@@ -13,6 +14,7 @@ class homePage extends Component {
         axiosConfig.post('/user/current')
             .then(res => console.log(res.data))
             .catch(err => console.log(err.response.data));
+        refreshToken();
     }
 
     render() {
@@ -41,6 +43,7 @@ class homePage extends Component {
 
                 <Button onClick={() => this.getCurrent()}>Get current user</Button>
                 <Button onClick={() => window.location = '/pharmacy'}>Pharmacy</Button>
+                <Button onClick={() => window.location = '/pharmacyAdmin'}>PharmacyAdmin</Button>
             </div>
         );
     }

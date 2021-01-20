@@ -7,11 +7,13 @@ const ExaminationList = ({pharmacyID}) => {
 
     const fetchExaminations = usePharmacyExaminations(pharmacyID)
 
-    useEffect(() => {
-        
+    const loadExaminations = () =>{
         setExaminations(fetchExaminations);
-        
-    }, [fetchExaminations])
+    }; 
+    
+    useEffect(loadExaminations, [fetchExaminations]);
+
+   
 
 
     return ( <div>

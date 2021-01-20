@@ -13,6 +13,7 @@ import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class PharmacyServiceImpl implements PharmacyService {
     }
 
     @Override
-    public void modifyPharmacy(Long id, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {
+    public PharmacyDTO modifyPharmacy(Long id, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {
 
         Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
 
@@ -77,6 +78,8 @@ public class PharmacyServiceImpl implements PharmacyService {
         }
 
         savePharmacy(pharmacy,pharmacyDTO);
+
+        return pharmacyDTO;
 
     }
 
@@ -106,6 +109,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     }
 
+    @Transactional
     @Override
     public Address getAddress(Long id) {
         Address  pharmacyAddress = pharmacyRepository.getAddress(id);
@@ -116,7 +120,22 @@ public class PharmacyServiceImpl implements PharmacyService {
 
         PharmacyDTO.dto2Pharmacy(pharmacy, pharmacyDTO);
 
-        pharmacy.setAddress(addressRepository.findById(pharmacyDTO.getAddress().getId()).orElse(null));
+        /**
+         * TODO
+         * Deleting address if it has been changed, and checking if the deletion is allowed
+         * */
+
+        Address savedAddress = addressRepository.save(pharmacyDTO.getAddress());
+        pharmacy.setAddress(savedAddress);
+//        if(savedAddress.getId() != pharmacyDTO.getAddress().getId()){
+//            addressRepository.delete(pharmacyDTO.getAddress());
+//
+//        }
+//        else
+//            pharmacy.setAddress(pharmacyDTO.getAddress());
+
+
+
         pharmacy.setCalendar(calendarRepository.findById(pharmacyDTO.getCalendarID()).orElse(null));
 
         if(pharmacy.getAddress() == null){
