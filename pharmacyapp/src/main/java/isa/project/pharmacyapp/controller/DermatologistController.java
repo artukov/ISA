@@ -86,12 +86,21 @@ public class DermatologistController {
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
-    @GetMapping(value = "getAllPatients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getAllPatients", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPatients(){
         DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
         List<PatientDTO> patientDTOList = dermatologistService.getAllPatients();
 
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllPatients/{firstName}/{lastName}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPatientsByNameAndSurname(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        List<PatientDTO> patientDTOList = dermatologistService.findPatientbyNameAndSurname(firstName,lastName);
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }

@@ -25,4 +25,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "where c.pharmacist_id = :pharmaId\n" +
             "order by :orderCondition", nativeQuery = true)
     List<Patient> findPharmacistPatients(@Param("pharmaId") Long pharmaId, @Param("orderCondition") String orderCondition);
+
+    @Query(value = "select *\n" +
+            "from patient\n" +
+            "where firstname = :firstName and lastname = :lastName", nativeQuery = true)
+    List<Patient> findPatientByNameAndSurname(@Param("firstName") String firstName, @Param("lastName") String lastName);
 }
