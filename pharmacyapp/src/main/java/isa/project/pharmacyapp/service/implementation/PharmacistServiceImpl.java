@@ -5,10 +5,7 @@ import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacistDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
-import isa.project.pharmacyapp.repository.CalendarRepository;
-import isa.project.pharmacyapp.repository.ExaminationRepository;
-import isa.project.pharmacyapp.repository.PatientRepository;
-import isa.project.pharmacyapp.repository.PharmacistRepository;
+import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +28,9 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
     private CalendarRepository calendarRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     final private static String EXCEPTION_TEXT = "PharmacistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " pharmacist with given id does not exists";
@@ -96,7 +96,20 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void modifyPharmacist(Long id, PharmacistDTO dto) throws Exception {
+        Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
 
+        if(pharmacist == null){
+            throw new NoSuchElementException("PharmacistSerivceImpl::modifyPharmacist(Long id, PharmacistDTO dto)" +
+                    "pharmacist could not be find by the given id");
+        }
+
+        try {
+            this.savePharmacist(pharmacist, dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("PharmacistServiceImpl::modifyPharmacist(Long id, PharmacistDTO pharmacistDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 
     @Transactional
@@ -116,12 +129,26 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) {
-        /**
-         * TODO
-         * Saving pharmacist
-         * */
-        return null;
+    public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception{
+
+        UserDTO.dto2User(pharmacist, pharmacistDTO);
+        try{
+            pharmacist.setAddress(addressRepository.findById(pharmacistDTO.getAddress_id()).orElse(null));
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +
+                    " address does not exists");
+        }
+
+        try {
+            pharmacistRepository.save(pharmacist);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +
+                    "saving pharmacist exception ");
+        }
+        return pharmacist;
     }
 
     @Override
@@ -147,8 +174,12 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public User saveNewUser(UserDTO userDTO) {
-        return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
+        try {
+           return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
-
-
 }
