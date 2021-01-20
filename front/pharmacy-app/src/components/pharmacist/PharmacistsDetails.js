@@ -60,6 +60,7 @@ const PharmacistDetails = ({pharmacist}) => {
         <Card>
             <Card.Header>Pharmacist info</Card.Header>
             <ListGroup>
+                <ListGroup.Item>Email : {pharmacist.email}</ListGroup.Item>
                 <ListGroup.Item>Firstname : {pharmacist.firstname}</ListGroup.Item>
                 <ListGroup.Item>Lastname : {pharmacist.lastname}</ListGroup.Item>
                 <ListGroup.Item>Ratings : {rating}</ListGroup.Item>

@@ -75,22 +75,21 @@ public class PharmacyController {
 
     @PutMapping(value = "/modify/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> modifyPharmacy(@PathVariable("id") Long id, @RequestBody PharmacyDTO dto){
+    public ResponseEntity<?> modifyPharmacy(@PathVariable("id") Long id, @RequestBody PharmacyDTO dto) {
 
 
+        PharmacyDTO retDTO;
         try {
-            pharmacyService.modifyPharmacy(id,dto);
-        }
-        catch (NoSuchElementException ele){
+            retDTO = pharmacyService.modifyPharmacy(id, dto);
+        } catch (NoSuchElementException ele) {
             ele.printStackTrace();
             return new ResponseEntity<>("PharmacyController::modifyPharmacy there is no pharmacy by a given Id", HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("PharmacyController::modifyPharmacy Server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(retDTO, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete/id")

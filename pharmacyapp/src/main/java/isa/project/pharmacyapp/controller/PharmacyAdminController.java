@@ -1,6 +1,8 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
+import isa.project.pharmacyapp.dto.PharmacyDTO;
+import isa.project.pharmacyapp.model.PharmacyAdmin;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.DermatologistService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -55,6 +58,19 @@ public class PharmacyAdminController {
         PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);
 
         return new ResponseEntity<>(adminService.findAdminsOfPharmacy(pharmacyId),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAdminsPharmacy(Principal admin){
+        PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);
+
+        PharmacyAdmin currentAdmin = (PharmacyAdmin) adminService.findByEmail(admin.getName());
+
+        PharmacyDTO pharmacyDTO = PharmacyDTO.pharmacy2DTO(currentAdmin.getPharmacy());
+
+        return new ResponseEntity<>(pharmacyDTO,HttpStatus.OK);
+
     }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)

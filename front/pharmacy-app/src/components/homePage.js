@@ -41,6 +41,7 @@ class homePage extends Component {
 
                 <Button onClick={() => this.getCurrent()}>Get current user</Button>
                 <Button onClick={() => window.location = '/pharmacy'}>Pharmacy</Button>
+                <Button onClick={() => window.location = '/pharmacyAdmin'}>PharmacyAdmin</Button>
             </div>
         );
     }

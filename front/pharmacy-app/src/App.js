@@ -6,9 +6,12 @@ import LoginPage from './components/loginPage';
 import RegistrationPage from './components/registrationPage';
 import PharmacyComponent from './components/pharmacy/PharmacyComponent';
 import UserProfile from './components/view/userProfile'
+import PharmacyAdminPage from './components/pharmacyAdmin/PharmacyAdminPage';
+import CurrentUserContextProvider, { CurrentUserContext } from './components/context/CurrentUserContext';
 
 function App() {
   return (
+    // <CurrentUserContextProvider>
     <Router>
       <Switch>
         <Route path='/login' exact component={LoginPage} />
@@ -17,10 +20,12 @@ function App() {
         <Route path='/home' exact component={HomePage} />
 
         <Route path='/pharmacy' exact component={PharmacyComponent}></Route>
+        <Route path='/pharmacyAdmin' exact component={PharmacyAdminPage}></Route>
         <Route path='/'>404 not here sry</Route>
 
       </Switch>
     </Router>
+    // </CurrentUserContextProvider>
   );
 }
 
