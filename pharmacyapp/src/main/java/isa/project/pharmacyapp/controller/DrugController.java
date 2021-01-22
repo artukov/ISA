@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,14 @@ public class DrugController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllDrugs() {
         List<DrugDTO> dtos = this.drugService.findAll();
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search/{drugName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> searchDrugs(@PathVariable("drugName") String drugName){
+        List<PharmaDrugDTO> dtos = this.drugService.searchDrugs(drugName);
 
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
