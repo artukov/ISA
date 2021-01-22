@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
@@ -54,6 +55,11 @@ public class DrugServiceImpl implements DrugService {
         List<Drug> drugs = drugRepository.findAll();
 
         return this.listCreationDrug2DTO(drugs, null);
+    }
+
+    @Override
+    public List<PharmaDrugDTO> searchDrugs(String drugName){
+        return drugRepository.searchDrugs(drugName);
     }
 
     @Override

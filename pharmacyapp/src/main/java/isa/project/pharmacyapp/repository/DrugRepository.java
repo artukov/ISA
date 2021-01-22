@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.repository;
 
+import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -42,6 +43,11 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "GROUP BY EXTRACT(year FROM ca.appointment_date)"
             ,nativeQuery = true)
     List<Double> getYearlyDrugConsumptionStatistics(@Param("id") Long id);
+
+    @Query(value = "select d.name, d.type, pd.pharmacy_id, pd.price\n" +
+            "from drug d inner join pharmacy_drug pd on d.id = pd.drug_id\n" +
+            "where d.name = :drugName and  pd.amount != 0",nativeQuery = true)
+    List<PharmaDrugDTO> searchDrugs(@Param("drugName") String drugName);
 
 
     @Modifying

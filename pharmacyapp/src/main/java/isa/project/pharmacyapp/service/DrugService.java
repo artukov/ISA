@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.TimeSpam;
 
@@ -12,6 +13,7 @@ public interface DrugService {
     public List<DrugDTO> findAll();
     public List<DrugDTO> findAllPharmacyDrugs(Long pharmacyId);
     public List<DrugDTO> findAllPatientDrugs(Long patientId);
+    public List<PharmaDrugDTO> searchDrugs(String drugName);
     public void createNewDrug(DrugDTO drugDTO) throws Exception;
     public void modifyDrug(Long id, DrugDTO drugDTO) throws Exception;
     public void deleteDrug(Long id, Long pharmacyID) throws Exception;
