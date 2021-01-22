@@ -89,6 +89,13 @@ public class DrugController {
 
     }
 
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllDrugs() {
+        List<DrugDTO> dtos = this.drugService.findAll();
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
 
 
 }
