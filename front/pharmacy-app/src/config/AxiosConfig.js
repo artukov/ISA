@@ -1,5 +1,5 @@
 import axios from 'axios';
-import refreshToken from '../services/RefreshToken';
+// import refreshToken from '../services/RefreshToken';
 import {urlStart, urlAuthLogin} from '../services/UrlService';
 
 
@@ -57,9 +57,9 @@ instance.interceptors.response.use(
     error =>{
        
         if((error.response.status !== undefined) && (error.response.status === 401)){
-            console.log('intercepter error \n', error.response);
-            const resault = refreshToken();
-            return Promise.resolve(resault);
+            // console.log('intercepter error \n', error.response);
+            // const resault = refreshToken();
+            // return Promise.resolve(resault);
         }
         return Promise.reject(error);
     }

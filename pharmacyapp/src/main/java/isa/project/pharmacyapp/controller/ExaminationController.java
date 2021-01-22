@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.service.ExaminationService;
 import isa.project.pharmacyapp.service.UserService;
@@ -37,13 +38,25 @@ public class ExaminationController {
 
         try {
             this.examinationService.createNewExamination(dto);
-        } catch (Exception e) {
+        }
+        catch (ExaminationOverlappingException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(this.getClass().getName()+"::newExamination Server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @PostMapping(value = "/new/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> newPharmacyExamination(@RequestBody ExaminationDTO dto, @PathVariable("pharmacyID")Long pharmacyID){
+
+        return null;
     }
 
     @PutMapping(value = "/modify/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

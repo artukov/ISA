@@ -22,7 +22,7 @@ public class TokenUtils {
     @Value("bosancero")
     private String SECRET;
 
-    @Value("500000")
+    @Value("5000000")
     private int EXPIRES_INT;
 
     @Value("Authorization")

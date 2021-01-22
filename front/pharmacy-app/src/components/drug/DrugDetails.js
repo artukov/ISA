@@ -17,7 +17,7 @@ const DrugDetails = ({drug}) => {
         
         const reservation = {
             accepted : false,
-            acceptanceDate : formatDate(acceptanceDate),
+            acceptanceDate : formatDate(acceptanceDate, null),
             drugs : [ drug.id]
         }
 

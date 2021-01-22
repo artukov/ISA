@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,8 +50,21 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public void createNewExamination(ExaminationDTO examinationDTO) throws Exception {
+    public void createNewExamination(ExaminationDTO examinationDTO) throws Exception, ExaminationOverlappingException {
         Examination examination = new Examination();
+
+        Date endDateTime = examinationDTO.getBeggingDateTime();
+        System.out.println("Before change \t " + endDateTime);
+        endDateTime.setMinutes(endDateTime.getMinutes() + examinationDTO.getDuration());
+        System.out.println("After change \t" + endDateTime );
+
+        if(repository.overlappingExaminations(examinationDTO.getBeggingDateTime(),endDateTime,
+                examinationDTO.getDermatologist_id()) != 0.0){
+            //System.out.println("There are some overlapping");
+            throw new ExaminationOverlappingException("Begging of the examination and its duration are " +
+                    "overlapping with some examinations that dermatologist already have booked", examinationDTO.getBeggingDateTime(), endDateTime);
+        }
+
         this.saveExamination(examination, examinationDTO);
 
     }
