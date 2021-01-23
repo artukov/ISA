@@ -60,7 +60,8 @@ const DermatologistDetails = ({dermatologist, deleteDermatologistFromPharmacy}) 
                     <p>
                         Dermatologist email :  {dermatologist.email}
                     </p>
-                    <NewExamination dermaID = {dermatologist.id} closeModal = {closeExamModal}></NewExamination>
+                    <NewExamination dermaID = {dermatologist.id} closeModal = {closeExamModal}
+                        dermaWorkingHours = {{startHours :dermatologist.start_hour,hours :dermatologist.hours}}></NewExamination>
                 </Modal.Body>
             </Modal>
 

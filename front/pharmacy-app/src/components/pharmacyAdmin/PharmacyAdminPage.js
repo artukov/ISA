@@ -10,7 +10,7 @@ import AddDermatologist from './AddDermatologist';
 const PharmacyAdminPage = () => {
     
     const [pharmacy, setPharmacy] = useState({});
-
+    const [reload, setReload] = useState(false);
     
     useEffect(() => {
         const loadPharmacy = async () => {
@@ -34,6 +34,7 @@ const PharmacyAdminPage = () => {
         loadPharmacy();
     }, []);
 
+    const addedDermatologist = () =>{ setReload(!reload)}
 
     return ( <div>
         { pharmacy ? (
@@ -46,8 +47,8 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey="examinations" title = "Examinations">
                     </Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
-                        <AddDermatologist></AddDermatologist>
-                        <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
+                        <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
+                        <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
                     </Tab>
                     <Tab eventKey="pharmacists" title = "Pharmacists"></Tab>
                     <Tab eventKey="drugs" title = "Pharmacy drugs"></Tab>

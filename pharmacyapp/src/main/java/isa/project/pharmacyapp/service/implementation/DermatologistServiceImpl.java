@@ -212,6 +212,22 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
+    public List<DermatologistDTO> findAllNotInPharmacy(Long pharmacyID) throws Exception {
+        if(!pharmacyRepository.existsById(pharmacyID)){
+            throw new Exception("No pharmacy with given id");
+        }
+
+        List<Dermatologist> dermatologists = dermatologistRepository.findAllNotInPharmacy(pharmacyID);
+        ArrayList<DermatologistDTO> dermatologistDTOS = new ArrayList<>();
+        for(Dermatologist dermatologist : dermatologists){
+            dermatologistDTOS.add(DermatologistDTO.dermatologist2Dto(dermatologist));
+        }
+
+        return dermatologistDTOS;
+
+    }
+
+    @Override
     public User findByEmail(String email) {
         return this.dermatologistRepository.findByEmail(email);
     }

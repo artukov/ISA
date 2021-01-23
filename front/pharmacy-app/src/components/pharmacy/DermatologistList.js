@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import { CardDeck } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+// import dermatologistReducer from '../../reducer/dermatologistReducer';
 // import { usePharmaDerma } from '../../hooks/loadPharmacyDermatologists';
 import { urlDeleteDermaPharmacy, urlGetPhramacyDermatologists } from '../../services/UrlService';
 import DermatologistDetails from '../dermatologist/DermatologistDetails';
 
 
-const DermatologistList = ({pharmacyID}) => {
+const DermatologistList = ({pharmacyID,reload}) => {
     
     const [dermatologists, setDermatologists] = useState([]);
+    // const [state, dispatch] = useReducer(dermatologistReducer, dermatologists)
 
     // const fetchDermatologists = usePharmaDerma(pharmacyID);
 
@@ -31,14 +33,14 @@ const DermatologistList = ({pharmacyID}) => {
             loadDermatologists(pharmacyID);
         }
 
-    }, [pharmacyID]);
+    }, [pharmacyID, reload]);
 
     const deleteDermatologist = async (id) =>{
         try{
-            const resault = await axiosConfig.delete(urlDeleteDermaPharmacy + id + "/" + pharmacyID);
-            console.log(resault);
+            // const resault = 
+            await axiosConfig.delete(urlDeleteDermaPharmacy + id + "/" + pharmacyID);
+            // console.log(resault);
 
-            
             setDermatologists(dermatologists.filter(dermatologist => dermatologist.id !== id));
         }
         catch(err){

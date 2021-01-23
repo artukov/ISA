@@ -10,7 +10,7 @@ public class OrderSupplierDTO {
     private Long orderID;
     private Long supplierID;
     private Double priceOffer;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date deliveryDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private OrderStatus status;

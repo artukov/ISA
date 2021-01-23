@@ -4,17 +4,101 @@ import { axiosConfig } from '../../config/AxiosConfig';
 import formatDate from '../../config/DateFormatConfig';
 import { urlNewExamination } from '../../services/UrlService';
 
-const NewExamination = ({dermaID, closeModal}) => {
+const NewExamination = ({dermaID, closeModal, dermaWorkingHours}) => {
 
     const [begDate, setBegDate] = useState('');
     const [begTime, setBegTime] = useState('');
     const [duration, setDuration] = useState(0.0);
     const [price, setPrice] = useState(0.0);
 
+
+    function settingUpTime(date,time){
+        let tempDate = new Date(date);
+        const [hours, minutes, ] = time.split(':');
+        tempDate.setHours(hours);
+        tempDate.setMinutes(minutes);
+
+        return tempDate;
+    }
+
+    function reverseDate(date){
+        const [days, months, year] = date.split('-');
+
+        return year + "-" + months + "-" + days; 
+    }
+
+    function betweenWorkingHours(startDateTime, endDateTime, begDateTime){
+
+        if(startDateTime.getHours() + dermaWorkingHours.hours >= 24 && dermaWorkingHours.hours <= 12){
+            startDateTime.setHours(startDateTime.getHours() - 12);
+            endDateTime.setHours(endDateTime.getHours() - 12);
+            begDateTime.setHours(begDateTime.getHours() -12 );
+        }
+
+        let temp = new Date(begDateTime);
+        temp.setHours(startDateTime.getHours());
+        temp.setMinutes(startDateTime.getMinutes());
+       
+
+        if(Date.parse(begDateTime) < Date.parse(temp)){
+            return false;
+        }
+
+        temp.setHours(endDateTime.getHours());
+        temp.setMinutes(endDateTime.getMinutes());
+
+        if(Date.parse(begDateTime) > Date.parse(temp))
+            return false;
+
+
+        begDateTime.setMinutes(begDateTime.getMinutes() + parseInt(duration));
+        
+        if(Date.parse(begDateTime) > Date.parse(temp))
+            return false;
+
+        return true;
+
+    }
+
+    const checkDateAndWorkingHours = () =>{
+        let begDateTime = settingUpTime(begDate,begTime);
+        
+
+        let [startDate, startTime, ] = dermaWorkingHours.startHours.split(" ");
+     
+
+        startDate = reverseDate(startDate);
+        let startDateTime = settingUpTime(startDate,startTime);
+
+        let endDateTime = new Date(startDateTime);
+        endDateTime.setHours(endDateTime.getHours() + dermaWorkingHours.hours);
+
+    
+        if(begDateTime.getTime() < startDateTime.getTime()){
+            throw new Error("Dermatologist is not working at the pharmacy at that date");
+        }
+        
+        if(!betweenWorkingHours(startDateTime,endDateTime,begDateTime)){
+            throw new Error("Time of the examination is not in dermatologist's working hours");
+        }
+
+
+        
+    }
+
     const createExamination = async (e) =>{
         e.preventDefault();
 
         console.log(begDate , begTime, duration, price, dermaID);
+
+        try{
+            checkDateAndWorkingHours();
+        }
+        catch(err){
+            alert(err.message);
+            closeModal();
+            return;
+        }
 
         const examination = {
             beggingDateTime : formatDate(begDate, begTime),
@@ -30,7 +114,7 @@ const NewExamination = ({dermaID, closeModal}) => {
         // console.log('examination: \n',examination);
 
         try{
-            const resault = await axiosConfig.post(urlNewExamination, examination);
+             await axiosConfig.post(urlNewExamination, examination);
             // console.log(resault);
         }
         catch(err){

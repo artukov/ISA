@@ -18,4 +18,6 @@ public interface ExaminationService {
     List<ExaminationDTO> findFreeExaminations(Long dermaID, Long pharmacyID);
 
     List<ExaminationDTO> findFreeExaminations(Long pharmacyID);
+
+    void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception;
 }

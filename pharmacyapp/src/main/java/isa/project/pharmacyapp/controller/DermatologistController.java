@@ -48,6 +48,23 @@ public class DermatologistController {
 
     }
 
+    @GetMapping(value = "/findNotInPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermatologistNotInPharmacy(@PathVariable("id")Long pharmacyID){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        List<DermatologistDTO> dermatologistDTOList = null;
+        try {
+            dermatologistDTOList = dermatologistService.findAllNotInPharmacy(pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(dermatologistDTOList, HttpStatus.OK);
+
+    }
+
 
     @GetMapping(value = "/findByID/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)

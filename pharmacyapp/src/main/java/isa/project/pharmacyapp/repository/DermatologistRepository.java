@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -51,4 +52,13 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
             "WHERE derma_id = :dermaID AND pharmacy_id = :pharmacyID"
             ,nativeQuery = true)
     void deleteDermaFromPharmacy(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
+
+
+    @Query(value = "SELECT * FROM dermatologist d\n" +
+            "WHERE NOT EXISTS( SELECT * FROM pharmacy_derma pd\n" +
+            "WHERE pd.pharmacy_id = :pharmacyID AND pd.derma_id = d.id);"
+            , nativeQuery = true)
+    List<Dermatologist> findAllNotInPharmacy(@Param("pharmacyID") Long pharmacyID);
+
+
 }
