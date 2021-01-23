@@ -13,9 +13,12 @@ const urlGetPhramacyDermatologists = urlDermatologist + '/findByPharmacy/';
 const urlGetPharmacyPharmacists = urlPharmacist + '/findAllByPharmacy/';
 const urlGetPharmacyDrugs = urlDrug +'/allPharmacyDrugs/';
 const urlGetPharmacyFreeExaminations = urlExamination + '/freePharmacyExam/'
+const urlAddNewDermatologist = urlPharmacy + "/addNewDermatologist/";
 
 
 const urlGetDermatologist = urlDermatologist + "/findByID/";
+const urlDeleteDermaPharmacy = urlDermatologist + "/delete/pharmacy/";
+const urlGetDermaNotInPharmacy = urlDermatologist + "/findNotInPharmacy/"
 
 const urlNewReservation = urlReservation + "/new/";
 const urlNewExamination = urlExamination + "/new";
@@ -33,5 +36,8 @@ export {
     urlGetDermatologist,
     urlNewReservation,
     urlNewExamination,
-    urlModifyExamination
+    urlModifyExamination,
+    urlDeleteDermaPharmacy,
+    urlGetDermaNotInPharmacy,
+    urlAddNewDermatologist
 }

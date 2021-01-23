@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -33,4 +34,10 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             "    inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join consultation con on c.appointment_id = con.id\n" +
             "where p.id = :pharmaId ",nativeQuery = true)
     List<Object[]> getPharmacistCalendar(@Param("pharmaId") Long pharmaId);
+
+    @Query(value = "SELECT  count(*) FROM examination e INNER JOIN dermatologist d on d.id = e.derma_id\n" +
+            "WHERE (:begDateTime BETWEEN e.beg_date AND (e.beg_date +  make_interval(mins => e.duration) ) \n" +
+            " OR e.beg_date BETWEEN :begDateTime AND :endDateTime )\n" +
+            "  AND (finished is null or finished = false) AND d.id = :dermaID",nativeQuery = true)
+    double overlappingExaminations(@Param("begDateTime")Date begDateTime,@Param("endDateTime") Date endDateTime,@Param("dermaID") Long dermatologist_id);
 }

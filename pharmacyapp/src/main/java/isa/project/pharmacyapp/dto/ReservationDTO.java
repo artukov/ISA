@@ -9,7 +9,7 @@ import java.util.List;
 public class ReservationDTO {
 
     private Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date acceptanceDate;
     private Boolean accepted;
 

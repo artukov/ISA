@@ -9,7 +9,7 @@ public class AppointmentDTO {
 
     protected Long id;
     protected String report;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     protected Date beggingDateTime;
     protected int duration;
     protected List<Long> drugs;

@@ -59,13 +59,13 @@ public class Pharmacy {
 //   @JoinColumn
 //   public java.util.List<Promotions> promotions;
 
-//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//   @JoinColumn(name = "pharmacy_id")
-//   private List<PharmacyDermatologist> dermatologists;
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private List<PharmacyDermatologist> dermatologists;
 
-//   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//   @JoinColumn(name = "pharmacy_id")
-//   private List<PharmacyDrug> drugs;
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private List<PharmacyDrug> drugs;
 
    /**********************************************************
     * ManyToMany
@@ -162,7 +162,23 @@ public class Pharmacy {
       this.address = address;
    }
 
-//   /** @pdGenerated default getter */
+   public List<PharmacyDermatologist> getDermatologists() {
+      return dermatologists;
+   }
+
+   public void setDermatologists(List<PharmacyDermatologist> dermatologists) {
+      this.dermatologists = dermatologists;
+   }
+
+   public List<PharmacyDrug> getDrugs() {
+      return drugs;
+   }
+
+   public void setDrugs(List<PharmacyDrug> drugs) {
+      this.drugs = drugs;
+   }
+
+   //   /** @pdGenerated default getter */
 //   public java.util.List<Pharmacist> getPharmacist() {
 //      if (pharmacist == null)
 //         pharmacist = new java.util.ArrayList<Pharmacist>();

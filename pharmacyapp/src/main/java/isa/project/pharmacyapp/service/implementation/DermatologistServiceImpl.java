@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.*;
+import isa.project.pharmacyapp.exception.DeletingDermatologistException;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.DermatologistService;
@@ -200,12 +201,29 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
 
         if(dermatologistRepository.existsUnfinishedExamination(dermaID, pharmacyID) != 0.0){
-            throw  new Exception("Dermatologist is taken");
+            throw new DeletingDermatologistException("Dermatologist has unfinished examinations");
+//            throw  new Exception("Dermatologist has unfinished examinations");
         }
 
         dermatologistRepository.deleteDermaFromPharmacy(dermaID, pharmacyID);
 
 
+
+    }
+
+    @Override
+    public List<DermatologistDTO> findAllNotInPharmacy(Long pharmacyID) throws Exception {
+        if(!pharmacyRepository.existsById(pharmacyID)){
+            throw new Exception("No pharmacy with given id");
+        }
+
+        List<Dermatologist> dermatologists = dermatologistRepository.findAllNotInPharmacy(pharmacyID);
+        ArrayList<DermatologistDTO> dermatologistDTOS = new ArrayList<>();
+        for(Dermatologist dermatologist : dermatologists){
+            dermatologistDTOS.add(DermatologistDTO.dermatologist2Dto(dermatologist));
+        }
+
+        return dermatologistDTOS;
 
     }
 

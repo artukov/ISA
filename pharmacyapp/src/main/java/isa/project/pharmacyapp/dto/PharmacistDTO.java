@@ -14,7 +14,7 @@ public class PharmacistDTO extends UserDTO{
     private List<Double> ratings;
     private List<Long> consultationId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date start_hour;
     private Integer hours;
 

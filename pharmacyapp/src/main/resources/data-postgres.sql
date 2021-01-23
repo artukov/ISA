@@ -50,14 +50,26 @@ INSERT INTO public.dermatologist(
 VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
+INSERT INTO public.dermatologist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (302, 'derma2@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+
+INSERT INTO public.dermatologist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (303, 'derma3@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+
 
 --inserting dermatologist's working hours in a pharmacy
 INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
 VALUES (200, 300, now(),8);
 
-
 INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
 VALUES (200, 301, now(),6);
+
+INSERT INTO public.pharmacy_derma(hours, start_hour, pharmacy_id, derma_id)
+VALUES (8, now(),300, 303);
 --dermatologist ratings for one pharmacy
 
 INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (200,300,null);

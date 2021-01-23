@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 @Repository
 public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
 
@@ -25,4 +27,10 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
             "WHERE p.id = :pharmacyID",nativeQuery = true)
     Address getAddress(@Param("pharmacyID") Long pharmacyID);
 
+    @Query(value = "SELECT count(*) FROM pharmacy_derma pd\n" +
+            "WHERE ( :startHour , :endHours) OVERLAPS\n" +
+            "(pd.start_hour , pd.start_hour + make_interval(hours => pd.hours) ) \n" +
+            "AND pd.derma_id = :dermaID AND pd.pharmacy_id != :pharmacyID \n",nativeQuery = true)
+    Double overlappingWorkingHours(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID,
+                                   @Param("startHour") Date startHour,@Param("endHours") Date endHours);
 }
