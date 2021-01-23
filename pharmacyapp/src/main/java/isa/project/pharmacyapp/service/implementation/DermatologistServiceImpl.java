@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.*;
+import isa.project.pharmacyapp.exception.DeletingDermatologistException;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.DermatologistService;
@@ -200,7 +201,8 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
 
         if(dermatologistRepository.existsUnfinishedExamination(dermaID, pharmacyID) != 0.0){
-            throw  new Exception("Dermatologist is taken");
+            throw new DeletingDermatologistException("Dermatologist has unfinished examinations");
+//            throw  new Exception("Dermatologist has unfinished examinations");
         }
 
         dermatologistRepository.deleteDermaFromPharmacy(dermaID, pharmacyID);

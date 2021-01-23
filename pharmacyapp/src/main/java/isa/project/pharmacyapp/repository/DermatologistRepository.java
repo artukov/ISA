@@ -42,7 +42,7 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
             "    INNER JOIN calendar_appointments ca on e.id = ca.appointment_id\n" +
             "    INNER JOIN pharmacy p ON p.calendar_id = ca.calendar_id\n" +
             "WHERE d.id = :dermaID AND p.id = :pharmacyID " +
-            "AND e.finished = false"
+            "AND (e.finished = false OR e.finished IS NULL)"
             ,nativeQuery = true)
     double existsUnfinishedExamination(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
 

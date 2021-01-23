@@ -16,6 +16,7 @@ const urlGetPharmacyFreeExaminations = urlExamination + '/freePharmacyExam/'
 
 
 const urlGetDermatologist = urlDermatologist + "/findByID/";
+const urlDeleteDermaPharmacy = urlDermatologist + "/delete/pharmacy/";
 
 const urlNewReservation = urlReservation + "/new/";
 const urlNewExamination = urlExamination + "/new";
@@ -33,5 +34,6 @@ export {
     urlGetDermatologist,
     urlNewReservation,
     urlNewExamination,
-    urlModifyExamination
+    urlModifyExamination,
+    urlDeleteDermaPharmacy
 }

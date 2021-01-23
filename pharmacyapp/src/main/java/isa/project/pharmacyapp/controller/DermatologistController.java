@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
+import isa.project.pharmacyapp.exception.DeletingDermatologistException;
 import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
@@ -68,9 +69,13 @@ public class DermatologistController {
 
         try {
             service.deleteDermatologistPharmacy(dermaID, pharmacyID);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (DeletingDermatologistException dde){
+            return new ResponseEntity<>(dde.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            //e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

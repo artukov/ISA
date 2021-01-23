@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { CardDeck } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 // import { usePharmaDerma } from '../../hooks/loadPharmacyDermatologists';
-import { urlGetPhramacyDermatologists } from '../../services/UrlService';
+import { urlDeleteDermaPharmacy, urlGetPhramacyDermatologists } from '../../services/UrlService';
 import DermatologistDetails from '../dermatologist/DermatologistDetails';
 
 
@@ -31,7 +31,20 @@ const DermatologistList = ({pharmacyID}) => {
             loadDermatologists(pharmacyID);
         }
 
-    }, [pharmacyID])
+    }, [pharmacyID]);
+
+    const deleteDermatologist = async (id) =>{
+        try{
+            const resault = await axiosConfig.delete(urlDeleteDermaPharmacy + id + "/" + pharmacyID);
+            console.log(resault);
+
+            
+            setDermatologists(dermatologists.filter(dermatologist => dermatologist.id !== id));
+        }
+        catch(err){
+            alert(err.response.data);
+        }        
+    }
     
     return ( 
     <div>
@@ -39,7 +52,8 @@ const DermatologistList = ({pharmacyID}) => {
         {
             dermatologists.length ? dermatologists.map(dermatologist => {
                 return (    
-                    <DermatologistDetails key={dermatologist.email} dermatologist = {dermatologist}/>
+                    <DermatologistDetails key={dermatologist.email} dermatologist = {dermatologist} 
+                    deleteDermatologistFromPharmacy = {deleteDermatologist}/>
                 )
             }) : <p>no dermatologists</p>
         }         

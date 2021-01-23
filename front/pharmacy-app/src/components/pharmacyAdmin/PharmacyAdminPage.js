@@ -46,8 +46,8 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey="examinations" title = "Examinations">
                     </Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
-                        <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
                         <AddDermatologist></AddDermatologist>
+                        <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
                     </Tab>
                     <Tab eventKey="pharmacists" title = "Pharmacists"></Tab>
                     <Tab eventKey="drugs" title = "Pharmacy drugs"></Tab>
