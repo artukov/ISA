@@ -12,8 +12,6 @@ const DermatologistList = ({pharmacyID,reload}) => {
     const [dermatologists, setDermatologists] = useState([]);
     // const [state, dispatch] = useReducer(dermatologistReducer, dermatologists)
 
-    // const fetchDermatologists = usePharmaDerma(pharmacyID);
-
     useEffect(() => {
         // console.log('dermatologists list', pharmacyID);
         const loadDermatologists = async (id) =>{

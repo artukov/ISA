@@ -5,6 +5,7 @@ import { axiosConfig } from '../../config/AxiosConfig';
 import PharmacyInfoComponent from './PharmacyInfoComponent';
 import DermatologistList from '../pharmacy/DermatologistList';
 import AddDermatologist from './AddDermatologist';
+import DrugList from '../pharmacy/DrugList';
 
 
 const PharmacyAdminPage = () => {
@@ -39,8 +40,8 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
-                    <Tab eventKey = "info" title="Pharmacy info">
+                <Tabs  defaultActiveKey="drugs"   onSelect = {()=> { }}>
+                    <Tab eventKey = "infor" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
                     <Tab eventKey = "report" title="Pharmacy reports"></Tab>
@@ -51,7 +52,9 @@ const PharmacyAdminPage = () => {
                         <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
                     </Tab>
                     <Tab eventKey="pharmacists" title = "Pharmacists"></Tab>
-                    <Tab eventKey="drugs" title = "Pharmacy drugs"></Tab>
+                    <Tab eventKey="drugs" title = "Pharmacy drugs">
+                        <DrugList pharmacyID = {pharmacy.id}></DrugList>
+                    </Tab>
                     <Tab eventKey="pricelist" title = "Pharmacy price list"></Tab>
                     <Tab eventKey = "supply" title="Supply orders"></Tab>
                     <Tab eventKey = "promotions" title="Pharmacy promotions"></Tab>
