@@ -29,6 +29,10 @@ const urlAddNewDrugToPharmacy = urlDrug + "/add/";
 const urlDeleteDrugFromPharmacy = urlDrug + "/delete/";
 const urlModfiyDrug = urlDrug + "/modify/";
 
+const urlNewPharmacist = urlPharmacist + "/new";
+const urlModifyPharmacist = urlPharmacist + "/modify";
+const urlDeletePharmacist = urlPharmacist + "/delete/pharmacy/";
+
 export {
     urlStart,
     urlAuthLogin,
@@ -48,5 +52,8 @@ export {
     urlGetDrugsNotInPharmacy,
     urlAddNewDrugToPharmacy,
     urlDeleteDrugFromPharmacy,
-    urlModfiyDrug
+    urlModfiyDrug,
+    urlNewPharmacist,
+    urlModifyPharmacist,
+    urlDeletePharmacist
 }

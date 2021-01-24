@@ -6,6 +6,7 @@ import PharmacyInfoComponent from './PharmacyInfoComponent';
 import DermatologistList from '../pharmacy/DermatologistList';
 import AddDermatologist from './AddDermatologist';
 import DrugList from '../pharmacy/DrugList';
+import PharmacistList from '../pharmacy/PharmacistList';
 
 
 const PharmacyAdminPage = () => {
@@ -40,7 +41,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="drugs"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="pharmacists"   onSelect = {()=> { }}>
                     <Tab eventKey = "infor" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
@@ -51,7 +52,9 @@ const PharmacyAdminPage = () => {
                         <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                         <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
                     </Tab>
-                    <Tab eventKey="pharmacists" title = "Pharmacists"></Tab>
+                    <Tab eventKey="pharmacists" title = "Pharmacists">
+                        <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
+                    </Tab>
                     <Tab eventKey="drugs" title = "Pharmacy drugs">
                         <DrugList pharmacyID = {pharmacy.id}></DrugList>
                     </Tab>

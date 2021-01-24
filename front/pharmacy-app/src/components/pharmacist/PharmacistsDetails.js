@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Form, ListGroup, Modal } from 'react-bootstrap';
 import formatDate from '../../config/DateFormatConfig';
 
-const PharmacistDetails = ({pharmacist}) => {
+const PharmacistDetails = ({pharmacist, deletePharmacist}) => {
 
     const [rating, setRating] = useState(0.0);
     const [showModal, setShowModal] = useState(false);
@@ -12,17 +12,18 @@ const PharmacistDetails = ({pharmacist}) => {
     const closeModal = () => setShowModal(false);
     const openModal = () => setShowModal(true);
 
-    const calculateRatings = () =>{
-        if(pharmacist.ratings.length === 0)
-            return 0.0;
-        let sum = 0;
-        for( let rating of pharmacist.ratings){
-            sum += rating;
-        }
-        return sum / pharmacist.ratings.length;
-    }
+    
     
     useEffect(() => {
+        const calculateRatings = () =>{
+            if(pharmacist.ratings.length === 0)
+                return 0.0;
+            let sum = 0;
+            for( let rating of pharmacist.ratings){
+                sum += rating;
+            }
+            return sum / pharmacist.ratings.length;
+        }
         setRating(calculateRatings()); 
     }, [pharmacist]);
 
@@ -64,9 +65,13 @@ const PharmacistDetails = ({pharmacist}) => {
                 <ListGroup.Item>Firstname : {pharmacist.firstname}</ListGroup.Item>
                 <ListGroup.Item>Lastname : {pharmacist.lastname}</ListGroup.Item>
                 <ListGroup.Item>Ratings : {rating}</ListGroup.Item>
+                <ListGroup.Item>Phone number : {pharmacist.phoneNumber}</ListGroup.Item>
+                <ListGroup.Item>Start hours : {pharmacist.start_hour}</ListGroup.Item>
+                <ListGroup.Item>Hours : {pharmacist.hours}</ListGroup.Item>
             </ListGroup>
             <Card.Footer>
                 <Button variant="primary" onClick= {() => openModal()}>Book a consultation</Button>
+                <Button variant="danger" onClick = {() => deletePharmacist(pharmacist.id)}>Delete pharmacist</Button>
             </Card.Footer>
         </Card>
 

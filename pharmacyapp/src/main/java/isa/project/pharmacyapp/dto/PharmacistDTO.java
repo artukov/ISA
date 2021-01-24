@@ -18,6 +18,8 @@ public class PharmacistDTO extends UserDTO{
     private Date start_hour;
     private Integer hours;
 
+    private Long pharmacyID;
+
 
     public PharmacistDTO() {
         super();
@@ -91,5 +93,13 @@ public class PharmacistDTO extends UserDTO{
 
     public void setHours(Integer hours) {
         this.hours = hours;
+    }
+
+    public Long getPharmacyID() {
+        return pharmacyID;
+    }
+
+    public void setPharmacyID(Long pharmacyID) {
+        this.pharmacyID = pharmacyID;
     }
 }
