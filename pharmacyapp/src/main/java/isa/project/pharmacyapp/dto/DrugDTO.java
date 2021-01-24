@@ -4,6 +4,7 @@ package isa.project.pharmacyapp.dto;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.DrugSpecification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrugDTO {
@@ -48,6 +49,8 @@ public class DrugDTO {
                 drug.getDrugSpecification(),
                 null
         );
+
+        retVal.setSubstituteDrugs(new ArrayList<>());
 
         for(Drug iter : drug.getSubstituteDrugs()){
             retVal.getSubstituteDrugs().add(iter.getId());

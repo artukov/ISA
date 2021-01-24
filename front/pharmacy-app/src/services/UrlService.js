@@ -24,6 +24,11 @@ const urlNewReservation = urlReservation + "/new/";
 const urlNewExamination = urlExamination + "/new";
 const urlModifyExamination = urlExamination + "/modify/";
 
+const urlGetDrugsNotInPharmacy = urlDrug + "/findNotInPharmacy/";
+const urlAddNewDrugToPharmacy = urlDrug + "/add/";
+const urlDeleteDrugFromPharmacy = urlDrug + "/delete/";
+const urlModfiyDrug = urlDrug + "/modify/";
+
 export {
     urlStart,
     urlAuthLogin,
@@ -39,5 +44,9 @@ export {
     urlModifyExamination,
     urlDeleteDermaPharmacy,
     urlGetDermaNotInPharmacy,
-    urlAddNewDermatologist
+    urlAddNewDermatologist,
+    urlGetDrugsNotInPharmacy,
+    urlAddNewDrugToPharmacy,
+    urlDeleteDrugFromPharmacy,
+    urlModfiyDrug
 }
