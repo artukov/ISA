@@ -18,6 +18,7 @@ public class DermaPharmacyId implements Serializable {
     @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
 
+
     /**
      * Object::equals() and Object::hashCode() have been overriden
      * because of the warning that showed up in the console during build.

@@ -21,4 +21,6 @@ public interface SupplyOrderService {
 
 
     SupplyOrder acceptOfferForOrder(OrderSupplierDTO dto) throws Exception;
+
+    List<SupplyOrderDTO> findWithoutOffer(Long pharmacyID);
 }

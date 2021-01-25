@@ -16,9 +16,10 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
 
     @Query(value = "SELECT * FROM supply_order so\n " +
             "INNER JOIN pharmacy_admin pa ON so.admin_id = pa.id \n" +
-            "WHERE pa.pharmacy_id = :pharmacyID AND so.status =:status"
+            "INNER JOIN supplier_order s ON so.id = s.order_id \n" +
+            "WHERE pa.pharmacy_id = :pharmacyID AND s.status =:status"
             ,nativeQuery = true)
-    List<SupplyOrder> findByStatusPharmacyID(@Param("status")OrderStatus status, @Param("pharmacyID")Long pharmacyID);
+    List<SupplyOrder> findByStatusPharmacy(@Param("status")Integer status, @Param("pharmacyID")Long pharmacyID);
 
 
     @Modifying
@@ -28,4 +29,14 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
             , nativeQuery = true)
     void updateOffer(@Param("orderID")Long orderID, @Param("supplierID") Long id1,
                      @Param("priceOffer") Double priceOffer,@Param("deliveryDate") Date deliveryDate);
+
+
+    @Query(value = "SELECT so.* FROM supply_order so\n" +
+            "INNER JOIN supplier_order s ON so.id = s.order_id\n" +
+            "WHERE (s.delivery_date IS NULL  OR s.price_offer IS NULL)\n" +
+            "AND so.admin_id = :adminID"
+            , nativeQuery = true)
+    List<SupplyOrder> findWithoutOffers(@Param("adminID")Long adminID);
+
+
 }

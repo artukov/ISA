@@ -30,6 +30,12 @@ public class SupplyOrderController {
     @Autowired
     private DrugService drugService;
 
+    @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getOrderStatuses(){
+        return new ResponseEntity<>(OrderStatus.values(),HttpStatus.OK);
+    }
+
     @GetMapping(value = "/findWithStatus/{status}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPharmacyOrders(@PathVariable("status") OrderStatus status,
@@ -39,6 +45,15 @@ public class SupplyOrderController {
 
         return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
 
+    }
+
+    @GetMapping(value ="/findWithoutOffers/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllWithoutOffers(@PathVariable("pharmacyID") Long pharmacyID){
+
+        List<SupplyOrderDTO> orderDTOS = supplyOrderService.findWithoutOffer(pharmacyID);
+
+        return new ResponseEntity<>(orderDTOS,HttpStatus.OK);
     }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -46,15 +46,12 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Override
     public List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID, OrderStatus status) {
+        //System.out.println("\t\t\tOrdinal : " + status.ordinal());
 
-        /**
-         * TODO
-         * Fix finding by status
-         * */
-        List<SupplyOrder> orders = orderRepository.findByStatusPharmacyID(status,pharmacyID);
+        List<SupplyOrder> orders = orderRepository.findByStatusPharmacy(status.ordinal(), pharmacyID);//Enum.ordinal() returns the position/ordinal of this enumeration constant
         ArrayList<SupplyOrderDTO> retOrders = new ArrayList<>();
         for(SupplyOrder order : orders){
-            retOrders.add(SupplyOrderDTO.order2DTO(order));
+            retOrders.add(SupplyOrderDTO.order2DTO(order,status));
         }
 
         return retOrders;
@@ -242,6 +239,22 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
         return  order;
 
+    }
+
+    @Override
+    public List<SupplyOrderDTO> findWithoutOffer(Long pharmacyID) {
+        PharmacyAdmin admin = adminRepository.findByPharmacy_id(pharmacyID);
+        System.out.println("\t\tPharmacy admin : " + admin.getEmail());
+
+        List<SupplyOrder> orders = orderRepository.findWithoutOffers(admin.getId());
+
+        ArrayList<SupplyOrderDTO> orderDTOS = new ArrayList<>();
+
+        for(SupplyOrder order : orders){
+            orderDTOS.add(SupplyOrderDTO.order2DTO(order, OrderStatus.PENDING));
+        }
+
+        return orderDTOS;
     }
 
     /**

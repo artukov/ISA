@@ -175,13 +175,53 @@ INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 101)
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 101);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101);
 
---inserting authority
+--supply orders-----------------------------------------
+
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (200,date('2021-02-13'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (201,date('2021-03-13'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (202,date('2020-12-31'),200);
+
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (20,200,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (30,300,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (100,400,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (50,400,201);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (60, 300, 201);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (100,200,202);
+
+----with offers-------------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-02-10'),250.0,0,200,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-02-09'),250.0,0,200,701);
+----without offers --------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,201,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,201,701);
+
+--accepted order---------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2020-12-30'),300.0,1,202,700);
+--denied order----------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2020-12-31'),300.0,2,202,701);
+
+--inserting authority---------------------------
 
 INSERT INTO public.authority(id,name) VALUES (1,'USER');
 INSERT INTO public.authority(id, name) VALUES (2,'ADMIN');
 INSERT INTO public.authority(id, name) VALUES (3,'PHARMACY_ADMIN');
 
---inserting user_authority
+--inserting user_authority-------------------------
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 1);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 3);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (300, 1);

@@ -4,9 +4,10 @@ const urlRefreshToken = 'auth/refresh';
 const urlPharmacy = '/pharmacy';
 const urlDermatologist = '/dermatologist'
 const urlPharmacist = '/pharmacist';
-const urlDrug = '/drug'
-const urlExamination = '/examination'
-const urlReservation = '/reservation'
+const urlDrug = '/drug';
+const urlExamination = '/examination';
+const urlReservation = '/reservation';
+const urlSupplyOrder = '/supplyorder';
 
 const urlGetPharmacy = urlPharmacy + '/find/';
 const urlGetPhramacyDermatologists = urlDermatologist + '/findByPharmacy/';
@@ -33,6 +34,11 @@ const urlNewPharmacist = urlPharmacist + "/new";
 const urlModifyPharmacist = urlPharmacist + "/modify";
 const urlDeletePharmacist = urlPharmacist + "/delete/pharmacy/";
 
+const urlGetOrderStatuses = urlSupplyOrder + "/statuses";
+const urlGetWithoutOffers = urlSupplyOrder + "/findWithoutOffers/";
+const urlGetWithStatus = urlSupplyOrder + "/findWithStatus/";
+const urlPostNewOrder = urlSupplyOrder + "/new";
+
 export {
     urlStart,
     urlAuthLogin,
@@ -55,5 +61,9 @@ export {
     urlModfiyDrug,
     urlNewPharmacist,
     urlModifyPharmacist,
-    urlDeletePharmacist
+    urlDeletePharmacist,
+    urlGetOrderStatuses,
+    urlGetWithoutOffers,
+    urlGetWithStatus,
+    urlPostNewOrder
 }

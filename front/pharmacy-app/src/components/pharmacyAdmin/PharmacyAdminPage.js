@@ -7,6 +7,9 @@ import DermatologistList from '../pharmacy/DermatologistList';
 import AddDermatologist from './AddDermatologist';
 import DrugList from '../pharmacy/DrugList';
 import PharmacistList from '../pharmacy/PharmacistList';
+import SupplyOrderList from '../supply-order/SupplyOrderList';
+import SupplyOrderContextProvider from '../context/SupplyOrderContext';
+import SupplyOrderMenu from '../supply-order/SupplyOrderMenu';
 
 
 const PharmacyAdminPage = () => {
@@ -41,13 +44,12 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="pharmacists"   onSelect = {()=> { }}>
-                    <Tab eventKey = "infor" title="Pharmacy info">
+                <Tabs  defaultActiveKey="supply"   onSelect = {()=> { }}>
+                    <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
                     <Tab eventKey = "report" title="Pharmacy reports"></Tab>
-                    <Tab eventKey="examinations" title = "Examinations">
-                    </Tab>
+                    <Tab eventKey="examinations" title = "Examinations"></Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
                         <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                         <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
@@ -59,7 +61,13 @@ const PharmacyAdminPage = () => {
                         <DrugList pharmacyID = {pharmacy.id}></DrugList>
                     </Tab>
                     <Tab eventKey="pricelist" title = "Pharmacy price list"></Tab>
-                    <Tab eventKey = "supply" title="Supply orders"></Tab>
+                    <Tab eventKey = "supply" title="Supply orders">
+                        <SupplyOrderContextProvider pharmacyID = {pharmacy.id}>
+                            <SupplyOrderMenu></SupplyOrderMenu>
+                            <SupplyOrderList ></SupplyOrderList>
+                        </SupplyOrderContextProvider>
+                        
+                    </Tab>
                     <Tab eventKey = "promotions" title="Pharmacy promotions"></Tab>
                  </Tabs>
             </div>
