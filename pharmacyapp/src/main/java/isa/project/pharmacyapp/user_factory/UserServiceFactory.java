@@ -1,10 +1,7 @@
 package isa.project.pharmacyapp.user_factory;
 
 import isa.project.pharmacyapp.model.UserRoles;
-import isa.project.pharmacyapp.service.DermatologistService;
-import isa.project.pharmacyapp.service.PharmacistService;
-import isa.project.pharmacyapp.service.PharmacyAdminService;
-import isa.project.pharmacyapp.service.UserService;
+import isa.project.pharmacyapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -24,6 +21,8 @@ public class UserServiceFactory {
     private DermatologistService dermatologistService;
     @Autowired
     private PharmacyAdminService pharmacyAdminService;
+    @Autowired
+    private SupplierService supplierService;
 
 
     public UserService getUserService(UserRoles role){
@@ -50,10 +49,7 @@ public class UserServiceFactory {
         }
 
         if(role.equals(UserRoles.SUPPLIER)){
-            /**
-             * TODO
-             * SupplierService
-             * */
+            return supplierService;
         }
         if(role.equals(UserRoles.SYSTEM_ADMIN)){
             /**

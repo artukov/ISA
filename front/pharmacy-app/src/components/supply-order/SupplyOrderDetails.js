@@ -4,12 +4,12 @@ import { SupplyOrderContext } from '../context/SupplyOrderContext';
 
 const SupplyOrderDetails = ({order}) => {
 
-    const {acceptOffer} = useContext(SupplyOrderContext);
+    const {acceptOffer, deleteOrder} = useContext(SupplyOrderContext);
 
-    const checkIfOfferExists = () => {
-        if(order.deliveryDate === null || order.deliveryDate === undefined)
+    const checkIfOfferExists = (deliveryDate, priceOffer) => {
+        if(deliveryDate === null)
             return false;
-        if(order.priceOffer === null || order.priceOffer === undefined)
+        if(priceOffer === null)
             return false;
         
             return true;
@@ -78,10 +78,18 @@ const SupplyOrderDetails = ({order}) => {
                                                 <ListGroup>
                                                     <ListGroup.Item>Delivery date : {supplier.deliveryDate}</ListGroup.Item>
                                                     <ListGroup.Item>Price offer : {supplier.priceOffer}</ListGroup.Item> 
-                                                    { (checkifStatusIsPending(supplier.status)) && (checkIfOfferExists()) ? (
+                                                    { 
+                                                        (checkifStatusIsPending(supplier.status)) && (checkIfOfferExists(supplier.deliveryDate, supplier.priceOffer)) ? (
                                                         <Button onClick={() => acceptOffer(order, supplier.supplierID) }>
                                                             Accept offer</Button>
-                                                ) : null}                                 
+                                                        ) : null
+                                                    }  
+                                                    {
+                                                        ((checkifStatusIsPending(supplier.status)) && (!checkIfOfferExists(supplier.deliveryDate, supplier.priceOffer))) ?
+                                                        <Button variant="danger" onClick = {()=> deleteOrder(order.id)}>Delete supply order</Button>
+                                                        : null
+                                                        
+                                                    }                               
                                                 </ListGroup>
                                             </Accordion.Collapse>
                                         </Row>

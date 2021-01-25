@@ -47,9 +47,9 @@ const SupplyOrderContextProvider = (props) => {
     }
 
     const acceptOffer = async (order, supplierID) =>{
-        console.log(order, supplierID);
+        // console.log(order, supplierID);
         const acceptedOrder = order.supplierDTOS.find(supplier => supplier.supplierID === supplierID);
-        console.log('accepted offfer', acceptedOrder);
+        // console.log('accepted offfer', acceptedOrder);
 
         try{
             await axiosConfig.put(urlAcceptOffer, acceptedOrder);
@@ -61,6 +61,11 @@ const SupplyOrderContextProvider = (props) => {
 
     }
 
+    const deleteOrder = async (id) =>{
+        console.log(id);
+
+    }
+
     
     return ( 
         <SupplyOrderContext.Provider 
@@ -69,7 +74,8 @@ const SupplyOrderContextProvider = (props) => {
                 orders,
                 loadWithoutOffers,
                 loadWithStatus,
-                acceptOffer
+                acceptOffer,
+                deleteOrder
                 // pharmacyID : props.pharmacyID
             }}
         >

@@ -4,10 +4,14 @@ import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.OrderStatus;
+import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.SupplyOrder;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.service.DrugService;
+import isa.project.pharmacyapp.service.SupplierService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
+import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +33,9 @@ public class SupplyOrderController {
 
     @Autowired
     private DrugService drugService;
+
+    @Autowired
+    private UserServiceFactory serviceFactory;
 
     @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -99,6 +106,14 @@ public class SupplyOrderController {
                 e.printStackTrace();
                 return new ResponseEntity<String>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        }
+
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        try {
+            supplierService.updateWareHouse(order.getDrugs(),dto.getSupplierID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

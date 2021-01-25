@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> {
 
-    @Query(value = "SELECT * FROM supply_order so\n " +
+    @Query(value = "SELECT DISTINCT so.* FROM supply_order so\n " +
             "INNER JOIN pharmacy_admin pa ON so.admin_id = pa.id \n" +
             "INNER JOIN supplier_order s ON so.id = s.order_id \n" +
             "WHERE pa.pharmacy_id = :pharmacyID AND s.status =:status"
@@ -31,7 +31,7 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
                      @Param("priceOffer") Double priceOffer,@Param("deliveryDate") Date deliveryDate);
 
 
-    @Query(value = "SELECT so.* FROM supply_order so\n" +
+    @Query(value = "SELECT DISTINCT so.* FROM supply_order so\n" +
             "INNER JOIN supplier_order s ON so.id = s.order_id\n" +
             "WHERE (s.delivery_date IS NULL  OR s.price_offer IS NULL)\n" +
             "AND so.admin_id = :adminID"

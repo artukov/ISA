@@ -244,7 +244,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     @Override
     public List<SupplyOrderDTO> findWithoutOffer(Long pharmacyID) {
         PharmacyAdmin admin = adminRepository.findByPharmacy_id(pharmacyID);
-        System.out.println("\t\tPharmacy admin : " + admin.getEmail());
+        //System.out.println("\t\tPharmacy admin : " + admin.getEmail());
 
         List<SupplyOrder> orders = orderRepository.findWithoutOffers(admin.getId());
 
