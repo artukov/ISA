@@ -39,4 +39,5 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
     List<SupplyOrder> findWithoutOffers(@Param("adminID")Long adminID);
 
 
+
 }

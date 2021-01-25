@@ -8,6 +8,7 @@ const urlDrug = '/drug';
 const urlExamination = '/examination';
 const urlReservation = '/reservation';
 const urlSupplyOrder = '/supplyorder';
+const urlSupplier = "/supplier";
 
 const urlGetPharmacy = urlPharmacy + '/find/';
 const urlGetPhramacyDermatologists = urlDermatologist + '/findByPharmacy/';
@@ -29,6 +30,7 @@ const urlGetDrugsNotInPharmacy = urlDrug + "/findNotInPharmacy/";
 const urlAddNewDrugToPharmacy = urlDrug + "/add/";
 const urlDeleteDrugFromPharmacy = urlDrug + "/delete/";
 const urlModfiyDrug = urlDrug + "/modify/";
+const urlGetAllSystemDrugs = urlDrug +"/findAll";
 
 const urlNewPharmacist = urlPharmacist + "/new";
 const urlModifyPharmacist = urlPharmacist + "/modify";
@@ -39,6 +41,11 @@ const urlGetWithoutOffers = urlSupplyOrder + "/findWithoutOffers/";
 const urlGetWithStatus = urlSupplyOrder + "/findWithStatus/";
 const urlPostNewOrder = urlSupplyOrder + "/new";
 const urlAcceptOffer = urlSupplyOrder + "/acceptOffer";
+const urlDeleteSupplyOrder = urlSupplyOrder + "/delete/";
+const urlNewSupplyOrder = urlSupplyOrder + "/new";
+
+
+const urlGetAllSuppliers = urlSupplier + "/findAll";
 
 export {
     urlStart,
@@ -67,5 +74,9 @@ export {
     urlGetWithoutOffers,
     urlGetWithStatus,
     urlPostNewOrder,
-    urlAcceptOffer
+    urlAcceptOffer,
+    urlDeleteSupplyOrder,
+    urlGetAllSystemDrugs,
+    urlGetAllSuppliers,
+    urlNewSupplyOrder
 }

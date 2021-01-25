@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.SupplierDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.User;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +40,22 @@ public class SupplierServiceImpl implements SupplierService {
                throw new Exception("Update warehouse");
            }
         }
+
+    }
+
+    @Override
+    public List<SupplierDTO> findAll() {
+        List<Supplier> suppliers = supplierRepository.findAll();
+
+        ArrayList<SupplierDTO> supplierDTOS = new ArrayList<>();
+        for(Supplier supplier : suppliers){
+            supplierDTOS.add( SupplierDTO.supplier2DTO(supplier));
+        }
+        /**
+         * TODO:
+         * Creat static method that creates SupplierDTO object with Supplier state
+         * */
+        return supplierDTOS;
 
     }
 

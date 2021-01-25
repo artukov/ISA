@@ -119,4 +119,16 @@ public class SupplyOrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/delete/{id}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deleteOrderWithoutAnyOffers(@PathVariable("id") Long id){
+
+        supplyOrderService.deleteSupplyOrder(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
+
+
 }

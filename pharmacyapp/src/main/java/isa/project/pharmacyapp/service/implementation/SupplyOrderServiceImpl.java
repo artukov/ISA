@@ -257,10 +257,15 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
         return orderDTOS;
     }
 
-    /**
-     * TODO
-     * Decrease size in the warehouse after accepting drug order
-     * */
+    @Transactional
+    @Override
+    public void deleteSupplyOrder(Long orderID) {
+        SupplyOrder order = orderRepository.getOne(orderID);
+
+//        orderRepository.deleteOrder(orderID,orderID, orderID);
+        return;
+    }
+
 
 //    @Override
 //    public void modifySupplyOrderOffer(Long id, SupplyOrderDTO orderDTO) throws Exception {

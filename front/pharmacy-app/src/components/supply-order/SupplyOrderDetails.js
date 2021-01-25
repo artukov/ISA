@@ -24,7 +24,7 @@ const SupplyOrderDetails = ({order}) => {
 
     return ( 
         <div>
-            <Card>
+            <Card bg="success" text="dark">
                 <Card.Header>
                     <Card.Title>Order info</Card.Title>
                 </Card.Header>
@@ -62,7 +62,7 @@ const SupplyOrderDetails = ({order}) => {
                         order.supplierDTOS.length ? order.supplierDTOS.map(supplier => {
                             return (
                                 <ListGroup.Item key={supplier.supplierID}> 
-                                   <Accordion>
+                                   <Accordion defaultActiveKey="0">
                                         <Row>
                                             <Col>
                                                 Supplier : {supplier.supplierID}

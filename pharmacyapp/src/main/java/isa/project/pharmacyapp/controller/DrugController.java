@@ -22,6 +22,15 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
+    @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllSystemDrugs(){
+
+        List<DrugDTO> drugDTOS = drugService.findAll();
+
+        return new ResponseEntity<>(drugDTOS,HttpStatus.OK);
+    }
+
     @PostMapping(value = "/add/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> addToPharmacyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("pharmacyID") Long pharmacyID){

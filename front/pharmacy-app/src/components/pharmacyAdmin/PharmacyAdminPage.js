@@ -10,6 +10,7 @@ import PharmacistList from '../pharmacy/PharmacistList';
 import SupplyOrderList from '../supply-order/SupplyOrderList';
 import SupplyOrderContextProvider from '../context/SupplyOrderContext';
 import SupplyOrderMenu from '../supply-order/SupplyOrderMenu';
+import NewSupplyOrder from '../supply-order/NewSupplyOrder';
 
 
 const PharmacyAdminPage = () => {
@@ -64,6 +65,7 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey = "supply" title="Supply orders">
                         <SupplyOrderContextProvider pharmacyID = {pharmacy.id}>
                             <SupplyOrderMenu></SupplyOrderMenu>
+                            <NewSupplyOrder></NewSupplyOrder>
                             <SupplyOrderList ></SupplyOrderList>
                         </SupplyOrderContextProvider>
                         

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useReducer } from 'react';
 import { axiosConfig } from '../../config/AxiosConfig';
-import { urlAcceptOffer, urlGetOrderStatuses, urlGetWithoutOffers, urlGetWithStatus } from '../../services/UrlService';
+import formatDate from '../../config/DateFormatConfig';
+import { urlAcceptOffer, urlDeleteSupplyOrder, urlGetOrderStatuses, urlGetWithoutOffers, urlGetWithStatus, urlNewSupplyOrder } from '../../services/UrlService';
 import { DELETE_ORDER, SET_ORDERS, supplyOrderReducer } from '../supply-order/supplyOrderReducer';
 
 export const SupplyOrderContext = createContext();
@@ -18,11 +19,15 @@ const SupplyOrderContextProvider = (props) => {
             loadOrderStatuses();
     }, [props.pharmacyID]);
 
+    const [showAddForm, setShowAddForm] = useState(false);
+    const closeAddForm = () => setShowAddForm(false);
+    const openAddForm = () => setShowAddForm(true);
+
     const [orders, dispatch] = useReducer(supplyOrderReducer, []);
 
-    // const [orders, setOrders] = useState([]);
 
     const loadWithoutOffers = async () =>{
+        closeAddForm();
         try{
             const result = await axiosConfig.get(urlGetWithoutOffers + props.pharmacyID);
             dispatch({type : SET_ORDERS, orders : result.data});
@@ -35,6 +40,7 @@ const SupplyOrderContextProvider = (props) => {
     }
 
     const loadWithStatus = async (status) =>{
+        closeAddForm();
         try{
             const result = await axiosConfig.get(urlGetWithStatus + status + "/" + props.pharmacyID);
             dispatch({type : SET_ORDERS, orders :result.data});
@@ -63,8 +69,48 @@ const SupplyOrderContextProvider = (props) => {
 
     const deleteOrder = async (id) =>{
         console.log(id);
+        try{
+            await axiosConfig.delete(urlDeleteSupplyOrder + id);
+            dispatch({type : DELETE_ORDER, id : id});
+        }
+        catch(err){
+            console.log(err);
+        }
 
     }
+
+    const saveOrder = async (order) =>{
+        //console.log(order);
+        let newOrder = {
+            deadlineDate : formatDate(order.date,order.time),
+            adminID : 200,
+            drugs : order.drugs.map(drug => drug.id),
+            amount : order.drugs.map(drug => drug.amount),
+            supplierDTOS : []
+        }
+
+        for(let supplier of order.suppliers){
+            // console.log('supplier : ',supplier);
+            newOrder.supplierDTOS.push({
+                supplierID : supplier,
+                priceOffer : null,
+                deliveryDate : null,
+                status : statuses[0]
+            });
+        }
+
+        // console.log(newOrder);
+        try{
+            await axiosConfig.post(urlNewSupplyOrder, newOrder);
+        }
+        catch(err){
+            console.log(err.response.data);
+        }
+
+        closeAddForm();
+        
+    }
+    
 
     
     return ( 
@@ -75,8 +121,11 @@ const SupplyOrderContextProvider = (props) => {
                 loadWithoutOffers,
                 loadWithStatus,
                 acceptOffer,
-                deleteOrder
-                // pharmacyID : props.pharmacyID
+                deleteOrder,
+                openAddForm,
+                closeAddForm,
+                showAddForm,
+                saveOrder
             }}
         >
             {props.children}
