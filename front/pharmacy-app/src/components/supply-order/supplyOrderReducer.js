@@ -3,6 +3,7 @@ export const NEW_ORDER = "NEW_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
 export const DELETE_ORDER = "DELETE_ORDER";
 
+
 // const  loadWithoutOffers = async (pharmacyID,state) =>{
 
 //     const resault = await axiosConfig.get(urlGetWithoutOffers + pharmacyID);
@@ -38,8 +39,10 @@ function setOrders(orders) {
 
 function deleteOrder(id,state){
 
-    return state;
+    const filteredState  = state.filter(order => order.id !== id);
+    return filteredState;
 }
+
 
 export function supplyOrderReducer(state,action){
 

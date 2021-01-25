@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Card, CardDeck } from 'react-bootstrap';
 import {SupplyOrderContext} from '../context/SupplyOrderContext';
+import SupplyOrderDetails from './SupplyOrderDetails';
 
 
 const SupplyOrderList = () => {
@@ -12,9 +14,15 @@ const SupplyOrderList = () => {
 
     return ( 
         <div>
+            <CardDeck>
             {
-                orders.length ? orders.map((order,index) => <p key={index}>{order.id}</p>) : <p>Loading orders...</p>
+                orders.length ? orders.map((order,index) => {
+                    return (
+                        <SupplyOrderDetails order = {order} key = {index}></SupplyOrderDetails>
+                    )
+                }) : <p> Loading orders...</p>
             }
+            </CardDeck>
         </div>
      );
 }

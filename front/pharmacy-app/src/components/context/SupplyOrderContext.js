@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useReducer } from 'react';
 import { axiosConfig } from '../../config/AxiosConfig';
-import { urlGetOrderStatuses, urlGetWithoutOffers, urlGetWithStatus } from '../../services/UrlService';
-import { SET_ORDERS, supplyOrderReducer } from '../supply-order/supplyOrderReducer';
+import { urlAcceptOffer, urlGetOrderStatuses, urlGetWithoutOffers, urlGetWithStatus } from '../../services/UrlService';
+import { DELETE_ORDER, SET_ORDERS, supplyOrderReducer } from '../supply-order/supplyOrderReducer';
 
 export const SupplyOrderContext = createContext();
 
@@ -45,6 +45,22 @@ const SupplyOrderContextProvider = (props) => {
             console.log(err);
         }
     }
+
+    const acceptOffer = async (order, supplierID) =>{
+        console.log(order, supplierID);
+        const acceptedOrder = order.supplierDTOS.find(supplier => supplier.supplierID === supplierID);
+        console.log('accepted offfer', acceptedOrder);
+
+        try{
+            await axiosConfig.put(urlAcceptOffer, acceptedOrder);
+            dispatch({type : DELETE_ORDER, id : order.id});
+        }
+        catch(err){
+            console.log(err.response);
+        }
+
+    }
+
     
     return ( 
         <SupplyOrderContext.Provider 
@@ -52,7 +68,8 @@ const SupplyOrderContextProvider = (props) => {
                 statuses,
                 orders,
                 loadWithoutOffers,
-                loadWithStatus
+                loadWithStatus,
+                acceptOffer
                 // pharmacyID : props.pharmacyID
             }}
         >

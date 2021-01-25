@@ -38,6 +38,7 @@ const urlGetOrderStatuses = urlSupplyOrder + "/statuses";
 const urlGetWithoutOffers = urlSupplyOrder + "/findWithoutOffers/";
 const urlGetWithStatus = urlSupplyOrder + "/findWithStatus/";
 const urlPostNewOrder = urlSupplyOrder + "/new";
+const urlAcceptOffer = urlSupplyOrder + "/acceptOffer";
 
 export {
     urlStart,
@@ -65,5 +66,6 @@ export {
     urlGetOrderStatuses,
     urlGetWithoutOffers,
     urlGetWithStatus,
-    urlPostNewOrder
+    urlPostNewOrder,
+    urlAcceptOffer
 }
