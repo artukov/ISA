@@ -293,3 +293,24 @@ INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,201,now());
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,202,now());
+
+--price list--------------------------------------------------------
+
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id)
+VALUES (200, date('2020-12-31'), date('2020-09-01'),200);
+
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id)
+VALUES (201, date('2021-03-31'), date('2021-01-01'),200);
+
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (200,200,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (125,300,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (78,400,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (225,200,201);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (25,300,201);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (35.8,400,201);

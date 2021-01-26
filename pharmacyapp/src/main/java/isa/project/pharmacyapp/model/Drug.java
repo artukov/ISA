@@ -5,6 +5,7 @@ package isa.project.pharmacyapp.model; /****************************************
  ***********************************************************************/
 
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
+import isa.project.pharmacyapp.model.many2many.PriceListDrug;
 
 import java.util.*;
 import javax.persistence.*;
@@ -53,6 +54,10 @@ public class Drug {
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
    @JoinColumn(name = "drug_id")
    private List<PharmacyDrug> pharmacies;
+
+   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name ="drug_id",referencedColumnName = "id")
+   private List<PriceListDrug> priceLists;
 
    public Drug() {
    }
@@ -129,6 +134,14 @@ public class Drug {
 
    public void setDrugSpecification(DrugSpecification drugSpecification) {
       this.drugSpecification = drugSpecification;
+   }
+
+   public List<PriceListDrug> getPriceLists() {
+      return priceLists;
+   }
+
+   public void setPriceLists(List<PriceListDrug> priceLists) {
+      this.priceLists = priceLists;
    }
 
    /** @pdGenerated default getter */
