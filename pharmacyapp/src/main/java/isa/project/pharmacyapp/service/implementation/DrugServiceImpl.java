@@ -1,6 +1,9 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.DrugSpecDTO;
+import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
@@ -16,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -54,6 +59,48 @@ public class DrugServiceImpl implements DrugService {
         List<Drug> drugs = drugRepository.findAll();
 
         return this.listCreationDrug2DTO(drugs, null);
+    }
+
+    @Override
+    public List<PharmaDrugDTO> searchDrugs(String drugName){
+        List<Object[]> drugs = this.drugRepository.searchDrugs(drugName);
+
+        ArrayList<PharmaDrugDTO> drugDTOs = new ArrayList<>();
+        for(Object[] obj : drugs){
+            PharmaDrugDTO dto = new PharmaDrugDTO();
+
+            dto.setName((String) obj[0]);
+            dto.setType((String) obj[1]);
+            dto.setPharmacy_id((BigInteger) obj[2]);
+            dto.setPrice((Double) obj[3]);
+            drugDTOs.add(dto);
+        }
+        return drugDTOs;
+    }
+
+    @Override
+    public List<DrugSpecDTO> getDrugSpec(Long drugId){
+
+        List<Object[]> specs = this.drugRepository.getDrugSpec(drugId);
+
+        ArrayList<DrugSpecDTO> dtos = new ArrayList<>();
+
+        for(Object[] obj : specs){
+            DrugSpecDTO dto = new DrugSpecDTO();
+
+            dto.setId((BigInteger) obj[0]);
+            dto.setCode((BigInteger) obj[1]);
+            dto.setManufacturer((String) obj[2]);
+            dto.setName((String) obj[3]);
+            dto.setShape((String) obj[4]);
+            dto.setType((String) obj[5]);
+            dto.setComposition((String) obj[6]);
+            dto.setRecom_consum((String) obj[7]);
+            dto.setSide_effects((String) obj[8]);
+
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override

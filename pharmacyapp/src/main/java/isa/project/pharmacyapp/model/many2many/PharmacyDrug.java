@@ -17,6 +17,17 @@ public class PharmacyDrug {
     @Column(name = "amount")
     private Integer amount;
 
+    @Column(name = "price")
+    private Double price;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public PharmacyDrug() {
     }
 

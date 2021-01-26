@@ -21,8 +21,11 @@ INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 3);
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (300, 3);
 --drugs
 
+INSERT INTO drug_spec(id,composition,recom_consum,side_effects)
+VALUES(23,'Top','Sve','nista bre');
+
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
-VALUES (200, 457887, 'manufacturer', 'name1', false, 'shape','type',null);
+VALUES (200, 457887, 'manufacturer', 'name1', false, 'shape','type',23);
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
 VALUES (300, 457887, 'manufacturer', 'name2', false, 'shape','type',null);
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
@@ -32,14 +35,15 @@ VALUES (500, 457887, 'manufacturer', 'name4', false, 'shape','type',null);
 
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
 VALUES (600, 457887, 'manufacturer', 'name5', false, 'shape','type',null);
-
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
 VALUES (601, 457887, 'manufacturer', 'name6', false, 'shape','type',null);
 
-INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount) VALUES (200,200, 200);
-INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount) VALUES (200,300,10);
-INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount) VALUES (200,400,25);
-INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount) VALUES (200,500,45);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,200, 200,10);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,300,10,20);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,400,25,30);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,500,45,40);
+INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (300,300,13,50);
+
 
 --inserting users
 
