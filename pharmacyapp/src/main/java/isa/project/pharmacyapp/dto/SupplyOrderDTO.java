@@ -17,6 +17,10 @@ public class SupplyOrderDTO {
     private Date deadlineDate;
     private Long adminID;
 
+    /**
+     * TODO:
+     * Fetch name and id of the drug
+     * */
     private List<Long> drugs;
     private List<Integer> amount;
 

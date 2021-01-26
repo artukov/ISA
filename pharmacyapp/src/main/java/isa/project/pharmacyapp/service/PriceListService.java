@@ -20,6 +20,8 @@ public interface PriceListService {
 
     void modifyPriceList(Long id, PriceListDTO priceListDTO) throws Exception;
 
+    void updateActiveStatus(Long plID, Long pharmacyID) throws Exception;
+
 
 
 }

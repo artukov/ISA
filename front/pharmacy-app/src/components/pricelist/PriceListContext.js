@@ -19,6 +19,7 @@ const PriceListContextProvider = (props) => {
     });
     
     const [latestPL, setLatestPL] = useState({});
+    const [reload, setReload] = useState(false)
 
     useEffect(() => {
         const loadLatesPriceList = async (id) =>{
@@ -37,7 +38,7 @@ const PriceListContextProvider = (props) => {
         }
        
 
-    }, [props.pharmacyID]);
+    }, [props.pharmacyID,reload]);
 
     const addNewPriceList = async () =>{
         
@@ -61,6 +62,8 @@ const PriceListContextProvider = (props) => {
         try{
             await axiosConfig.post('/pricelist/new',newPricelist);
             dispatch({type : INIT});
+            // setLatestPL(state);
+            setReload(!reload);
         }
         catch(err){
             console.log(err);
@@ -96,6 +99,8 @@ const PriceListContextProvider = (props) => {
         try{
             await axiosConfig.put('/pricelist/modify/'+ state.id,newPricelist);
             dispatch({type : INIT});
+            setLatestPL(newPricelist);
+            
         }
         catch(err){
             console.log(err);

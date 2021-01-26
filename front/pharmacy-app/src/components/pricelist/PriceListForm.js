@@ -78,7 +78,7 @@ const PriceListForm = ({pricelist, drugs}) => {
                             onClick = {() => {
                                 dispatch({type : SET_DRUGS, payload : {id : selectedDrug.id, name : selectedDrug.name, price : price}
                                 });
-                                drugs.filter(drug => drug.id !== selectedDrug.id);
+                                // drugs.filter(drug => drug.id !== selectedDrug.id);
                             }}
                         >Save drug price</Button>
                     </Col>

@@ -33,6 +33,9 @@ public class PriceList {
    @JoinColumn(name = "pharmacy_id")
    private Pharmacy pharmacy;
 
+   @Column(nullable = false, name = "active")
+   private Boolean active;
+
    public PriceList() {
    }
 
@@ -74,5 +77,13 @@ public class PriceList {
 
    public void setDrugs(List<PriceListDrug> drugs) {
       this.drugs = drugs;
+   }
+
+   public Boolean getActive() {
+      return active;
+   }
+
+   public void setActive(Boolean active) {
+      this.active = active;
    }
 }

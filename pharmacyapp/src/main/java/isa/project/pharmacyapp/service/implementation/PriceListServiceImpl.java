@@ -16,6 +16,7 @@ import isa.project.pharmacyapp.repository.PriceListRepository;
 import isa.project.pharmacyapp.service.PriceListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,9 +79,14 @@ public class PriceListServiceImpl implements PriceListService {
             newPriceList.setDrugs(priceList.getDrugs());
         }
 
+        priceList.setActive(false);
+        priceListRepository.save(priceList);
+
 
         savePriceList(newPriceList,priceListDTO);
     }
+
+
 
     @Override
     public void savePriceList(PriceList priceList, PriceListDTO priceListDTO) throws Exception {
@@ -116,9 +122,11 @@ public class PriceListServiceImpl implements PriceListService {
         }
 
 //        priceList.setDrugs(drugs);
+        priceList.setActive(true);
 
         try{
-            priceListRepository.save(priceList);
+            PriceList p = priceListRepository.save(priceList);
+//            updateActiveStatus(p.getId(),pharmacy.getId());
         }
         catch (Exception e){
             e.printStackTrace();
@@ -127,5 +135,16 @@ public class PriceListServiceImpl implements PriceListService {
 
     }
 
+    @Transactional
+    @Override
+    public void updateActiveStatus(Long plID, Long pharmacyID) throws Exception {
 
+        try{
+            priceListRepository.updateActiveStatus(plID,pharmacyID);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
+    }
 }

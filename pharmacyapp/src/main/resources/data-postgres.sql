@@ -296,11 +296,11 @@ VALUES (200,202,now());
 
 --price list--------------------------------------------------------
 
-INSERT INTO price_list(id, end_date, start_date, pharmacy_id)
-VALUES (200, date('2020-12-31'), date('2020-09-01'),200);
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
+VALUES (200, date('2020-12-31'), date('2020-09-01'),200, false);
 
-INSERT INTO price_list(id, end_date, start_date, pharmacy_id)
-VALUES (201, date('2021-03-31'), date('2021-01-01'),200);
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
+VALUES (201, date('2021-03-31'), date('2021-01-01'),200, true);
 
 INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (200,200,200);
