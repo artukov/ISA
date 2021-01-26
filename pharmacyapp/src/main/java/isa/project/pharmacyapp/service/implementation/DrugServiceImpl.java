@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -59,7 +62,19 @@ public class DrugServiceImpl implements DrugService {
 
     @Override
     public List<PharmaDrugDTO> searchDrugs(String drugName){
-        return drugRepository.searchDrugs(drugName);
+        List<Object[]> drugs = this.drugRepository.searchDrugs(drugName);
+
+        ArrayList<PharmaDrugDTO> drugDTOs = new ArrayList<>();
+        for(Object[] obj : drugs){
+            PharmaDrugDTO dto = new PharmaDrugDTO();
+
+            dto.setName((String) obj[0]);
+            dto.setType((String) obj[1]);
+            dto.setPharmacy_id((BigInteger) obj[2]);
+            dto.setPrice((Double) obj[3]);
+            drugDTOs.add(dto);
+        }
+        return drugDTOs;
     }
 
     @Override
