@@ -53,6 +53,7 @@ public class PriceListServiceImpl implements PriceListService {
     @Override
     public void creatNewPriceList(PriceListDTO dto) throws Exception {
         PriceList priceList = new PriceList();
+        priceList.setDrugs(new ArrayList<>());
         savePriceList(priceList,dto);
 
 
@@ -60,10 +61,25 @@ public class PriceListServiceImpl implements PriceListService {
 
     @Override
     public void modifyPriceList(Long id, PriceListDTO priceListDTO) throws Exception {
-        if(!priceListRepository.existsById(id)){
+
+        PriceList priceList = priceListRepository.findById(id).orElse(null);
+        if(priceList == null){
             throw new Exception("Price list with given id does not exists");
         }
-        savePriceList(priceListRepository.getOne(id),priceListDTO);
+
+        PriceList newPriceList = new PriceList();
+        newPriceList.setDrugs(new ArrayList<>());
+
+        if(priceList.getStartDate().equals(priceListDTO.getStartDate()) &&
+                priceList.getEndDate().equals(priceListDTO.getEndDate())){
+
+            newPriceList.setEndDate(priceList.getEndDate());
+            newPriceList.setStartDate(priceList.getStartDate());
+            newPriceList.setDrugs(priceList.getDrugs());
+        }
+
+
+        savePriceList(newPriceList,priceListDTO);
     }
 
     @Override
@@ -77,7 +93,7 @@ public class PriceListServiceImpl implements PriceListService {
 
         priceList.setPharmacy(pharmacy);
 
-        ArrayList<PriceListDrug> drugs = new ArrayList<>();
+//        ArrayList<PriceListDrug> drugs = new ArrayList<>();
 
         for(PlDrugDTO plDrugDTO : priceListDTO.getDrugs()){
             if(drugRepository.findInPharmacy(pharmacy.getId(), plDrugDTO.getDrugID()) == 0.0){
@@ -96,10 +112,10 @@ public class PriceListServiceImpl implements PriceListService {
             priceListDrug.setId(id);
             priceListDrug.setPrice(plDrugDTO.getPrice());
 
-            drugs.add(priceListDrug);
+            priceList.getDrugs().add(priceListDrug);
         }
 
-        priceList.setDrugs(drugs);
+//        priceList.setDrugs(drugs);
 
         try{
             priceListRepository.save(priceList);

@@ -6,14 +6,16 @@ public class PlDrugDTO {
 
     private Long priceListID;
     private Long drugID;
+    private String name;
     private Double price;
 
     public PlDrugDTO() {
     }
 
-    public PlDrugDTO(Long priceListID, Long drugID, Double price) {
+    public PlDrugDTO(Long priceListID, Long drugID, String name, Double price) {
         this.priceListID = priceListID;
         this.drugID = drugID;
+        this.name = name;
         this.price = price;
     }
 
@@ -21,6 +23,7 @@ public class PlDrugDTO {
         PlDrugDTO dto = new PlDrugDTO(
                 drug.getId().getPriceList().getId(),
                 drug.getId().getDrug().getId(),
+                drug.getId().getDrug().getName(),
                 drug.getPrice()
         );
 
@@ -49,5 +52,13 @@ public class PlDrugDTO {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
