@@ -20,7 +20,7 @@ function addSupplier(state,payload){
     // console.log('suppliers in the begging', payload);
     if(!state.suppliers){
         state.suppliers = [payload];
-        console.log('suppliers',state.suppliers);
+        //console.log('suppliers',state.suppliers);
         return state;
     }
     if(!state.suppliers.find(iter => iter === payload)){

@@ -11,6 +11,9 @@ import SupplyOrderList from '../supply-order/SupplyOrderList';
 import SupplyOrderContextProvider from '../context/SupplyOrderContext';
 import SupplyOrderMenu from '../supply-order/SupplyOrderMenu';
 import NewSupplyOrder from '../supply-order/NewSupplyOrder';
+import PriceListContextProvider from '../pricelist/PriceListContext';
+import AddPriceList from '../pricelist/AddPriceList';
+import LatestPriceList from '../pricelist/LatestPriceList';
 
 
 const PharmacyAdminPage = () => {
@@ -45,7 +48,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="supply"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="pricelist"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
@@ -61,7 +64,12 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey="drugs" title = "Pharmacy drugs">
                         <DrugList pharmacyID = {pharmacy.id}></DrugList>
                     </Tab>
-                    <Tab eventKey="pricelist" title = "Pharmacy price list"></Tab>
+                    <Tab eventKey="pricelist" title = "Pharmacy price list">
+                        <PriceListContextProvider pharmacyID = {pharmacy.id}>
+                            <AddPriceList></AddPriceList>
+                            <LatestPriceList></LatestPriceList>
+                        </PriceListContextProvider>
+                    </Tab>
                     <Tab eventKey = "supply" title="Supply orders">
                         <SupplyOrderContextProvider pharmacyID = {pharmacy.id}>
                             <SupplyOrderMenu></SupplyOrderMenu>
