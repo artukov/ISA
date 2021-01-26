@@ -8,10 +8,12 @@ import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.PharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,15 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
+    private AuthenticationRepository authenticationRepository;
 
     final private static String EXCEPTION_TEXT = "PharmacistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " pharmacist with given id does not exists";
@@ -114,7 +125,14 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void createNewPharmacist(PharmacistDTO dto) throws Exception {
+        if(!pharmacyRepository.existsById(dto.getPharmacyID()))
+            throw new Exception("Pharmacy with given id does not exists");
 
+        Pharmacist pharmacist = new Pharmacist();
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authenticationRepository.findByName("USER"));
+        pharmacist.setAuthorities(authorities);
+        this.savePharmacist(pharmacist, dto);
     }
 
     @Override
@@ -138,8 +156,8 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Transactional
     @Override
     public void deletePharmacistById(Long id) throws Exception {
-        Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
-        if(pharmacist == null){
+//        Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
+        if(!pharmacistRepository.existsById(id)){
             throw new Exception("There is no pharmacist with given id");
         }
 
@@ -147,21 +165,34 @@ public class PharmacistServiceImpl implements PharmacistService {
             throw new Exception("Pharmacist has a consultation");
         }
 
-        pharmacistRepository.deletePharmacistFromPharmacy(id);
+        try{
+            pharmacistRepository.deletePharmacistFromPharmacy(id);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Deleting pharmacist from the pharmacy");
+        }
 
     }
 
     @Override
     public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception{
 
+        pharmacistDTO.setPassword(encoder.encode(pharmacistDTO.getPassword()));
         UserDTO.dto2User(pharmacist, pharmacistDTO);
+        pharmacist.setRole(UserRoles.PHARMACIST);
+        pharmacist.setHours(pharmacistDTO.getHours());
+        pharmacist.setStart_hour(pharmacistDTO.getStart_hour());
+//        pharmacist.setPassword(encoder.encode(pharmacist.getPassword()));
         try{
             pharmacist.setAddress(addressRepository.findById(pharmacistDTO.getAddress_id()).orElse(null));
+            pharmacist.setPharmacy(pharmacyRepository.getOne(pharmacistDTO.getPharmacyID()));
         }catch (Exception e){
             e.printStackTrace();
             throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +
                     " address does not exists");
         }
+
 
         try {
             pharmacistRepository.save(pharmacist);

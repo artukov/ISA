@@ -1,5 +1,5 @@
 import axios from 'axios';
-import refreshToken from '../services/RefreshToken';
+// import refreshToken from '../services/RefreshToken';
 import {urlStart, urlAuthLogin} from '../services/UrlService';
 
 
@@ -13,11 +13,11 @@ if(localStorage.getItem('token') === null){
 
 instance.defaults.headers.Authorization = 'Bearer ' + JSON.parse(localStorage.getItem('token')).token;
 //instance.defaults.headers.common['Content-Type'] = 'application/json';
-instance.defaults.headers.post['Content-Type'] = 'application/json,charset=UTF-8';
+instance.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
 
 instance.defaults.headers.get['Accept'] = 'application/json';
 
-instance.defaults.headers.put['Content-Type'] = 'application/json,charset=UTF-8';
+instance.defaults.headers.put['Content-Type'] = 'application/json; charset=UTF-8';
 instance.defaults.headers.put['Accept'] = 'application/json';
 
 instance.interceptors.request.use(
@@ -57,9 +57,9 @@ instance.interceptors.response.use(
     error =>{
        
         if((error.response.status !== undefined) && (error.response.status === 401)){
-            console.log('intercepter error \n', error.response);
-            const resault = refreshToken();
-            return Promise.resolve(resault);
+            // console.log('intercepter error \n', error.response);
+            // const resault = refreshToken();
+            // return Promise.resolve(resault);
         }
         return Promise.reject(error);
     }

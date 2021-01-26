@@ -2,6 +2,8 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.InsertingDermatologistException;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -124,6 +126,27 @@ public class PharmacyController {
     public ResponseEntity<?> getPharmacyAddress(@PathVariable("id") Long id){
        return  new ResponseEntity<>( pharmacyService.getAddress(id), HttpStatus.OK);
 
+    }
+
+    @PostMapping(value = "/addNewDermatologist/{dermaID}/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addNewDermatologistToPharmacy(@PathVariable("dermaID") Long dermaID,
+                                                           @PathVariable("pharmacyID") Long pharmacyID,
+                                                           @RequestBody WorkingHoursDTO workingHoursDTO){
+
+        try {
+            pharmacyService.addNewDermatologist(dermaID, pharmacyID, workingHoursDTO);
+        }
+        catch(InsertingDermatologistException ide){
+            return new ResponseEntity<>(ide.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

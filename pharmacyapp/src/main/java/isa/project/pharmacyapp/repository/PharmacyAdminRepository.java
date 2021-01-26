@@ -23,4 +23,8 @@ public interface PharmacyAdminRepository extends JpaRepository<PharmacyAdmin, Lo
     public void deleteById(@Param("adminId") Long id);
 
     PharmacyAdmin findByEmail(String email);
+
+    //PharmacyAdmin findByPharmacy(Long pharmacyID);
+
+    PharmacyAdmin findByPharmacy_id(Long pharmacyID);
 }

@@ -48,21 +48,7 @@ public class PharmacistController {
 
     }
 
-    @DeleteMapping(value = "/delete/pharmacy/{id}")
-    @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> deletePharmacistFromPharmacy(@PathVariable("id")Long id){
 
-        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
-
-        try {
-            pharmacistService.deletePharmacistById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     @GetMapping(value = "/findPatients/{pharmaId}/{orderCondition}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -103,6 +89,22 @@ public class PharmacistController {
         return new ResponseEntity<>(calendar,HttpStatus.OK);
     }
 
+    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> createNewPharmacist(@RequestBody PharmacistDTO pharmacistDTO){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        try {
+            pharmacistService.createNewPharmacist(pharmacistDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> modifyDermatologist(@RequestBody PharmacistDTO pharmacistDTO, Principal user){
@@ -122,6 +124,22 @@ public class PharmacistController {
             e.printStackTrace();
             return new ResponseEntity<>("PharmacistController::modifyPharmacist Server error"
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/delete/pharmacy/{id}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deletePharmacistFromPharmacy(@PathVariable("id")Long id){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        try {
+            pharmacistService.deletePharmacistById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

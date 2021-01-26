@@ -1,6 +1,9 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
+import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,8 +52,22 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
-    public void createNewExamination(ExaminationDTO examinationDTO) throws Exception {
+    public void createNewExamination(ExaminationDTO examinationDTO) throws Exception, ExaminationOverlappingException {
         Examination examination = new Examination();
+
+        Date endDateTime = new Date();
+        endDateTime.setTime( examinationDTO.getBeggingDateTime().getTime());
+        System.out.println("Before change \t " + endDateTime);
+        endDateTime.setMinutes(endDateTime.getMinutes() + examinationDTO.getDuration());
+        System.out.println("After change \t" + endDateTime );
+
+        if(repository.overlappingExaminations(examinationDTO.getBeggingDateTime(),endDateTime,
+                examinationDTO.getDermatologist_id()) != 0.0){
+            //System.out.println("There are some overlapping");
+            throw new ExaminationOverlappingException("Begging of the examination and its duration are " +
+                    "overlapping with some examinations that dermatologist already has booked", examinationDTO.getBeggingDateTime(), endDateTime);
+        }
+
         this.saveExamination(examination, examinationDTO);
 
     }
@@ -126,5 +144,27 @@ public class ExaminationServiceImpl implements ExaminationService {
         return examinationDTOS;
 
 
+    }
+
+    @Override
+    public void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception,DermatologistNotWorkingException {
+        List<Object[]> dermaWorkingHours = this.dermatologistRepository.getWorkingHours(dto.getDermatologist_id(),pharmacyID);
+        Object[] arrayO = dermaWorkingHours.get(0);
+        WorkingHoursDTO workingHours = new WorkingHoursDTO((Date) arrayO[0],(Integer) arrayO[1]);
+
+        if(dto.getBeggingDateTime().before(workingHours.getStartHour()))
+            throw new DermatologistNotWorkingException("Dermatologist is not yet in pharmacy at that hours" , dto.getBeggingDateTime());
+        Date endHours = workingHours.getStartHour();
+        endHours.setHours(endHours.getHours() + workingHours.getHours());
+        if(dto.getBeggingDateTime().after(endHours))
+            throw new DermatologistNotWorkingException("Dermatologist is finished at that hours", true);
+        Date endExamTime = new Date();
+        endExamTime.setTime(dto.getBeggingDateTime().getTime());
+        endExamTime.setMinutes(endExamTime.getMinutes() + dto.getDuration());
+
+        if(endExamTime.after(endHours))
+            throw new DermatologistNotWorkingException("Dermatologist is finished at that hours", true);
+
+        this.createNewExamination(dto);
     }
 }

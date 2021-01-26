@@ -15,7 +15,7 @@ public class DermatologistDTO extends UserDTO {
 
     private List<Long> examinationsId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date start_hour;
     private Integer hours;
 

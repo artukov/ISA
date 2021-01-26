@@ -151,21 +151,24 @@ public class DrugServiceImpl implements DrugService {
     @Override
     public void deleteDrug(Long id, Long pharmacyID) throws Exception {
 
-        Drug drug = drugRepository.findById(id).orElse(null);
-        if(drug == null){
+//        Drug drug = drugRepository.findById(id).orElse(null);
+//        if(drug == null){
+//            throw  new Exception(EXCEPTION_TEXT + "deleteDrug" + DOES_NOT_EXISTS);
+//        }
+//
+//        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
+//        if(pharmacy == null){
+//            throw new Exception(EXCEPTION_TEXT + "delete drug pharmacy does not exists");
+//        }
+
+        if(!drugRepository.existsById(id))
             throw  new Exception(EXCEPTION_TEXT + "deleteDrug" + DOES_NOT_EXISTS);
-        }
 
-        Pharmacy pharmacy = pharmacyRepository.findById(pharmacyID).orElse(null);
-        if(pharmacy == null){
+        if(!pharmacyRepository.existsById(pharmacyID))
             throw new Exception(EXCEPTION_TEXT + "delete drug pharmacy does not exists");
-        }
 
-        /**
-         * TODO
-         * Check if the drug reserved
-         * */
-        if(reservationRepository.countReservedDrugsInPharmacy(id, pharmacyID) == 0.0){
+
+        if(reservationRepository.countReservedDrugsInPharmacy(id, pharmacyID) != 0.0){
             throw  new Exception("Drug is reserved");
         }
 
@@ -303,6 +306,23 @@ public class DrugServiceImpl implements DrugService {
 
             drugRepository.addDrugToPharmacy(drug.getId(), pharmacyID, amount);
         }
+    }
+
+    @Override
+    public List<DrugDTO> findAllNotPharmacyDrugs(Long pharmacyID) throws Exception {
+        if(!pharmacyRepository.existsById(pharmacyID)){
+            throw new Exception("There is no pharmacy with given id");
+        }
+
+        List<Drug> drugs = drugRepository.findAllNoInPharmacy(pharmacyID);
+
+        ArrayList<DrugDTO> drugDTOS = new ArrayList<>();
+
+        for(Drug drug : drugs){
+            drugDTOS.add(DrugDTO.drug2DTO(drug));
+        }
+
+        return drugDTOS;
     }
 
     /**

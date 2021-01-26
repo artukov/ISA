@@ -31,4 +31,6 @@ public interface DrugService {
     boolean drugExistsInPharmacy(Long drugID, Long pharmacyID);
 
     void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception;
+
+    List<DrugDTO> findAllNotPharmacyDrugs(Long pharmacyID) throws Exception;
 }

@@ -14,9 +14,11 @@ public class PharmacistDTO extends UserDTO{
     private List<Double> ratings;
     private List<Long> consultationId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ss:mm:HH Z")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date start_hour;
     private Integer hours;
+
+    private Long pharmacyID;
 
 
     public PharmacistDTO() {
@@ -91,5 +93,13 @@ public class PharmacistDTO extends UserDTO{
 
     public void setHours(Integer hours) {
         this.hours = hours;
+    }
+
+    public Long getPharmacyID() {
+        return pharmacyID;
+    }
+
+    public void setPharmacyID(Long pharmacyID) {
+        this.pharmacyID = pharmacyID;
     }
 }

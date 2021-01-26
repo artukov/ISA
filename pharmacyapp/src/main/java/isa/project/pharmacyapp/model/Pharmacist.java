@@ -30,7 +30,7 @@ public class Pharmacist extends User {
    public Pharmacy pharmacy;
 
    @Column(nullable = false, name = "start_hour")
-   private Timestamp start_hour;
+   private Date start_hour;
 
    @Column(nullable = false, name = "hours")
    private Integer hours;
@@ -112,11 +112,11 @@ public class Pharmacist extends User {
       this.pharmacy = pharmacy;
    }
 
-   public Timestamp getStart_hour() {
+   public Date getStart_hour() {
       return start_hour;
    }
 
-   public void setStart_hour(Timestamp start_hour) {
+   public void setStart_hour(Date start_hour) {
       this.start_hour = start_hour;
    }
 

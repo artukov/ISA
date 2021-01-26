@@ -24,4 +24,6 @@ public interface DermatologistService extends UserService {
     Double getAvgRatings(Long dermaID, Long pharmacyID) throws Exception;
 
     void deleteDermatologistPharmacy(Long dermaID, Long pharmacyID) throws Exception;
+
+    List<DermatologistDTO> findAllNotInPharmacy(Long pharmacyID) throws Exception;
 }

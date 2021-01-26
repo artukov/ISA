@@ -35,12 +35,15 @@ VALUES (500, 457887, 'manufacturer', 'name4', false, 'shape','type',null);
 
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
 VALUES (600, 457887, 'manufacturer', 'name5', false, 'shape','type',null);
+INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
+VALUES (601, 457887, 'manufacturer', 'name6', false, 'shape','type',null);
 
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,200, 200,10);
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,300,10,20);
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,400,25,30);
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,500,45,40);
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (300,300,13,50);
+
 
 --inserting users
 
@@ -54,14 +57,26 @@ INSERT INTO public.dermatologist(
 VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
+INSERT INTO public.dermatologist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (302, 'derma2@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+
+INSERT INTO public.dermatologist(
+    id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
+VALUES (303, 'derma3@live.com', true, 'dermatologist', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+
 
 --inserting dermatologist's working hours in a pharmacy
 INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
 VALUES (200, 300, now(),8);
 
-
 INSERT INTO public.pharmacy_derma(pharmacy_id, derma_id, start_hour, hours)
 VALUES (200, 301, now(),6);
+
+INSERT INTO public.pharmacy_derma(hours, start_hour, pharmacy_id, derma_id)
+VALUES (8, now(),300, 303);
 --dermatologist ratings for one pharmacy
 
 INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (200,300,null);
@@ -164,13 +179,53 @@ INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 101)
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 101);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101);
 
---inserting authority
+--supply orders-----------------------------------------
+
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (200,date('2021-02-13'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (201,date('2021-03-13'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (202,date('2020-12-31'),200);
+
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (20,200,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (30,300,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (100,400,200);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (50,400,201);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (60, 300, 201);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (100,200,202);
+
+----with offers-------------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-02-10'),250.0,0,200,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-02-09'),250.0,0,200,701);
+----without offers --------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,201,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,201,701);
+
+--accepted order---------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2020-12-30'),300.0,1,202,700);
+--denied order----------------------------
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2020-12-31'),300.0,2,202,701);
+
+--inserting authority---------------------------
 
 INSERT INTO public.authority(id,name) VALUES (1,'USER');
 INSERT INTO public.authority(id, name) VALUES (2,'ADMIN');
 INSERT INTO public.authority(id, name) VALUES (3,'PHARMACY_ADMIN');
 
---inserting user_authority
+--inserting user_authority-------------------------
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 1);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (200, 3);
 INSERT INTO public.user_authority(user_id, authority_id)VALUES (300, 1);
@@ -242,3 +297,24 @@ INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,201,now());
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,202,now());
+
+--price list--------------------------------------------------------
+
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
+VALUES (200, date('2020-12-31'), date('2020-09-01'),200, false);
+
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
+VALUES (201, date('2021-03-31'), date('2021-01-01'),200, true);
+
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (200,200,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (125,300,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (78,400,200);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (225,200,201);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (25,300,201);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (35.8,400,201);

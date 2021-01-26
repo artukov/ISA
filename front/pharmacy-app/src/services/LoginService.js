@@ -22,7 +22,7 @@ function login(email,password){
 
         localStorage.setItem('token', JSON.stringify(token)); 
        
-        //window.location = "/home"
+        window.location = "/home"
     })
     .catch(err => {
         /* console.log(err.response.status);

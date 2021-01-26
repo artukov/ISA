@@ -180,7 +180,7 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public PharmacyAdmin findByEmail(String email) {
         return this.adminRepository.findByEmail(email);
     }
 

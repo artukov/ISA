@@ -3,12 +3,14 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
-import isa.project.pharmacyapp.model.Address;
-import isa.project.pharmacyapp.model.Appointment;
-import isa.project.pharmacyapp.model.Calendar;
-import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.InsertingDermatologistException;
+import isa.project.pharmacyapp.model.*;
+import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
+import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
 import isa.project.pharmacyapp.repository.AddressRepository;
 import isa.project.pharmacyapp.repository.CalendarRepository;
+import isa.project.pharmacyapp.repository.DermatologistRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,6 +33,9 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     @Autowired
     private CalendarRepository calendarRepository;
+
+    @Autowired
+    private DermatologistRepository dermatologistRepository;
 
     @Override
     public PharmacyDTO findById(Long id) throws NoSuchElementException {
@@ -114,6 +120,54 @@ public class PharmacyServiceImpl implements PharmacyService {
     public Address getAddress(Long id) {
         Address  pharmacyAddress = pharmacyRepository.getAddress(id);
         return pharmacyAddress;
+    }
+
+    @Override
+    public void addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception {
+
+        Dermatologist dermatologist = dermatologistRepository.findById(dermaID).orElse(null);
+        if(dermatologist == null){
+            throw new Exception("Dermatologist does not exists");
+        }
+
+        Pharmacy pharmacy = pharmacyRepository.getOne(pharmacyID);
+
+//        if(dermatologistRepository.overlappingWorkingHours(dermaID, pharmacyID,
+//                workingHoursDTO.getStartHour(), workingHoursDTO.getHours()) != 0.0){
+//            throw new Exception("Hours are overlapping with another pharmacy");
+//        }
+//
+        Date endHours = new Date();
+        endHours.setTime(workingHoursDTO.getStartHour().getTime());
+        endHours.setHours(endHours.getHours() + workingHoursDTO.getHours());
+        Double result = pharmacyRepository.overlappingWorkingHours(dermaID, pharmacyID,
+                workingHoursDTO.getStartHour(), endHours);
+        if(result != 0.0){
+            throw new InsertingDermatologistException("Hours are overlapping with another pharmacy");
+        }
+
+
+        PharmacyDermatologist pharmacyDermatologist = new PharmacyDermatologist();
+
+        DermaPharmacyId id = new DermaPharmacyId();
+        id.setDermatologist(dermatologist);
+        id.setPharmacy(pharmacy);
+
+        pharmacyDermatologist.setId(id);
+        pharmacyDermatologist.setHours(workingHoursDTO.getHours());
+        pharmacyDermatologist.setStartHour(workingHoursDTO.getStartHour());
+
+        pharmacy.getDermatologists().add(pharmacyDermatologist);
+
+        try{
+            pharmacyRepository.save(pharmacy);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("saving pharmacy");
+        }
+
+
     }
 
     private void savePharmacy(Pharmacy pharmacy, PharmacyDTO pharmacyDTO) throws Exception, NoSuchElementException {

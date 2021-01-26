@@ -67,4 +67,11 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
     @Query(value = "SELECT amount FROM pharmacy_drug WHERE drug_id = :drugID AND pharmacy_id = :pharmacyID",nativeQuery = true)
     Integer getAmount(@Param("drugID") Long drugID, @Param("pharmacyID") Long pharmacyID);
+
+
+    @Query(value = "SELECT * FROM drug d\n" +
+            "WHERE NOT EXISTS(SELECT * FROM pharmacy_drug pd\n" +
+            "WHERE drug_id = d.id AND pharmacy_id = :pharmacyID )"
+            ,nativeQuery = true)
+    List<Drug> findAllNoInPharmacy(@Param("pharmacyID") Long pharmacyID);
 }

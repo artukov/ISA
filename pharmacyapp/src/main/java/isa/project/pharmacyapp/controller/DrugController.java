@@ -25,6 +25,15 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
+    @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllSystemDrugs(){
+
+        List<DrugDTO> drugDTOS = drugService.findAll();
+
+        return new ResponseEntity<>(drugDTOS,HttpStatus.OK);
+    }
+
     @PostMapping(value = "/add/{pharmacyID}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> addToPharmacyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("pharmacyID") Long pharmacyID){
@@ -40,7 +49,7 @@ public class DrugController {
 
     }
 
-    @PostMapping(value = "/modify/{drugID}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/modify/{drugID}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> modifyDrug(@RequestBody DrugDTO drugDTO, @PathVariable("drugID") Long drugID){
 
@@ -64,7 +73,7 @@ public class DrugController {
             drugService.deleteDrug(drugID, pharmacyID);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -116,5 +125,18 @@ public class DrugController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/findNotInPharmacy/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> findAllDrugsNotInPharmacy(@PathVariable("pharmacyID") Long pharmacyID){
 
+        List<DrugDTO> drugDTOS = null;
+        try {
+            drugDTOS = drugService.findAllNotPharmacyDrugs(pharmacyID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(drugDTOS,HttpStatus.OK);
+    }
 }

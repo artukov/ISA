@@ -4,10 +4,14 @@ import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.OrderStatus;
+import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.SupplyOrder;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.service.DrugService;
+import isa.project.pharmacyapp.service.SupplierService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
+import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +34,15 @@ public class SupplyOrderController {
     @Autowired
     private DrugService drugService;
 
+    @Autowired
+    private UserServiceFactory serviceFactory;
+
+    @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getOrderStatuses(){
+        return new ResponseEntity<>(OrderStatus.values(),HttpStatus.OK);
+    }
+
     @GetMapping(value = "/findWithStatus/{status}/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPharmacyOrders(@PathVariable("status") OrderStatus status,
@@ -39,6 +52,15 @@ public class SupplyOrderController {
 
         return new ResponseEntity<>(orderDTOS, HttpStatus.OK);
 
+    }
+
+    @GetMapping(value ="/findWithoutOffers/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllWithoutOffers(@PathVariable("pharmacyID") Long pharmacyID){
+
+        List<SupplyOrderDTO> orderDTOS = supplyOrderService.findWithoutOffer(pharmacyID);
+
+        return new ResponseEntity<>(orderDTOS,HttpStatus.OK);
     }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -86,7 +108,27 @@ public class SupplyOrderController {
             }
         }
 
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        try {
+            supplierService.updateWareHouse(order.getDrugs(),dto.getSupplierID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/delete/{id}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> deleteOrderWithoutAnyOffers(@PathVariable("id") Long id){
+
+        supplyOrderService.deleteSupplyOrder(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
+
 
 }
