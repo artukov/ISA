@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.DrugSpecDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.service.DrugService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -106,6 +108,13 @@ public class DrugController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/specification/{drugId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDrugSpec(@PathVariable("drugId") Long drugId){
+        List<DrugSpecDTO> dtos = this.drugService.getDrugSpec(drugId);
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
 
 
 }

@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.CalendarDTO;
 import isa.project.pharmacyapp.dto.DrugDTO;
+import isa.project.pharmacyapp.dto.DrugSpecDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -75,6 +76,31 @@ public class DrugServiceImpl implements DrugService {
             drugDTOs.add(dto);
         }
         return drugDTOs;
+    }
+
+    @Override
+    public List<DrugSpecDTO> getDrugSpec(Long drugId){
+
+        List<Object[]> specs = this.drugRepository.getDrugSpec(drugId);
+
+        ArrayList<DrugSpecDTO> dtos = new ArrayList<>();
+
+        for(Object[] obj : specs){
+            DrugSpecDTO dto = new DrugSpecDTO();
+
+            dto.setId((BigInteger) obj[0]);
+            dto.setCode((BigInteger) obj[1]);
+            dto.setManufacturer((String) obj[2]);
+            dto.setName((String) obj[3]);
+            dto.setShape((String) obj[4]);
+            dto.setType((String) obj[5]);
+            dto.setComposition((String) obj[6]);
+            dto.setRecom_consum((String) obj[7]);
+            dto.setSide_effects((String) obj[8]);
+
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override

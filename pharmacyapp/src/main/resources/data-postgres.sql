@@ -21,8 +21,11 @@ INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 3);
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (300, 3);
 --drugs
 
+INSERT INTO drug_spec(id,composition,recom_consum,side_effects)
+VALUES(23,'Top','Sve','nista bre');
+
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
-VALUES (200, 457887, 'manufacturer', 'name1', false, 'shape','type',null);
+VALUES (200, 457887, 'manufacturer', 'name1', false, 'shape','type',23);
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
 VALUES (300, 457887, 'manufacturer', 'name2', false, 'shape','type',null);
 INSERT INTO public.drug(id, code, manufacturer, name, receipt, shape, type, spec_id)
