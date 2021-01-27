@@ -14,7 +14,8 @@ import javax.persistence.*;
 /** @pdOid 0be80692-2b24-42fd-8ea3-a7ecf4a30110 */
 @Entity
 @Table(name = "pharmacy")
-public class Pharmacy {
+public class
+Pharmacy {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)

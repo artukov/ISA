@@ -1,5 +1,7 @@
 package isa.project.pharmacyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -7,6 +9,7 @@ public class CalendarDTO {
 
     private BigInteger calendar_id;
     private BigInteger appointment_id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date date;
     private BigInteger pharmacy_id;
 
