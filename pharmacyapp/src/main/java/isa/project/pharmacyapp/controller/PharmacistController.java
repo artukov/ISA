@@ -1,11 +1,9 @@
 package isa.project.pharmacyapp.controller;
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.DermatologistDTO;
-import isa.project.pharmacyapp.dto.PatientDTO;
-import isa.project.pharmacyapp.dto.PharmacistDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.service.AbsenceRequestService;
 import isa.project.pharmacyapp.service.DermatologistService;
 import isa.project.pharmacyapp.service.PharmacistService;
 import isa.project.pharmacyapp.service.UserService;

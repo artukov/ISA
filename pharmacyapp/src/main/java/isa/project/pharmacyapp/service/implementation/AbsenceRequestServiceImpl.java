@@ -8,9 +8,11 @@ import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.repository.UserRepository;
 import isa.project.pharmacyapp.service.AbsenceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+@Service
 public class AbsenceRequestServiceImpl implements AbsenceRequestService {
 
     @Autowired
@@ -39,7 +41,7 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
     @Override
     public void saveAbsenceRequest(AbsenceRequest absenceRequest, AbsenceRequestDTO absenceRequestDTO) throws Exception {
 
-        absenceRequest.setId(absenceRequestDTO.getId());
+        //absenceRequest.setId(absenceRequestDTO.getId());
         absenceRequest.setDescription(absenceRequestDTO.getDescription());
         absenceRequest.setEndDate(absenceRequestDTO.getEndDate());
         absenceRequest.setStartDate(absenceRequestDTO.getStartDate());
@@ -62,7 +64,7 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
         }
         catch (Exception e){
             e.printStackTrace();
-            throw new Exception("Saving reservation");
+            throw new Exception("Saving absenceRequest");
         }
 
 

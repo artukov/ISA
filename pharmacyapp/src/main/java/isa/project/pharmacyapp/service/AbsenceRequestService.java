@@ -6,8 +6,8 @@ import isa.project.pharmacyapp.model.AbsenceRequest;
 import isa.project.pharmacyapp.model.Reservation;
 
 public interface AbsenceRequestService {
-    public void createNewAbsenceRequest(AbsenceRequestDTO absenceRequestDTO) throws Exception;
+    public abstract void createNewAbsenceRequest(AbsenceRequestDTO absenceRequestDTO) throws Exception;
 
-    void saveAbsenceRequest(AbsenceRequest absenceRequest, AbsenceRequestDTO absenceRequestDTO) throws Exception;
+    public abstract void saveAbsenceRequest(AbsenceRequest absenceRequest, AbsenceRequestDTO absenceRequestDTO) throws Exception;
 
 }

@@ -1,12 +1,16 @@
 package isa.project.pharmacyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigInteger;
 import java.util.Date;
 
 public class AbsenceRequestDTO {
     private Long id;
     private String description;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date startDate;
     private Boolean status = false;
     private Long pharmacyId;
