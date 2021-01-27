@@ -38,7 +38,7 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
 
     @Query(value = "SELECT COUNT( appointment_date)  FROM calendar_appointments " +
-            "WHERE calendar_id = 200 " +
+            "WHERE calendar_id = :id " +
             "GROUP BY EXTRACT(year FROM appointment_date)", nativeQuery = true)
     List<Double> getYearlyExaminations(@Param("id") Long id);
 
