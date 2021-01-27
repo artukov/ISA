@@ -4,7 +4,7 @@ import { PharmacyReportsContext } from './PharmacyReportsContext';
 import { SET_TIMESPAM_APPOINTMENTS, SET_TIMESPAM_DRUGS } from './reportReducer';
 
 const ReportsMenu = () => {
-    const {dispatch, loadAppointmentStats} = useContext(PharmacyReportsContext);
+    const {dispatch, loadAppointmentStats,loadDrugConsumption} = useContext(PharmacyReportsContext);
 
 
     return ( 
@@ -26,7 +26,7 @@ const ReportsMenu = () => {
                             <option value = "QUARTERLY">QUARTERLY</option>
                             <option value = "YEARLY">YEARLY  </option>
                         </Form.Control>
-                        <Button>See reports for drug consumption</Button>
+                        <Button onClick={()=> loadDrugConsumption()}>See reports for drug consumption</Button>
                </Form.Group>
                <Form.Group>
                    <Form.Control type="date"></Form.Control>

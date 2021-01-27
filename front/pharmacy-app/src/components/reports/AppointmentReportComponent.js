@@ -9,6 +9,7 @@ const quarter = ['FIRST', 'SECOND', 'THIRD'];
 
 const AppointmentReport = () => {
 
+
     const {state} = useContext(PharmacyReportsContext);
 
     const [showGraph, setShowGraph] = useState(true);
@@ -19,6 +20,24 @@ const AppointmentReport = () => {
     const [labels, setLabels] = useState(months);
 
     const colors = ['blue', 'red', 'black','purple','green']; 
+
+    const options = {
+            scales: {
+                yAxes: [{
+                    stacked: false
+                }],
+                xAxes: [{
+                    type: 'category',
+                    labels: labels 
+                }]
+            }, 
+            title : {
+                text : 'Graph of results',
+                fontSize: 12,
+                display : true
+            }
+
+        }
 
     const calculateTimeSpam = () =>{
         if(state.appointments.timespam === "MONTHLY"){
@@ -42,12 +61,10 @@ const AppointmentReport = () => {
         const lowerBound = timespam*(index);
         const upperBound = (timespam*(index + 1));
         for(let i = 0; i < state.appointments.stats.length; i++ ){
-            if( ((i >= lowerBound )  && ( i < upperBound)) || (index === upperBound)  ){
-                // console.log('stats',state.appointments.stats.find((stat,index) =>  index === i  ));
+            if( ((i >= lowerBound )  && ( i < upperBound)) || (index === upperBound)  ){            
                 data.push(state.appointments.stats[i]);
                 continue;
-            }
-                
+            }               
             if( i < lowerBound)
                 continue;
             if( i >= upperBound)
@@ -78,7 +95,7 @@ const AppointmentReport = () => {
         setChartData({
             datasets : formataDatasetForGraph()
         });
-        // console.log(chartData);
+        
     }
 
     const barChart = () =>{
@@ -86,7 +103,7 @@ const AppointmentReport = () => {
 
         for(let i = 0; i < state.years.length ; i++ ){
             let temp = {
-                // fill : false,
+               
                 label : state.years[i],
                 backgroundColor : colors[i],
                 data :  state.appointments.stats.map((stat, index) =>{
@@ -125,52 +142,13 @@ const AppointmentReport = () => {
                 showGraph ? (
                     <Line
                     data = {chartData}
-                    options = {{
-                        scales: {
-                            yAxes: [{
-                                stacked: false
-                            }],
-                            xAxes: [{
-                                type: 'category',
-                                labels: labels 
-                                //  ['January', 'February', 'March', 'April', 'May', 'June', 
-                                // 'July','August','September','October','November','December' ]
-                            }]
-                        }, 
-                        title : {
-                            text : 'Graph of results',
-                            fontSize: 12,
-                            display : true
-                        }
-
-                    }}
-                    
+                    options = {options}
                     >
                     </Line>
                 ) : (
                     <Bar
                         data = {chartData}
-                        options = {
-                            {
-                                scales: {
-                                    yAxes: [{
-                                        stacked: false
-                                    }],
-                                    xAxes: [{
-                                        type: 'category',
-                                        labels: labels 
-                                        //  ['January', 'February', 'March', 'April', 'May', 'June', 
-                                        // 'July','August','September','October','November','December' ]
-                                    }]
-                                }, 
-                                title : {
-                                    text : 'Graph of results',
-                                    fontSize: 12,
-                                    display : true
-                                }
-                            }
-                        }
-                    
+                        options = {options}
                     >
                     </Bar>
                 )

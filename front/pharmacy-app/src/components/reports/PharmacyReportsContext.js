@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext,useReducer } from 'react';
 import { axiosConfig } from '../../config/AxiosConfig';
-import { reportReducer, SET_APPOINTMENTS, SET_YEARS } from './reportReducer';
+import { reportReducer, SET_APPOINTMENTS, SET_YEARS, SET_DRUGS } from './reportReducer';
 
 export const PharmacyReportsContext = createContext();
 
@@ -8,11 +8,11 @@ const initState = {
     years : [],
     appointments : {
         stats : [],
-        timespam : null,
+        timespam : "MONTHLY",
     },
     drugs : {
         stats : [],
-        timespam : null
+        timespam : "MONTHLY"
     }
 };
 
@@ -48,13 +48,25 @@ const PharmacyReportsContextProvider = (props) => {
         }
     }
 
+    const loadDrugConsumption = async () =>{
+        try{
+            const result = await axiosConfig.get('/drug/avgConsumption/'+state.drugs.timespam + "/" + props.pharmacyID);
+            // console.log(result.data);
+            dispatch({type : SET_DRUGS, drugs : result.data});
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
 
     return ( 
         <PharmacyReportsContext.Provider
             value ={{
                 state,
                 dispatch,
-                loadAppointmentStats
+                loadAppointmentStats,
+                loadDrugConsumption
             }}
         >
             {props.children}
