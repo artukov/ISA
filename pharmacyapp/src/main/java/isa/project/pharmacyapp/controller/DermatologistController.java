@@ -1,9 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.DermatologistDTO;
-import isa.project.pharmacyapp.dto.PatientDTO;
-import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.exception.DeletingDermatologistException;
 import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.User;
@@ -35,6 +32,9 @@ public class DermatologistController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private ExaminationService examinationService;
 
     @GetMapping(value = "/findByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -158,5 +158,35 @@ public class DermatologistController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/appointment/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> createNewExaminationAppointment(@RequestBody ExaminationDTO examinationDTO, Principal user){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        User current = userService.findByEmail(user.getName());
+
+        if(current.getRole() == UserRoles.PATIENT){
+            return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
+        }
+
+        examinationDTO.setDermatologist_id(current.getId());
+        examinationDTO.setFinished(false);
+        /**
+         * TODO
+         * Create examination context on front
+         * */
+
+        try {
+            examinationService.createNewExamination(examinationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

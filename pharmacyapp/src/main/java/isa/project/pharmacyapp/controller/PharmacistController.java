@@ -144,7 +144,7 @@ public class PharmacistController {
 
     @PostMapping(value = "/appointment/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> createNewAbsenceRequest(@RequestBody ConsultationDTO consultationDTO, Principal user){
+    public ResponseEntity<?> createNewConsultationAppointment(@RequestBody ConsultationDTO consultationDTO, Principal user){
 
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
 

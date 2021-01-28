@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
+import isa.project.pharmacyapp.exception.InsertingConsultationException;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -75,6 +76,18 @@ public class ExaminationServiceImpl implements ExaminationService {
                     "overlapping with some examinations that dermatologist already has booked", examinationDTO.getBeggingDateTime(), endDateTime);
         }
 
+        Date endHours = new Date();
+        endHours.setTime(examinationDTO.getBeggingDateTime().getTime());
+        endHours.setHours(endHours.getHours() + examinationDTO.getDuration());
+
+        Double resultPatientConsultation = patientRepository.overlappingConsultationHours(examinationDTO.getBeggingDateTime(), endHours, examinationDTO.getPatient_id());
+        if(resultPatientConsultation != 0){
+            throw new ExaminationOverlappingException("Patient consultation hours are overlapping",examinationDTO.getBeggingDateTime(),endHours);
+        }
+        Double resultPatientExamination = patientRepository.overlappingExaminationHours(examinationDTO.getBeggingDateTime(), endHours, examinationDTO.getPatient_id());
+        if(resultPatientExamination != 0){
+            throw new ExaminationOverlappingException("Patient examination hours are overlapping",examinationDTO.getBeggingDateTime(),endHours);
+        }
         this.saveExamination(examination, examinationDTO);
 
     }
@@ -129,11 +142,6 @@ public class ExaminationServiceImpl implements ExaminationService {
             e.printStackTrace();
             throw new Exception(CLASS_NAME + "::saveExamination " + UNSUCCESSFUL);
         }
-
-
-
-
-
     }
 
     @Override
