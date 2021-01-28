@@ -93,7 +93,6 @@ const ConsumptionReport = () => {
         setChartData({
             datasets : formataDatasetForGraph()
         });
-        // console.log(chartData);
     }
 
     const barChart = () =>{
@@ -101,7 +100,6 @@ const ConsumptionReport = () => {
 
         for(let i = 0; i < state.years.length ; i++ ){
             let temp = {
-                // fill : false,
                 label : state.years[i],
                 backgroundColor : colors[i],
                 data :  state.drugs.stats.map((stat, index) =>{

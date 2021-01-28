@@ -7,7 +7,10 @@ import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
+import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
 import isa.project.pharmacyapp.repository.*;
+import isa.project.pharmacyapp.service.CalendarService;
 import isa.project.pharmacyapp.service.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +39,10 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
+    @Autowired
+    private CalendarService calendarService;
+
+
     private String CLASS_NAME = this.getClass().getName();
 
     @Value("examination not found by given id")
@@ -57,9 +64,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         Date endDateTime = new Date();
         endDateTime.setTime( examinationDTO.getBeggingDateTime().getTime());
-        System.out.println("Before change \t " + endDateTime);
+//        System.out.println("Before change \t " + endDateTime);
         endDateTime.setMinutes(endDateTime.getMinutes() + examinationDTO.getDuration());
-        System.out.println("After change \t" + endDateTime );
+//        System.out.println("After change \t" + endDateTime );
 
         if(repository.overlappingExaminations(examinationDTO.getBeggingDateTime(),endDateTime,
                 examinationDTO.getDermatologist_id()) != 0.0){
@@ -100,6 +107,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             for(Long drugID : examinationDTO.getDrugs()){
                 examination.getDrug().add(drugRepository.findById(drugID).orElse(null));
             }
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -107,12 +115,17 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
 
         try {
-            repository.save(examination);
+            examination = repository.save(examination);
+            calendarService.saveAppointment(examinationDTO.getPharmacyID(), examination);
         }
         catch (Exception e){
             e.printStackTrace();
             throw new Exception(CLASS_NAME + "::saveExamination " + UNSUCCESSFUL);
         }
+
+
+
+
 
     }
 

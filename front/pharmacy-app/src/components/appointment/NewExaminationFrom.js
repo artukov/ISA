@@ -108,7 +108,8 @@ const NewExamination = ({dermaID, closeModal, dermaWorkingHours}) => {
             diagnose : null,
             report : null,
             drugs : [],
-            patient_id : 0
+            patient_id : 0,
+            pharmacyID : 200
         }
 
         // console.log('examination: \n',examination);
@@ -131,7 +132,7 @@ const NewExamination = ({dermaID, closeModal, dermaWorkingHours}) => {
         <Form>
             <Form.Group>
                 <Form.Label>Date of the exam</Form.Label>
-                <Form.Control type = "date" onChange= {(e) => setBegDate(e.target.value)}></Form.Control>
+                <Form.Control type = "date" value={begDate} onChange= {(e) => setBegDate(e.target.value)}></Form.Control>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Time of the exam</Form.Label>

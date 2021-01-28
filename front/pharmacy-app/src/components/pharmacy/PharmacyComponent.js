@@ -28,12 +28,16 @@ const PharmacyComponent = ({pharmacyID}) => {
             }
         }
         if(pharmacyID !== undefined){
-            loadPharmacy(pharmacyID);
+            
             
         }
+
+        loadPharmacy(200);
+
+        // pharmacyID = 200;
         
         
-    }, [pharmacyID]);
+    }, []);
 
 
     return ( 
