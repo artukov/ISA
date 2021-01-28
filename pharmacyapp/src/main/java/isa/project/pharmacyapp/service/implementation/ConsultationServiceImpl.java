@@ -3,6 +3,9 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.AppointmentDTO;
 import isa.project.pharmacyapp.dto.ConsultationDTO;
 
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.InsertingConsultationException;
+import isa.project.pharmacyapp.exception.InsertingDermatologistException;
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Consultation;
 import isa.project.pharmacyapp.model.Drug;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -78,7 +82,21 @@ public class ConsultationServiceImpl implements ConsultationService {
             }
             consultation.setDrug(drugs);
 
-
+        Date endHours = new Date();
+        endHours.setTime(consultationDTO.getBeggingDateTime().getTime());
+        endHours.setHours(endHours.getHours() + consultationDTO.getDuration());
+        Double result = pharmacistRepository.overlappingWorkingHours(consultationDTO.getBeggingDateTime(), endHours,consultationDTO.getPharmacistID());
+        if(result != 0.0){
+            throw new InsertingConsultationException("Pharmacists hours are overlapping");
+        }
+        Double resultPatientConsultation = patientRepository.overlappingConsultationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
+        if(resultPatientConsultation != 0){
+            throw new InsertingConsultationException("Patient consultation hours are overlapping");
+        }
+        Double resultPatientExamination = patientRepository.overlappingExaminationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
+        if(resultPatientExamination != 0){
+            throw new InsertingConsultationException("Patient examination hours are overlapping");
+        }
         try {
             consultation =consultationRepository.save(consultation);
             /**

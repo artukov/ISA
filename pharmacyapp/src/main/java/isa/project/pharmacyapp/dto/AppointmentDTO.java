@@ -31,6 +31,7 @@ public class AppointmentDTO {
         this.patient_id = patient_id;
     }
 
+
     public Boolean getFinished() {
         return finished;
     }
