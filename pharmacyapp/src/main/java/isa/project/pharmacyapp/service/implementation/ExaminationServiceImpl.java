@@ -116,7 +116,14 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         try {
             examination = repository.save(examination);
-            calendarService.saveAppointment(examinationDTO.getPharmacyID(), examination);
+            /**
+             * If the appointment exists already in the calendar then there is no need
+             * To insert another raw into calendar_appointments table,
+             * this is when the dermatologist/pharmacist modifies the appointment with status finished or something similar
+             * On the other hand, if appointment does not exists, program is obliged to insert new row*/
+            if(!calendarService.checkIfAppointmentExists(examinationDTO.getPharmacyID(), examination.getId())){
+                calendarService.saveAppointment(examinationDTO.getPharmacyID(), examination);
+            }
         }
         catch (Exception e){
             e.printStackTrace();

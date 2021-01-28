@@ -53,7 +53,14 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         try {
             consultation =consultationRepository.save(consultation);
-            calendarService.saveAppointment(consultationDTO.getPharmacyID(),consultation);
+            /**
+             * If the appointment exists already in the calendar then there is no need
+             * To insert another raw into calendar_appointments table,
+             * this is when the dermatologist/pharmacist modifies the appointment with status finished or something similar
+             * On the other hand, if appointment does not exists, program is obliged to insert new row*/
+            if(!calendarService.checkIfAppointmentExists(consultationDTO.getPharmacyID(), consultation.getId())){
+                calendarService.saveAppointment(consultationDTO.getPharmacyID(), consultation);
+            }
         }
         catch (Exception e){
             throw new Exception();

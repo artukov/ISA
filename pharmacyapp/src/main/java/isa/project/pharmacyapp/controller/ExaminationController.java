@@ -30,8 +30,6 @@ public class ExaminationController {
     @Autowired
     private ExaminationService examinationService;
 
-
-
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;

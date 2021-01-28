@@ -2,7 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Calendar;
-import isa.project.pharmacyapp.model.Examination;
+
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
 import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
@@ -60,5 +60,14 @@ public class CalendarServiceImpl  implements CalendarService {
 
         }
 
+    }
+
+    @Override
+    public Boolean checkIfAppointmentExists(Long pharmacyID, Long appointmentID) {
+        Pharmacy pharmacy = pharmacyRepository.getOne(pharmacyID);
+        if( repository.appointmentAlreadyExists(pharmacy.getCalendar().getId(),appointmentID) != 0.0){
+            return true;
+        }
+        return false;
     }
 }

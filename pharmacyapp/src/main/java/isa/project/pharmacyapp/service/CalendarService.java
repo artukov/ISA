@@ -10,4 +10,6 @@ public interface CalendarService {
     List<Double> getPharmacyCalendarYears(Long pharmacyID);
 
     void saveAppointment(Long pharmacyID, Appointment appointment) throws Exception;
+
+    Boolean checkIfAppointmentExists(Long pharmacyID, Long id);
 }

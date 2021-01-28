@@ -66,4 +66,10 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             "from pharmacy_derma pd inner join pharmacy ph on pd.pharmacy_id = ph.id inner join calendar_appointments c on ph.calendar_id = c.calendar_id inner join examination e on e.id = c.appointment_id\n" +
             "where pd.derma_id = :dermaId", nativeQuery = true)
     List<Object[]> getDermatologistCalendar(@Param("dermaId") Long dermaId);
+
+
+    @Query(value ="SELECT COUNT(*) FROM calendar_appointments " +
+            "WHERE calendar_id = :calendarID and appointment_id = :appointmentID"
+            ,nativeQuery = true)
+    Double appointmentAlreadyExists(@Param("calendarID")Long calendarID,@Param("appointmentID") Long appointmentID);
 }
