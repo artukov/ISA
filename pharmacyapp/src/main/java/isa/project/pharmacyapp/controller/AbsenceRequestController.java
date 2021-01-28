@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/absence")
 public class AbsenceRequestController {
 
