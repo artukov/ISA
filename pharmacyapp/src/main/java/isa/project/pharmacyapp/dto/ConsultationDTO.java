@@ -12,9 +12,16 @@ public class ConsultationDTO extends AppointmentDTO {
     public ConsultationDTO() {
     }
 
-    public ConsultationDTO(Long id, String report, Date beggingDateTime, int duration,
-                           List<Long> drugs, Long patient_id, Long pharmacistID) {
-        super(id, report, beggingDateTime, duration, drugs, patient_id);
+    public ConsultationDTO(Long id, String report, Date beggingDateTime, int duration, Boolean finished, List<Long> drugs, Long patient_id) {
+        super(id, report, beggingDateTime, duration, finished, drugs, patient_id);
+    }
+
+    public ConsultationDTO(Long pharmacistID) {
+        this.pharmacistID = pharmacistID;
+    }
+
+    public ConsultationDTO(Long id, String report, Date beggingDateTime, int duration, Boolean finished, List<Long> drugs, Long patient_id, Long pharmacistID) {
+        super(id, report, beggingDateTime, duration, finished, drugs, patient_id);
         this.pharmacistID = pharmacistID;
     }
 
@@ -22,6 +29,7 @@ public class ConsultationDTO extends AppointmentDTO {
         consultation.setBeggingDateTime(consultationDTO.getBeggingDateTime());
         consultation.setDuration(consultationDTO.getDuration());
         consultation.setReport(consultationDTO.getReport());
+        consultation.setFinished(consultationDTO.getFinished());
     }
 
 

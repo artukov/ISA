@@ -22,7 +22,8 @@ public abstract class Appointment {
    @Column(nullable = true)
    protected String report;
    /** @pdOid 1bb72927-18bd-44f0-b1c7-85a70871e6e0 */
-   @Column(nullable = false, name = "beg_date")
+   @Column(nullable = false, name = "" +
+           "beg_date")
    protected Date beggingDateTime;
 
    /** @pdOid ab6b7d96-4a16-4991-a7f3-465b7e183036 */
