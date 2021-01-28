@@ -1,5 +1,5 @@
 
-alter table calendar_appointments add appointment_date timestamp;
+-- alter table calendar_appointments add appointment_date timestamp;
 
 insert into public.address(id, street, street_number, city, country) values (200,'street', 15,'city','country');
 

@@ -16,6 +16,7 @@ public class AppointmentDTO {
     protected List<Long> drugs;
     protected Long patient_id;
 
+    protected Long pharmacyID;
 
     public AppointmentDTO() {
     }
@@ -84,5 +85,13 @@ public class AppointmentDTO {
 
     public void setPatient_id(Long patient_id) {
         this.patient_id = patient_id;
+    }
+
+    public Long getPharmacyID() {
+        return pharmacyID;
+    }
+
+    public void setPharmacyID(Long pharmacyID) {
+        this.pharmacyID = pharmacyID;
     }
 }

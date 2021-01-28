@@ -7,6 +7,7 @@ import isa.project.pharmacyapp.repository.DrugRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("YEARLYStatistics")
@@ -25,6 +26,13 @@ public class YearlyStatistics implements StatisticsStrategy {
 
     @Override
     public List<Double> calculateDrugStatistics(Pharmacy pharmacy) {
-        return drugRepository.getYearlyDrugConsumptionStatistics(pharmacy.getCalendar().getId());
+
+        List<Double> years  = repository.getAllYears(pharmacy.getCalendar().getId());
+        ArrayList<Double> count  = new ArrayList<>();
+        for(Double year : years){
+            count.add(drugRepository.getYearlyDrugConsumptionStatistics(pharmacy.getId(),year));
+        }
+
+        return count;
     }
 }
