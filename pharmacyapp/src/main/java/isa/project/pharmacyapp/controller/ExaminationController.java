@@ -3,7 +3,9 @@ package isa.project.pharmacyapp.controller;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
+import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.service.CalendarService;
 import isa.project.pharmacyapp.service.DermatologistService;
 import isa.project.pharmacyapp.service.ExaminationService;
 import isa.project.pharmacyapp.service.UserService;
@@ -36,7 +38,7 @@ public class ExaminationController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> newExamination(@RequestBody ExaminationDTO dto){
         try {
-            this.examinationService.createNewExamination(dto);
+             this.examinationService.createNewExamination(dto);
         }
         catch (ExaminationOverlappingException e){
             e.printStackTrace();

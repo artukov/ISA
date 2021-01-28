@@ -14,6 +14,9 @@ import NewSupplyOrder from '../supply-order/NewSupplyOrder';
 import PriceListContextProvider from '../pricelist/PriceListContext';
 import AddPriceList from '../pricelist/AddPriceList';
 import LatestPriceList from '../pricelist/LatestPriceList';
+import PharmacyReportsContextProvider from '../reports/PharmacyReportsContext';
+import ReportsMenu from '../reports/ReportsMenu';
+import ReportsDetails from '../reports/ReportDetails';
 
 
 const PharmacyAdminPage = () => {
@@ -48,11 +51,17 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="pricelist"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="report"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
-                    <Tab eventKey = "report" title="Pharmacy reports"></Tab>
+                    <Tab eventKey = "report" title="Pharmacy reports">
+                        <PharmacyReportsContextProvider pharmacyID = {pharmacy.id}>
+                            <ReportsMenu></ReportsMenu>
+                            <ReportsDetails></ReportsDetails>
+                        </PharmacyReportsContextProvider>
+                      
+                    </Tab>
                     <Tab eventKey="examinations" title = "Examinations"></Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
                         <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>

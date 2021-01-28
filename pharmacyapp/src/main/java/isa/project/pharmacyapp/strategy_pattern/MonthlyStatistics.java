@@ -41,7 +41,7 @@ public class MonthlyStatistics implements StatisticsStrategy {
 
         for(Double year : years){
            for(int month = 1; month < 13; month++){
-               stats.add(drugRepository.getMonthlyConsumptionStatistics(pharmacy.getCalendar().getId(), month, year));
+               stats.add(drugRepository.getMonthlyConsumptionStatistics(pharmacy.getId(), month, year));
            }
         }
         return stats;

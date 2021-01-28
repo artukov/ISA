@@ -23,26 +23,41 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             ,nativeQuery = true)
     void deleteDrug(@Param("id") Long id);
 
-    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
-            "WHERE calendar_id = :id " +
-            "AND EXTRACT(month FROM ca.appointment_date) = :month " +
-            "AND EXTRACT(year FROM ca.appointment_date) = :year" ,
+//    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
+//            "WHERE calendar_id = :id " +
+//            "AND EXTRACT(month FROM ca.appointment_date) = :month " +
+//            "AND EXTRACT(year FROM ca.appointment_date) = :year" ,
+//            nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM reservation_drug rd\n" +
+            "INNER JOIN  reservation r ON rd.reservation_id = r.id\n" +
+            "INNER JOIN pharmacy p ON p.id = r.pharmacy_id\n" +
+            "WHERE p.id = :id AND r.accepted = true \n" +
+            "AND EXTRACT(month FROM r.acceptance_date) = :month " +
+            "AND EXTRACT(year FROM r.acceptance_date) = :year" ,
             nativeQuery = true)
     Double getMonthlyConsumptionStatistics(@Param("id") Long id,@Param("month") Integer month,@Param("year") Double year);
 
 
-    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join  calendar_appointments ca on ad.appointment_id = ca.appointment_id\n" +
-            "WHERE calendar_id = :id " +
-            "AND EXTRACT(month FROM ca.appointment_date) BETWEEN  :month AND :month+3 " +
-            "AND EXTRACT(year FROM ca.appointment_date) = :year"
+    @Query(value = "SELECT COUNT(*) FROM reservation_drug rd\n" +
+            "INNER JOIN  reservation r ON rd.reservation_id = r.id\n" +
+            "INNER JOIN pharmacy p ON p.id = r.pharmacy_id\n" +
+            "WHERE p.id = :id AND r.accepted = true \n" +
+            "AND EXTRACT(month FROM r.acceptance_date) BETWEEN  :month AND :month+3 " +
+            "AND EXTRACT(year FROM r.acceptance_date) = :year"
             , nativeQuery = true)
     Double getQuarterlyDrugConsumptionStatistics(@Param("id") Long id,@Param("month") Integer month,@Param("year") Double year);
 
-    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
-            "WHERE ca.calendar_id = :id " +
-            "GROUP BY EXTRACT(year FROM ca.appointment_date)"
+//    @Query(value = "SELECT COUNT(*) FROM appointment_drug ad inner join calendar_appointments ca on ad.appointment_id = ca.appointment_id " +
+//            "WHERE ca.calendar_id = :id " +
+//            "GROUP BY EXTRACT(year FROM ca.appointment_date)"
+//            ,nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM reservation_drug rd\n" +
+            "INNER JOIN  reservation r ON rd.reservation_id = r.id\n" +
+            "INNER JOIN pharmacy p ON p.id = r.pharmacy_id\n" +
+            "WHERE p.id = :id AND r.accepted = true\n" +
+            "AND  EXTRACT(year from r.acceptance_date) = :year"
             ,nativeQuery = true)
-    List<Double> getYearlyDrugConsumptionStatistics(@Param("id") Long id);
+    Double getYearlyDrugConsumptionStatistics(@Param("id") Long id, @Param("year") Double year);
 
     @Query(value = "select d.name, d.type, pd.pharmacy_id, pd.price\n" +
             "from drug d inner join pharmacy_drug pd on d.id = pd.drug_id\n" +
