@@ -64,7 +64,6 @@ public class PharmacistController {
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
         List<PatientDTO> patientDTOList = pharmacistService.getAllPatients();
 
-
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
 

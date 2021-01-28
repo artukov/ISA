@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -35,4 +36,11 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Long> {
             "WHERE id = :id"
             , nativeQuery = true)
     void deletePharmacistFromPharmacy(@Param("id")Long id);
+
+    @Query(value ="select count(*)\n" +
+            "from pharmacist p\n" +
+            "where (:startHour, :endHours) overlaps\n" +
+            "      (p.start_hour , p.start_hour + make_interval(hours => p.hours)) and p.id = :pharmacistId", nativeQuery = true)
+    Double overlappingWorkingHours(@Param("startHour") Date startHour, @Param("endHours") Date endHours,@Param("pharmacistId") Long pharmacistId);
+
 }

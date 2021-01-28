@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.ConsultationDTO;
+import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Consultation;
 
 public interface ConsultationService {
