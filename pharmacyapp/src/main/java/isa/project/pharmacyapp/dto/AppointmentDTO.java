@@ -12,6 +12,7 @@ public class AppointmentDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     protected Date beggingDateTime;
     protected int duration;
+    protected Boolean finished;
     protected List<Long> drugs;
     protected Long patient_id;
 
@@ -20,15 +21,23 @@ public class AppointmentDTO {
     public AppointmentDTO() {
     }
 
-    public AppointmentDTO(Long id, String report, Date beggingDateTime, int duration, List<Long> drugs, Long patient_id) {
+    public AppointmentDTO(Long id, String report, Date beggingDateTime, int duration, Boolean finished, List<Long> drugs, Long patient_id) {
         this.id = id;
         this.report = report;
         this.beggingDateTime = beggingDateTime;
         this.duration = duration;
+        this.finished = finished;
         this.drugs = drugs;
         this.patient_id = patient_id;
     }
 
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
 
     public Long getId() {
         return id;

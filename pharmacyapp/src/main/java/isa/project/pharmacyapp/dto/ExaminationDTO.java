@@ -13,19 +13,24 @@ public class ExaminationDTO extends AppointmentDTO {
     private String diagnose;
     private Long dermatologist_id;
 
-    public ExaminationDTO() {
-    }
-
-    public ExaminationDTO(Long id, String report, Date beggingDateTime,
-                          int duration, List<Long> drugs, Long patient_id, Double price, String diagnose, Long dermatologist_id) {
-        super(id, report, beggingDateTime, duration, drugs, patient_id);
+    public ExaminationDTO(Double price, String diagnose, Long dermatologist_id) {
         this.price = price;
         this.diagnose = diagnose;
         this.dermatologist_id = dermatologist_id;
     }
 
-    public ExaminationDTO(Long id, String report, Date beggingDateTime, int duration, List<Long> drugs, Long patient_id) {
-        super(id, report, beggingDateTime, duration, drugs, patient_id);
+    public ExaminationDTO(Long id, String report, Date beggingDateTime, int duration, Boolean finished, List<Long> drugs, Long patient_id, Double price, String diagnose, Long dermatologist_id) {
+        super(id, report, beggingDateTime, duration, finished, drugs, patient_id);
+        this.price = price;
+        this.diagnose = diagnose;
+        this.dermatologist_id = dermatologist_id;
+    }
+
+    public ExaminationDTO(Long id, String report, Date beggingDateTime, int duration, Boolean finished, List<Long> drugs, Long patient_id) {
+        super(id, report, beggingDateTime, duration, finished, drugs, patient_id);
+    }
+
+    public ExaminationDTO() {
     }
 
     public static void dto2Examination(Examination examination, ExaminationDTO examinationDTO) {
@@ -43,6 +48,7 @@ public class ExaminationDTO extends AppointmentDTO {
                 e.getReport(),
                 e.getBeggingDateTime(),
                 e.getDuration(),
+                e.getFinished(),
                 new ArrayList<>(),
                 null,
                 e.getPrice(),

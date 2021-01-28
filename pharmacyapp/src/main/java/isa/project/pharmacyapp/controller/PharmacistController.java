@@ -3,10 +3,7 @@ package isa.project.pharmacyapp.controller;
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
-import isa.project.pharmacyapp.service.AbsenceRequestService;
-import isa.project.pharmacyapp.service.DermatologistService;
-import isa.project.pharmacyapp.service.PharmacistService;
-import isa.project.pharmacyapp.service.UserService;
+import isa.project.pharmacyapp.service.*;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +30,9 @@ public class PharmacistController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private ConsultationService consultationService;
 
     @GetMapping(value = "/findAllByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -141,5 +141,35 @@ public class PharmacistController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/appointment/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> createNewAbsenceRequest(@RequestBody ConsultationDTO consultationDTO, Principal user){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        User current = userService.findByEmail(user.getName());
+
+        if(current.getRole() == UserRoles.PATIENT){
+            return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
+        }
+
+        consultationDTO.setPharmacistID(current.getId());
+        consultationDTO.setFinished(false);
+        /**
+         * TODO
+         * Create consultation context on front
+         * */
+
+        try {
+            consultationService.createNewConsultation(consultationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

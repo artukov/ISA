@@ -5,6 +5,13 @@ import isa.project.pharmacyapp.dto.ConsultationDTO;
 
 import isa.project.pharmacyapp.model.Calendar;
 import isa.project.pharmacyapp.model.Consultation;
+import isa.project.pharmacyapp.model.Drug;
+import isa.project.pharmacyapp.model.Patient;
+import isa.project.pharmacyapp.model.Pharmacist;
+import isa.project.pharmacyapp.repository.ConsultationRepository;
+import isa.project.pharmacyapp.repository.DrugRepository;
+import isa.project.pharmacyapp.repository.PatientRepository;
+import isa.project.pharmacyapp.repository.PharmacistRepository;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
 import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
@@ -13,6 +20,9 @@ import isa.project.pharmacyapp.service.CalendarService;
 import isa.project.pharmacyapp.service.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ConsultationServiceImpl implements ConsultationService {
@@ -31,25 +41,43 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public void createNewConsultation(ConsultationDTO dto) throws Exception {
         Consultation consultation = new Consultation();
-
-        this.saveConsultation(consultation, dto);
+        try {
+            this.saveConsultation(consultation, dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
     public void saveConsultation(Consultation consultation, ConsultationDTO consultationDTO) throws Exception {
-        ConsultationDTO.dto2Consultation(consultation, consultationDTO);
+        consultation.setId(consultationDTO.getId());
+        consultation.setBeggingDateTime(consultationDTO.getBeggingDateTime());
+        consultation.setDuration(consultationDTO.getDuration());
+        consultation.setReport(consultationDTO.getReport());
+        consultation.setFinished(consultationDTO.getFinished());
 
-        try {
-            consultation.setPharmacist(pharmacistRepository.findById(consultationDTO.getPharmacistID()).orElse(null));
-            consultation.setPatient(patientRepository.findById(consultationDTO.getPatient_id()).orElse(null));
-
-            for(Long drugID : consultationDTO.getDrugs()){
-                consultation.getDrug().add(drugRepository.findById(drugID).orElse(null));
+        Pharmacist pharmacist = pharmacistRepository.findById(consultationDTO.getPharmacistID()).orElse(null);
+        if(pharmacist == null){
+            throw  new Exception("Pharmacist does not exists");
+        }
+        Patient patient = patientRepository.findById(consultationDTO.getPatient_id()).orElse(null);
+        if(patient == null){
+            throw  new Exception("Patient does not exists");
+        }
+        consultation.setPharmacist(pharmacist);
+        consultation.setPatient(patient);
+        //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem
+            List<Drug> drugs = new ArrayList<>();
+            for(Long drugID: consultationDTO.getDrugs()){
+                Drug drug = drugRepository.findById(drugID).orElse(null);
+                if(drug == null){
+                    throw new Exception("Drug does not exist");
+                }
+                drugs.add(drug);
             }
-        }
-        catch (Exception e){
-            throw new Exception();
-        }
+            consultation.setDrug(drugs);
+
 
         try {
             consultation =consultationRepository.save(consultation);
