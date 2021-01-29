@@ -3,19 +3,15 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.AppointmentDTO;
 import isa.project.pharmacyapp.dto.ConsultationDTO;
 
+import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
 import isa.project.pharmacyapp.exception.InsertingDermatologistException;
-import isa.project.pharmacyapp.model.Calendar;
-import isa.project.pharmacyapp.model.Consultation;
-import isa.project.pharmacyapp.model.Drug;
-import isa.project.pharmacyapp.model.Patient;
-import isa.project.pharmacyapp.model.Pharmacist;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.ConsultationRepository;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacistRepository;
-import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
 import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
 import isa.project.pharmacyapp.repository.*;
@@ -27,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ConsultationServiceImpl implements ConsultationService {
@@ -72,13 +69,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setPharmacist(pharmacist);
         consultation.setPatient(patient);
         //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem
+        Double allergiesNum = 0.0;
             List<Drug> drugs = new ArrayList<>();
             for(Long drugID: consultationDTO.getDrugs()){
                 Drug drug = drugRepository.findById(drugID).orElse(null);
+                allergiesNum += drugRepository.getAllergy(consultationDTO.getPatient_id(),drugID);
                 if(drug == null){
                     throw new Exception("Drug does not exist");
                 }
                 drugs.add(drug);
+            }
+            if(allergiesNum > 0){
+                throw new Exception("Patient is allergic to drugs");
             }
             consultation.setDrug(drugs);
 
@@ -111,8 +113,23 @@ public class ConsultationServiceImpl implements ConsultationService {
         catch (Exception e){
             throw new Exception();
         }
+    }
 
+    @Override
+    public void modifyConsultation(ConsultationDTO consultationDTO) throws Exception {
+        Consultation consultation = consultationRepository.findById(consultationDTO.getId()).orElse(null);
+        //consultationRepository.deleteById(consultationDTO.getId());
+        if(consultation == null){
+            throw new NoSuchElementException("ConsultationSerivceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
+                    "consultation could not be find by the given id");
+        }
 
-
+        try {
+            this.saveConsultation(consultation, consultationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("ConsultationServiceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 }

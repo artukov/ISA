@@ -24,7 +24,7 @@ public interface DrugService {
     void saveDrug(Drug drug, DrugDTO drugDTO) throws Exception;
 
     List<Double> getConsumptionStatistics(TimeSpam timeSpam, Long pharmacyID);
-
+    List<Long> findSubstituteDrug(Long drugId);
     void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception;
 
 
