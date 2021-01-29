@@ -69,13 +69,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setPharmacist(pharmacist);
         consultation.setPatient(patient);
         //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem
+        Double allergiesNum = 0.0;
             List<Drug> drugs = new ArrayList<>();
             for(Long drugID: consultationDTO.getDrugs()){
                 Drug drug = drugRepository.findById(drugID).orElse(null);
+                allergiesNum += drugRepository.getAllergy(consultationDTO.getPatient_id(),drugID);
                 if(drug == null){
                     throw new Exception("Drug does not exist");
                 }
                 drugs.add(drug);
+            }
+            if(allergiesNum > 0){
+                throw new Exception("Patient is allergic to drugs");
             }
             consultation.setDrug(drugs);
 

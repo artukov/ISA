@@ -94,4 +94,9 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "from drug d inner join substitute_drugs sd on d.id = sd.original_id\n" +
             "where d.id = :drugId", nativeQuery = true)
     List<Long> findSubstituteDrug(@Param("drugId") Long drugId);
+
+    @Query(value = "select count(*)\n" +
+            "from allergy a inner join allergy_drug ad on a.id = ad.allergy_id\n" +
+            "where a.patient_id = :patientId and ad.drug_id = :drugId", nativeQuery = true)
+    Double getAllergy(@Param("patientId") Long patientId, @Param("drugId") Long drugId);
 }
