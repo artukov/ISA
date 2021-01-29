@@ -154,6 +154,13 @@ const NewSupplyOrder = () => {
                                         <ListGroup key = {drug.id} horizontal>
                                             <ListGroup.Item variant ="primary">{drug.name}</ListGroup.Item>
                                             <ListGroup.Item variant ="success">{drug.amount}</ListGroup.Item>
+                                           {
+                                               state.suppliers ? (
+                                                   state.suppliers.map(supplier => 
+                                                        <ListGroup.Item key={supplier}>{supplier}</ListGroup.Item>
+                                                    )
+                                               ) : null
+                                           }
                                             <ListGroup.Item>
                                                 <Button onClick={() => {
                                                     dispatch({type : DELETE_DRUG, id : drug.id});

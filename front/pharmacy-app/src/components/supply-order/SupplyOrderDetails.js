@@ -1,17 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Card, Col, ListGroup, Row, Button, Accordion, ButtonGroup } from 'react-bootstrap';
 import { SupplyOrderContext } from '../context/SupplyOrderContext';
+import { CHECK_BUTTON_VISIBILITY } from './supplyOrderReducer';
 
 const SupplyOrderDetails = ({order}) => {
 
-    const {acceptOffer, deleteOrder} = useContext(SupplyOrderContext);
+    const {acceptOffer, deleteOrder, dispatch} = useContext(SupplyOrderContext);
 
+
+    const chekcIfThereIsAnOffer = (supplier) => {
+        if(supplier.deliveryDate === null || supplier.priceOffer === null)
+                return false;
+        return true;
+
+    }
 
     const checkifStatusIsPending = (status) =>{
         if(status === "PENDING")
             return true;
         return false;
     }
+
+    useEffect(() => {
+        dispatch({type : CHECK_BUTTON_VISIBILITY, order : order}); 
+    }, [order])
 
 
     return ( 
@@ -72,7 +84,7 @@ const SupplyOrderDetails = ({order}) => {
                                                     <ListGroup.Item>Price offer : {supplier.priceOffer}</ListGroup.Item> 
                                                     { 
                                                        
-                                                        ( (!order.buttonsVisibilty)  &&  (checkifStatusIsPending(supplier.status)) ) ? (
+                                                        ( (chekcIfThereIsAnOffer(supplier))  &&  (checkifStatusIsPending(supplier.status)) ) ? (
                                                         <Button onClick={() => acceptOffer(order, supplier.supplierID) }>
                                                             Accept offer</Button>
                                                         ) : null

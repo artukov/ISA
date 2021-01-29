@@ -172,8 +172,14 @@ INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, la
 VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
+INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password,
+                     phone_number, role, address_id)
+VALUES (702, 'supplier2@live.com', true, 'system admin', null, 'lastname',
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
+
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
 INSERT INTO warehouse(id, size, supplier_id) VALUES (101, 500, 701);
+INSERT INTO warehouse(id, size, supplier_id) VALUES (102, 500, 702);
 
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 200, 100);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 100);
@@ -185,6 +191,11 @@ INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 101)
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 101);
 INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 101);
 
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (150, 200, 102);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 300, 102);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 400, 102);
+INSERT INTO warehouse_drug(amount, drug_id, warehouse_id) VALUES (100, 500, 102);
+
 --supply orders-----------------------------------------
 
 INSERT INTO supply_order(id, deadline_date, admin_id)
@@ -193,6 +204,15 @@ INSERT INTO supply_order(id, deadline_date, admin_id)
 VALUES (201,date('2021-03-13'),200);
 INSERT INTO supply_order(id, deadline_date, admin_id)
 VALUES (202,date('2020-12-31'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (203, date('2021-05-03'),200);
+INSERT INTO supply_order(id, deadline_date, admin_id)
+VALUES (204,date('2021-06-25'),200);
+
+INSERT INTO supply_order(id, deadline_date, admin_id) VALUES (205,now(),200);
+
+
+
 
 INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (20,200,200);
@@ -200,23 +220,52 @@ INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (30,300,200);
 INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (100,400,200);
+
 INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (50,400,201);
 INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (60, 300, 201);
+
 INSERT INTO supply_drug(amount, drug_id, supply_id)
 VALUES (100,200,202);
+
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (65, 300, 203);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (75,200,203);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (126, 400, 204);
+INSERT INTO supply_drug(amount, drug_id, supply_id)
+VALUES (12,200,204);
+
+insert into supply_drug(amount, drug_id, supply_id) VALUES (125,200,205);
 
 ----with offers-------------------------------
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (date('2021-02-10'),250.0,0,200,700);
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (date('2021-02-09'),250.0,0,200,701);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-04-23'),25.6,0,203,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (date('2021-04-23'),25.6,0,204,701);
+
 ----without offers --------------------------
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null,null,0,201,700);
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null,null,0,201,701);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,203,701);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,204,700);
+
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,205,702);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null,null,0,205,700);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null, null, 0, 205, 701);
 
 --accepted order---------------------------
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)

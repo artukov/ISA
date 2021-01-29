@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useReducer } from 'react';
 import { axiosConfig } from '../../config/AxiosConfig';
 import formatDate from '../../config/DateFormatConfig';
 import { urlAcceptOffer, urlDeleteSupplyOrder, urlGetOrderStatuses, urlGetWithoutOffers, urlGetWithStatus, urlNewSupplyOrder } from '../../services/UrlService';
-import { DELETE_ORDER, SET_ORDERS, supplyOrderReducer } from '../supply-order/supplyOrderReducer';
+import { ADD_ORDER, DELETE_ORDER, SET_ORDERS, supplyOrderReducer } from '../supply-order/supplyOrderReducer';
 
 export const SupplyOrderContext = createContext();
 
@@ -102,6 +102,7 @@ const SupplyOrderContextProvider = (props) => {
         // console.log(newOrder);
         try{
             await axiosConfig.post(urlNewSupplyOrder, newOrder);
+            dispatch({type : ADD_ORDER, order : newOrder});
         }
         catch(err){
             console.log(err.response.data);
@@ -125,7 +126,8 @@ const SupplyOrderContextProvider = (props) => {
                 openAddForm,
                 closeAddForm,
                 showAddForm,
-                saveOrder
+                saveOrder,
+                dispatch
             }}
         >
             {props.children}

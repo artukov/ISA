@@ -24,5 +24,5 @@ public interface SupplyOrderService {
 
     List<SupplyOrderDTO> findWithoutOffer(Long pharmacyID);
 
-    void deleteSupplyOrder(Long orderID);
+    void deleteSupplyOrder(Long orderID) throws Exception;
 }

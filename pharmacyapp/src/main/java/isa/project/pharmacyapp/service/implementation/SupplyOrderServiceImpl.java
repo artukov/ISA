@@ -259,11 +259,19 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Transactional
     @Override
-    public void deleteSupplyOrder(Long orderID) {
-        SupplyOrder order = orderRepository.getOne(orderID);
+    public void deleteSupplyOrder(Long orderID) throws Exception {
+//        SupplyOrder order = orderRepository.getOne(orderID);
+        try{
+            orderRepository.deleteSuppliers(orderID);
+            orderRepository.deleteDrugs(orderID);
+            orderRepository.deleteOrder(orderID);
+        }
+        catch (Exception e){
+            throw new Exception("Deleting supplyorder");
+        }
 
-//        orderRepository.deleteOrder(orderID,orderID, orderID);
-        return;
+//        orderRepository.deleteById(orderID);
+//        return;
     }
 
 

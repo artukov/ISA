@@ -123,7 +123,12 @@ public class SupplyOrderController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> deleteOrderWithoutAnyOffers(@PathVariable("id") Long id){
 
-        supplyOrderService.deleteSupplyOrder(id);
+        try {
+            supplyOrderService.deleteSupplyOrder(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
 
