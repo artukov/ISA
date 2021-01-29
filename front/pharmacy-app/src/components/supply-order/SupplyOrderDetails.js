@@ -5,7 +5,7 @@ import { CHECK_BUTTON_VISIBILITY } from './supplyOrderReducer';
 
 const SupplyOrderDetails = ({order}) => {
 
-    const {acceptOffer, deleteOrder, dispatch} = useContext(SupplyOrderContext);
+    const {acceptOffer, deleteOrder, dispatch,isModifying} = useContext(SupplyOrderContext);
 
 
     const chekcIfThereIsAnOffer = (supplier) => {
@@ -106,7 +106,7 @@ const SupplyOrderDetails = ({order}) => {
                         order.buttonsVisibilty ? (
                             <ButtonGroup>
                                 <Button variant="danger" onClick = {()=> deleteOrder(order.id)}>Delete order</Button>
-                                <Button varinat="warning">Modify order</Button>
+                                <Button varinat="warning" onClick = {() =>isModifying(order.id)}>Modify order</Button>
                             </ButtonGroup>
                         ) : null
                     }

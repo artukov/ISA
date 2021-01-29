@@ -19,7 +19,6 @@ function setOrders(orders) {
             ...order,
             buttonsVisibilty
         }
-        // retObj.buttonsVisibilty = buttonsVisibilty
         return retObj
     })
 

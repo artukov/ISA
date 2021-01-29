@@ -22,6 +22,7 @@ public class SupplyOrderDTO {
      * Fetch name and id of the drug
      * */
     private List<Long> drugs;
+    private List<String> drugsNames;
     private List<Integer> amount;
 
 
@@ -35,12 +36,23 @@ public class SupplyOrderDTO {
     }
 
 
-    public SupplyOrderDTO(Long id, Date deadlineDate, Long adminID,
-                          List<Long> drugs, List<Integer> amount, List<OrderSupplierDTO> supplierDTOS) {
+//    public SupplyOrderDTO(Long id, Date deadlineDate, Long adminID,
+//                          List<Long> drugs, List<Integer> amount, List<OrderSupplierDTO> supplierDTOS) {
+//        this.id = id;
+//        this.deadlineDate = deadlineDate;
+//        this.adminID = adminID;
+//        this.drugs = drugs;
+//        this.amount = amount;
+//        this.supplierDTOS = supplierDTOS;
+//    }
+
+    public SupplyOrderDTO(Long id, Date deadlineDate, Long adminID, List<Long> drugs,
+                          List<String> drugsNames, List<Integer> amount, List<OrderSupplierDTO> supplierDTOS) {
         this.id = id;
         this.deadlineDate = deadlineDate;
         this.adminID = adminID;
         this.drugs = drugs;
+        this.drugsNames = drugsNames;
         this.amount = amount;
         this.supplierDTOS = supplierDTOS;
     }
@@ -54,13 +66,15 @@ public class SupplyOrderDTO {
                 order.getId(),
                 order.getDeadlineDate(),
                 order.getPharmacyAdmin().getId(),
-                new ArrayList<>(),//drugs
+                new ArrayList<>(),//drugs,
+                new ArrayList<>(),
                 new ArrayList<>(), // amount,
                 new ArrayList<>() // Order Supplier
         );
 
         for(int i = 0; i < order.getDrugs().size(); i++){
             dto.getDrugs().add(order.getDrugs().get(i).getId().getDrug().getId());
+            dto.getDrugsNames().add(order.getDrugs().get(i).getId().getDrug().getName());
             dto.getAmount().add(order.getDrugs().get(i).getAmount());
         }
         for(SupplierOrder supplierOrder : order.getSuppliers()){
@@ -119,5 +133,13 @@ public class SupplyOrderDTO {
 
     public void setSupplierDTOS(List<OrderSupplierDTO> supplierDTOS) {
         this.supplierDTOS = supplierDTOS;
+    }
+
+    public List<String> getDrugsNames() {
+        return drugsNames;
+    }
+
+    public void setDrugsNames(List<String> drugsNames) {
+        this.drugsNames = drugsNames;
     }
 }

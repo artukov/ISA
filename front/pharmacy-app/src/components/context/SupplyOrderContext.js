@@ -9,6 +9,8 @@ export const SupplyOrderContext = createContext();
 const SupplyOrderContextProvider = (props) => {
 
     const [statuses, setStatuses] = useState([]);
+    const [modifying, setModifying] = useState(false);
+    
 
     useEffect(() => {
         const loadOrderStatuses = async () =>{
@@ -20,10 +22,23 @@ const SupplyOrderContextProvider = (props) => {
     }, [props.pharmacyID]);
 
     const [showAddForm, setShowAddForm] = useState(false);
-    const closeAddForm = () => setShowAddForm(false);
+    const closeAddForm = () => {setShowAddForm(false);  setOrder(null);};
     const openAddForm = () => setShowAddForm(true);
 
     const [orders, dispatch] = useReducer(supplyOrderReducer, []);
+
+    const [order, setOrder] = useState(null);
+
+    const isModifying = (id) => {
+
+        // console.log('modified order', id);
+        setModifying(true);
+        setOrder(orders.find(order => order.id === id));
+        openAddForm();
+
+    }
+
+   
 
 
     const loadWithoutOffers = async () =>{
@@ -80,7 +95,7 @@ const SupplyOrderContextProvider = (props) => {
     }
 
     const saveOrder = async (order) =>{
-        //console.log(order);
+        // console.log('old order',order);
         let newOrder = {
             deadlineDate : formatDate(order.date,order.time),
             adminID : 200,
@@ -88,10 +103,12 @@ const SupplyOrderContextProvider = (props) => {
             amount : order.drugs.map(drug => drug.amount),
             supplierDTOS : []
         }
+        // console.log('new order', newOrder);
 
         for(let supplier of order.suppliers){
             // console.log('supplier : ',supplier);
             newOrder.supplierDTOS.push({
+                orderID : order.id,
                 supplierID : supplier,
                 priceOffer : null,
                 deliveryDate : null,
@@ -101,14 +118,23 @@ const SupplyOrderContextProvider = (props) => {
 
         // console.log(newOrder);
         try{
-            await axiosConfig.post(urlNewSupplyOrder, newOrder);
+            if(modifying){
+                newOrder.id = order.id;
+                await axiosConfig.put("/supplyorder/modify/", newOrder);
+                setModifying(false);
+            }
+            else{
+                await axiosConfig.post(urlNewSupplyOrder, newOrder);
+            }
+            
             dispatch({type : ADD_ORDER, order : newOrder});
         }
         catch(err){
-            console.log(err.response.data);
+            console.log(err.response);
         }
 
         closeAddForm();
+       
         
     }
     
@@ -127,7 +153,9 @@ const SupplyOrderContextProvider = (props) => {
                 closeAddForm,
                 showAddForm,
                 saveOrder,
-                dispatch
+                dispatch,
+                isModifying,
+                order
             }}
         >
             {props.children}

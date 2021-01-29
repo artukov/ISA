@@ -84,6 +84,21 @@ public class SupplyOrderController {
 
     }
 
+    @PutMapping(value="/modify/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyOrderWithoutOffer(@RequestBody SupplyOrderDTO supplyOrderDTO){
+
+        try {
+            supplyOrderService.modifySupplyOrder(supplyOrderDTO.getId(),supplyOrderDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
     @PutMapping(value = "/acceptOffer", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public  ResponseEntity<?> acceptOfferForOrder(@RequestBody OrderSupplierDTO dto){

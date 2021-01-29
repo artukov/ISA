@@ -22,7 +22,7 @@ public class SupplyOrder {
    @Column(nullable = false, name = "deadline_date")
    private Date deadlineDate;
 
-   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinColumn(name = "supply_id")
    private List<SupplyOrderDrug> drugs;
 

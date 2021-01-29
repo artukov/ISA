@@ -56,4 +56,16 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
     @Modifying
     @Query(value = "DELETE FROM supply_order WHERE id = :orderID",nativeQuery = true)
     void deleteOrder(@Param("orderID")Long orderID);
+
+    @Modifying
+    @Query(value ="DELETE FROM supplier_order WHERE order_id = :orderID AND supplier_id = :supplierID",nativeQuery = true)
+    void deleteOrderSuppliers(@Param("orderID")Long orderID, @Param("supplierID")Long supplierID);
+
+    @Modifying
+    @Query(value = "DELETE FROM supply_drug WHERE supply_id = :orderID AND drug_id = :drugID",nativeQuery = true)
+    void deleteOrderDrugs(@Param("orderID")Long orderID, @Param("drugID")Long drugID);
+
+    @Query(value = "SELECT supplier_id FROM supplier_order WHERE order_id = :orderID "
+            ,nativeQuery = true)
+    List<Long> findAllSupplierOrderIds(@Param("orderID")Long orderID);
 }
