@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.service;
 
+import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Examination;
@@ -19,5 +20,6 @@ public interface ExaminationService {
 
     List<ExaminationDTO> findFreeExaminations(Long pharmacyID);
 
+    void modifyExamination(ExaminationDTO examinationDTO) throws Exception;
     void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception;
 }

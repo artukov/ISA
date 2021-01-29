@@ -187,6 +187,36 @@ public class DermatologistController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @PutMapping(value = "/examination/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO examinationDTO, Principal user){
+
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        if(current.getRole() == UserRoles.PATIENT){
+            return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
+        }
+
+        examinationDTO.setDermatologist_id(current.getId());
+        examinationDTO.setFinished(true);
+        try {
+            examinationService.modifyExamination(examinationDTO);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("ExaminationController::modifyExamination " +
+                    "examination with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("ExaminationController::modifyExamination Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

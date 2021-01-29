@@ -1,13 +1,12 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
-import isa.project.pharmacyapp.model.Calendar;
-import isa.project.pharmacyapp.model.Examination;
-import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
 import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
 import isa.project.pharmacyapp.repository.*;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -113,19 +113,31 @@ public class ExaminationServiceImpl implements ExaminationService {
          * TODO
          * Check if examination is possible
          * */
-        try {
-            examination.setDermatologist(dermatologistRepository.findById(examinationDTO.getDermatologist_id()).orElse(null));
-            examination.setPatient(patientRepository.findById(examinationDTO.getPatient_id()).orElse(null));
-
-            for(Long drugID : examinationDTO.getDrugs()){
-                examination.getDrug().add(drugRepository.findById(drugID).orElse(null));
+        Dermatologist dermatologist = dermatologistRepository.findById(examinationDTO.getDermatologist_id()).orElse(null);
+        if(dermatologist == null){
+            throw  new Exception("Dermatologist does not exists");
+        }
+        Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null);
+        if(patient == null){
+            throw  new Exception("Patient does not exists");
+        }
+        examination.setDermatologist(dermatologist);
+        examination.setPatient(patient);
+        //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem
+        Double allergiesNum = 0.0;
+        List<Drug> drugs = new ArrayList<>();
+        for(Long drugID: examinationDTO.getDrugs()){
+            Drug drug = drugRepository.findById(drugID).orElse(null);
+            allergiesNum += drugRepository.getAllergy(examinationDTO.getPatient_id(),drugID);
+            if(drug == null){
+                throw new Exception("Drug does not exist");
             }
-
+            drugs.add(drug);
         }
-        catch (Exception e){
-            e.printStackTrace();
-            throw new Exception(CLASS_NAME+"::saveExamination " + e.getMessage());
+        if(allergiesNum > 0){
+            throw new Exception("Patient is allergic to drugs");
         }
+        examination.setDrug(drugs);
 
         try {
             examination = repository.save(examination);
@@ -194,5 +206,23 @@ public class ExaminationServiceImpl implements ExaminationService {
             throw new DermatologistNotWorkingException("Dermatologist is finished at that hours", true);
 
         this.createNewExamination(dto);
+    }
+
+    @Override
+    public void modifyExamination(ExaminationDTO examinationDTO) throws Exception {
+        Examination examination = repository.findById(examinationDTO.getId()).orElse(null);
+        //consultationRepository.deleteById(consultationDTO.getId());
+        if(examination == null){
+            throw new NoSuchElementException("ExaminationSerivceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
+                    "examiantion could not be find by the given id");
+        }
+
+        try {
+            this.saveExamination(examination, examinationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("ExaminationServiceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 }
