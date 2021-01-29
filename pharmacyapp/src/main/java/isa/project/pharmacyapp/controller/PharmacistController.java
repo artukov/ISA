@@ -185,7 +185,7 @@ public class PharmacistController {
         }
 
         consultationDTO.setPharmacistID(current.getId());
-        consultationDTO.setFinished(false);
+        consultationDTO.setFinished(true);
         try {
             consultationService.modifyConsultation(consultationDTO);
         }
