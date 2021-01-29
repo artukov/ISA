@@ -8,46 +8,11 @@ import DermatologistDetails from '../dermatologist/DermatologistDetails';
 import { DermatologistContext } from '../dermatologist/DermatologistContext';
 
 
-const DermatologistList = ({pharmacyID,reload}) => {
+const DermatologistList = ({}) => {
     
-    // const [dermatologists, setDermatologists] = useState([]);
-    // const [state, dispatch] = useReducer(dermatologistReducer, dermatologists)
-
-    // useEffect(() => {
-    //     // console.log('dermatologists list', pharmacyID);
-    //     const loadDermatologists = async (id) =>{
-    //         try{
-    //             const resault = await axiosConfig.get(urlGetPhramacyDermatologists + id);
-    //             console.log('dermatologists \n', resault.data);
-    //             setDermatologists(resault.data);
-    //         }
-    //         catch(err){
-    //             console.log(err.response);
-    //         }
-    //     }
-
-    //     // setDermatologists(fetchDermatologists);
-
-    //     if(pharmacyID !== undefined){
-    //         loadDermatologists(pharmacyID);
-    //     }
-
-    // }, [pharmacyID, reload]);
-
+   
     const {state} = useContext(DermatologistContext);
 
-    // const deleteDermatologist = async (id) =>{
-    //     try{
-    //         // const resault = 
-    //         await axiosConfig.delete(urlDeleteDermaPharmacy + id + "/" + pharmacyID);
-    //         // console.log(resault);
-
-    //         // setDermatologists(dermatologists.filter(dermatologist => dermatologist.id !== id));
-    //     }
-    //     catch(err){
-    //         alert(err.response.data);
-    //     }        
-    // }
     
     return ( 
     <div>

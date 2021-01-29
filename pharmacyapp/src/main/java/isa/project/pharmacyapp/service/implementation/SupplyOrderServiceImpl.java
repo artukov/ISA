@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SupplyOrderServiceImpl implements SupplyOrderService {
@@ -58,6 +57,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     }
 
+    @Transactional
     @Override
     public void createNewSupplyOrder(SupplyOrderDTO orderDTO) throws Exception {
         SupplyOrder order = new SupplyOrder();
@@ -65,9 +65,110 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     }
 
+    @Transactional
     @Override
-    public void modifySupplyOrder(Long id, SupplyOrderDTO orderDTO) {
+    public void modifySupplyOrder(Long id, SupplyOrderDTO orderDTO) throws Exception {
+        SupplyOrder order = orderRepository.getOne(id);
+        SupplyOrderDTO.dto2Order(order,orderDTO);
 
+        HashMap<Long,Integer> supplierIndex = checkIfDtoSupplierListHasLessThanOrder(order,orderDTO);
+        if(supplierIndex != null){
+            for(Integer index : supplierIndex.values()){
+                order.getSuppliers().remove(index);
+            }
+        }
+
+        HashMap<Long,Integer> drugIndex = checkIfDtoDrugListHasLessThanOrder(order,orderDTO);
+        if(drugIndex != null){
+            for(Integer index : drugIndex.values()){
+                order.getDrugs().remove(index);
+            }
+        }
+
+        for(int i = 0; i < orderDTO.getDrugs().size(); i++){
+            if(i < order.getDrugs().size()){
+                order.getDrugs().get(i).setAmount(orderDTO.getAmount().get(i));
+            }
+            else{
+                Drug drug = drugRepository.findById(orderDTO.getDrugs().get(i)).orElse(null);
+                Integer amount = orderDTO.getAmount().get(i);
+
+
+                order.getDrugs().add(createNewOrderSupplyGerund(order,drug,amount));
+
+            }
+        }
+
+        for(int i = 0; i < orderDTO.getSupplierDTOS().size(); i++){
+            if(i >= order.getSuppliers().size()){
+                OrderSupplierDTO supplierDTO = orderDTO.getSupplierDTOS().get(i);
+                Supplier supplier = supplierRepository.findById(supplierDTO.getSupplierID()).orElse(null);
+                if(supplier == null){
+                    throw new Exception("Supplier does not exists with the ID: " + supplierDTO.getSupplierID());
+                }
+
+
+                order.getSuppliers().add(createNewOrderSupplierGerund(order,supplier,supplierDTO));
+            }
+
+        }
+
+        try{
+            if(supplierIndex != null){
+                Set keys = supplierIndex.keySet();
+                for(Object supplierID : keys){
+                    orderRepository.deleteOrderSuppliers(order.getId(), (Long) supplierID);
+                }
+            }
+            if(drugIndex != null){
+                Set keys = drugIndex.keySet();
+                for(Object drugID : keys){
+                    orderRepository.deleteOrderDrugs(order.getId(), (Long) drugID);
+                }
+            }
+            orderRepository.save(order);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("modifying supply order");
+        }
+
+;
+
+    }
+
+    public HashMap<Long,Integer> checkIfDtoSupplierListHasLessThanOrder(SupplyOrder order, SupplyOrderDTO orderDTO) {
+        if(order.getSuppliers().size() > orderDTO.getSupplierDTOS().size()){
+            HashMap<Long,Integer> retIndexes = new HashMap<>();
+
+            for(SupplierOrder iter : order.getSuppliers()){
+                for(OrderSupplierDTO supplierDTO : orderDTO.getSupplierDTOS()){
+                    if(!supplierDTO.getSupplierID().equals(iter.getId().getSupplier().getId())  ){
+
+                        retIndexes.put(iter.getId().getSupplier().getId(), order.getSuppliers().indexOf(iter));
+                    }
+
+                }
+            }
+            return  retIndexes;
+        }
+        return null;
+    }
+
+
+    public HashMap<Long, Integer> checkIfDtoDrugListHasLessThanOrder(SupplyOrder order, SupplyOrderDTO orderDTO) {
+        if(order.getDrugs().size() > orderDTO.getDrugs().size()){
+            HashMap<Long,Integer> retMap = new HashMap<>();
+            for(SupplyOrderDrug drug : order.getDrugs()){
+                if(!orderDTO.getDrugs().contains(drug.getId().getDrug().getId())){
+//                    orderRepository.deleteOrderDrugs(order.getId(), drug.getId().getDrug().getId());
+                    retMap.put(drug.getId().getDrug().getId(),order.getDrugs().indexOf(drug));
+//                    return order.getDrugs().indexOf(drug);
+                }
+            }
+            return retMap;
+        }
+        return null;
     }
 
     @Override
@@ -95,8 +196,11 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
         }
 
 
-
         ArrayList<SupplierOrder> suppliers = new ArrayList<>();
+        /**
+         * List of drugs in the supply order
+         * */
+        ArrayList<SupplyOrderDrug> orderDrugs = new ArrayList<>();
 
 
 
@@ -105,27 +209,12 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             if(supplier == null){
                 throw new Exception("Supplier does not exists with the ID: " + supplierDTO.getSupplierID());
             }
-            SupplierOrder supplierOrder = new SupplierOrder();
 
-            OrderSupplierID id = new OrderSupplierID();
-            id.setOrder(order);
-            id.setSupplier(supplier);
-
-            supplierOrder.setId(id);
-            supplierOrder.setPriceOffer(supplierDTO.getPriceOffer());
-            supplierOrder.setDeliveryDate(supplierDTO.getDeliveryDate());
-            supplierOrder.setStatus(OrderStatus.PENDING);
-
-            suppliers.add(supplierOrder);
+            suppliers.add(createNewOrderSupplierGerund(order,supplier,supplierDTO));
 
         }
 
         order.setSuppliers(suppliers);
-
-        /**
-         * List of drugs in the supply
-         * */
-        ArrayList<SupplyOrderDrug> orderDrugs = new ArrayList<>();
 
 
 
@@ -139,21 +228,7 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
             }
             Integer amount = orderDTO.getAmount().get(i);
 
-
-            SupplyOrderDrug orderDrug = new SupplyOrderDrug();
-
-            SupplyOrderDrugID id = new SupplyOrderDrugID();
-            id.setSupplyOrder(order);
-            id.setDrug(drug);
-
-            /**
-             * Setting new key and the amount of drugs
-             * */
-            orderDrug.setId(id);
-            orderDrug.setAmount(amount);
-
-
-            orderDrugs.add(orderDrug);
+            orderDrugs.add(createNewOrderSupplyGerund(order,drug,amount));
 
 
         }
@@ -169,6 +244,37 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
         }
 
 
+    }
+
+    public SupplyOrderDrug createNewOrderSupplyGerund(SupplyOrder order, Drug drug, Integer amount){
+        SupplyOrderDrug orderDrug = new SupplyOrderDrug();
+
+        SupplyOrderDrugID id = new SupplyOrderDrugID();
+        id.setSupplyOrder(order);
+        id.setDrug(drug);
+
+        /**
+         * Setting new key and the amount of drugs
+         * */
+        orderDrug.setId(id);
+        orderDrug.setAmount(amount);
+
+        return orderDrug;
+
+    }
+
+    public SupplierOrder createNewOrderSupplierGerund(SupplyOrder order, Supplier supplier,OrderSupplierDTO supplierDTO){
+        SupplierOrder supplierOrder = new SupplierOrder();
+
+        OrderSupplierID id = new OrderSupplierID();
+        id.setOrder(order);
+        id.setSupplier(supplier);
+
+        supplierOrder.setId(id);
+        supplierOrder.setPriceOffer(supplierDTO.getPriceOffer());
+        supplierOrder.setDeliveryDate(supplierDTO.getDeliveryDate());
+        supplierOrder.setStatus(OrderStatus.PENDING);
+        return supplierOrder;
     }
 
     @Transactional
@@ -259,11 +365,19 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Transactional
     @Override
-    public void deleteSupplyOrder(Long orderID) {
-        SupplyOrder order = orderRepository.getOne(orderID);
+    public void deleteSupplyOrder(Long orderID) throws Exception {
+//        SupplyOrder order = orderRepository.getOne(orderID);
+        try{
+            orderRepository.deleteSuppliers(orderID);
+            orderRepository.deleteDrugs(orderID);
+            orderRepository.deleteOrder(orderID);
+        }
+        catch (Exception e){
+            throw new Exception("Deleting supplyorder");
+        }
 
-//        orderRepository.deleteOrder(orderID,orderID, orderID);
-        return;
+//        orderRepository.deleteById(orderID);
+//        return;
     }
 
 

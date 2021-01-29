@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Card, Col, ListGroup, Row, Button, Accordion } from 'react-bootstrap';
+import { Card, Col, ListGroup, Row, Button, Accordion, ButtonGroup } from 'react-bootstrap';
 import { SupplyOrderContext } from '../context/SupplyOrderContext';
+import { CHECK_BUTTON_VISIBILITY } from './supplyOrderReducer';
 
 const SupplyOrderDetails = ({order}) => {
 
-    const {acceptOffer, deleteOrder} = useContext(SupplyOrderContext);
+    const {acceptOffer, deleteOrder, dispatch,isModifying} = useContext(SupplyOrderContext);
 
-    const checkIfOfferExists = (deliveryDate, priceOffer) => {
-        if(deliveryDate === null)
-            return false;
-        if(priceOffer === null)
-            return false;
-        
-            return true;
+
+    const chekcIfThereIsAnOffer = (supplier) => {
+        if(supplier.deliveryDate === null || supplier.priceOffer === null)
+                return false;
+        return true;
+
     }
 
     const checkifStatusIsPending = (status) =>{
@@ -21,10 +21,14 @@ const SupplyOrderDetails = ({order}) => {
         return false;
     }
 
+    useEffect(() => {
+        dispatch({type : CHECK_BUTTON_VISIBILITY, order : order}); 
+    }, [order])
+
 
     return ( 
         <div>
-            <Card bg="success" text="dark">
+            <Card text="dark">
                 <Card.Header>
                     <Card.Title>Order info</Card.Title>
                 </Card.Header>
@@ -79,17 +83,13 @@ const SupplyOrderDetails = ({order}) => {
                                                     <ListGroup.Item>Delivery date : {supplier.deliveryDate}</ListGroup.Item>
                                                     <ListGroup.Item>Price offer : {supplier.priceOffer}</ListGroup.Item> 
                                                     { 
-                                                        (checkifStatusIsPending(supplier.status)) && (checkIfOfferExists(supplier.deliveryDate, supplier.priceOffer)) ? (
+                                                       
+                                                        ( (chekcIfThereIsAnOffer(supplier))  &&  (checkifStatusIsPending(supplier.status)) ) ? (
                                                         <Button onClick={() => acceptOffer(order, supplier.supplierID) }>
                                                             Accept offer</Button>
                                                         ) : null
                                                     }  
-                                                    {
-                                                        ((checkifStatusIsPending(supplier.status)) && (!checkIfOfferExists(supplier.deliveryDate, supplier.priceOffer))) ?
-                                                        <Button variant="danger" onClick = {()=> deleteOrder(order.id)}>Delete supply order</Button>
-                                                        : null
-                                                        
-                                                    }                               
+                                                                       
                                                 </ListGroup>
                                             </Accordion.Collapse>
                                         </Row>
@@ -102,7 +102,14 @@ const SupplyOrderDetails = ({order}) => {
 
 
                 <Card.Footer>
-                {/*  */}
+                    {
+                        order.buttonsVisibilty ? (
+                            <ButtonGroup>
+                                <Button variant="danger" onClick = {()=> deleteOrder(order.id)}>Delete order</Button>
+                                <Button varinat="warning" onClick = {() =>isModifying(order.id)}>Modify order</Button>
+                            </ButtonGroup>
+                        ) : null
+                    }
                 </Card.Footer>
             </Card>
         </div>

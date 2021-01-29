@@ -31,13 +31,41 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
                      @Param("priceOffer") Double priceOffer,@Param("deliveryDate") Date deliveryDate);
 
 
-    @Query(value = "SELECT DISTINCT so.* FROM supply_order so\n" +
-            "INNER JOIN supplier_order s ON so.id = s.order_id\n" +
-            "WHERE (s.delivery_date IS NULL  OR s.price_offer IS NULL)\n" +
-            "AND so.admin_id = :adminID"
+    @Query(value = "SELECT so.* FROM supply_order so\n" +
+            "            INNER JOIN supplier_order s ON so.id = s.order_id\n" +
+            "            WHERE (s.delivery_date IS NULL  OR s.price_offer IS NULL)" +
+            "            AND so.admin_id = :adminID\n" +
+            "GROUP BY so.id\n" +
+            "HAVING (COUNT(so.id) = (\n" +
+            "    SELECT COUNT(*) FROM\n" +
+            "        supplier_order s1\n" +
+            "        WHERE s1.order_id = so.id\n" +
+            "    ));\n" +
+            ""
             , nativeQuery = true)
     List<SupplyOrder> findWithoutOffers(@Param("adminID")Long adminID);
 
 
+    @Modifying
+    @Query(value ="DELETE FROM supplier_order WHERE order_id = :orderID",nativeQuery = true)
+    void deleteSuppliers(@Param("orderID")Long orderID);
 
+    @Modifying
+    @Query(value = "DELETE FROM supply_drug WHERE supply_id = :orderID",nativeQuery = true)
+    void deleteDrugs(@Param("orderID")Long orderID);
+    @Modifying
+    @Query(value = "DELETE FROM supply_order WHERE id = :orderID",nativeQuery = true)
+    void deleteOrder(@Param("orderID")Long orderID);
+
+    @Modifying
+    @Query(value ="DELETE FROM supplier_order WHERE order_id = :orderID AND supplier_id = :supplierID",nativeQuery = true)
+    void deleteOrderSuppliers(@Param("orderID")Long orderID, @Param("supplierID")Long supplierID);
+
+    @Modifying
+    @Query(value = "DELETE FROM supply_drug WHERE supply_id = :orderID AND drug_id = :drugID",nativeQuery = true)
+    void deleteOrderDrugs(@Param("orderID")Long orderID, @Param("drugID")Long drugID);
+
+    @Query(value = "SELECT supplier_id FROM supplier_order WHERE order_id = :orderID "
+            ,nativeQuery = true)
+    List<Long> findAllSupplierOrderIds(@Param("orderID")Long orderID);
 }

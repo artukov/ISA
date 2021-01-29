@@ -3,11 +3,11 @@ import { Col, Button ,Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import { urlGetAllSuppliers, urlGetAllSystemDrugs } from '../../services/UrlService';
 import { SupplyOrderContext } from '../context/SupplyOrderContext';
-import { ADD_DRUG, ADD_SUPPLIER, DELETE_DRUG, INIT, newOrderReducer, SET_DATE, SET_TIME } from './newOrderReducer';
+import { ADD_DRUG, ADD_SUPPLIER, DELETE_DRUG, INIT, newOrderReducer, SET_DATE, SET_ID, SET_TIME } from './newOrderReducer';
 
 const NewSupplyOrder = () => {
 
-    const {showAddForm,saveOrder,closeAddForm} = useContext(SupplyOrderContext);
+    const {showAddForm,saveOrder,closeAddForm, order} = useContext(SupplyOrderContext);
     const [drugs, setDrugs] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
 
@@ -52,7 +52,32 @@ const NewSupplyOrder = () => {
         }
 
         const setReducerState = () =>{
-            dispatch({type : INIT});
+            
+            
+            if(order === null){
+                dispatch({type : INIT, payload : {
+                    drugs : [],
+                    supplier : [],
+                    date : null,
+                    time : null
+                }});
+                return;
+            }
+            for(let i  = 0; i < order.drugs.length; i++){
+                dispatch({type : ADD_DRUG, payload : { id : order.drugs[i], name : order.drugsNames[i], amount : order.amount[i]} });
+            }
+            order.supplierDTOS.map(supplier =>
+                dispatch({type : ADD_SUPPLIER, payload :supplier.supplierID })
+            );
+
+            const [date, time,] = order.deadlineDate.split(" ");
+            const [day,month,year] = date.split("-");
+            dispatch({type : SET_DATE, date : year+"-"+month+"-"+day});
+            dispatch({type : SET_TIME, time });
+            dispatch({type : SET_ID, id : order.id});
+
+            // console.log('new state',state);
+
         }
 
        
@@ -121,10 +146,14 @@ const NewSupplyOrder = () => {
                     <Form.Label>Enter the deadline date</Form.Label>
                     <Row>
                         <Col>
-                            <Form.Control type="date" onChange = {(e)=> dispatch({type : SET_DATE, date : e.target.value})}></Form.Control>
+                            <Form.Control type="date" 
+                            value = {state.date ? state.date : ""}
+                            onChange = {(e)=> dispatch({type : SET_DATE, date : e.target.value})}></Form.Control>
                         </Col>
                         <Col>
-                            <Form.Control type="time" onChange = {(e) => 
+                            <Form.Control type="time" 
+                            value = {state.time ? state.time : ""}
+                            onChange = {(e) => 
                                 dispatch({type : SET_TIME, time : e.target.value})}
                             ></Form.Control>
                         </Col>
@@ -154,6 +183,13 @@ const NewSupplyOrder = () => {
                                         <ListGroup key = {drug.id} horizontal>
                                             <ListGroup.Item variant ="primary">{drug.name}</ListGroup.Item>
                                             <ListGroup.Item variant ="success">{drug.amount}</ListGroup.Item>
+                                           {
+                                               state.suppliers ? (
+                                                   state.suppliers.map(supplier => 
+                                                        <ListGroup.Item key={supplier}>{supplier}</ListGroup.Item>
+                                                    )
+                                               ) : null
+                                           }
                                             <ListGroup.Item>
                                                 <Button onClick={() => {
                                                     dispatch({type : DELETE_DRUG, id : drug.id});

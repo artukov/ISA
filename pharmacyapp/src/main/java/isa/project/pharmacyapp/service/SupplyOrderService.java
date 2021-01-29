@@ -13,7 +13,7 @@ public interface SupplyOrderService {
     List<SupplyOrderDTO> findPharmacyOrders(Long pharmacyID, OrderStatus status);
 
     void createNewSupplyOrder(SupplyOrderDTO orderDTO) throws Exception;
-    void modifySupplyOrder(Long id, SupplyOrderDTO orderDTO);
+    void modifySupplyOrder(Long id, SupplyOrderDTO orderDTO) throws Exception;
 
     void saveSupplyOrder(SupplyOrder order, SupplyOrderDTO orderDTO) throws Exception;
 
@@ -24,5 +24,5 @@ public interface SupplyOrderService {
 
     List<SupplyOrderDTO> findWithoutOffer(Long pharmacyID);
 
-    void deleteSupplyOrder(Long orderID);
+    void deleteSupplyOrder(Long orderID) throws Exception;
 }

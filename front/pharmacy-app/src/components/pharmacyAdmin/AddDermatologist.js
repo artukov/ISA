@@ -11,47 +11,14 @@ const AddDermatologist = () => {
     const {state,loadDermatologistNotInPharmacy,addDermaToList} = useContext(DermatologistContext);
 
 
-    // const [dermatologists, setDermatologists] = useState([]);
+    
     const [dermaID, setDermaID] = useState('');
-    // const [showForm, setShowForm] = useState(false);
+    
     const [hours, setHours] = useState();
     const [startDate, setStartDate] = useState();
     const [startTime, setStartTime] = useState();
 
-    // const [reload, setReload] = useState(false);
-
-    // const [state, dispatch] = useReducer(dermatologistReducer, 'world');
-
-
-    // const closeAddForm = () => {
-    //     setShowForm(false);
-    //     // if(dermatologists.length === 0){
-    //     //     alert('No free dermatologists');
-    //     // }
-    // };
-
-    // const showAddForm = ()  => {
-    //     setShowForm(true);
-    //     setReload(!reload);
-    // };
-
-    // const loadDermatologist = async (id) =>{
-    //     try{
-    //         const resault = await axiosConfig.get(urlGetDermaNotInPharmacy + id);
-    //         // console.log(resault);
-    //         if(resault.data.length !== 0)
-    //             setDermaID(resault.data[0].id);
-    //         else{
-    //             // closeAddForm();
-    //             // alert('No free dermatologists');
-    //         }
     
-    //         // setDermatologists(resault.data); 
-    //     }
-    //     catch(err) {
-    //         alert(err);
-    //     }
-    // }
 
     useEffect(() => { 
        if(state.showAddForm)
@@ -70,22 +37,6 @@ const AddDermatologist = () => {
         }
 
         addDermaToList(dermaID, workingHours);
-
-        // try{
-        //     const resault = await axiosConfig.post(urlAddNewDermatologist + dermaID + "/" + pharmacyID, workingHours);
-        //     console.log(resault.data);
-        // }
-        // catch(err){
-        //     if(err.response.status !== undefined && err.response.status === 406)
-        //         alert(err.response.data);
-        //     else
-        //         console.log(err.response);  
-        // }
-        // dispatch({type : 'add'});
-        // invokeChange();
-        // closeAddForm();
-
-       
 
     }
 
