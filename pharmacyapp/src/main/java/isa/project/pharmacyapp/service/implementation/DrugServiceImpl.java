@@ -16,6 +16,7 @@ import isa.project.pharmacyapp.service.DrugService;
 import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
 import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -355,6 +356,12 @@ public class DrugServiceImpl implements DrugService {
         }
 
         return  drugDTOS;
+    }
+    @Override
+     public List<Long> findSubstituteDrug(Long drugId){
+        List<Long> drugIds = drugRepository.findSubstituteDrug(drugId);
+
+        return drugIds;
     }
 
 

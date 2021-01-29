@@ -89,4 +89,9 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "WHERE drug_id = d.id AND pharmacy_id = :pharmacyID )"
             ,nativeQuery = true)
     List<Drug> findAllNoInPharmacy(@Param("pharmacyID") Long pharmacyID);
+
+    @Query(value = "select sd.substitute_id\n" +
+            "from drug d inner join substitute_drugs sd on d.id = sd.original_id\n" +
+            "where d.id = :drugId", nativeQuery = true)
+    List<Long> findSubstituteDrug(@Param("drugId") Long drugId);
 }

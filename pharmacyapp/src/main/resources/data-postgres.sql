@@ -324,3 +324,5 @@ INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (25,300,201);
 INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (35.8,400,201);
+
+insert into substitute_drugs(original_id, substitute_id) values(200, 600);

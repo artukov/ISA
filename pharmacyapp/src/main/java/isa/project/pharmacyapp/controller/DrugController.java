@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -138,5 +139,24 @@ public class DrugController {
         }
 
         return new ResponseEntity<>(drugDTOS,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/substitutesId/{drugId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> findSubstituteDrugs(@PathVariable("drugId") Long drugId){
+        List<Long> substitutes = drugService.findSubstituteDrug(drugId);
+
+        return new ResponseEntity<>(substitutes,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/substitutes/{drugId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> searchDrugs(@PathVariable("drugId") Long drugId){
+        List<Long> substitutes = drugService.findSubstituteDrug(drugId);
+        List<DrugDTO> dtos = new ArrayList<>();
+        for(Long id: substitutes){
+            dtos.add(drugService.findById(id));
+        }
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 }
