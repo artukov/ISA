@@ -2,11 +2,13 @@ package isa.project.pharmacyapp.service.implementation;
 
 
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
+import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.InsertingDermatologistException;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
+import isa.project.pharmacyapp.model.many2many.DermatologistRatings;
 import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
 import isa.project.pharmacyapp.repository.AddressRepository;
 import isa.project.pharmacyapp.repository.CalendarRepository;
@@ -123,7 +125,7 @@ public class PharmacyServiceImpl implements PharmacyService {
     }
 
     @Override
-    public void addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception {
+    public DermatologistDTO addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception {
 
         Dermatologist dermatologist = dermatologistRepository.findById(dermaID).orElse(null);
         if(dermatologist == null){
@@ -159,13 +161,35 @@ public class PharmacyServiceImpl implements PharmacyService {
 
         pharmacy.getDermatologists().add(pharmacyDermatologist);
 
+        /**
+         * Setting rating of the dermatologist for the new pharmacy
+         * */
+        DermatologistRatings dermatologistRatings = new DermatologistRatings();
+
+        dermatologistRatings.setId(id);
+        dermatologistRatings.setRatings(new ArrayList<Double>());
+
+        dermatologist.getDermatologistRatings().add(dermatologistRatings);
+
         try{
             pharmacyRepository.save(pharmacy);
+            dermatologistRepository.save(dermatologist);
         }
         catch (Exception e){
             e.printStackTrace();
             throw new Exception("saving pharmacy");
         }
+
+        DermatologistDTO retDerma = DermatologistDTO.dermatologist2Dto(dermatologist);
+        retDerma.setRatings(0.0);
+        retDerma.setHours(workingHoursDTO.getHours());
+        retDerma.setStart_hour(workingHoursDTO.getStartHour());
+
+        return retDerma;
+
+
+
+
 
 
     }

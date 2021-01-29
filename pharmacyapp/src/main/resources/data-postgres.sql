@@ -81,6 +81,7 @@ VALUES (8, now(),300, 303);
 
 INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (200,300,null);
 INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (300,300,null);
+INSERT INTO derma_ratings(pharmacy_id, derma_id, dermatologist_ratings_id) VALUES (200,301,301);
 
 INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermatologist_ratings_pharmacy_id, ratings)
 VALUES (300,200,4.5);
@@ -88,6 +89,11 @@ INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermat
 VALUES (300,200,3.5);
 INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermatologist_ratings_pharmacy_id, ratings)
 VALUES (300,200,5.0);
+INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermatologist_ratings_pharmacy_id, ratings)
+VALUES (301,200,5.0);
+INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermatologist_ratings_pharmacy_id, ratings)
+VALUES (301,200,5.0);
+
 
 INSERT INTO dermatologist_ratings_ratings(dermatologist_ratings_derma_id, dermatologist_ratings_pharmacy_id, ratings)
 VALUES (300,300,5.0);

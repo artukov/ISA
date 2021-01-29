@@ -1,25 +1,19 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, ListGroup, Modal } from 'react-bootstrap';
 // import { axiosConfig } from '../../config/AxiosConfig';
 // import { urlDeleteDermaPharmacy } from '../../services/UrlService';
 import NewExamination from '../appointment/NewExaminationFrom';
+import { DermatologistContext } from './DermatologistContext';
 
 const DermatologistDetails = ({dermatologist, deleteDermatologistFromPharmacy}) => {
+
+    const {state,deleteDermatologist} = useContext(DermatologistContext);
 
     const [showExamModal, setShowExamModal] = useState(false);
     const closeExamModal = () => setShowExamModal(false);
     const openExamModal = () => setShowExamModal(true);
 
-    // const deleteDermatologistFromPharmacy = async () =>{
-    //     try{
-    //         const resault = await axiosConfig.delete(urlDeleteDermaPharmacy + dermatologist.id + "/" + pharmacyID);
-    //         console.log(resault);
-    //     }
-    //     catch(err){
-    //         alert(err.response.data);
-    //     }
-    // }
 
     return (  
         <div>
@@ -33,6 +27,7 @@ const DermatologistDetails = ({dermatologist, deleteDermatologistFromPharmacy}) 
                     <Card.Text>Firstname : {dermatologist.firstname}</Card.Text>
                     <Card.Text>Lastname : {dermatologist.lastname}</Card.Text>
                     <Card.Text>Phone number : {dermatologist.phoneNumber}</Card.Text>
+                    <Card.Text>Ratings : {dermatologist.ratings !== null ? dermatologist.ratings : 0.0}</Card.Text>
                 </Card.Body>
                 <ListGroup>
                     <ListGroup.Item action variant="info">Working hours : {dermatologist.hours}</ListGroup.Item>
@@ -40,17 +35,9 @@ const DermatologistDetails = ({dermatologist, deleteDermatologistFromPharmacy}) 
                 </ListGroup>
                 <Card.Footer>
                     <Button variant='primary' onClick={() => openExamModal()}>Create examination</Button>
-                    <Button variant='danger' onClick={() => deleteDermatologistFromPharmacy(dermatologist.id)}>Delete dermatologist</Button>
+                    <Button variant='danger' onClick={() => deleteDermatologist(dermatologist.id)}>Delete dermatologist</Button>
                 </Card.Footer>
             </Card>
-            {/* <h6>Dermatologists details component</h6>
-            <p>{dermatologist.email}</p>
-            <p>{dermatologist.firstname}</p>
-            <p>{dermatologist.lastname}</p>
-            <p>{dermatologist.phoneNumber}</p>
-            <p>{dermatologist.role}</p>
-            <p>{dermatologist.hours}</p>
-            <p>{dermatologist.start_hour}</p> */}
 
             <Modal show = {showExamModal} onHide={closeExamModal}>
                 <Modal.Header closeButton>

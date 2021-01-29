@@ -66,6 +66,8 @@ public class DermatologistServiceImpl implements DermatologistService {
             dto.setHours((Integer) arrayO[1]);
             dto.setRole(UserRoles.DERMATOLOGIST);
 
+            dto.setRatings(dermatologistRepository.getAvgRatings(dermatologist.getId(),pharmacyId));
+
             dermatologistDTOs.add(dto);
         }
 
@@ -206,6 +208,9 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
 
         dermatologistRepository.deleteDermaFromPharmacy(dermaID, pharmacyID);
+
+        dermatologistRepository.deleteRatingsForPharmacy(dermaID,pharmacyID);
+        dermatologistRepository.deleteRatingsFromPharmacy(dermaID, pharmacyID);
 
 
 

@@ -17,6 +17,7 @@ import LatestPriceList from '../pricelist/LatestPriceList';
 import PharmacyReportsContextProvider from '../reports/PharmacyReportsContext';
 import ReportsMenu from '../reports/ReportsMenu';
 import ReportsDetails from '../reports/ReportDetails';
+import DermatologistContextProvider from '../dermatologist/DermatologistContext';
 
 
 const PharmacyAdminPage = () => {
@@ -51,7 +52,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="report"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="dermatologist"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
@@ -62,10 +63,16 @@ const PharmacyAdminPage = () => {
                         </PharmacyReportsContextProvider>
                       
                     </Tab>
-                    <Tab eventKey="examinations" title = "Examinations"></Tab>
+                    <Tab eventKey="examinations" title = "Examinations">
+
+                    </Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
-                        <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
-                        <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
+
+                        <DermatologistContextProvider pharmacyID = {pharmacy.id}>
+                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
+                            <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
+                        </DermatologistContextProvider>
+                       
                     </Tab>
                     <Tab eventKey="pharmacists" title = "Pharmacists">
                         <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
