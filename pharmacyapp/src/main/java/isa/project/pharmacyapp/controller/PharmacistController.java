@@ -148,7 +148,7 @@ public class PharmacistController {
 
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
 
-        User current = userService.findByEmail(user.getName());
+        User current = pharmacistService.findByEmail(user.getName());
 
         if(current.getRole() == UserRoles.PATIENT){
             return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
@@ -170,5 +170,36 @@ public class PharmacistController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @PutMapping(value = "/consultation/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyConsultation(@RequestBody ConsultationDTO consultationDTO, Principal user){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        User current = pharmacistService.findByEmail(user.getName());
+
+        if(current.getRole() == UserRoles.PATIENT){
+            return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
+        }
+
+        consultationDTO.setPharmacistID(current.getId());
+        consultationDTO.setFinished(false);
+        try {
+            consultationService.modifyConsultation(consultationDTO);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("ConsultationController::modifyConsultation " +
+                    "Consultation with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("ConsultationController::modifyConsultation Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

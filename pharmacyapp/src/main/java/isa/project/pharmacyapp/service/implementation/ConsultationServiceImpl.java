@@ -111,9 +111,9 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public void modifyConsultation(Long consultationId, ConsultationDTO consultationDTO) throws Exception {
-        Consultation consultation = consultationRepository.findById(consultationId).orElse(null);
-
+    public void modifyConsultation(ConsultationDTO consultationDTO) throws Exception {
+        Consultation consultation = consultationRepository.findById(consultationDTO.getId()).orElse(null);
+        //consultationRepository.deleteById(consultationDTO.getId());
         if(consultation == null){
             throw new NoSuchElementException("ConsultationSerivceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
                     "consultation could not be find by the given id");

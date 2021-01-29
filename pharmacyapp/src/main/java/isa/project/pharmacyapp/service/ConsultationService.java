@@ -9,6 +9,6 @@ public interface ConsultationService {
 
 
     void createNewConsultation(ConsultationDTO dto) throws Exception;
-    void modifyConsultation(Long consultationId, ConsultationDTO consultationDTO) throws Exception;
+    void modifyConsultation(ConsultationDTO consultationDTO) throws Exception;
     void saveConsultation(Consultation consultation, ConsultationDTO consultationDTO) throws Exception;
 }
