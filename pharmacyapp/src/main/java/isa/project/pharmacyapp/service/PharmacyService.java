@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.service;
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
+import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Address;
@@ -24,5 +25,5 @@ public interface PharmacyService {
 
     Address getAddress(Long id);
 
-    void addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception;
+    DermatologistDTO addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception;
 }

@@ -19,6 +19,8 @@ public class DermatologistDTO extends UserDTO {
     private Date start_hour;
     private Integer hours;
 
+    private Double ratings;
+
 
     public DermatologistDTO() {
     }
@@ -78,5 +80,13 @@ public class DermatologistDTO extends UserDTO {
 
     public void setHours(Integer hours) {
         this.hours = hours;
+    }
+
+    public Double getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Double ratings) {
+        this.ratings = ratings;
     }
 }

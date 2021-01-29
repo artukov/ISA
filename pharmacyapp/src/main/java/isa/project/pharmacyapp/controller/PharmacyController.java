@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DateLimitsDTO;
+import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.InsertingDermatologistException;
@@ -133,9 +134,9 @@ public class PharmacyController {
     public ResponseEntity<?> addNewDermatologistToPharmacy(@PathVariable("dermaID") Long dermaID,
                                                            @PathVariable("pharmacyID") Long pharmacyID,
                                                            @RequestBody WorkingHoursDTO workingHoursDTO){
-
+        DermatologistDTO retDTO = null;
         try {
-            pharmacyService.addNewDermatologist(dermaID, pharmacyID, workingHoursDTO);
+            retDTO =  pharmacyService.addNewDermatologist(dermaID, pharmacyID, workingHoursDTO);
         }
         catch(InsertingDermatologistException ide){
             return new ResponseEntity<>(ide.getMessage(), HttpStatus.NOT_ACCEPTABLE);
@@ -146,7 +147,7 @@ public class PharmacyController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(retDTO,HttpStatus.OK);
     }
 
 

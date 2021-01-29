@@ -60,5 +60,20 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
             , nativeQuery = true)
     List<Dermatologist> findAllNotInPharmacy(@Param("pharmacyID") Long pharmacyID);
 
+    
+
+    @Modifying
+    @Query(value = "DELETE FROM dermatologist_ratings_ratings\n" +
+            "WHERE dermatologist_ratings_derma_id = :dermaID \n" +
+            "AND dermatologist_ratings_pharmacy_id = :pharmacyID"
+            ,nativeQuery = true)
+    void deleteRatingsForPharmacy(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
+    @Modifying
+    @Query(value = "DELETE FROM derma_ratings\n" +
+            "WHERE derma_id = :dermaID \n" +
+            "AND pharmacy_id = :pharmacyID"
+            ,nativeQuery = true)
+    void deleteRatingsFromPharmacy(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
+
 
 }
