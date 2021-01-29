@@ -43,7 +43,7 @@ const SupplyOrderContextProvider = (props) => {
         closeAddForm();
         try{
             const result = await axiosConfig.get(urlGetWithStatus + status + "/" + props.pharmacyID);
-            dispatch({type : SET_ORDERS, orders :result.data});
+            dispatch({type : SET_ORDERS, orders : result.data});
         }
         catch(err){
             if(err.response !== undefined)

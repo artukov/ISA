@@ -4,6 +4,7 @@ export const ADD_SUPPLIER = "ADD_SUPPLIER";
 export const SET_DATE = "SET_DATE";
 export const SET_TIME = "SET_TIME";
 export const INIT = "INIT";
+export const BUTTONS_VISIBLE = "BUTTONS_VISIBLE";
 
 function addDrugAmount(state,payload){
     state.drugs = [...state.drugs, payload];
@@ -38,6 +39,14 @@ function setTime(state,time){
     return {...state,time};
 }
 
+
+function checkButtonsVisibility(state){
+
+    
+
+
+}
+
 function init(){
     return {
         drugs : [],
@@ -55,6 +64,7 @@ export function newOrderReducer(state,action){
         case ADD_SUPPLIER : return addSupplier(state,action.payload);
         case SET_DATE : return setDate(state,action.date);
         case SET_TIME : return setTime(state,action.time);
+        case BUTTONS_VISIBLE : return checkButtonsVisibility(state);
         case INIT : return init();
         default : throw new Error(" new order reducer error");
     }

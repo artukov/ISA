@@ -9,7 +9,7 @@ const SupplyOrderList = () => {
     const {orders} = useContext(SupplyOrderContext);
 
     useEffect(() => {
-        //console.log('orders',orders);
+        console.log('orders',orders);
     }, [orders])
 
     return ( 

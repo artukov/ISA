@@ -1,12 +1,11 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Button, Card, ListGroup, Modal } from 'react-bootstrap';
-// import { axiosConfig } from '../../config/AxiosConfig';
-// import { urlDeleteDermaPharmacy } from '../../services/UrlService';
+
 import NewExamination from '../appointment/NewExaminationFrom';
 import { DermatologistContext } from './DermatologistContext';
 
-const DermatologistDetails = ({dermatologist, deleteDermatologistFromPharmacy}) => {
+const DermatologistDetails = ({dermatologist}) => {
 
     const {state,deleteDermatologist} = useContext(DermatologistContext);
 
