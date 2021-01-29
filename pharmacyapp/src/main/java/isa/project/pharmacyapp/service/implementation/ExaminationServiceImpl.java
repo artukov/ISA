@@ -1,11 +1,13 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
 import isa.project.pharmacyapp.model.Calendar;
+import isa.project.pharmacyapp.model.Consultation;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -194,5 +197,23 @@ public class ExaminationServiceImpl implements ExaminationService {
             throw new DermatologistNotWorkingException("Dermatologist is finished at that hours", true);
 
         this.createNewExamination(dto);
+    }
+
+    @Override
+    public void modifyExamination(ExaminationDTO examinationDTO) throws Exception {
+        Examination examination = repository.findById(examinationDTO.getId()).orElse(null);
+        //consultationRepository.deleteById(consultationDTO.getId());
+        if(examination == null){
+            throw new NoSuchElementException("ExaminationSerivceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
+                    "examiantion could not be find by the given id");
+        }
+
+        try {
+            this.saveExamination(examination, examinationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("ExaminationServiceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 }
