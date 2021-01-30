@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
@@ -17,4 +19,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "AND pd.drug_id = :drugID AND pd.pharmacy_id = :pharmacyID"
             , nativeQuery = true)
     double countReservedDrugsInPharmacy(@Param("drugID") Long drugID,@Param("pharmacyID") Long pharmacyID);
+
+    @Query(value = "select *\n" +
+            "from reservation\n" +
+            "where id = :reservationId and pharmacy_id = :pharmacyId", nativeQuery = true)
+    Reservation getByIdAndPharmacy(@Param("reservationId") Long reservationId, @Param("pharmacyId") Long pharmacyId);
+
+    @Query(value = "select drug_id\n" +
+            "from reservation_drug\n" +
+            "where reservation_id = :reservationId", nativeQuery = true)
+    List<Long> getDrugsFromReservation(@Param("reservationId") Long ReservationId);
 }
