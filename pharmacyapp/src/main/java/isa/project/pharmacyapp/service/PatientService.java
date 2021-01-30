@@ -11,5 +11,5 @@ import java.util.List;
 public interface PatientService extends UserService{
     public abstract List<PatientDTO> getAllPatients();
     public abstract Patient savePatient(Patient patient, PatientDTO patientDTO) throws Exception;
-    public abstract void modifyPatient(PatientDTO patientDTO) throws Exception;
+    public abstract void addPenalty(Long id) throws Exception;
 }

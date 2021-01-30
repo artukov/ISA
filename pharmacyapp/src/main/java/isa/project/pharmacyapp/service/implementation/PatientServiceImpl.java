@@ -74,16 +74,23 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void modifyPatient(PatientDTO patientDTO) throws Exception {
-        Patient patient = patientRepository.findById(patientDTO.getId()).orElse(null);
-        //consultationRepository.deleteById(consultationDTO.getId());
+    public void addPenalty(Long id) throws Exception {
+
+        Patient patient = patientRepository.findById(id).orElse(null);
+        Integer penalties = 0;
+        if(patient.getPenalties() == null) {
+            penalties = 1;
+        }else{
+            penalties = patient.getPenalties()+1;
+        }
+        patient.setPenalties(penalties);
         if(patient == null){
             throw new NoSuchElementException("PatientSerivceImpl::modifyPatient(PatientDTO, patientDTO)" +
                     "patient could not be find by the given id");
         }
 
         try {
-            this.savePatient(patient, patientDTO);
+            patientRepository.save(patient);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("PatientServiceImpl::modifyPatient(PatientDTO patientDTO)" +

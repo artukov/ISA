@@ -36,6 +36,9 @@ public class DermatologistController {
     @Autowired
     private ExaminationService examinationService;
 
+    @Autowired
+    private PatientService patientService;
+
     @GetMapping(value = "/findByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDermatologistInPharmacy(@PathVariable("id")Long id){
@@ -214,6 +217,25 @@ public class DermatologistController {
         catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("ExaminationController::modifyExamination Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping(value = "/addPenalty", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addPenalty(@RequestBody Long id){
+        try {
+            patientService.addPenalty(id);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient " +
+                    "Patient with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient Server error"
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
