@@ -1,8 +1,10 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.model.Consultation;
 import isa.project.pharmacyapp.model.Dermatologist;
 import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.User;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -68,5 +71,30 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public User saveNewUser(UserDTO userDTO) throws Exception {
         return this.savePatient(new Patient(), (PatientDTO) userDTO);
+    }
+
+    @Override
+    public void addPenalty(Long id) throws Exception {
+
+        Patient patient = patientRepository.findById(id).orElse(null);
+        Integer penalties = 0;
+        if(patient.getPenalties() == null) {
+            penalties = 1;
+        }else{
+            penalties = patient.getPenalties()+1;
+        }
+        patient.setPenalties(penalties);
+        if(patient == null){
+            throw new NoSuchElementException("PatientSerivceImpl::modifyPatient(PatientDTO, patientDTO)" +
+                    "patient could not be find by the given id");
+        }
+
+        try {
+            patientRepository.save(patient);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("PatientServiceImpl::modifyPatient(PatientDTO patientDTO)" +
+                    "saving of the modified object did not excecute");
+        }
     }
 }

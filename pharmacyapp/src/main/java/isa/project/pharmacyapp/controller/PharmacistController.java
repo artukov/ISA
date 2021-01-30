@@ -34,6 +34,9 @@ public class PharmacistController {
     @Autowired
     private ConsultationService consultationService;
 
+    @Autowired
+    private PatientService patientService;
+
     @GetMapping(value = "/findAllByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPharmacyPharmacists(@PathVariable("id") Long id){
@@ -197,6 +200,26 @@ public class PharmacistController {
         catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("ConsultationController::modifyConsultation Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/addPenalty", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addPenalty(@RequestBody Long id){
+        try {
+            patientService.addPenalty(id);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient " +
+                    "Patient with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient Server error"
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
