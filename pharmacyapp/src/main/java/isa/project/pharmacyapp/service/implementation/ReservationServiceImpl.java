@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -122,5 +123,26 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         drugAccepted(id);
+    }
+
+    @Override
+    public ReservationDTO getByIdAndPharmacy(Long reservationId, Long pharmacyId){
+        Reservation reservation = reservationRepository.getByIdAndPharmacy(reservationId, pharmacyId);
+        ReservationDTO reservationDTO = new ReservationDTO();
+
+        reservationDTO.setId(reservation.getId());
+        reservationDTO.setAcceptanceDate(reservation.getAcceptanceDate());
+        reservationDTO.setAccepted(reservation.getAccepted());
+        reservationDTO.setPatientID(reservation.getPatient().getId());
+        reservationDTO.setPharmacyID(reservation.getPharmacy().getId());
+        List<Long> drugs = new ArrayList<>();
+
+        for(Long drugId: reservationRepository.getDrugsFromReservation(reservationId)){
+            drugs.add(drugId);
+        }
+
+        reservationDTO.setDrugs(drugs);
+
+        return reservationDTO;
     }
 }

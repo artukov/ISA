@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.*;
+import isa.project.pharmacyapp.model.Pharmacist;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.*;
@@ -247,6 +248,22 @@ public class PharmacistController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/reservation/{reservationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getReservation(@PathVariable("reservationId") Long id, Principal user){
+
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        Pharmacist current = (Pharmacist) pharmacistService.findByEmail(user.getName());
+
+        Long pharmacyId = current.getPharmacy().getId();
+
+        ReservationDTO dto = reservationService.getByIdAndPharmacy(id, pharmacyId);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+
     }
 
 
