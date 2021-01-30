@@ -37,6 +37,9 @@ public class PharmacistController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    private ReservationService reservationService;
+
     @GetMapping(value = "/findAllByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllPharmacyPharmacists(@PathVariable("id") Long id){
@@ -214,15 +217,37 @@ public class PharmacistController {
         }
         catch (NoSuchElementException ele){
             ele.printStackTrace();
-            return new ResponseEntity<>("PatientController::modifyPatient " +
+            return new ResponseEntity<>("PharmacistController::addPenalty " +
                     "Patient with given id does not exists",HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("PatientController::modifyPatient Server error"
+            return new ResponseEntity<>("PharmacistController::addPenalty Server error"
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping(value = "/dispense", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> dispenseDrug(@RequestBody Long id){
+        try {
+            reservationService.dispenseDrug(id);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("PharmacistController::dispenseDrug " +
+                    "Reservation with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("PharmacistController::dispenseDrug Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

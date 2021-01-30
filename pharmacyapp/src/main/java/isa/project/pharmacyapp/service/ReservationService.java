@@ -11,4 +11,5 @@ public interface ReservationService {
     void saveReservation(Reservation reservation, ReservationDTO reservationDTO) throws Exception;
 
     void drugAccepted(Long id) throws Exception;
+    void dispenseDrug(Long id) throws Exception;
 }

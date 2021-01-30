@@ -86,6 +86,7 @@ public class Reservation {
 
 
 
+
    /** @pdGenerated default getter */
    public java.util.List<Drug> getDrug() {
       if (drug == null)

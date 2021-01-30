@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -104,6 +106,21 @@ public class ReservationServiceImpl implements ReservationService {
         for(Drug drug : reservation.getDrug()){
             drugRepository.addDrugToPharmacy(drug.getId(),reservation.getPharmacy().getId(),-1);
         }
+    }
 
+    @Override
+    public void dispenseDrug(Long id) throws Exception{
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+
+        if (reservation == null){
+            throw new Exception("Reservation does not exist");
+        }
+        Date newDate = new Date(reservation.getAcceptanceDate().getTime() + 24*3600*1000);
+        Date currentDate = new Date(System.currentTimeMillis());
+        if(newDate.after(currentDate)){
+            throw new Exception("Reservation does not exist");
+        }
+
+        drugAccepted(id);
     }
 }
