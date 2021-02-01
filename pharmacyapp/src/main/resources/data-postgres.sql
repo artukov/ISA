@@ -381,3 +381,16 @@ insert into substitute_drugs(original_id, substitute_id) values(200, 600);
 insert into allergy(id,patient_id, allergy_id) values(30,400,null);
 
 insert into allergy_drug(allergy_id,drug_id) values(30,200);
+
+---absence request---------------
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (200,'Holiday to the sea',date('2021-06-21'),date('2021-06-10'),null,200,300);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (201,'Holiday to the woods',date('2021-09-10'),date('2021-08-15'),null,200,301);
+
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (202,'Holiday to the Sahara',date('2021-07-10'),date('2021-06-28'),null,200,500);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (203,'Holiday to the Spain',date('2021-10-10'),date('2021-09-28'),null,200,501);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,200,502);
