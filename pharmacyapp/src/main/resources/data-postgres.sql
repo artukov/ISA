@@ -379,3 +379,16 @@ insert into substitute_drugs(original_id, substitute_id) values(200, 600);
 insert into allergy(id,patient_id, allergy_id) values(30,400,null);
 
 insert into allergy_drug(allergy_id,drug_id) values(30,200);
+
+insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (1,1,date('2020-09-01'),400,400);
+insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (2,2,date('2020-09-01'),401,401);
+
+
+insert into recepit_drug(recepit_id,drug_id) values (1,200);
+insert into recepit_drug(recepit_id,drug_id) values (1,300);
+insert into recepit_drug(recepit_id,drug_id) values (1,400);
+insert into recepit_drug(recepit_id,drug_id) values (1,500);
+insert into recepit_drug(recepit_id,drug_id) values (2,300);
+
+
+
