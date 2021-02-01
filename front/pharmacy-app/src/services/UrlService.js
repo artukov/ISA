@@ -9,6 +9,9 @@ const urlExamination = '/examination';
 const urlReservation = '/reservation';
 const urlSupplyOrder = '/supplyorder';
 const urlSupplier = "/supplier";
+const urlUser = "/user";
+
+const urlCurrentUser = urlUser + "/current";
 
 const urlGetPharmacy = urlPharmacy + '/find/';
 const urlGetPhramacyDermatologists = urlDermatologist + '/findByPharmacy/';
@@ -51,6 +54,7 @@ export {
     urlStart,
     urlAuthLogin,
     urlRefreshToken,
+    urlCurrentUser,
     urlGetPharmacy,
     urlGetPhramacyDermatologists,
     urlGetPharmacyPharmacists,
