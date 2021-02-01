@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public ResponseEntity<?> currentUser(Principal user){
         System.out.println("User current " + user);

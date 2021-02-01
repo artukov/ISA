@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplierDTO;
+import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.SupplierService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
@@ -27,6 +28,27 @@ public class SupplierController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+
+    @GetMapping(value = "/allIncomingOrders/{supplierID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllIncomingOrders(@PathVariable("supplierID") Long supplierID){
+
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+
+        List<SupplyOrderDTO> supplyOrderDTOS = supplierService.findAllIncomingOrders(supplierID);
+
+        return new ResponseEntity<>(supplyOrderDTOS,HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/allOrders/{supplierID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllSupplierOrders(@PathVariable("supplierID") Long supplierID){
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        List<SupplyOrderDTO> supplierDTOS = supplierService.findAllSupplierOrders(supplierID);
+        return new ResponseEntity<>(supplierDTOS,HttpStatus.OK);
+    }
 
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
