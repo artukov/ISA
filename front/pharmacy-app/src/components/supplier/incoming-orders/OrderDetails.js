@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { Card, ListGroup, Row, Col, Button, Modal, Form } from 'react-bootstrap';
-import formatDate from '../../config/DateFormatConfig';
+import formatDate from '../../../config/DateFormatConfig';
 import { IncomingOrdersContext } from './IncomingOrdersContext';
 
 const OrderDetails = ({order}) => {

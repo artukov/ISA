@@ -76,4 +76,10 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder, Long> 
             "AND (so.delivery_date IS NULL OR so.price_offer IS NULL) "
             ,nativeQuery = true)
     List<SupplyOrder> findSupplierIncoming(@Param("supplierID")Long supplierID);
+
+    @Query(value = "SELECT * FROM supply_order " +
+            "INNER JOIN supplier_order so on supply_order.id = so.order_id\n" +
+            "WHERE so.supplier_id = :supplierID\n" +
+            "ORDER BY id ASC" ,nativeQuery = true)
+    List<SupplyOrder> findSupplierOrders(@Param("supplierID")Long supplierID);
 }

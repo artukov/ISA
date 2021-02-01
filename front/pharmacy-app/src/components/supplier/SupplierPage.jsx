@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import { urlCurrentUser } from '../../services/UrlService';
-import IncomingOrdersContextProvider from './IncomingOrdersContext';
-import IncomingOrdersList from './IncomingOrdersList';
+import AllOrdersContextProvider from './all-orders/AllOrdersContext';
+import AllOrdersList from './all-orders/AllOrdersList';
+import IncomingOrdersContextProvider from './incoming-orders/IncomingOrdersContext';
+import IncomingOrdersList from './incoming-orders/IncomingOrdersList';
 
 const SupplierPage = () => {
 
@@ -28,13 +30,17 @@ const SupplierPage = () => {
 
     return ( 
     <div>
-        <Tabs defaultActiveKey="incomming" onSelect={() => {}}>
+        <Tabs defaultActiveKey="all" onSelect={() => {}}>
             <Tab eventKey="incomming" title="Incomming orders">
                 <IncomingOrdersContextProvider supplierID = {supplier.id}>
                     <IncomingOrdersList></IncomingOrdersList>
                 </IncomingOrdersContextProvider>
             </Tab>
-            <Tab eventKey="all" title="All orders"></Tab>
+            <Tab eventKey="all" title="All orders">
+                <AllOrdersContextProvider supplierID = {supplier.id}>
+                    <AllOrdersList></AllOrdersList>
+                </AllOrdersContextProvider>
+            </Tab>
             <Tab eventKey="personalInfo" title="Personal info"></Tab>
         </Tabs>
     </div> );

@@ -42,6 +42,14 @@ public class SupplierController {
 
     }
 
+    @GetMapping(value = "/allOrders/{supplierID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllSupplierOrders(@PathVariable("supplierID") Long supplierID){
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        List<SupplyOrderDTO> supplierDTOS = supplierService.findAllSupplierOrders(supplierID);
+        return new ResponseEntity<>(supplierDTOS,HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)

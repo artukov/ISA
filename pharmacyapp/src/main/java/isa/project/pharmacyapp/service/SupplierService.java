@@ -2,6 +2,8 @@ package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.SupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
+import isa.project.pharmacyapp.model.OrderStatus;
+import isa.project.pharmacyapp.model.SupplyOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 
 import java.util.List;
@@ -13,4 +15,8 @@ public interface SupplierService extends UserService {
     List<SupplierDTO> findAll();
 
     List<SupplyOrderDTO> findAllIncomingOrders(Long supplierID);
+
+    List<SupplyOrderDTO> findAllSupplierOrders(Long supplierID);
+
+    List<SupplyOrderDTO> filterSupplyOrders(List<SupplyOrder> orders, Long supplierID, OrderStatus statuss);
 }

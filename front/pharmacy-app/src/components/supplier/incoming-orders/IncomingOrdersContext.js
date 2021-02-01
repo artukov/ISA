@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useReducer} from 'react';
-import { axiosConfig } from '../../config/AxiosConfig';
-import { DELETE_ORDER } from '../supply-order/supplyOrderReducer';
-import incomingOrdersReducer, {SET_ORDERS} from './reducers/incomingOrdersReducer';
+import { axiosConfig } from '../../../config/AxiosConfig';
+import { DELETE_ORDER } from '../../supply-order/supplyOrderReducer';
+import incomingOrdersReducer, {SET_ORDERS} from '../reducers/incomingOrdersReducer';
 
 export const IncomingOrdersContext = createContext();
 
@@ -15,7 +15,7 @@ const IncomingOrdersContextProvider = (props) => {
     useEffect(() => {
         const loadIncomingOrders = async (id) =>{
             const result = await axiosConfig.get('supplier/allIncomingOrders/'+id);
-            console.log(result.data);
+            // console.log(result.data);
             dispatch({type : SET_ORDERS, orders : result.data});
         }
         // console.log(props.supplierID);

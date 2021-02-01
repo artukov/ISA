@@ -262,8 +262,8 @@ VALUES (null,null,0,204,700);
 
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null,null,0,205,702);
-INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
-VALUES (null,null,0,205,700);
+-- INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+-- VALUES (null,null,0,205,700);
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null, null, 0, 205, 701);
 
@@ -273,6 +273,8 @@ VALUES (date('2020-12-30'),300.0,1,202,700);
 --denied order----------------------------
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (date('2020-12-31'),300.0,2,202,701);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null, null,2,205,700);
 
 --inserting authority---------------------------
 

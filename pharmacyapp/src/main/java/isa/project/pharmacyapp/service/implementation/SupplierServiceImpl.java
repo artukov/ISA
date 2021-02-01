@@ -5,19 +5,19 @@ import isa.project.pharmacyapp.dto.SupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
-import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.repository.SupplierRepository;
 import isa.project.pharmacyapp.repository.SupplyOrderRepository;
 import isa.project.pharmacyapp.repository.WareHouseRepository;
 import isa.project.pharmacyapp.service.SupplierService;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
@@ -71,11 +71,42 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<SupplyOrderDTO> findAllIncomingOrders(Long supplierID) {
         List<SupplyOrder> supplyOrders = orderRepository.findSupplierIncoming(supplierID);
+        List<SupplyOrderDTO> orderDTOS = this.filterSupplyOrders(supplyOrders,supplierID, OrderStatus.PENDING);
+//        ArrayList<SupplyOrderDTO> supplyOrderDTOS = new ArrayList<>();
+//        for(SupplyOrder order : supplyOrders){
+//            supplyOrderDTOS.add(SupplyOrderDTO.order2DTO(order, OrderStatus.PENDING));
+//        }
+//        ArrayList<OrderSupplierDTO> orderSupplierDTOS = new ArrayList<>();
+//        for(SupplyOrderDTO supplyOrderDTO : supplyOrderDTOS){
+//            for(OrderSupplierDTO orderSupplierDTO : supplyOrderDTO.getSupplierDTOS()){
+//                if(orderSupplierDTO.getSupplierID().equals(supplierID)){
+//                    supplyOrderDTO.setSupplierDTOS(new ArrayList<>());
+//                    supplyOrderDTO.getSupplierDTOS().add(orderSupplierDTO);
+//                    break;
+//                }
+//                continue;
+//            }
+//        }
+
+
+        return orderDTOS;
+    }
+
+    @Override
+    public List<SupplyOrderDTO> findAllSupplierOrders(Long supplierID) {
+        List<SupplyOrder> orders = orderRepository.findSupplierOrders(supplierID);
+        List<SupplyOrderDTO> ordersDTOS = this.filterSupplyOrders(orders, supplierID, null);
+
+        return ordersDTOS;
+    }
+
+    @Override
+    public List<SupplyOrderDTO> filterSupplyOrders(List<SupplyOrder> orders, Long supplierID, OrderStatus status) {
         ArrayList<SupplyOrderDTO> supplyOrderDTOS = new ArrayList<>();
-        for(SupplyOrder order : supplyOrders){
-            supplyOrderDTOS.add(SupplyOrderDTO.order2DTO(order, OrderStatus.PENDING));
+        for(SupplyOrder order : orders){
+            supplyOrderDTOS.add(SupplyOrderDTO.order2DTO(order, status));
         }
-        ArrayList<OrderSupplierDTO> orderSupplierDTOS = new ArrayList<>();
+//        ArrayList<OrderSupplierDTO> orderSupplierDTOS = new ArrayList<>();
         for(SupplyOrderDTO supplyOrderDTO : supplyOrderDTOS){
             for(OrderSupplierDTO orderSupplierDTO : supplyOrderDTO.getSupplierDTOS()){
                 if(orderSupplierDTO.getSupplierID().equals(supplierID)){
@@ -90,9 +121,6 @@ public class SupplierServiceImpl implements SupplierService {
 
         return supplyOrderDTOS;
     }
-
-
-
 
     /**
      * UserService methods
