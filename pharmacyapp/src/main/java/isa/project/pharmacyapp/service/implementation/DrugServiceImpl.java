@@ -1,9 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.DrugDTO;
-import isa.project.pharmacyapp.dto.DrugSpecDTO;
-import isa.project.pharmacyapp.dto.PharmaDrugDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
@@ -370,7 +367,5 @@ public class DrugServiceImpl implements DrugService {
 
         return drugIds;
     }
-
-
 
 }

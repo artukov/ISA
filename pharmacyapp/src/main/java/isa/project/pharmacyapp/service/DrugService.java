@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.DrugSpecDTO;
+import isa.project.pharmacyapp.dto.DrugsFromReceiptPriceinPharmacyDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.TimeSpam;
@@ -27,7 +28,6 @@ public interface DrugService {
     List<Long> findSubstituteDrug(Long drugId);
     List<Long> getDrugsFromEReceipt(Long receiptId);
     void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception;
-
 
     boolean drugExistsInPharmacy(Long drugID, Long pharmacyID);
 
