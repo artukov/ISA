@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -55,6 +56,26 @@ public class AbsenceRequestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/allRequests/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllRequestFromPharmacy(@PathVariable("pharmacyID")Long pharmacyID){
+        List<AbsenceRequestDTO> absenceRequestDTOS = this.absenceRequestService.findAllPharmacyPharmacistUnanswered(pharmacyID);
+        return new ResponseEntity<>(absenceRequestDTOS, HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/answerRequest/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> answerToTheRequest(@RequestBody AbsenceRequestDTO requestDTO){
+        try {
+            absenceRequestService.modifyWithStatus(requestDTO.getId(), requestDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
