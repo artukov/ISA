@@ -364,5 +364,13 @@ public class DrugServiceImpl implements DrugService {
         return drugIds;
     }
 
+    @Override
+    public List<Long> getDrugsFromEReceipt(Long receiptId){
+        List<Long> drugIds = drugRepository.getDrugsFromEReceipt(receiptId);
+
+        return drugIds;
+    }
+
+
 
 }
