@@ -6,20 +6,19 @@ import OrderDetails from './OrderDetails';
 
 const AllOrdersList = () => {
     
-    const {state} = useContext(AllOrdersContext);
+    const {state,orders} = useContext(AllOrdersContext);
 
-    // useEffect(() => {
-    //     console.log('state', state);
-        
-    // }, [state]);
+    useEffect(() => {
+    }, [orders]);
     
     return ( 
         <div>
             <CardDeck>
                 {
-                    state.orders ? (
-                        state.orders.map(order => 
-                           <OrderDetails key={order.id} order = {order}></OrderDetails>
+                    
+                    state.orders.length ? (
+                        state.orders.map((order, index) => 
+                           <OrderDetails key={index} order = {order}></OrderDetails>
                         )
                     ) : <p>Loading orders ... </p>
                 }

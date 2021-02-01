@@ -1,27 +1,44 @@
 import React, { useState, useEffect , createContext, useReducer} from 'react';
 import { axiosConfig } from '../../../config/AxiosConfig';
-import supplierOrdersReducer,{ SET_ORDERS } from '../reducers/supplierOrdersReducer';
+import supplierOrdersReducer,{ FILTER_ORDERS, SET_ORDERS } from '../reducers/supplierOrdersReducer';
 
 export const AllOrdersContext = createContext();
 
 const AllOrdersContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(supplierOrdersReducer, {
-        orders : []
+        orders : [],
+        allOrders : []
     });
+
+    const [statuses, setStatuses] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const loadAllSupplierOrders = async (id) =>{
             try{
                 const result = await axiosConfig.get('/supplier/allOrders/' + id);
                 dispatch({type : SET_ORDERS, orders : result.data});
+                setOrders(state.orders);
             }
             catch(err){
                 console.log(err.response);
             }
         }
+
+        const loadStatuses = async (id) => {
+            try{
+                const result = await axiosConfig.get('/supplyorder/statuses');
+                setStatuses(result.data);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+
         if(props.supplierID !== undefined)
             loadAllSupplierOrders(props.supplierID);
+            loadStatuses();
     }, [props.supplierID]);
 
     const makeAnOffer = async (data) => {
@@ -43,12 +60,22 @@ const AllOrdersContextProvider = (props) => {
 
     }
 
+    const filterOrders = (status) =>{
+        dispatch({type : FILTER_ORDERS, status});
+        dispatch({type : SET_ORDERS, orders : state.orders});
+        setOrders(state.orders);
+
+    }
+
 
     return ( 
         <AllOrdersContext.Provider value = {{
             state,
             dispatch,
-            makeAnOffer
+            makeAnOffer,
+            statuses,
+            filterOrders,
+            orders
         }}>
             {props.children}
         </AllOrdersContext.Provider>

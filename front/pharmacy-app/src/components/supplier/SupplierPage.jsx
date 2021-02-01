@@ -5,6 +5,7 @@ import { axiosConfig } from '../../config/AxiosConfig';
 import { urlCurrentUser } from '../../services/UrlService';
 import AllOrdersContextProvider from './all-orders/AllOrdersContext';
 import AllOrdersList from './all-orders/AllOrdersList';
+import AllOrdersMenu from './all-orders/AllOrdersMenu';
 import IncomingOrdersContextProvider from './incoming-orders/IncomingOrdersContext';
 import IncomingOrdersList from './incoming-orders/IncomingOrdersList';
 
@@ -38,6 +39,7 @@ const SupplierPage = () => {
             </Tab>
             <Tab eventKey="all" title="All orders">
                 <AllOrdersContextProvider supplierID = {supplier.id}>
+                    <AllOrdersMenu></AllOrdersMenu>
                     <AllOrdersList></AllOrdersList>
                 </AllOrdersContextProvider>
             </Tab>

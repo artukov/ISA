@@ -79,13 +79,7 @@ const OrderDetails = ({order}) => {
             priceOffer : priceOffer,
             orderID : order.id
         });
-        // if(isModifyPossible()){
-
-        // }
-        // else {
-            
-        // }
-
+     
     }
 
     return ( 
