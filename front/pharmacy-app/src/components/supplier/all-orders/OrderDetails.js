@@ -7,6 +7,28 @@ const OrderDetails = ({order}) => {
 
     const {makeAnOffer} = useContext(AllOrdersContext);
 
+    const calculateBgColour = () =>{
+        if(order.buttonsVisibilty){
+            return "light";
+        }
+        if(order.supplierDTOS[0].status === "ACCEPTED")
+            return "success";
+        if(order.supplierDTOS[0].status === "DENIED")
+            return "danger";
+        return "info";
+    }
+
+    const isModifyPossible = () =>{
+        
+        if(Date.parse(order.deadlineDate) < Date.parse(new Date()) )
+            return false;
+        if(order.buttonsVisibilty)
+            return false;
+        if(order.supplierDTOS[0].status !== "PENDING")
+            return false;
+        return true;
+    }
+
     const [showModal, setShowModal] = useState(false);
     const openModal = () => {
         if(isModifyPossible()){
@@ -52,24 +74,7 @@ const OrderDetails = ({order}) => {
     const [time, setTime] = useState(initTime());
     const [priceOffer, setPriceOffer] = useState(0.0);
 
-    const calculateBgColour = () =>{
-        if(order.buttonsVisibilty){
-            return "light";
-        }
-        if(order.supplierDTOS[0].status === "ACCEPTED")
-            return "success";
-        if(order.supplierDTOS[0].status === "DENIED")
-            return "danger";
-        return "info";
-    }
-
-    const isModifyPossible = () =>{
-        if(order.buttonsVisibilty)
-            return false;
-        if(order.supplierDTOS[0].status !== "PENDING")
-            return false;
-        return true;
-    }
+    
 
     const handleSubmit = (e) =>{
         e.preventDefault();
