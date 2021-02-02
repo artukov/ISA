@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.DrugSpecDTO;
+import isa.project.pharmacyapp.dto.DrugsFromReceiptPriceinPharmacyDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.service.DrugService;
@@ -164,7 +165,13 @@ public class DrugController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDrugsFromEReceipt(@PathVariable("ereceiptId") Long ereceiptId){
         //List<Long> drugs = drugService.getDrugsFromEReceipt(ereceiptId);
-        List<Long> pharmacies = drugService.getPharmaciesWithDrugs(ereceiptId);
+        List<DrugsFromReceiptPriceinPharmacyDTO> pharmacies = new ArrayList<>();
+        try {
+            pharmacies = drugService.getPharmaciesWithDrugs(ereceiptId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(pharmacies,HttpStatus.OK);
     }
 }

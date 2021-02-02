@@ -114,4 +114,5 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "from pharmacy_drug\n" +
             "where pharmacy_id = :pharmacyId", nativeQuery = true)
     List<Long> getDrugsIdByPharmacy(@Param("pharmacyId") Long pharmacyId);
+
 }
