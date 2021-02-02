@@ -169,12 +169,13 @@ public class DrugController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-    @PostMapping(value = "/ereceipt", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/ereceipt", consumes = "text/plain")
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDrugsFromEReceipt(@RequestBody String ereceiptId) throws WriterException, IOException,
             NotFoundException {
         //List<Long> drugs = drugService.getDrugsFromEReceipt(ereceiptId);
         // Path where the QR code is saved
+        System.out.println(ereceiptId);
         String filePath = "C:/Users/Artur/Desktop/ISA/ISA/frame.png";
 
         // Encoding charset
