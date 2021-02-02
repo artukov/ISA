@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AbsenceRequestServiceImpl implements AbsenceRequestService {
@@ -41,11 +42,12 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
     @Override
     public void saveAbsenceRequest(AbsenceRequest absenceRequest, AbsenceRequestDTO absenceRequestDTO) throws Exception {
 
-        //absenceRequest.setId(absenceRequestDTO.getId());
-        absenceRequest.setDescription(absenceRequestDTO.getDescription());
-        absenceRequest.setEndDate(absenceRequestDTO.getEndDate());
-        absenceRequest.setStartDate(absenceRequestDTO.getStartDate());
-        absenceRequest.setStatus(absenceRequestDTO.getStatus());
+        AbsenceRequestDTO.dto2request(absenceRequest,absenceRequestDTO);
+//        absenceRequest.setId(absenceRequestDTO.getId());
+//        absenceRequest.setDescription(absenceRequestDTO.getDescription());
+//        absenceRequest.setEndDate(absenceRequestDTO.getEndDate());
+//        absenceRequest.setStartDate(absenceRequestDTO.getStartDate());
+//        absenceRequest.setStatus(absenceRequestDTO.getStatus());
 
         Pharmacy pharmacy = pharmacyRepository.findById(absenceRequestDTO.getPharmacyId()).orElse(null);
         if(pharmacy == null){
@@ -68,5 +70,28 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
         }
 
 
+    }
+
+    @Override
+    public void modifyWithStatus(Long id, AbsenceRequestDTO requestDTO) throws Exception {
+        AbsenceRequest request = absenceRequestRepository.findById(id).orElse(null);
+        if(request == null){
+            throw new Exception("Not valid id for absence request");
+        }
+
+        this.saveAbsenceRequest(request,requestDTO);
+
+    }
+
+    @Override
+    public List<AbsenceRequestDTO> findAllPharmacyPharmacistUnanswered(Long pharmacyID) {
+        List<AbsenceRequest> requests = absenceRequestRepository.findAllPharmacyPharmacistUnanswered(pharmacyID);
+
+        ArrayList<AbsenceRequestDTO> requestDTOS = new ArrayList<>();
+        for(AbsenceRequest absenceRequest : requests){
+            requestDTOS.add(AbsenceRequestDTO.request2DTO(absenceRequest));
+        }
+
+        return requestDTOS;
     }
 }

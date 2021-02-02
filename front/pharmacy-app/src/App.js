@@ -8,6 +8,7 @@ import PharmacyComponent from './components/pharmacy/PharmacyComponent';
 import UserProfile from './components/view/userProfile'
 import PharmacyAdminPage from './components/pharmacyAdmin/PharmacyAdminPage';
 import CurrentUserContextProvider, { CurrentUserContext } from './components/context/CurrentUserContext';
+import SupplierPage from './components/supplier/SupplierPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 
         <Route path='/pharmacy' exact component={PharmacyComponent}></Route>
         <Route path='/pharmacyAdmin' exact component={PharmacyAdminPage}></Route>
+        <Route path="/supplier" exact component={SupplierPage}></Route>
         <Route path='/'>404 not here sry</Route>
 
       </Switch>

@@ -11,7 +11,7 @@ class homePage extends Component {
 
     getCurrent = () => {
 
-        axiosConfig.post('/user/current')
+        axiosConfig.get('/user/current')
             .then(res => console.log(res.data))
             .catch(err => console.log(err.response.data));
         refreshToken();
@@ -44,6 +44,7 @@ class homePage extends Component {
                 <Button onClick={() => this.getCurrent()}>Get current user</Button>
                 <Button onClick={() => window.location = '/pharmacy'}>Pharmacy</Button>
                 <Button onClick={() => window.location = '/pharmacyAdmin'}>PharmacyAdmin</Button>
+                <Button onClick={() => window.location='/supplier'}>Supplier</Button>
             </div>
         );
     }

@@ -262,8 +262,8 @@ VALUES (null,null,0,204,700);
 
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null,null,0,205,702);
-INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
-VALUES (null,null,0,205,700);
+-- INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+-- VALUES (null,null,0,205,700);
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (null, null, 0, 205, 701);
 
@@ -273,6 +273,8 @@ VALUES (date('2020-12-30'),300.0,1,202,700);
 --denied order----------------------------
 INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
 VALUES (date('2020-12-31'),300.0,2,202,701);
+INSERT INTO supplier_order(delivery_date, price_offer, status, order_id, supplier_id)
+VALUES (null, null,2,205,700);
 
 --inserting authority---------------------------
 
@@ -386,6 +388,7 @@ insert into allergy(id,patient_id, allergy_id) values(30,400,null);
 
 insert into allergy_drug(allergy_id,drug_id) values(30,200);
 
+
 insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (1,1,date('2020-09-01'),400,400);
 insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (2,2,date('2020-09-01'),401,401);
 
@@ -397,4 +400,17 @@ insert into recepit_drug(recepit_id,drug_id) values (1,500);
 insert into recepit_drug(recepit_id,drug_id) values (2,300);
 
 
+
+---absence request---------------
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (200,'Holiday to the sea',date('2021-06-21'),date('2021-06-10'),null,200,300);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (201,'Holiday to the woods',date('2021-09-10'),date('2021-08-15'),null,200,301);
+
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (202,'Holiday to the Sahara',date('2021-07-10'),date('2021-06-28'),null,200,500);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (203,'Holiday to the Spain',date('2021-10-10'),date('2021-09-28'),null,200,501);
+INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
+VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,200,502);
 

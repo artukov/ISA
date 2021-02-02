@@ -78,7 +78,7 @@ public class SupplyOrderDTO {
             dto.getAmount().add(order.getDrugs().get(i).getAmount());
         }
         for(SupplierOrder supplierOrder : order.getSuppliers()){
-            if(supplierOrder.getStatus() != status)
+            if(supplierOrder.getStatus() != status && status != null)
                 continue;
             dto.getSupplierDTOS().add(OrderSupplierDTO.supplierOrder2DTO(supplierOrder));
         }
