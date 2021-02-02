@@ -1,9 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.DrugDTO;
-import isa.project.pharmacyapp.dto.DrugSpecDTO;
-import isa.project.pharmacyapp.dto.PharmaDrugDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
@@ -11,10 +8,12 @@ import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.model.embedded_ids.PharmacyDrugID;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.repository.PriceListRepository;
 import isa.project.pharmacyapp.repository.ReservationRepository;
 import isa.project.pharmacyapp.service.DrugService;
 import isa.project.pharmacyapp.service.bean_factory_statistics.BeanFactoryDynamicService;
 import isa.project.pharmacyapp.strategy_pattern.StatisticsStrategy;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -39,6 +38,9 @@ public class DrugServiceImpl implements DrugService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private PriceListRepository priceListRepository;
 
 
     final private static String EXCEPTION_TEXT = "DrugServiceImpl::";
@@ -364,5 +366,36 @@ public class DrugServiceImpl implements DrugService {
         return drugIds;
     }
 
+    @Override
+    public List<Long> getDrugsFromEReceipt(Long receiptId){
+        List<Long> drugIds = drugRepository.getDrugsFromEReceipt(receiptId);
 
+        return drugIds;
+    }
+
+    @Override
+    public List<DrugsFromReceiptPriceinPharmacyDTO> getPharmaciesWithDrugs(Long eReceiptId) throws Exception {
+        List<DrugsFromReceiptPriceinPharmacyDTO> pharmacies = new ArrayList<>();
+        List<Long> drugsId = drugRepository.getDrugsFromEReceipt(eReceiptId);
+
+        for(Pharmacy pharmacy: pharmacyRepository.findAll()){
+            //List<PharmacyDrug> allDrugsInPharmacy = pharmacy.getDrugs();
+            List<Long> allDrugsInPharmacy = drugRepository.getDrugsIdByPharmacy(pharmacy.getId());
+            DrugsFromReceiptPriceinPharmacyDTO dto = new DrugsFromReceiptPriceinPharmacyDTO();
+            Double totalPrice = 0.0;
+           if(allDrugsInPharmacy.containsAll(drugsId)){
+               if(priceListRepository.findByPharmacy_id(pharmacy.getId()) == null){
+                   throw new Exception("Pharmacy doesnt have priceList");
+               }
+               dto.setId(pharmacy.getId());
+               dto.setName(pharmacyRepository.getOne(pharmacy.getId()).getName());
+               for(Long drugId: drugsId) {
+                   totalPrice += priceListRepository.getDrugPriceByPharmacyPriceList(pharmacy.getId(),drugId);
+               }
+               dto.setTotalPrice(totalPrice);
+               pharmacies.add(dto);
+           }
+        }
+        return pharmacies;
+    }
 }

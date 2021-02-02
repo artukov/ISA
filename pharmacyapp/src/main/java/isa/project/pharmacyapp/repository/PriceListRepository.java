@@ -31,4 +31,10 @@ public interface PriceListRepository extends JpaRepository<PriceList, Long> {
     @Query(nativeQuery = true, value = "UPDATE  price_list pl SET pl.active = false " +
             "WHERE pl.id != :plID AND pl.pharmacy_id = :pharmacyID AND pl.active = true")
     void updateActiveStatus(@Param("plID")Long plID, @Param("pharmacyID") Long pharmacyID);
+
+    @Query(value = "select pd.price\n" +
+            "from price_list pl inner join pl_drug pd on pl.id = pd.pricelist_id\n" +
+            "where pharmacy_id = :pharmacyId and pl.active = true and pd.drug_id = :drugId", nativeQuery = true)
+    Double getDrugPriceByPharmacyPriceList(@Param("pharmacyId") Long pharmacyId, @Param("drugId") Long drugId);
+
 }

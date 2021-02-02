@@ -363,6 +363,9 @@ VALUES (200, date('2020-12-31'), date('2020-09-01'),200, false);
 INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
 VALUES (201, date('2021-03-31'), date('2021-01-01'),200, true);
 
+INSERT INTO price_list(id, end_date, start_date, pharmacy_id, active)
+VALUES (202, date('2021-03-31'), date('2021-01-01'),300, true);
+
 INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (200,200,200);
 INSERT INTO pl_drug(price, drug_id, pricelist_id)
@@ -375,12 +378,28 @@ INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (25,300,201);
 INSERT INTO pl_drug(price, drug_id, pricelist_id)
 VALUES (35.8,400,201);
+INSERT INTO pl_drug(price, drug_id, pricelist_id)
+VALUES (35.8,300,202);
+
 
 insert into substitute_drugs(original_id, substitute_id) values(200, 600);
 
 insert into allergy(id,patient_id, allergy_id) values(30,400,null);
 
 insert into allergy_drug(allergy_id,drug_id) values(30,200);
+
+
+insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (1,1,date('2020-09-01'),400,400);
+insert into erecepit(id,code,issue_date,patient_id,receipt_id) values (2,2,date('2020-09-01'),401,401);
+
+
+insert into recepit_drug(recepit_id,drug_id) values (1,200);
+insert into recepit_drug(recepit_id,drug_id) values (1,300);
+insert into recepit_drug(recepit_id,drug_id) values (1,400);
+insert into recepit_drug(recepit_id,drug_id) values (1,500);
+insert into recepit_drug(recepit_id,drug_id) values (2,300);
+
+
 
 ---absence request---------------
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
@@ -394,3 +413,4 @@ INSERT INTO absence_request(id, description, end_date, start_date, status, pharm
 VALUES (203,'Holiday to the Spain',date('2021-10-10'),date('2021-09-28'),null,200,501);
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
 VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,200,502);
+

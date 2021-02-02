@@ -1,9 +1,15 @@
 package isa.project.pharmacyapp.controller;
 
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.DrugSpecDTO;
+import isa.project.pharmacyapp.dto.DrugsFromReceiptPriceinPharmacyDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
 import isa.project.pharmacyapp.model.TimeSpam;
+import isa.project.pharmacyapp.qrcode.QRReader;
 import isa.project.pharmacyapp.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +19,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -158,5 +169,37 @@ public class DrugController {
             dtos.add(drugService.findById(id));
         }
         return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/ereceipt", consumes = "text/plain")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDrugsFromEReceipt(@RequestBody String ereceiptId) throws WriterException, IOException,
+            NotFoundException {
+        //skalnjam /r/n sa kraja 
+
+       Integer len = ereceiptId.length();
+       String str = ereceiptId.substring(0,len-2);
+       Path pathTest = Paths.get(str);
+        String filePath = pathTest.toString();
+
+        // Encoding charset
+        String charset = "UTF-8";
+
+        Map<EncodeHintType, ErrorCorrectionLevel> hashMap
+                = new HashMap<EncodeHintType,
+                ErrorCorrectionLevel>();
+
+        hashMap.put(EncodeHintType.ERROR_CORRECTION,
+                ErrorCorrectionLevel.L);
+        String receiptString = QRReader.readQR(filePath,charset,hashMap);
+        Long id = Long.parseLong(receiptString);
+        List<DrugsFromReceiptPriceinPharmacyDTO> pharmacies = new ArrayList<>();
+        try {
+            pharmacies = drugService.getPharmaciesWithDrugs(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(pharmacies,HttpStatus.OK);
     }
 }
