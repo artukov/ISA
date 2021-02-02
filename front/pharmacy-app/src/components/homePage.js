@@ -44,7 +44,9 @@ class homePage extends Component {
                 <Button onClick={() => this.getCurrent()}>Get current user</Button>
                 <Button onClick={() => window.location = '/pharmacy'}>Pharmacy</Button>
                 <Button onClick={() => window.location = '/pharmacyAdmin'}>PharmacyAdmin</Button>
-                <Button onClick={() => window.location='/supplier'}>Supplier</Button>
+                <Button onClick={() => window.location = '/supplier'}>Supplier</Button>
+                <Button onClick={() => window.location = '/dermatologist'}>Dermatologist</Button>
+                <Button onClick={() => window.location='/pharmacist'}>Pharmacist</Button>
             </div>
         );
     }
