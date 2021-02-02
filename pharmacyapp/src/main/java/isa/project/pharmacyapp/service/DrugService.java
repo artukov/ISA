@@ -28,7 +28,7 @@ public interface DrugService {
     List<Long> findSubstituteDrug(Long drugId);
     List<Long> getDrugsFromEReceipt(Long receiptId);
     void addToPharmacyDrug(DrugDTO drugDTO, Long pharmacyID) throws Exception;
-
+    List<Long> getPharmaciesWithDrugs(Long eReceiptId);
     boolean drugExistsInPharmacy(Long drugID, Long pharmacyID);
 
     void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception;

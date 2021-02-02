@@ -368,4 +368,18 @@ public class DrugServiceImpl implements DrugService {
         return drugIds;
     }
 
+    @Override
+    public List<Long> getPharmaciesWithDrugs(Long eReceiptId){
+        List<Long> pharmacies = new ArrayList<>();
+        List<Long> drugsId = drugRepository.getDrugsFromEReceipt(eReceiptId);
+
+        for(Pharmacy pharmacy: pharmacyRepository.findAll()){
+            //List<PharmacyDrug> allDrugsInPharmacy = pharmacy.getDrugs();
+            List<Long> allDrugsInPharmacy = drugRepository.getDrugsIdByPharmacy(pharmacy.getId());
+           if(allDrugsInPharmacy.containsAll(drugsId)){
+               pharmacies.add(pharmacy.getId());
+           }
+        }
+        return pharmacies;
+    }
 }

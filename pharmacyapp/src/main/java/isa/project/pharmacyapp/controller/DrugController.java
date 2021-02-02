@@ -163,8 +163,8 @@ public class DrugController {
     @GetMapping(value = "/ereceipt/{ereceiptId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDrugsFromEReceipt(@PathVariable("ereceiptId") Long ereceiptId){
-        List<Long> drugs = drugService.getDrugsFromEReceipt(ereceiptId);
-
-        return new ResponseEntity<>(drugs,HttpStatus.OK);
+        //List<Long> drugs = drugService.getDrugsFromEReceipt(ereceiptId);
+        List<Long> pharmacies = drugService.getPharmaciesWithDrugs(ereceiptId);
+        return new ResponseEntity<>(pharmacies,HttpStatus.OK);
     }
 }
