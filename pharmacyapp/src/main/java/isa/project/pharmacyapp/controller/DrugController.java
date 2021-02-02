@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -173,10 +175,12 @@ public class DrugController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDrugsFromEReceipt(@RequestBody String ereceiptId) throws WriterException, IOException,
             NotFoundException {
-        //List<Long> drugs = drugService.getDrugsFromEReceipt(ereceiptId);
-        // Path where the QR code is saved
-        System.out.println(ereceiptId);
-        String filePath = "C:/Users/Artur/Desktop/ISA/ISA/frame.png";
+        //skalnjam /r/n sa kraja 
+
+       Integer len = ereceiptId.length();
+       String str = ereceiptId.substring(0,len-2);
+       Path pathTest = Paths.get(str);
+        String filePath = pathTest.toString();
 
         // Encoding charset
         String charset = "UTF-8";
