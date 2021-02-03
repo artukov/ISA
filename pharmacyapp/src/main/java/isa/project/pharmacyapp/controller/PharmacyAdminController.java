@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.DrugRequestDTO;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.model.PharmacyAdmin;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -207,6 +209,18 @@ public class PharmacyAdminController {
         ArrayList<Double> stats = (ArrayList<Double>) adminService.getExaminationStatistics(id, timeSpam);
 //        System.out.println(stats.size());
         return new ResponseEntity<>(stats,HttpStatus.OK);
+    }
+
+    @GetMapping(value="/drugNotInStashRequest/{pharmacyID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getRequestsForDrugsNotInPharmacyStash(@PathVariable("pharmacyID")Long pharmacyID){
+        PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);
+
+        List<DrugRequestDTO> drugRequestDTOList = adminService.getDrugRequestsNotInPharmacyStash(pharmacyID);
+
+        return new ResponseEntity<>(drugRequestDTOList,HttpStatus.OK);
+
+
     }
 
 

@@ -20,6 +20,7 @@ import ReportsDetails from '../reports/ReportDetails';
 import DermatologistContextProvider from '../dermatologist/DermatologistContext';
 import AbsenceRequestContextProvider from '../absence-request/AbsenceRequestContext';
 import AbsenceRequestsList from '../absence-request/AbsenceRequestList';
+import DrugRequestList from './DrugRequestList';
 
 
 const PharmacyAdminPage = () => {
@@ -54,7 +55,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="absence_requests"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="supply"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>

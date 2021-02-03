@@ -1,9 +1,11 @@
 package isa.project.pharmacyapp.service.implementation;
 
+import isa.project.pharmacyapp.dto.DrugRequestDTO;
 import isa.project.pharmacyapp.dto.PharmacyAdminDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.AddressRepository;
+import isa.project.pharmacyapp.repository.DrugNotInPharmacyStashRequestRepository;
 import isa.project.pharmacyapp.repository.PharmacyAdminRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.service.AuthorityService;
@@ -39,6 +41,8 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     @Autowired
     private BeanFactoryDynamicService beanFactoryDynamicService;
 
+    @Autowired
+    private DrugNotInPharmacyStashRequestRepository drugNotInPharmacyStashRequestRepository;
 
     @Override
     public PharmacyAdminDTO findById(Long id) throws NoSuchElementException  {
@@ -184,6 +188,17 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
         return stats;
 
+    }
+
+    @Override
+    public List<DrugRequestDTO> getDrugRequestsNotInPharmacyStash(Long pharmacyID) {
+        List<DrugNotInPharmacyStashRequest> drugRequests = drugNotInPharmacyStashRequestRepository.findByPharmacy_id(pharmacyID);
+        ArrayList<DrugRequestDTO> drugRequestDTOS = new ArrayList<>();
+        for(DrugNotInPharmacyStashRequest drugRequest : drugRequests){
+            drugRequestDTOS.add(DrugRequestDTO.request2dto(drugRequest));
+        }
+
+        return drugRequestDTOS;
     }
 
     @Override
