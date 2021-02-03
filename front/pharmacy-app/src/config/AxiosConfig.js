@@ -4,7 +4,7 @@ import {urlStart, urlAuthLogin} from '../services/UrlService';
 
 
 const instance = axios.create({
-    baseURL: urlStart
+    baseURL: urlStart,
 });
 
 if(localStorage.getItem('token') === null){
@@ -19,6 +19,7 @@ instance.defaults.headers.get['Accept'] = 'application/json';
 
 instance.defaults.headers.put['Content-Type'] = 'application/json; charset=UTF-8';
 instance.defaults.headers.put['Accept'] = 'application/json';
+
 
 instance.interceptors.request.use(
     config => {
@@ -51,6 +52,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use( 
     response  => {
+        if(response.headers.location){
+            const [,location] = response.headers.location.split("http://localhost:3000");
+            // console.log("location", location);
+            window.location = location;
+        }
+        
 
         return response
     },
