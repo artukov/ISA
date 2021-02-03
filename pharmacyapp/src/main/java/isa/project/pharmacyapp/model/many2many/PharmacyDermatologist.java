@@ -21,6 +21,7 @@ public class PharmacyDermatologist {
     public PharmacyDermatologist() {
     }
 
+
     public DermaPharmacyId getId() {
         return id;
     }

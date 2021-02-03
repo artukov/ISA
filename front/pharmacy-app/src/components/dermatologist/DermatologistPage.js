@@ -1,6 +1,8 @@
 import { Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
+import DermatologistInfo from './DermatologistInfo';
+import DermatologistDetails from './DermatologistDetails';
 
 const DermatologistPage = () => {
 
@@ -10,7 +12,7 @@ const DermatologistPage = () => {
         <div>
             <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Dermatologist info">
-                        
+                        <DermatologistInfo></DermatologistInfo>
                 </Tab>
                 <Tab eventKey = "allClients" title="All clients">
                       
