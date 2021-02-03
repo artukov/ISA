@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -39,6 +40,9 @@ public class DermatologistController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -255,4 +259,14 @@ public class DermatologistController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping(value = "/pharmacies/{dermaId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermaPharmacies(@PathVariable("dermaId") Long dermaId){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        List<PharmaDermaDTO> dto = dermatologistService.getDermaPharmacies(dermaId);
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
 }

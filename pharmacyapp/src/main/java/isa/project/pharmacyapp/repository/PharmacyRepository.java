@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.repository;
 
 import isa.project.pharmacyapp.model.Address;
 import isa.project.pharmacyapp.model.Pharmacy;
+import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
@@ -33,4 +35,9 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
             "AND pd.derma_id = :dermaID AND pd.pharmacy_id != :pharmacyID \n",nativeQuery = true)
     Double overlappingWorkingHours(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID,
                                    @Param("startHour") Date startHour,@Param("endHours") Date endHours);
+
+    @Query(value = "select *\n" +
+            "from pharmacy_derma\n" +
+            "where derma_id = :dermaId", nativeQuery = true)
+    List<Object[]> getDermaPharmacy(@Param("dermaId") Long dermaId);
 }

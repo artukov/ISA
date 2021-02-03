@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.exception.DeletingDermatologistException;
 import isa.project.pharmacyapp.model.*;
+import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.DermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -257,6 +258,33 @@ public class DermatologistServiceImpl implements DermatologistService {
     public User saveNewUser(UserDTO userDTO) throws Exception {
         return this.saveDermatologist(new Dermatologist(), (DermatologistDTO) userDTO);
     }
+
+    @Override
+    public List<PharmaDermaDTO> getDermaPharmacies(Long dermaId){
+//        List<Object[]> pharmaDerma = pharmacyRepository.getDermaPharmacy(dermaId);
+//        PharmaDermaDTO dto = new PharmaDermaDTO();
+//        Object[] obj = pharmaDerma.get(0);
+//        dto.setHours((Integer) obj[0]);
+//        dto.setStart_hour((Date) obj[1]);
+//        Pharmacy pharmacy = pharmacyRepository.findById((Long) obj[2]).orElse(null);
+//        dto.setPharmacy_id((BigInteger) pharmacy.getId());
+//        Dermatologist dermatologist = dermatologistRepository.findById((Long) obj[3]).orElse(null);
+//        dto.setDerma_id(dermatologist.getId());
+        Dermatologist derma = dermatologistRepository.findById(dermaId).orElse(null);
+    List<PharmaDermaDTO> dtos = new ArrayList<>();
+
+     for(PharmacyDermatologist pd: derma.getPharmacies()){
+         PharmaDermaDTO dto = new PharmaDermaDTO();
+         dto.setStart_hour(pd.getStartHour());
+         dto.setHours(pd.getHours());
+         dto.setDerma_id(dermaId);
+         dto.setPharmacy_id(pd.getId().getPharmacy().getId());
+         dtos.add(dto);
+     }
+
+        return dtos;
+    }
+
 
 
 }

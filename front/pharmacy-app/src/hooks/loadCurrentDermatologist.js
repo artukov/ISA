@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 
 function useCurrentDermatologist(){
 
-    const [dermatologist, setDermatologsit] = useState({})
+    const [dermatologist, setDermatologist] = useState({})
 
     useEffect(() => {
         axiosConfig.post('/dermatologist/current')
         .then(res => {
-            setDermatologsit(res.data);
+            setDermatologist(res.data);
         })
     }, []);
 
