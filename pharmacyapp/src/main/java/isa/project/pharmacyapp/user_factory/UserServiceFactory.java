@@ -24,6 +24,9 @@ public class UserServiceFactory {
     @Autowired
     private SupplierService supplierService;
 
+    @Autowired
+    private PatientService patientService;
+
 
     public UserService getUserService(UserRoles role){
         if(role == null){
@@ -42,10 +45,7 @@ public class UserServiceFactory {
         }
 
         if(role.equals(UserRoles.PATIENT)){
-            /**
-             * TODO
-             * PatientService
-             * */
+            return patientService;
         }
 
         if(role.equals(UserRoles.SUPPLIER)){
