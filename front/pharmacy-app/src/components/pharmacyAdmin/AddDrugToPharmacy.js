@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import { urlGetDrugsNotInPharmacy } from '../../services/UrlService';
 
-const AddDrugToPharmacy = ({pharmacyID,addDrugToList}) => {
+const AddDrugToPharmacy = ({pharmacyID,addDrugToList,closeComponent}) => {
 
     const [drugs, setDrugs] = useState([]);
     const [drugID, setDrugID] = useState();
@@ -55,6 +55,7 @@ const AddDrugToPharmacy = ({pharmacyID,addDrugToList}) => {
             </Form.Group>
         </Form>    
         <Button onClick={() => addNewDrug(drugID)}>Add new drug</Button>
+        <Button variant="secondary" onClick={()=> closeComponent()}>Cancel</Button>
     </div> );
 }
  

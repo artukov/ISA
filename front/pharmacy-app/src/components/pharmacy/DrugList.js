@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Button, CardDeck } from 'react-bootstrap';
+import { Button, CardDeck, Row,Col } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 // import { usePharmacyDrugs } from '../../hooks/loadPharmacyDrugs';
 import { urlAddNewDrugToPharmacy, urlDeleteDrugFromPharmacy, urlGetPharmacyDrugs, urlModfiyDrug } from '../../services/UrlService';
 import DrugDetails from '../drug/DrugDetails';
 import AddDrugToPharmacy from '../pharmacyAdmin/AddDrugToPharmacy';
+import DrugRequestList from '../pharmacyAdmin/DrugRequestList';
 
 const DrugList = ({pharmacyID}) => {
 
     const [drugs, setDrugs] = useState([]);
 
     const [showAddForm, setShowAddForm] = useState(false);
+    const [showDrugRequests, setShowDrugRequests] = useState(false);
 
     const openAddForm = () => setShowAddForm(true);
     const closeAddForm = () => setShowAddForm(false);
+
+    const openDrugRequests = () => setShowDrugRequests(true);
+    const closeDrugReqests = () => setShowDrugRequests(false);
 
     // const fetchDrugs = usePharmacyDrugs(pharmacyID);
 
@@ -93,8 +98,20 @@ const DrugList = ({pharmacyID}) => {
 
     return ( 
     <div>
-        <Button variant = "dark" onClick = {() => openAddForm()}>Add new drug to the pharmacy</Button>
-        { showAddForm ? ( <AddDrugToPharmacy addDrugToList = {addDrug} pharmacyID = {pharmacyID} ></AddDrugToPharmacy>) : null}
+        <Row>
+            <Col>
+                <Button variant = "dark" onClick = {() => openAddForm()}>Add new drug to the pharmacy</Button>
+                { showAddForm ? ( <AddDrugToPharmacy addDrugToList = {addDrug} pharmacyID = {pharmacyID} 
+                closeComponent={closeAddForm} ></AddDrugToPharmacy>) : null}
+            </Col>
+            <Col>
+                <Button variant="warning" onClick = {() => openDrugRequests()}>Requests made for drug not in stash</Button>
+                { showDrugRequests ? (<DrugRequestList pharmacyID={pharmacyID}
+                 closeComponent={closeDrugReqests}></DrugRequestList>) : null}
+            </Col>
+        </Row>
+        
+       
         <CardDeck>
         { 
             drugs.length ? drugs.map(drug => <DrugDetails drug = {drug} key={drug.id} 
