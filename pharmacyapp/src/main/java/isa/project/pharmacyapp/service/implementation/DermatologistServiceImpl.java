@@ -92,6 +92,20 @@ public class DermatologistServiceImpl implements DermatologistService {
     }
 
     @Override
+    public List<PatientDTO> getDermaPatients(Long dermaId){
+        List<Patient> patientList = this.patientRepository.getDermaPatients(dermaId);
+
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
+
+    }
+
+    @Override
     public List<PatientDTO> getAllPatients(){
         List<Patient> patientList = this.patientRepository.findAll();
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
