@@ -28,8 +28,8 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private AuthorityServiceImpl authorityService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<PatientDTO> getAllPatients(){
@@ -54,9 +54,14 @@ public class PatientServiceImpl implements PatientService {
             throw new Exception("PatientSerivceImpl::savePatient(Patient patient, PatientDTO patientDTO)" +
                     " address does not exists");
         }
-        List<Authority> authorities = this.authorityService.findByName("USER");
-        patient.setAuthorities(authorities);
-        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+
+        if(patient.getAuthorities() == null){
+            List<Authority> authorities = this.authorityService.findByName("USER");
+            patient.setAuthorities(authorities);
+            patient.setLastPasswordResetDate(null);
+        }
+
+//        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         try {
             patientRepository.save(patient);
         }
@@ -84,7 +89,8 @@ public class PatientServiceImpl implements PatientService {
                 userDTO.getLastname(),
                 userDTO.getAddress_id(),
                 userDTO.getPhoneNumber(),
-                userDTO.getRole()
+                userDTO.getRole(),
+                null
         );
 
         return this.savePatient(new Patient(), patientDTO);

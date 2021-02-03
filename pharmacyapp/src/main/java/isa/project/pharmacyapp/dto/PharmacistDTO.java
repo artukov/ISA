@@ -5,6 +5,7 @@ import isa.project.pharmacyapp.model.Appointment;
 import isa.project.pharmacyapp.model.Pharmacist;
 import isa.project.pharmacyapp.model.UserRoles;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,15 +31,31 @@ public class PharmacistDTO extends UserDTO{
         this.consultationId = consultationId;
     }
 
-    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname, Long address_id,
-                         String phoneNumber, UserRoles role, List<Double> ratings, List<Long> consultationId,
-                         Date start_hour, Integer hours) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname,
+                         Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
+    }
+
+    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname,
+                         Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate,
+                         List<Double> ratings, List<Long> consultationId, Date start_hour, Integer hours, Long pharmacyID) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
         this.ratings = ratings;
         this.consultationId = consultationId;
         this.start_hour = start_hour;
         this.hours = hours;
+        this.pharmacyID = pharmacyID;
     }
+
+//    public PharmacistDTO(Long id, String email, String password, String firstname, String lastname, Long address_id,
+//                         String phoneNumber, UserRoles role, List<Double> ratings, List<Long> consultationId,
+//                         Date start_hour, Integer hours) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+//        this.ratings = ratings;
+//        this.consultationId = consultationId;
+//        this.start_hour = start_hour;
+//        this.hours = hours;
+//    }
 
     public static PharmacistDTO pharmacist2Dto(Pharmacist pharmacist) {
         PharmacistDTO retDto = new PharmacistDTO(
@@ -50,10 +67,12 @@ public class PharmacistDTO extends UserDTO{
                 pharmacist.getAddress().getId(),
                 pharmacist.getPhoneNumber(),
                 UserRoles.PHARMACIST,
+                pharmacist.getLastPasswordResetDate(),
                 pharmacist.getRatings(),
                 new ArrayList<>(),
                 pharmacist.getStart_hour(),
-                pharmacist.getHours()
+                pharmacist.getHours(),
+                pharmacist.getPharmacy().getId()
         );
         for(Appointment appointment : pharmacist.getAppointment()){
             retDto.consultationId.add(appointment.getId());

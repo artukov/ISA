@@ -6,6 +6,7 @@ import isa.project.pharmacyapp.model.Dermatologist;
 import isa.project.pharmacyapp.model.Examination;
 import isa.project.pharmacyapp.model.UserRoles;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,14 +26,30 @@ public class DermatologistDTO extends UserDTO {
     public DermatologistDTO() {
     }
 
-    public DermatologistDTO(Long id, String email, String password, String firstname, String lastname,
-                            Long address_id, String phoneNumber, UserRoles role,
-                            List<Long> examinationsId, Date start_hour, Integer hours) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+    public DermatologistDTO(Long id, String email, String password, String firstname,
+                            String lastname, Long address_id, String phoneNumber, UserRoles role,
+                            Timestamp lastPasswordResetDate) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
+    }
+
+    public DermatologistDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role,
+                            Timestamp lastPasswordResetDate, List<Long> examinationsId,
+                            Date start_hour, Integer hours, Double ratings) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
         this.examinationsId = examinationsId;
         this.start_hour = start_hour;
         this.hours = hours;
+        this.ratings = ratings;
     }
+
+//    public DermatologistDTO(Long id, String email, String password, String firstname, String lastname,
+//                            Long address_id, String phoneNumber, UserRoles role,
+//                            List<Long> examinationsId, Date start_hour, Integer hours) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+//        this.examinationsId = examinationsId;
+//        this.start_hour = start_hour;
+//        this.hours = hours;
+//    }
 
 
     public static DermatologistDTO dermatologist2Dto(Dermatologist dermatologist){
@@ -45,7 +62,9 @@ public class DermatologistDTO extends UserDTO {
                 dermatologist.getAddress().getId(),
                 dermatologist.getPhoneNumber(),
                 UserRoles.DERMATOLOGIST,
+                dermatologist.getLastPasswordResetDate(),
                 new ArrayList<>(),
+                null,
                 null,
                 null
         );

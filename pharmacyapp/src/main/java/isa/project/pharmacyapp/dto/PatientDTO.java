@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.dto;
 
 import isa.project.pharmacyapp.model.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,17 +37,22 @@ public class PatientDTO extends UserDTO {
 //    }
 
 
-    public PatientDTO(Long id, String email, String password, String firstname, String lastname,
-                      Long address_id, String phoneNumber, UserRoles role) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
-    }
+//    public PatientDTO(Long id, String email, String password, String firstname, String lastname,
+//                      Long address_id, String phoneNumber, UserRoles role) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+//    }
+
 
     public PatientDTO(Long id, String email, String password, String firstname,
-                      String lastname, Long address_id, String phoneNumber, UserRoles role, Integer points, String category,
-                      Integer penalties, Address address,
-                      List<Long> reservation, List<Long> appointment, List<Long> allergy, List<Long> promotions,
+                      String lastname, Long address_id, String phoneNumber, UserRoles role,
+                      Timestamp lastPasswordResetDate) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
+    }
+
+    public PatientDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate, Integer points, String category, Integer penalties, Address address, List<Long> reservation,
+                      List<Long> appointment, List<Long> allergy, List<Long> promotions,
                       List<Long> complaints, List<Long> eReceipt) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
         this.points = points;
         this.category = category;
         this.penalties = penalties;
@@ -58,6 +64,24 @@ public class PatientDTO extends UserDTO {
         this.complaints = complaints;
         this.eReceipt = eReceipt;
     }
+//
+//    public PatientDTO(Long id, String email, String password, String firstname,
+//                      String lastname, Long address_id, String phoneNumber, UserRoles role, Integer points, String category,
+//                      Integer penalties, Address address,
+//                      List<Long> reservation, List<Long> appointment, List<Long> allergy, List<Long> promotions,
+//                      List<Long> complaints, List<Long> eReceipt) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+//        this.points = points;
+//        this.category = category;
+//        this.penalties = penalties;
+//        this.address = address;
+//        this.reservation = reservation;
+//        this.appointment = appointment;
+//        this.allergy = allergy;
+//        this.promotions = promotions;
+//        this.complaints = complaints;
+//        this.eReceipt = eReceipt;
+//    }
 
     public static PatientDTO patient2Dto(Patient patient){
         PatientDTO retDto = new PatientDTO(
@@ -69,6 +93,7 @@ public class PatientDTO extends UserDTO {
                 patient.getAddress().getId(),
                 patient.getPhoneNumber(),
                 patient.getRole(),
+                patient.getLastPasswordResetDate(),
                 patient.getPoints(),
                 patient.getCategory(),
                 patient.getPenalties(),

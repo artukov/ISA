@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 
+import java.sql.Timestamp;
+
 public class UserDTO {
 
     protected Long id;
@@ -16,6 +18,8 @@ public class UserDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     protected UserRoles role;
+
+    protected Timestamp  lastPasswordResetDate;
 
     public UserDTO() {
     }
@@ -31,8 +35,21 @@ public class UserDTO {
 //        this.phoneNumber = phoneNumber;
 //    }
 
-    public UserDTO(Long id, String email, String password, String firstname,
-                   String lastname, Long address_id, String phoneNumber, UserRoles role) {
+//    public UserDTO(Long id, String email, String password, String firstname,
+//                   String lastname, Long address_id, String phoneNumber, UserRoles role) {
+//        this.id = id;
+//        this.email = email;
+//        this.password = password;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.address_id = address_id;
+//        this.phoneNumber = phoneNumber;
+//        this.role = role;
+//    }
+
+    public UserDTO(Long id, String email, String password,
+                   String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role,
+                   Timestamp lastPasswordResetDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -41,6 +58,7 @@ public class UserDTO {
         this.address_id = address_id;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     public static UserDTO user2DTO(User user){
@@ -52,7 +70,8 @@ public class UserDTO {
                 user.getLastname(),
                 user.getAddress().getId(),
                 user.getPhoneNumber(),
-                user.getRole()
+                user.getRole(),
+                user.getLastPasswordResetDate()
         );
 
         return userDTO;
@@ -133,5 +152,13 @@ public class UserDTO {
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 }

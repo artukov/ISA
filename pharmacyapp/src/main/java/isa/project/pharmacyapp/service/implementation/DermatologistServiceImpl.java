@@ -34,6 +34,9 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private AuthenticationRepository authenticationRepository;
+
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " dermatologist with given id does not exists";
@@ -129,6 +132,17 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Override
     public void createNewDermatologist(DermatologistDTO dermatologistDTO) throws Exception {
+//        if(!dermatologistRepository.existsById(dermatologistDTO.getId())){
+//
+//        }
+        Dermatologist dermatologist = new Dermatologist();
+        List<Authority> authorities = new ArrayList<>();
+//        Authority authority = ;
+        authorities.add(authenticationRepository.findByName("USER"));
+        dermatologist.setAuthorities(authorities);
+        dermatologist.setLastPasswordResetDate(null);
+
+        this.saveDermatologist(dermatologist,dermatologistDTO);
 
     }
 
@@ -166,6 +180,8 @@ public class DermatologistServiceImpl implements DermatologistService {
             throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
                     " address does not exists");
         }
+
+
 
         try {
             dermatologistRepository.save(dermatologist);

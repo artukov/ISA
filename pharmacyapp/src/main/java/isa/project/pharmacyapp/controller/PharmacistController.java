@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -40,6 +41,9 @@ public class PharmacistController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping(value = "/findAllByPharmacy/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -98,6 +102,7 @@ public class PharmacistController {
     public ResponseEntity<?> createNewPharmacist(@RequestBody PharmacistDTO pharmacistDTO){
 
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+        pharmacistDTO.setPassword(passwordEncoder.encode(pharmacistDTO.getPassword()));
 
         try {
             pharmacistService.createNewPharmacist(pharmacistDTO);
