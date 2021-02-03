@@ -20,8 +20,6 @@ const DermatologistInfo = () => {
             catch (err) {
                 console.log(err);
             }
-
-            
         }
 
         loadDermatologist();

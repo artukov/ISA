@@ -271,7 +271,7 @@ public class PharmacistController {
 
     }
 
-    @GetMapping(value = "/current", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getCurrentPharmacist(Principal user){
         User current = userService.findByEmail(user.getName());
