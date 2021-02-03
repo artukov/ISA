@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 
 const Pharmacistpage = () => {
-    return ( 
+    return (  
         
         <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacist info">

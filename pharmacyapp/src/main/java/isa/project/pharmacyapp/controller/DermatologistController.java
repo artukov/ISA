@@ -73,6 +73,16 @@ public class DermatologistController {
     }
 
 
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getCurrentDermatologist(Principal user){
+        User current = userService.findByEmail(user.getName());
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        DermatologistDTO dto = dermatologistService.findById(current.getId());
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
     @GetMapping(value = "/findByID/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDermatologist(@PathVariable("id") Long id){
