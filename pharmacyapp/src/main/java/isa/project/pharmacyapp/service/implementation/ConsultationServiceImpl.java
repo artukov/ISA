@@ -39,6 +39,12 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Autowired
     private CalendarService calendarService;
 
+    @Autowired
+    private PharmacyRepository pharmacyRepository;
+
+    @Autowired
+    private DrugNotInPharmacyStashRequestRepository drugNotInPharmacyStashRequestRepository;
+
     @Override
     public void createNewConsultation(ConsultationDTO dto) throws Exception {
         Consultation consultation = new Consultation();
@@ -68,7 +74,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
         consultation.setPharmacist(pharmacist);
         consultation.setPatient(patient);
-        //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem
+        //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem created by Artukov
         Double allergiesNum = 0.0;
             List<Drug> drugs = new ArrayList<>();
             for(Long drugID: consultationDTO.getDrugs()){
@@ -123,6 +129,20 @@ public class ConsultationServiceImpl implements ConsultationService {
             throw new NoSuchElementException("ConsultationSerivceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
                     "consultation could not be find by the given id");
         }
+        for(Long drugID : consultationDTO.getDrugs()){
+            Integer drugAmount = drugRepository.getAmount(drugID,consultationDTO.getPharmacyID());
+            if(drugAmount == 0 || drugAmount == null ){
+                DrugNotInPharmacyStashRequest request = new DrugNotInPharmacyStashRequest();
+                request.setAppointment(consultation);
+                request.setUser(consultation.getPharmacist());
+                request.setPharmacy(pharmacyRepository.getOne(consultationDTO.getPharmacyID()));
+                request.setDrug(drugRepository.getOne(drugID));
+                drugNotInPharmacyStashRequestRepository.save(request);
+                throw new Exception("Pharmacy has not enough drug in stash : "+ drugID);
+
+            }
+        }
+
 
         try {
             this.saveConsultation(consultation, consultationDTO);

@@ -35,6 +35,12 @@ public class PatientDTO extends UserDTO {
 //        this.eReceipt = eReceipt;
 //    }
 
+
+    public PatientDTO(Long id, String email, String password, String firstname, String lastname,
+                      Long address_id, String phoneNumber, UserRoles role) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+    }
+
     public PatientDTO(Long id, String email, String password, String firstname,
                       String lastname, Long address_id, String phoneNumber, UserRoles role, Integer points, String category,
                       Integer penalties, Address address,

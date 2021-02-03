@@ -44,6 +44,9 @@ INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,400,2
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (200,500,45,40);
 INSERT INTO pharmacy_drug(pharmacy_id, drug_id, amount, price) VALUES (300,300,13,50);
 
+INSERT INTO pharmacy_drug(amount, price, drug_id, pharmacy_id) VALUES (0,0.0,601,200);
+-- INSERT INTO pharmacy_drug(amount, price, drug_id, pharmacy_id) VALUES (0,0.0,602,200);
+
 
 --inserting users
 

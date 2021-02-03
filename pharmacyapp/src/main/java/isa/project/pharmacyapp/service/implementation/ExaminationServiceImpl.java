@@ -43,6 +43,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     private CalendarService calendarService;
 
+    @Autowired
+    private DrugNotInPharmacyStashRequestRepository drugNotInPharmacyStashRequestRepository;
+
 
     private String CLASS_NAME = this.getClass().getName();
 
@@ -216,6 +219,20 @@ public class ExaminationServiceImpl implements ExaminationService {
             throw new NoSuchElementException("ExaminationSerivceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
                     "examiantion could not be find by the given id");
         }
+
+        for(Long drugID : examinationDTO.getDrugs()){
+            Integer amount = drugRepository.getAmount(drugID,examinationDTO.getPharmacyID());
+            if(amount == 0 || amount == null){
+                DrugNotInPharmacyStashRequest request = new DrugNotInPharmacyStashRequest();
+                request.setDrug(drugRepository.getOne(drugID));
+                request.setPharmacy(pharmacyRepository.getOne(examinationDTO.getPharmacyID()));
+                request.setUser(examination.getDermatologist());
+                request.setAppointment(examination);
+                drugNotInPharmacyStashRequestRepository.save(request);
+                throw new Exception("Pharmacy has not enough drug in stash : "+ drugID);
+            }
+        }
+
 
         try {
             this.saveExamination(examination, examinationDTO);
