@@ -20,14 +20,14 @@ function App() {
         <Route path='/login' exact component={LoginPage} />
         <Route path='/registration' exact component={RegistrationPage} />
 
-        <Route path='/home' exact component={HomePage} />
+        <Route path={['/','/home']} exact component={HomePage} />
 
         <Route path='/pharmacy' exact component={PharmacyComponent}></Route>
         <Route path='/pharmacyAdmin' exact component={PharmacyAdminPage}></Route>
         <Route path="/supplier" exact component={SupplierPage}></Route>
         <Route path="/dermatologist" exact component={DermatologistPage}></Route>
         <Route path="/pharmacist" exact component={Pharmacistpage}></Route>
-        <Route path='/'>404 not here sry</Route>
+        {/* <Route path='/'>404 not here sry</Route> */}
 
       </Switch>
     </Router>
