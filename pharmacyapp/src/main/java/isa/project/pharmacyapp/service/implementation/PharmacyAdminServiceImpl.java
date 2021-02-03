@@ -71,6 +71,11 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     public void createNewPharmacyAdmin(PharmacyAdminDTO adminDTO) throws Exception {
 
         PharmacyAdmin admin = new PharmacyAdmin();
+
+        List<Authority> authorities = authorityService.findByName("USER");
+        admin.setAuthorities(authorities);
+        admin.setLastPasswordResetDate(null);
+
         try {
             this.savePharmacyAdmin(admin,adminDTO);
         } catch (Exception e) {
@@ -138,6 +143,8 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
                     "pharamcy or address does not exists");
         }
 
+
+
         List<Authority> authorities = authorityService.findByName("USER");
         admin.setAuthorities(authorities);
 
@@ -187,6 +194,7 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     @Override
     public User saveNewUser(UserDTO userDTO) throws Exception {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
         return this.savePharmacyAdmin(new PharmacyAdmin(),  PharmacyAdminDTO.createPharmacyDTO(userDTO));
     }
 

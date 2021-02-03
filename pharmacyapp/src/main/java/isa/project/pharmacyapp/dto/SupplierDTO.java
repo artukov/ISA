@@ -5,6 +5,7 @@ import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,27 @@ public class SupplierDTO extends UserDTO{
     public SupplierDTO() {
     }
 
-    public SupplierDTO(Long id, String email, String password, String firstname,
-                       String lastname, Long address_id, String phoneNumber, UserRoles role,
+    public SupplierDTO(Long id, String email, String password, String firstname, String lastname,
+                       Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate, Address address) {
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
+        this.address = address;
+    }
+
+    public SupplierDTO(Long id, String email, String password, String firstname, String lastname, Long address_id,
+                       String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate,
                        Address address, List<OrderSupplierDTO> orders) {
-        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+        super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
         this.address = address;
         this.orders = orders;
     }
+
+//    public SupplierDTO(Long id, String email, String password, String firstname,
+//                       String lastname, Long address_id, String phoneNumber, UserRoles role,
+//                       Address address, List<OrderSupplierDTO> orders) {
+//        super(id, email, password, firstname, lastname, address_id, phoneNumber, role);
+//        this.address = address;
+//        this.orders = orders;
+//    }
 
     public static SupplierDTO supplier2DTO(Supplier supplier) {
         SupplierDTO dto = new SupplierDTO(
@@ -35,6 +50,7 @@ public class SupplierDTO extends UserDTO{
                 supplier.getAddress().getId(),
                 supplier.getPhoneNumber(),
                 supplier.getRole(),
+                supplier.getLastPasswordResetDate(),
                 supplier.getAddress(),
                 new ArrayList<>()
         );

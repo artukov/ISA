@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -98,6 +102,7 @@ public class AuthenticationController {
             throw new ResourceConflictException("User with given email already exists", user.getId());
         }
 
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         try {
             user  = service.saveNewUser(userDTO);

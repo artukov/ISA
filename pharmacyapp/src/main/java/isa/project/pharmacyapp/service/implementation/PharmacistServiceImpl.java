@@ -37,8 +37,8 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
-    @Autowired
-    private PasswordEncoder encoder;
+//    @Autowired
+//    private PasswordEncoder encoder;
 
     @Autowired
     private AuthenticationRepository authenticationRepository;
@@ -132,6 +132,8 @@ public class PharmacistServiceImpl implements PharmacistService {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authenticationRepository.findByName("USER"));
         pharmacist.setAuthorities(authorities);
+        pharmacist.setLastPasswordResetDate(null);
+
         this.savePharmacist(pharmacist, dto);
     }
 
@@ -178,7 +180,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception{
 
-        pharmacistDTO.setPassword(encoder.encode(pharmacistDTO.getPassword()));
+//        pharmacistDTO.setPassword(encoder.encode(pharmacistDTO.getPassword()));
         UserDTO.dto2User(pharmacist, pharmacistDTO);
         pharmacist.setRole(UserRoles.PHARMACIST);
         pharmacist.setHours(pharmacistDTO.getHours());
