@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
+import PharmacistInfo from '../pharmacist/PharmacistInfo';
 
 const Pharmacistpage = () => {
     return (  
         
         <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacist info">
-                        
+                        <PharmacistInfo></PharmacistInfo>
                 </Tab>
                 <Tab eventKey = "allClients" title="All clients">
                       
