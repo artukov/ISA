@@ -44,4 +44,13 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "(e.beg_date , e.beg_date + make_interval(hours => e.duration)) and p.id = :patientId", nativeQuery = true)
     Double overlappingExaminationHours(@Param("startHour") Date startHour, @Param("endHours") Date endHours,@Param("patientId") Long patientId);
 
+    @Query(value = "select p.*\n" +
+            "from patient p inner join examination e on e.patient_id = p.id\n" +
+            "where e.derma_id = :dermaId", nativeQuery = true)
+    List<Patient> getDermaPatients(@Param("dermaId") Long dermaId);
+
+    @Query(value = "select p.*\n" +
+            "from patient p inner join consultation c on c.patient_id = p.id\n" +
+            "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
+    List<Patient> getPharmacistPatients(@Param("pharmacistId") Long pharmacistId);
 }

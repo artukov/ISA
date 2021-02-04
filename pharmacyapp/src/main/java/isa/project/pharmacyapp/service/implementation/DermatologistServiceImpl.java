@@ -38,6 +38,9 @@ public class DermatologistServiceImpl implements DermatologistService {
     @Autowired
     private AuthenticationRepository authenticationRepository;
 
+    @Autowired
+    private ExaminationRepository examinationRepository;
+
 
     final private static String EXCEPTION_TEXT = "DermatologistServiceImpl::";
     final private static String DOES_NOT_EXISTS = " dermatologist with given id does not exists";
@@ -89,6 +92,26 @@ public class DermatologistServiceImpl implements DermatologistService {
             patientDTOs.add(dto);
         }
         return patientDTOs;
+    }
+
+    @Override
+    public List<PatientDTO> getDermaPatients(Long dermaId){
+        List<Patient> patientList = this.patientRepository.getDermaPatients(dermaId);
+
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+
+            List<Examination> exams = examinationRepository.findByDermaIdAndPatientId(dermaId,patient.getId());
+            for(Examination exam : exams){
+                dto.getAppointment().add(exam.getId());
+            }
+
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
+
     }
 
     @Override

@@ -70,11 +70,11 @@ const DermatologistInfo = () => {
             <ListGroup>
                 {
                     pharmacies ? (
-                        pharmacies.map(pharmacy =>
+                        pharmacies.map((pharmacy,index) =>
                             <ListGroup.Item onClick={() => {
                                 setStartHour(pharmacy.start_hour);
                                 setHours(pharmacy.hours);
-                            } } key={pharmacy.pharamcy_id} >{ pharmacy.pharmacy_id}</ListGroup.Item>
+                            } } key={index} >{ pharmacy.pharmacy_id}</ListGroup.Item>
                             )
                     ) : null
                 }

@@ -5,6 +5,7 @@ import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Examination;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ExaminationService {
@@ -22,4 +23,6 @@ public interface ExaminationService {
 
     void modifyExamination(ExaminationDTO examinationDTO) throws Exception;
     void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception;
+
+    Date getExamDate(Long id);
 }

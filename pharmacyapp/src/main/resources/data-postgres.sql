@@ -314,6 +314,9 @@ VALUES (41, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300, false)
 INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
 VALUES (42, date('08-07-2019'),20,'report',null,null,'diagnose',25.5,300, false);
 
+INSERT INTO  examination(id, beg_date, duration, report, patient_id, appointment_id, diagnose, price, derma_id, finished)
+VALUES (43, date('08-07-2019'),20,'report',401,null,'diagnose',25.5,300, false);
+
 -----------------------
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,10,date('05-05-2020'));
@@ -350,6 +353,9 @@ VALUES (201,now(),25,true,'report',400,null,500);
 
 INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
 VALUES (202,now(),25,true,'report',400,null,500);
+
+INSERT INTO consultation(id, beg_date, duration, finished, report, patient_id, appointment_id, pharmacist_id)
+VALUES (203,now(),25,true,'report',401,null,500);
 
 INSERT INTO calendar_appointments(calendar_id, appointment_id, appointment_date)
 VALUES (200,200,now());

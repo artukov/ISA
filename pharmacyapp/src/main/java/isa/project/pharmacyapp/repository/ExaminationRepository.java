@@ -40,4 +40,10 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             " OR e.beg_date BETWEEN :begDateTime AND :endDateTime )\n" +
             "  AND (finished is null or finished = false) AND d.id = :dermaID",nativeQuery = true)
     double overlappingExaminations(@Param("begDateTime")Date begDateTime,@Param("endDateTime") Date endDateTime,@Param("dermaID") Long dermatologist_id);
+
+//    List<Examination> findByDerma_idAndPatient_id(Long dermaId, Long patientId);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM examination e " +
+            " WHERE e.derma_id = :dermaId AND e.patient_id = :patientId AND e.finished = true")
+    List<Examination> findByDermaIdAndPatientId(@Param("dermaId")Long dermaId,@Param("patientId") Long patientId);
 }

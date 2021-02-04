@@ -238,4 +238,24 @@ public class PharmacistServiceImpl implements PharmacistService {
             return null;
         }
     }
+
+    @Override
+    public List<PatientDTO> getPharmacistPatients(Long pharmacistId){
+        List<Patient> patientList = this.patientRepository.getPharmacistPatients(pharmacistId);
+
+        ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
+
+        for(Patient patient : patientList){
+            PatientDTO dto = PatientDTO.patient2Dto(patient);
+
+//            List<Examination> exams = examinationRepository.findByDermaIdAndPatientId(dermaId,patient.getId());
+//            for(Examination exam : exams){
+//                dto.getAppointment().add(exam.getId());
+//            }
+
+            patientDTOs.add(dto);
+        }
+        return patientDTOs;
+
+    }
 }

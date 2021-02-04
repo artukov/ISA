@@ -139,6 +139,16 @@ public class DermatologistController {
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/patients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermaPatients(Principal user){
+        User current = userService.findByEmail(user.getName());
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        List<PatientDTO> patientDTOList = dermatologistService.getDermaPatients(current.getId());
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getAllPatients/{firstName}/{lastName}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getPatientsByNameAndSurname(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName){

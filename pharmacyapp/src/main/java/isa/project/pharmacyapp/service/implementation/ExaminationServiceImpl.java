@@ -190,6 +190,12 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public Date getExamDate(Long id) {
+        Examination examination = repository.getOne(id);
+        return  examination.getBeggingDateTime();
+    }
+
+    @Override
     public void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception,DermatologistNotWorkingException {
         List<Object[]> dermaWorkingHours = this.dermatologistRepository.getWorkingHours(dto.getDermatologist_id(),pharmacyID);
         Object[] arrayO = dermaWorkingHours.get(0);
