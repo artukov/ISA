@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -106,6 +107,15 @@ public class ExaminationController {
         List<ExaminationDTO> examinationDTOList = this.examinationService.findFreeExaminations(pharmacyID);
 
         return new ResponseEntity<>(examinationDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getDate/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getExaminationDate(@PathVariable("id") Long id){
+
+        Date examDate = examinationService.getExamDate(id);
+
+        return new ResponseEntity<>(examDate,HttpStatus.OK);
     }
 
 }

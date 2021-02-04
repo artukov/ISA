@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.model.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PatientDTO extends UserDTO {
@@ -12,6 +13,7 @@ public class PatientDTO extends UserDTO {
     private String category;
     private Integer penalties = 0;
     public Address address;
+    public Date appointmentDate;
     public List<Long> reservation;
     public List<Long> appointment;
     public List<Long> allergy;
@@ -49,14 +51,13 @@ public class PatientDTO extends UserDTO {
         super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
     }
 
-    public PatientDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate, Integer points, String category, Integer penalties, Address address, List<Long> reservation,
-                      List<Long> appointment, List<Long> allergy, List<Long> promotions,
-                      List<Long> complaints, List<Long> eReceipt) {
+    public PatientDTO(Long id, String email, String password, String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role, Timestamp lastPasswordResetDate, Integer points, String category, Integer penalties, Address address, Date appointmentDate, List<Long> reservation, List<Long> appointment, List<Long> allergy, List<Long> promotions, List<Long> complaints, List<Long> eReceipt) {
         super(id, email, password, firstname, lastname, address_id, phoneNumber, role, lastPasswordResetDate);
         this.points = points;
         this.category = category;
         this.penalties = penalties;
         this.address = address;
+        this.appointmentDate = appointmentDate;
         this.reservation = reservation;
         this.appointment = appointment;
         this.allergy = allergy;
@@ -64,7 +65,8 @@ public class PatientDTO extends UserDTO {
         this.complaints = complaints;
         this.eReceipt = eReceipt;
     }
-//
+
+    //
 //    public PatientDTO(Long id, String email, String password, String firstname,
 //                      String lastname, Long address_id, String phoneNumber, UserRoles role, Integer points, String category,
 //                      Integer penalties, Address address,
@@ -98,6 +100,7 @@ public class PatientDTO extends UserDTO {
                 patient.getCategory(),
                 patient.getPenalties(),
                 patient.getAddress(),
+                null,
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
@@ -221,5 +224,13 @@ public class PatientDTO extends UserDTO {
 
     public void seteReceipt(List<Long> eReceipt) {
         this.eReceipt = eReceipt;
+    }
+
+    public Date getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
     }
 }
