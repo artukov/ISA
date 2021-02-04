@@ -88,14 +88,13 @@ public class AuthenticationController {
         /**setting headers of the response*/
         HttpHeaders headers = new HttpHeaders();
 
-        /**Allow access to front environment to acces location header*/
+        /**Allow access to front environment to access location header*/
         headers.add("Access-Control-Expose-Headers","Location");
         /**Finding witch port is the Origin of the request*/
         String[] origin = request.getHeader("Origin").split("http://localhost:");
 
         /** Setting up  port of the new uri */
         builder.port(origin[1]);
-
 
         switch (user.getRole()){
             case PHARMACY_ADMIN : headers.setLocation(builder.path("/pharmacyAdmin").buildAndExpand().toUri()); break;
@@ -161,22 +160,34 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping(value = "/change-password",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/change-password",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer){
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer,
+                                            HttpServletRequest request, UriComponentsBuilder builder){
         userDetailsService.changePassword(changer.oldPassword,changer.newPassword);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers","Location");
+        String[] origin = request.getHeader("Origin").split("http://localhost:");
+        builder.port(origin[1]);
+
+        headers.setLocation(builder.path("/login").buildAndExpand().toUri());
 
         Map<String, String> result = new HashMap<String, String>();
         result.put("result", "success");
 
-        return new ResponseEntity<>(result,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(result,headers,HttpStatus.ACCEPTED);
 
 
     }
 
     static class PasswordChanger{
-        private String oldPassword;
-        private String newPassword;
+        public String oldPassword;
+        public String newPassword;
+
+        public PasswordChanger() {
+        }
     }
 
 

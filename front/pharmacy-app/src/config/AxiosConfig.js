@@ -53,12 +53,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use( 
     response  => {
         if(response.headers.location){
-            const [,location] = response.headers.location.split("http://localhost:3000");
-            // console.log("location", location);
-            window.location = location;
+            window.location = response.headers.location;
         }
-        
-
         return response
     },
     error =>{

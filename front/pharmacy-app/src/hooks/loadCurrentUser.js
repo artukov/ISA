@@ -7,10 +7,21 @@ function useCurrentUser(){
     const [user, setUser] = useState({})
 
     useEffect(() => {
-        axiosConfig.post('/user/current')
-        .then(res => {
-            setUser(res.data);
-        })
+        const settingUser = (user) =>{
+            setUser(user);
+        }
+
+       const loadCurrentUser = async () => {
+           try{
+                const result = await axiosConfig.get('/user/current');
+                settingUser(result.data);
+           }
+           catch(err){
+               console.log(err);
+            }
+       }
+
+       loadCurrentUser();
     }, []);
 
     return user;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Tab, Tabs, Container, Row, Col } from 'react-bootstrap'
+import { Button, Tab, Tabs, Container, Row, Col, Navbar, Nav } from 'react-bootstrap'
 
 import axiosConfig from '../config/AxiosConfig';
 import UserProfile from '../components/view/userProfile';
@@ -20,6 +20,13 @@ class homePage extends Component {
     render() {
         return (
             <div>
+                <Navbar  bg="light" expand="lg">
+                    <Nav></Nav>
+                    <Nav>
+                        <Button onClick={()=>window.location = '/login'}>Login</Button>
+                        <Nav.Link  onClick={() => {}}>Sign out</Nav.Link>
+                    </Nav>
+                </Navbar>
                 <Container size='xl'>
                     <Row>
                         <Col sm={12}>
