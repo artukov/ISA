@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import PharmacistInfo from '../pharmacist/PharmacistInfo';
+import PatientListP from './PatientListP';
 
 const Pharmacistpage = () => {
     return (  
@@ -10,7 +11,7 @@ const Pharmacistpage = () => {
                         <PharmacistInfo></PharmacistInfo>
                 </Tab>
                 <Tab eventKey = "allClients" title="All clients">
-                      
+                      <PatientListP></PatientListP>
                 </Tab>
                 <Tab eventKey = "newConsultation" title="New Consultation">
                       

@@ -23,7 +23,7 @@ const PharmacistInfo = () => {
         }
         
        
-    }, [])
+    }, [pharmacist.pharmacyID])
 
     const avgRating = () => {
         const sum = pharmacist.ratings.reduce((a, b) => a + b, 0);

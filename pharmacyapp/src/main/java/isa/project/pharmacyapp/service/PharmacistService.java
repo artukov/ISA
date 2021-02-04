@@ -19,6 +19,7 @@ public interface PharmacistService extends UserService {
     public abstract void modifyPharmacist(Long id, PharmacistDTO dto) throws Exception;
     public abstract void deletePharmacistById(Long id) throws Exception;
     public abstract Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception;
+    public abstract List<PatientDTO> getPharmacistPatients(Long pharmacistId);
 
     Double getAvgRating(Long id) throws Exception;
 }

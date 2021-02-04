@@ -281,5 +281,15 @@ public class PharmacistController {
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/patients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacistPatients(Principal user){
+        User current = userService.findByEmail(user.getName());
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+        List<PatientDTO> patientDTOList = pharmacistService.getPharmacistPatients(current.getId());
+
+        return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
 
 }
