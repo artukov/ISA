@@ -4,6 +4,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import DermatologistInfo from './DermatologistInfo';
 import DermatologistDetails from './DermatologistDetails';
 import PatientList from './PatientList';
+import DermatologistAbsenceRequest from './DermatologistAbsenceRequest';
 
 const DermatologistPage = () => {
 
@@ -25,7 +26,7 @@ const DermatologistPage = () => {
                       
                 </Tab>
                 <Tab eventKey = "absenceRequest" title="New Absence Request">
-                      
+                      <DermatologistAbsenceRequest></DermatologistAbsenceRequest>
                 </Tab>
                 <Tab eventKey = "newAppointment" title="New Appointment">
                       
