@@ -6,8 +6,8 @@ const PatientList = () => {
     
     const [patients, setPatients] = useState([]);
     const [examDates, setExamDates] = useState([]);
+    const [sortNameAsc, setSortNameAsc] = useState(true);
 
-    
 
     useEffect(() => {
         const loadPatients = async () => {
@@ -34,17 +34,33 @@ const PatientList = () => {
                 console.log(err);
             }
         }
-
         loadPatients();
+       
        
     }, []);
 
+    const sortPatientsName = () => {
+        let result = null
+        if (sortNameAsc) {
+            result = patients.sort((a, b) => (a.firstname > b.firstname) ? 1 : -1);
+            setSortNameAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.firstname < b.firstname) ? 1 : -1);
+            setSortNameAsc(true);
+    }
+        setPatients([...result]);
+    }
+
+    
     return ( 
         <div>
             <ListGroup>
                 <ListGroup.Item>
                     <Row>
-                        <Col>Name</Col>
+                        <Col onClick={() => {
+                            sortPatientsName();
+                            } }>Name</Col>
                         <Col>Surname</Col>
                         <Col>Email</Col>
                         <Col>Examination Date</Col>
@@ -52,12 +68,12 @@ const PatientList = () => {
                 </ListGroup.Item>
                 {
                     patients ? (
-                        patients.map(patient =>
+                        patients.map((patient,index)=>
 
                             <ListGroup.Item /*onClick={() => {
                                 setStartHour(pharmacy.start_hour);
                                 setHours(pharmacy.hours);
-                            } }*/ key={patient.id} >
+                            } }*/ key={index} >
                                 <Row>
                                     <Col>{patient.firstname}</Col>
                                     <Col>{patient.lastname}</Col>
