@@ -12,7 +12,9 @@ const DermatologistAbsenceRequest = () => {
 
     const [state, dispatch] = useReducer(absencerequestReducers, {
         startDate: '',
-        endDate: ''
+        endDate: '',
+        startTime: '',
+        endTime : ''
     });
 
     const setStartDate = (date) => {
@@ -62,12 +64,12 @@ const DermatologistAbsenceRequest = () => {
     
     const addNewAbsenceRequest = async () =>{
         
-        // console.log(state);
+        console.log(state);
         let newAbsence = {
             startDate : formatDate(state.startDate,state.startTime),
             endDate: formatDate(state.endDate,state.endTime),
             //ucitaj ova dva ispod i na button onda pozvati4
-            pharmacyId: pharmacy.pharmacy_id,
+            pharmacyId: pharmacy,
             userId: dermatologist.id
             
         };
@@ -99,7 +101,7 @@ const DermatologistAbsenceRequest = () => {
                         </Col>
                         <Col>
                         <Form.Control type = "time" 
-                             onChange = {(e) => dispatch({type : SET_START_TIME, time : e.target.value})}
+                             onChange = {(e) => dispatch({type : SET_START_TIME, startTime : e.target.value})}
                             ></Form.Control>
                     </Col>
                 </Row>
@@ -114,7 +116,7 @@ const DermatologistAbsenceRequest = () => {
                         </Col>
                         <Col>
                         <Form.Control type = "time" 
-                             onChange = {(e) => dispatch({type : SET_END_TIME, time : e.target.value})}
+                             onChange = {(e) => dispatch({type : SET_END_TIME, endTime : e.target.value})}
                             ></Form.Control>
                     </Col>
                 </Row>
