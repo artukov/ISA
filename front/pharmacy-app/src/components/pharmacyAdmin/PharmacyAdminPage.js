@@ -105,7 +105,7 @@ const PharmacyAdminPage = () => {
                         </AbsenceRequestContextProvider>
                     </Tab>
                     <Tab eventKey = "personal-info" title="Personal info">
-                            <PharmacyAdminInfoComponent></PharmacyAdminInfoComponent>
+                            <PharmacyAdminInfoComponent pharmacyID={pharmacy.id}></PharmacyAdminInfoComponent>
                     </Tab>
                  </Tabs>
             </div>
