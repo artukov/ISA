@@ -80,7 +80,7 @@ public class UserDTO {
     public static void dto2User(User user, UserDTO userDTO){
 
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+//        user.setPassword(userDTO.getPassword());
         user.setFirstname(userDTO.getFirstname());
         user.setLastname(userDTO.getLastname());
         user.setPhoneNumber(userDTO.getPhoneNumber());

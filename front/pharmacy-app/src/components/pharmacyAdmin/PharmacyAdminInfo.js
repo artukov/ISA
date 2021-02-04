@@ -19,6 +19,12 @@ const PharmacyAdminInfoComponent = ({pharmacyID}) => {
 
     const saveChanges = async (user) =>{
         user.pharmacy_id = pharmacyID;
+        console.table(currentUser);
+        if(user.id === undefined)
+            user  = {
+                ...user,
+                ...currentUser
+            }
         console.table(user);
 
         try{
