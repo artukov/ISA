@@ -7,6 +7,8 @@ const PatientList = () => {
     const [patients, setPatients] = useState([]);
     const [examDates, setExamDates] = useState([]);
     const [sortNameAsc, setSortNameAsc] = useState(true);
+    const [sortSurnameAsc, setSortSurnameAsc] = useState(true);
+    const [sortEmailAsc, setSortEmailAsc] = useState(true);
 
 
     useEffect(() => {
@@ -52,6 +54,32 @@ const PatientList = () => {
         setPatients([...result]);
     }
 
+    const sortPatientsSurname = () => {
+        let result = null
+        if (sortSurnameAsc) {
+            result = patients.sort((a, b) => (a.lastname > b.lastname) ? 1 : -1);
+            setSortSurnameAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.lastname < b.lastname) ? 1 : -1);
+            setSortSurnameAsc(true);
+    }
+        setPatients([...result]);
+    }
+
+    const sortPatientsEmail = () => {
+        let result = null
+        if (sortEmailAsc) {
+            result = patients.sort((a, b) => (a.email > b.email) ? 1 : -1);
+            setSortEmailAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.email < b.email) ? 1 : -1);
+            setSortEmailAsc(true);
+    }
+        setPatients([...result]);
+    }
+
     
     return ( 
         <div>
@@ -61,8 +89,12 @@ const PatientList = () => {
                         <Col onClick={() => {
                             sortPatientsName();
                             } }>Name</Col>
-                        <Col>Surname</Col>
-                        <Col>Email</Col>
+                        <Col onClick={() => {
+                            sortPatientsSurname();
+                            } }>Surname</Col>
+                        <Col onClick={() => {
+                            sortPatientsEmail();
+                            } }>Email</Col>
                         <Col>Examination Date</Col>
                     </Row>
                 </ListGroup.Item>
