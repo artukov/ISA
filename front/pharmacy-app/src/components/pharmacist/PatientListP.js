@@ -3,6 +3,9 @@ import { Col, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 const PatientListP = () => {
     const [patients, setPatients] = useState([]);
+    const [sortNameAsc, setSortNameAsc] = useState(true);
+    const [sortSurnameAsc, setSortSurnameAsc] = useState(true);
+    const [sortEmailAsc, setSortEmailAsc] = useState(true);
 
     useEffect(() => {
         const loadPatients = async () => {
@@ -17,25 +20,69 @@ const PatientListP = () => {
 
         loadPatients();
     }, [])
+    const sortPatientsName = () => {
+        let result = null
+        if (sortNameAsc) {
+            result = patients.sort((a, b) => (a.firstname > b.firstname) ? 1 : -1);
+            setSortNameAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.firstname < b.firstname) ? 1 : -1);
+            setSortNameAsc(true);
+    }
+        setPatients([...result]);
+    }
+
+    const sortPatientsSurname = () => {
+        let result = null
+        if (sortSurnameAsc) {
+            result = patients.sort((a, b) => (a.lastname > b.lastname) ? 1 : -1);
+            setSortSurnameAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.lastname < b.lastname) ? 1 : -1);
+            setSortSurnameAsc(true);
+    }
+        setPatients([...result]);
+    }
+
+    const sortPatientsEmail = () => {
+        let result = null
+        if (sortEmailAsc) {
+            result = patients.sort((a, b) => (a.email > b.email) ? 1 : -1);
+            setSortEmailAsc(false);
+        }
+        else { 
+            result = patients.sort((a, b) => (a.email < b.email) ? 1 : -1);
+            setSortEmailAsc(true);
+    }
+        setPatients([...result]);
+    }
     return ( 
          <div>
             <ListGroup>
                 <ListGroup.Item>
                     <Row>
-                        <Col>Name</Col>
-                        <Col>Surname</Col>
-                        <Col>Email</Col>
+                        <Col onClick={() => {
+                            sortPatientsName();
+                            } }>Name</Col>
+                        <Col onClick={() => {
+                            sortPatientsSurname();
+                            } }>Surname</Col>
+                        <Col onClick={() => {
+                            sortPatientsEmail();
+                            } }>Email</Col>
                         <Col>Consultation Date</Col>
                     </Row>
                 </ListGroup.Item>
                 {
                     patients ? (
-                        patients.map(patient =>
+                        patients.map((patient,index) =>
 
                             <ListGroup.Item /*onClick={() => {
                                 setStartHour(pharmacy.start_hour);
                                 setHours(pharmacy.hours);
-                            } }*/ key={patient.id} >
+                            } }*/ key={index} >
                                 <Row>
                                     <Col>{patient.firstname}</Col>
                                     <Col>{patient.lastname}</Col>
