@@ -5,6 +5,7 @@ import isa.project.pharmacyapp.exception.ResourceConflictException;
 import isa.project.pharmacyapp.model.Authority;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.dto.UserTokenState;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.security.TokenUtils;
 import isa.project.pharmacyapp.security.authetication.JwtAuthenticationRequest;
 import isa.project.pharmacyapp.service.UserService;
@@ -12,6 +13,7 @@ import isa.project.pharmacyapp.service.implementation.CustomUserDetailsService;
 import isa.project.pharmacyapp.user_factory.UserFactory;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +61,8 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?>  createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
-                                                        HttpServletResponse response) throws AuthenticationException, IOException {
+                                                        HttpServletResponse response, UriComponentsBuilder builder,
+                                                            HttpServletRequest request) throws AuthenticationException, IOException {
         Authentication authentication = null;
         try{
             authentication =  authenticationManager.authenticate(
@@ -69,25 +73,41 @@ public class AuthenticationController {
             return new ResponseEntity<>("You have entered wrong email or password", HttpStatus.BAD_REQUEST);
         }
 
-
-
-//        SecurityContext ctx = SecurityContextHolder.createEmptyContext();
-//        SecurityContextHolder.setContext(ctx);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
 
-//        System.out.println("Login user:" + user.getUsername());
 
         Collection<?> roles = user.getAuthorities();
         Authority role = (Authority) roles.iterator().next();
 
-//        System.out.println("Login user role: "+ role.getAuthority());
 
         String JWT = tokenUtils.generateToken(user, role);
         int expires = tokenUtils.getExpiredIn();
 
-        return new ResponseEntity<>(new UserTokenState(JWT,expires), HttpStatus.OK);
+        /**setting headers of the response*/
+        HttpHeaders headers = new HttpHeaders();
+
+        /**Allow access to front environment to access location header*/
+        headers.add("Access-Control-Expose-Headers","Location");
+        /**Finding witch port is the Origin of the request*/
+        String[] origin = request.getHeader("Origin").split("http://localhost:");
+
+        /** Setting up  port of the new uri */
+        builder.port(origin[1]);
+
+        switch (user.getRole()){
+            case PHARMACY_ADMIN : headers.setLocation(builder.path("/pharmacyAdmin").buildAndExpand().toUri()); break;
+            case DERMATOLOGIST : headers.setLocation(builder.path("/dermatologist").buildAndExpand().toUri()); break;
+            case PHARMACIST : headers.setLocation(builder.path("/pharmacist").buildAndExpand().toUri()); break;
+            case PATIENT:  headers.setLocation(builder.path("/patient").buildAndExpand().toUri()); break;
+            case SUPPLIER : headers.setLocation(builder.path("/supplier").buildAndExpand().toUri()); break;
+            case SYSTEM_ADMIN: headers.setLocation(builder.path("/systemAdmin").buildAndExpand().toUri()); break;
+            default : headers.setLocation(builder.path("/home").buildAndExpand().toUri()); break;
+        }
+
+
+        return new ResponseEntity<>(new UserTokenState(JWT,expires), headers,HttpStatus.OK);
     }
 
     @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -140,22 +160,34 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping(value = "/change-password",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/change-password",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer){
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer,
+                                            HttpServletRequest request, UriComponentsBuilder builder){
         userDetailsService.changePassword(changer.oldPassword,changer.newPassword);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers","Location");
+        String[] origin = request.getHeader("Origin").split("http://localhost:");
+        builder.port(origin[1]);
+
+        headers.setLocation(builder.path("/login").buildAndExpand().toUri());
 
         Map<String, String> result = new HashMap<String, String>();
         result.put("result", "success");
 
-        return new ResponseEntity<>(result,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(result,headers,HttpStatus.ACCEPTED);
 
 
     }
 
     static class PasswordChanger{
-        private String oldPassword;
-        private String newPassword;
+        public String oldPassword;
+        public String newPassword;
+
+        public PasswordChanger() {
+        }
     }
 
 
