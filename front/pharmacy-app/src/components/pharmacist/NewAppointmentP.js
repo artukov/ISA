@@ -1,17 +1,15 @@
-import React, { useState, useEffect, useReducer } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap'
+import React, { useState, useEffect,useReducer } from 'react'
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import formatDate from '../../config/DateFormatConfig';
-import { INIT } from '../pharmacist/AbsenceRequestPReducer';
-import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestReducer';
+import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestPReducer';
 
 const NewAppointment = () => {
 
     const [selectedPatient, setSelectedPatient] = useState({});
     const [patients, setPatients] = useState([]);
-    const [dermatologist, setDermatologist] = useState({});
-    const [pharmacies, setPharmacies] = useState([]);
-    const [selectedPharmacy, setSelectedPharmacy] = useState({});
+    const [pharmacist, setPharmacist] = useState({});
+    const [pharmacy, setPharmacy] = useState({});
     const [duration, setDuration] = useState({});
     const [reload, setReload] = useState(false)
 
@@ -31,24 +29,25 @@ const NewAppointment = () => {
     }
 
     useEffect(() => {
-        const loadDermatologist = async () => {
+        const loadPharmacist = async () => {
             try {
-                const result = await axiosConfig.get('/dermatologist/current');
-                setDermatologist(result.data);
+                const result = await axiosConfig.get('/pharmacist/current');
+                setPharmacist(result.data);
             }
             catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
         }
 
-        loadDermatologist();
+        loadPharmacist();
        
     }, []);
 
     useEffect(() => {
-        const loadDermatologistPatients = async () => {
+        const loadPharmacistPatients = async () => {
             try {
-                const result = await axiosConfig.get('/dermatologist/patientsDistinct/');
+                const result = await axiosConfig.get('/patientsDistinct/');
                 setPatients(result.data);
 
             } catch (err) {
@@ -56,27 +55,11 @@ const NewAppointment = () => {
             }
             
         }
-        if (dermatologist.id !== undefined)
-            loadDermatologistPatients(dermatologist.id);
+        if (pharmacist.id !== undefined)
+            loadPharmacistPatients(pharmacist.id);
             
-    }, [dermatologist.id])
+    }, [pharmacist.id])
 
-    useEffect(() => {
-        const loadDermatologistPharmacies = async (id) => {
-            try {
-                const result = await axiosConfig.get('/dermatologist/pharmacies/'+ id);
-                setPharmacies(result.data);
-
-            } catch (err) {
-                console.log(err);
-                alert(err.response.data);
-            }
-            
-        }
-        if (dermatologist.id !== undefined)
-            loadDermatologistPharmacies(dermatologist.id);
-            
-    }, [dermatologist.id])
 
     const createAppointment = async () =>{
         
@@ -84,7 +67,7 @@ const NewAppointment = () => {
         let newAppointment = {
             beggingDateTime : formatDate(state.startDate,state.startTime),
             duration: duration,
-            pharmacyID: selectedPharmacy.id,
+            pharmacyID: pharmacist.pharmacyID,
             patient_id: selectedPatient.id,
             drugs: []
         };
@@ -92,7 +75,7 @@ const NewAppointment = () => {
 
 
         try{
-            await axiosConfig.post('dermatologist/appointment/new',newAppointment);
+            await axiosConfig.post('pharmacist/appointment/new',newAppointment);
             // dispatch({type : INIT});
             // setLatestPL(state);
             setReload(!reload);
@@ -103,10 +86,9 @@ const NewAppointment = () => {
             alert(err.response.data);
         }
     }
-    
-    
-    return (  
-        <div>
+
+    return ( 
+<div>
             <Form onSubmit={(e) => e.preventDefault()}>
                 <Form.Group>
                     <Form.Label>Enter the start date and time</Form.Label>
@@ -143,20 +125,6 @@ const NewAppointment = () => {
                             }
                         </Form.Control>
                         </Col>
-                        <Col>
-                        <div>Select pharmacy</div>
-                            <Form.Control as="select" onClick = {(e) => setSelectedPharmacy(JSON.parse(e.target.value))}>
-                            {
-                                pharmacies ? (
-                                    pharmacies.map(pharmacy =>
-                                        <option key={pharmacy.pharmacy_id} value={JSON.stringify({id : pharmacy.pharmacy_id, name : pharmacy.name})}>
-                                            {pharmacy.pharmacy_id}
-                                        </option>
-                                        )
-                                ) : null
-                            }
-                        </Form.Control>
-                        </Col>
                     </Row>
                     
                 </Form.Group>
@@ -165,7 +133,7 @@ const NewAppointment = () => {
                 createAppointment();
             }}>Create new Appointment</Button>
         </div>
-    );
+     );
 }
  
 export default NewAppointment;
