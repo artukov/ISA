@@ -36,7 +36,7 @@ const PharmacistAbsenceRequest = () => {
             try {
                 const result = await axiosConfig.get('/pharmacist/current');
                 setPharmacist(result.data);
-                 alert("Absence request created");
+                 
             }
             catch (err) {
                 console.log(err);
@@ -66,6 +66,7 @@ const PharmacistAbsenceRequest = () => {
             dispatch({type : INIT});
             // setLatestPL(state);
             setReload(!reload);
+            alert("Absence request created");
         }
         catch(err){
             console.log(err);

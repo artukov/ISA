@@ -58,4 +58,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "from patient p inner join consultation c on c.patient_id = p.id\n" +
             "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
     List<Patient> getPharmacistPatients(@Param("pharmacistId") Long pharmacistId);
+
+    @Query(value = "select distinct p.*\n" +
+            "from patient p inner join consultation c on c.patient_id = p.id\n" +
+            "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
+    List<Patient> getPharmacistPatientsDistinct(@Param("pharmacistId") Long pharmacistId);
 }

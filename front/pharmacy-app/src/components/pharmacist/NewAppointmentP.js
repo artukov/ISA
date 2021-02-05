@@ -47,7 +47,7 @@ const NewAppointment = () => {
     useEffect(() => {
         const loadPharmacistPatients = async () => {
             try {
-                const result = await axiosConfig.get('/patientsDistinct/');
+                const result = await axiosConfig.get('/pharmacist/patientsDistinct/');
                 setPatients(result.data);
 
             } catch (err) {
