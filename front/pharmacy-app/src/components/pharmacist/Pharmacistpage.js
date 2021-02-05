@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import PharmacistInfo from '../pharmacist/PharmacistInfo';
 import PatientListP from './PatientListP';
-import PharmacistAbsenceRequest from './PharmacistAbsenceRequestReducer';
+import PharmacistAbsenceRequest from './PharmacistAbsenceRequest';
 
 const Pharmacistpage = () => {
     return (  

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, Form, ListGroup } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import { SET_PHARMACY } from './dermatologistReducer';
 const DermatologistInfo = () => {
 
 
@@ -38,7 +39,8 @@ const DermatologistInfo = () => {
             
         }
         if (dermatologist.id !== undefined)
-                loadDermatologistPharmacies(dermatologist.id);
+            loadDermatologistPharmacies(dermatologist.id);
+            
     }, [dermatologist.id])
 
 
@@ -67,18 +69,23 @@ const DermatologistInfo = () => {
 
                 ) : null
             }
-            <ListGroup>
-                {
-                    pharmacies ? (
-                        pharmacies.map((pharmacy,index) =>
-                            <ListGroup.Item onClick={() => {
-                                setStartHour(pharmacy.start_hour);
-                                setHours(pharmacy.hours);
-                            } } key={index} >{ pharmacy.pharmacy_id}</ListGroup.Item>
-                            )
-                    ) : null
-                }
-            </ListGroup>
+            <Form>
+                <div>Select pharmacy</div>
+                <Form.Control as="select" onClick={(e) => {
+                    setStartHour(JSON.parse(e.target.value).startHour);
+                    setHours(JSON.parse(e.target.value).hours);
+                }}>
+                            {
+                                pharmacies ? (
+                                    pharmacies.map(pharmacy =>
+                                        <option key={pharmacy.pharmacy_id} value={JSON.stringify({id : pharmacy.pharmacy_id, startHour : pharmacy.start_hour, hours: pharmacy.hours})}>
+                                            {pharmacy.pharmacy_id}
+                                        </option>
+                                        )
+                                ) : null
+                            }
+            </Form.Control>
+            </Form>
         </div>
       );
 }

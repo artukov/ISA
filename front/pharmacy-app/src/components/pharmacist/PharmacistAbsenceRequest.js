@@ -36,9 +36,11 @@ const PharmacistAbsenceRequest = () => {
             try {
                 const result = await axiosConfig.get('/pharmacist/current');
                 setPharmacist(result.data);
+                 alert("Absence request created");
             }
             catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
         }
 
@@ -67,6 +69,7 @@ const PharmacistAbsenceRequest = () => {
         }
         catch(err){
             console.log(err);
+            alert(err.response.data);
         }
     }
 

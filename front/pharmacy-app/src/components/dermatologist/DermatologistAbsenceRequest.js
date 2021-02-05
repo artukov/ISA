@@ -9,6 +9,7 @@ const DermatologistAbsenceRequest = () => {
     const [reload, setReload] = useState(false)
     const [pharmacies, setPharmacies] = useState([]);
     const [pharmacy, setPharmacy] = useState({});
+    
 
     const [state, dispatch] = useReducer(absencerequestReducers, {
         startDate: '',
@@ -40,6 +41,7 @@ const DermatologistAbsenceRequest = () => {
             }
             catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
         }
 
@@ -55,6 +57,7 @@ const DermatologistAbsenceRequest = () => {
 
             } catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
             
         }
@@ -69,7 +72,7 @@ const DermatologistAbsenceRequest = () => {
             startDate : formatDate(state.startDate,state.startTime),
             endDate: formatDate(state.endDate,state.endTime),
             //ucitaj ova dva ispod i na button onda pozvati4
-            pharmacyId: pharmacy,
+            pharmacyId: pharmacy.id,
             userId: dermatologist.id
             
         };
@@ -77,12 +80,14 @@ const DermatologistAbsenceRequest = () => {
 
         try{
             await axiosConfig.post('/absence/new',newAbsence);
-            dispatch({type : INIT});
+            //dispatch({type : INIT});
             // setLatestPL(state);
             setReload(!reload);
+            alert("Absence request created");
         }
         catch(err){
             console.log(err);
+            alert(err.response.data);
         }
     }
 
@@ -120,19 +125,20 @@ const DermatologistAbsenceRequest = () => {
                             ></Form.Control>
                     </Col>
                 </Row>
-            </Form.Group>
+                </Form.Group>
+                <div>Select pharmacy</div>
+                            <Form.Control as="select" onClick = {(e) => setPharmacy(JSON.parse(e.target.value))}>
+                            {
+                                pharmacies ? (
+                                    pharmacies.map(pharmacy =>
+                                        <option key={pharmacy.pharmacy_id} value={JSON.stringify({id : pharmacy.pharmacy_id, name : pharmacy.name})}>
+                                            {pharmacy.pharmacy_id}
+                                        </option>
+                                        )
+                                ) : null
+                            }
+                        </Form.Control>
             </Form>
-            <ListGroup>
-                {
-                    pharmacies ? (
-                        pharmacies.map((pharmacy,index) =>
-                            <ListGroup.Item onClick={() => {
-                                setPharmacy(pharmacy.pharmacy_id);
-                            } } key={index} >{ pharmacy.pharmacy_id}</ListGroup.Item>
-                            )
-                    ) : null
-                }
-            </ListGroup>
             <Button onClick={() => {
                 addNewAbsenceRequest();
             }}>Create absence request</Button>
