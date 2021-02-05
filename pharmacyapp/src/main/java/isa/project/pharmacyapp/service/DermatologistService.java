@@ -28,4 +28,6 @@ public interface DermatologistService extends UserService {
     void deleteDermatologistPharmacy(Long dermaID, Long pharmacyID) throws Exception;
 
     List<DermatologistDTO> findAllNotInPharmacy(Long pharmacyID) throws Exception;
+
+    List<PatientDTO> getDermaPatientsDistinct(Long dermaId);
 }

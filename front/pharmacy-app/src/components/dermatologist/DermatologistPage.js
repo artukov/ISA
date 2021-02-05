@@ -5,6 +5,7 @@ import DermatologistInfo from './DermatologistInfo';
 import DermatologistDetails from './DermatologistDetails';
 import PatientList from './PatientList';
 import DermatologistAbsenceRequest from './DermatologistAbsenceRequest';
+import NewAppointment from './NewAppointment';
 
 const DermatologistPage = () => {
 
@@ -29,7 +30,7 @@ const DermatologistPage = () => {
                       <DermatologistAbsenceRequest></DermatologistAbsenceRequest>
                 </Tab>
                 <Tab eventKey = "newAppointment" title="New Appointment">
-                      
+                      <NewAppointment></NewAppointment>
                 </Tab>
                 
                     

@@ -22,4 +22,6 @@ public interface PharmacistService extends UserService {
     public abstract List<PatientDTO> getPharmacistPatients(Long pharmacistId);
 
     Double getAvgRating(Long id) throws Exception;
+
+    List<PatientDTO> getPharmacistPatientsDistinct(Long pharmacistId);
 }

@@ -19,6 +19,7 @@ const PatientList = () => {
             }
             catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
         }
 
@@ -34,6 +35,7 @@ const PatientList = () => {
             }
             catch (err) {
                 console.log(err);
+                alert(err.response.data);
             }
         }
         loadPatients();

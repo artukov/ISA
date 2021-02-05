@@ -49,8 +49,18 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "where e.derma_id = :dermaId", nativeQuery = true)
     List<Patient> getDermaPatients(@Param("dermaId") Long dermaId);
 
+    @Query(value = "select distinct p.*\n" +
+            "from patient p inner join examination e on e.patient_id = p.id\n" +
+            "where e.derma_id = :dermaId", nativeQuery = true)
+    List<Patient> getDermaPatientsDistinct(@Param("dermaId") Long dermaId);
+
     @Query(value = "select p.*\n" +
             "from patient p inner join consultation c on c.patient_id = p.id\n" +
             "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
     List<Patient> getPharmacistPatients(@Param("pharmacistId") Long pharmacistId);
+
+    @Query(value = "select distinct p.*\n" +
+            "from patient p inner join consultation c on c.patient_id = p.id\n" +
+            "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
+    List<Patient> getPharmacistPatientsDistinct(@Param("pharmacistId") Long pharmacistId);
 }
