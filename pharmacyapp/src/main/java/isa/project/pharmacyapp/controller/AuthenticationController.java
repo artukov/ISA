@@ -111,7 +111,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/signup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> singUpAnUser(@RequestBody UserDTO userDTO, UriComponentsBuilder builder){
+    public ResponseEntity<?> singUpAnUser(@RequestBody UserDTO userDTO, UriComponentsBuilder builder, HttpServletRequest request){
         /**
          * Factory Pattern
          * */
@@ -131,14 +131,14 @@ public class AuthenticationController {
             return new ResponseEntity<>(this.getClass().getName() +"::singUpAnUser saving user",HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        /**
-         * TODO
-         * Redirection after the user sings up
-         *      HttpHeaders headers = new HttpHeaders();
-         * 		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
-         * */
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers","Location");
+        String[] origin = request.getHeader("Origin").split("http://localhost:");
+        builder.port(origin[1]);
+        headers.setLocation(builder.path("/home").buildAndExpand().toUri());
+
+        return new ResponseEntity<>(user, headers,HttpStatus.CREATED);
 
     }
 
