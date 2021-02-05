@@ -30,6 +30,12 @@
 			<artifactId>spring-session-core</artifactId>
 		</dependency>
 
+		<!--Email service-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.4.2</version>
+		</dependency>
 
 		<!--Message queue-->
 		<dependency>

@@ -41,6 +41,7 @@ function setPharmacy(state,pharmacyID){
 }
 
 function init() {
+    console.log("init");
     return {
         startDate : null,
         startTime : null,

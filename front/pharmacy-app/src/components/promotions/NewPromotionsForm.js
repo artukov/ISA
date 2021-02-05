@@ -24,6 +24,7 @@ const NewPromotionsForm = ({pharmacyID}) => {
             console.table(state);
             await axiosConfig.post('/promotions/new', state);
             alert('Successfull');
+            dispatch({type : ''});
         
         }
         catch(err){

@@ -7,9 +7,9 @@ import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.repository.PromotionsRepository;
 import isa.project.pharmacyapp.repository.UserRepository;
+import isa.project.pharmacyapp.service.EmailService;
 import isa.project.pharmacyapp.service.PromotionsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +25,9 @@ public class PromotionsServiceImpl implements PromotionsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public void createNewPromotion(PromotionsDTO dto) throws Exception {
@@ -64,11 +67,18 @@ public class PromotionsServiceImpl implements PromotionsService {
             e.printStackTrace();
             throw  new Exception("Saving promotions");
         }
+        StringBuilder builder = new StringBuilder();
+        builder.append(promotions.getEndDate());
+        builder.append(promotions.getStartDate());
+        builder.append(promotions.getContent());
+        builder.append(pharmacy.getName());
 
         /**
          * TODO
          * Sending email when the promotion is created
          * */
+
+        emailService.sendSimpleMessage("srdjan_kralj_97@live.com","promotions pharmacy",builder.toString());
 
 
     }
