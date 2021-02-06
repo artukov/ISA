@@ -25,7 +25,7 @@ import java.util.*;
 @Table(name = "user_table")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@MappedSuperclass
-public abstract class User implements UserDetails {
+public  class User implements UserDetails {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
