@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendSimpleMessage(String to, String subject, String text){
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("http://localhost:8080");
+//        mailMessage.setFrom("http://localhost:8080");
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);
         mailMessage.setText(text);

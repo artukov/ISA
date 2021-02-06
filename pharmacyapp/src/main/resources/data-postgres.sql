@@ -57,7 +57,7 @@ VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname',
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (301, 'derma1@live.com', true, 'dermatologist', null, 'lastname',
+VALUES (301, 'nikolartukov@gmail.com', true, 'dermatologist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
@@ -105,11 +105,11 @@ VALUES (300,300,5.0);
 
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
-VALUES (400, 'patient@live.com', true, 'patient', null, 'lastname',
+VALUES (400, 'nikolartukov@gmail.com ', true, 'patient', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
-VALUES (401, 'nikola@live.com', true, 'Nikola', null, 'Artukov',
+VALUES (401, 'srdjan_kralj_97@live.com', true, 'Nikola', null, 'Artukov',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
@@ -168,7 +168,7 @@ VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
 
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (700, 'supplier@live.com', true, 'system admin', null, 'lastname',
+VALUES (700, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
@@ -423,3 +423,6 @@ VALUES (203,'Holiday to the Spain',date('2021-10-10'),date('2021-09-28'),null,20
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
 VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,200,502);
 
+----subscribers to pharmacy promotions-----------
+INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,400);
+INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,401);

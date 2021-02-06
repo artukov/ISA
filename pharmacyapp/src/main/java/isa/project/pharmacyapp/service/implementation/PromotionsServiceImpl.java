@@ -67,19 +67,33 @@ public class PromotionsServiceImpl implements PromotionsService {
             e.printStackTrace();
             throw  new Exception("Saving promotions");
         }
+
+        for(User user : pharmacy.getSubscribers()){
+            sendEmailToUser(user,pharmacy.getName(), promotions);
+        }
+
+
+
+
+    }
+
+    private void sendEmailToUser(User user, String name, Promotions promotions) {
+
         StringBuilder builder = new StringBuilder();
-        builder.append(promotions.getEndDate());
-        builder.append(promotions.getStartDate());
+        builder.append("Dear ");
+        builder.append(user.getFirstname());
+        builder.append(" ");
+        builder.append(user.getLastname());
+        builder.append("\n");
+        builder.append("We would like to alert You that we have a new promotion.\n");
         builder.append(promotions.getContent());
-        builder.append(pharmacy.getName());
+        builder.append("\n");
+        builder.append("Promotion starts at ");
+        builder.append(promotions.getStartDate());
+        builder.append("\n");
+        builder.append("Promotion ends at ");
+        builder.append(promotions.getEndDate());
 
-        /**
-         * TODO
-         * Sending email when the promotion is created
-         * */
-
-        emailService.sendSimpleMessage("srdjan_kralj_97@live.com","promotions pharmacy",builder.toString());
-
-
+        emailService.sendSimpleMessage(user.getEmail(),"New Pharmacy "+ name+" promotion",builder.toString());
     }
 }
