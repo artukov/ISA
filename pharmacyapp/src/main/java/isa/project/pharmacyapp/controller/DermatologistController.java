@@ -261,9 +261,9 @@ public class DermatologistController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping(value = "/addPenalty", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/addPenalty/{id}")
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> addPenalty(@RequestBody Long id){
+    public ResponseEntity<?> addPenalty(@PathVariable("id") Long id){
         try {
             patientService.addPenalty(id);
         }

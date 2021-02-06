@@ -67,7 +67,22 @@ const NewExamination = () => {
                 alert(err.response.data);
             }
             
+    }
+    
+    const addPenalty = async (id) => {
+
+
+        try{
+            await axiosConfig.put('/dermatologist/addPenalty/'+id);
+            //dispatch({type : INIT});
+            // setLatestPL(state);
+            alert("Penalty added");
         }
+        catch(err){
+            console.log(err);
+            alert(err.response.data);
+        }
+    }
 
     const [state, dispatch] = useReducer(absencerequestReducers, {
         startDate: '',
@@ -119,7 +134,9 @@ const NewExamination = () => {
                     }}>Start examination</Button>
                     </Col>
                     <Col>
-                    <Button>Did not show up</Button>
+                        <Button onClick={(e) => {
+                            addPenalty(selectedPatient.id);
+                    }}>Did not show up</Button>
                     </Col>
                 </Row>
             </Form>
