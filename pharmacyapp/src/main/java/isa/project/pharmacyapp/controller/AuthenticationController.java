@@ -166,7 +166,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/change-password",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer,
                                             HttpServletRequest request, UriComponentsBuilder builder){
         try {

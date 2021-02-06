@@ -6,5 +6,6 @@ public enum UserRoles {
     PHARMACIST,
     PHARMACY_ADMIN,
     SUPPLIER,
-    SYSTEM_ADMIN
+    SYSTEM_ADMIN,
+    UNREGISTERED
 }

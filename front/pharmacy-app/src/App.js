@@ -12,6 +12,7 @@ import SupplierPage from './components/supplier/SupplierPage';
 import DermatologistPage from './components/dermatologist/DermatologistPage';
 import Pharmacistpage from './components/pharmacist/Pharmacistpage';
 import ResetPasswordPage from './components/reset-password/ResetPasswordPage';
+import SystemAdminPage from './components/system-admin/SystemAdminPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/dermatologist" exact component={DermatologistPage}></Route>
         <Route path="/pharmacist" exact component={Pharmacistpage}></Route>
         <Route path='/reset-password' exact component={ResetPasswordPage}></Route>
+        <Route path="/systemAdmin" exact component={SystemAdminPage}></Route>
         {/* <Route path='/'>404 not here sry</Route> */}
 
       </Switch>

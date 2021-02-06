@@ -149,8 +149,8 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
 
 
-        List<Authority> authorities = authorityService.findByName("USER");
-        admin.setAuthorities(authorities);
+//        List<Authority> authorities = authorityService.findByName("USER");
+//        admin.setAuthorities(authorities);
 
         try {
             adminRepository.save(admin);

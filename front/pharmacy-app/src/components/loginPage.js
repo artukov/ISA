@@ -33,19 +33,7 @@ class loginPage extends Component {
         catch(err){
             alert('error');
         }
-        
-
-        /* await axios.post(urlAuthLogin,user)
-        .then(res => {
-            token.setToken(res.data.accessToken, res.data.expiresIn);
-            console.log(token);
-            localStorage.setItem('token', token);
-            //window.location = "/home"
-        })
-        .catch(err => {
-            alert('You have entered wrong email or password\n'); 
-        }); */
-
+     
             
         
     }
