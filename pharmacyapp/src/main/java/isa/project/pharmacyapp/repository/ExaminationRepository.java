@@ -46,4 +46,14 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
     @Query(nativeQuery = true, value = "SELECT * FROM examination e " +
             " WHERE e.derma_id = :dermaId AND e.patient_id = :patientId AND e.finished = true")
     List<Examination> findByDermaIdAndPatientId(@Param("dermaId")Long dermaId,@Param("patientId") Long patientId);
+
+    @Query(nativeQuery = true, value = "select *\n" +
+            "from examination e \n" +
+            "where e.patient_id = :patientId and e.beg_date = :dateTime and (e.finished != true OR e.finished is null)")
+    Examination findExamination(@Param("patientId") Long patientId, @Param("dateTime") Date dateTime);
+
+    @Query(nativeQuery = true, value = "select p.id\n" +
+            "from examination e  inner join calendar_appointments ca on e.id = ca.appointment_id inner join pharmacy p on ca.calendar_id = p.calendar_id\n" +
+            "where e.id = :examinationId")
+    Long getPharmacyIdByExamination(@Param("examinationId") Long examinationId);
 }

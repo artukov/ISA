@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -288,5 +289,21 @@ public class DermatologistController {
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
+
+    @GetMapping(value = "/findExamination/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> findExamination(@PathVariable("patientId") Long patientId, @RequestParam("dateTime") Long dateTime){
+        Date newDate = new Date();
+        newDate.setTime(dateTime);
+        ExaminationDTO dto = null;
+        try{
+            dto =  examinationService.findExamination(patientId,newDate);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
 
 }
