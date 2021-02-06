@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import formatDate from '../../config/DateFormatConfig';
 import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestReducer';
@@ -11,7 +11,10 @@ const NewExamination = () => {
     const [dermatologist, setDermatologist] = useState({});
     const [report, setReport] = useState({});
     const [description, setDescription] = useState({});
+    const [price, setPrice] = useState({})
     const [allDrugs, setAllDrugs] = useState([]);
+    const [selectedDrug, setSelectedDrug] = useState({});
+    const [choosenDrugs, setChoosenDrugs] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState({});
     const [showForm, setShowForm] = useState(false);
 
@@ -51,6 +54,20 @@ const NewExamination = () => {
             
     }, [dermatologist.id])
 
+    useEffect(() => {
+        const loadDrugs = async () => {
+            try {
+                const result = await axiosConfig.get('/drug/allPharmacyDrugs/'+selectedAppointment.pharmacyID);
+                setAllDrugs(result.data);
+            } catch (err) {
+                console.log(err);
+            }
+            
+        }
+        if (selectedAppointment.pharmacyID !== undefined)
+            loadDrugs();
+    }, [selectedAppointment.pharmacyID])
+
     const loadExamination = async (id) => {
         const [year, month, day] = state.startDate.split("-");
         const [hours, minutes] = state.startTime.split(":");
@@ -77,6 +94,34 @@ const NewExamination = () => {
             //dispatch({type : INIT});
             // setLatestPL(state);
             alert("Penalty added");
+        }
+        catch(err){
+            console.log(err);
+            alert(err.response.data);
+        }
+    }
+
+    const saveExamination = async () => {
+        let examination = {
+            id: selectedAppointment.id,
+            report: report,
+            beggingDateTime: selectedAppointment.beggingDateTime,
+            duration: selectedAppointment.duration,
+            finished: true,
+            drugs: choosenDrugs,
+            patient_id: selectedAppointment.patient_id,
+            pharmacyID: selectedAppointment.pharmacyID,
+            price: price,
+            diagnose: description,
+            dermatologist_id: dermatologist.id
+            
+        }
+
+        try{
+            await axiosConfig.put('/dermatologist/examination/new',examination);
+            //dispatch({type : INIT});
+            // setLatestPL(state);
+            alert("Examination saved");
         }
         catch(err){
             console.log(err);
@@ -145,7 +190,7 @@ const NewExamination = () => {
                 <Row>
 
                     <Col>
-                        <div>Description</div>
+                        <div>Diagnose</div>
                         <Form.Control type="text" placeholder = "Description" onChange = { (e) => setDescription(e.target.value)}></Form.Control>
                     </Col>
                     <Col>
@@ -158,21 +203,86 @@ const NewExamination = () => {
                 <Row>
                     <Col>
                         <Form.Label>Select drugs</Form.Label>
-                    <Form.Control as="select">
+                    <Form.Control as="select" onClick = {(e) => setSelectedDrug(JSON.parse(e.target.value))}>
+                            {
+                                allDrugs ? (
+                                    allDrugs.map(drug =>
+                                        <option key={drug.id} value={JSON.stringify({ id: drug.id, name: drug.name })}>
+                                            {drug.name} 
+                                        </option>
+                                    )
+                                ) : null}
                         
                         </Form.Control>
                         </Col>
-                    <Button>Add drug to the list</Button>
+                        <Col>
+                        <Button onClick={(e) => {
+                            setChoosenDrugs([...choosenDrugs, selectedDrug]);
+                            console.log(selectedDrug);
+                            console.log(choosenDrugs);
+                            setAllDrugs(allDrugs.filter(drug => drug.id !== selectedDrug.id));
+                            }}>Add drug to the list</Button>
+                        </Col>
+                        <Col>
+                        <div>Price</div>
+                        <Form.Control type="number" placeholder = "Price" onChange = { (e) => setPrice(parseFloat(e.target.value)) }></Form.Control>
+                        </Col>
+
                 </Row>
-                <Row>
+                {/* <Row>
                     <Col>
-                    <div>Selected drugs</div>
+                            <div>Selected drugs</div>
+                            <ListGroup>
+                            <ListGroup.Item>
+                                                <Button onClick={() => {
+                                                    setChoosenDrugs(choosenDrugs.filter(drug => drug.id !== selectedDrug.id))
+                                                    setAllDrugs([
+                                                        {
+                                                            id : drug.id,
+                                                            name : drug.name
+                                                        },
+                                                        ...drugs
+                                                    ])
+                                                }}
+                                                 variant="warning">Delete from list</Button>
+                                            </ListGroup.Item>
+                                        </ListGroup>
                     </Col>
-                    </Row>
-           
+                    </Row> */}
+           <Form.Group>
+                    <Form.Label>List of all the drug selected</Form.Label>
+                        {
+                            choosenDrugs ? (
+                                choosenDrugs.map(drug => {
+                                    return (
+                                        <ListGroup key = {drug.id} horizontal>
+                                            <ListGroup.Item variant ="primary">{drug.name}</ListGroup.Item>
+                                          
+                                            <ListGroup.Item>
+                                                <Button onClick={() => {
+                                                    const id = drug.id;
+                                                    setChoosenDrugs(choosenDrugs.filter(drug => drug.id !== id))
+                                                    setAllDrugs([
+                                                        {
+                                                            id : drug.id,
+                                                            name : drug.name
+                                                        },
+                                                        ...allDrugs
+                                                    ])
+                                                }}
+                                                 variant="warning">Delete from list</Button>
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                    )
+                                })
+                            ) : null
+                        }
+                </Form.Group>
+                <Button>Save examination</Button>
                 
                 </Form> : null
-             } 
+            } 
+            
             
         </div>
     );
