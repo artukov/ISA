@@ -25,6 +25,7 @@ const NewPromotionsForm = ({pharmacyID}) => {
             await axiosConfig.post('/promotions/new', state);
             alert('Successfull');
             dispatch({type : ''});
+            dispatch({type : SET_PHARMACY, id : pharmacyID});
         
         }
         catch(err){
@@ -33,6 +34,11 @@ const NewPromotionsForm = ({pharmacyID}) => {
 
     }
 
+    /**
+     * TODO 
+     * Setting date to null when the creation of new promotion is successfull
+     */
+
 
     return ( 
         <Form onSubmit={(e) =>addNewPromotions(e) }>
@@ -40,11 +46,11 @@ const NewPromotionsForm = ({pharmacyID}) => {
                 <Form.Label>Insert start date and time</Form.Label>
                 <Form.Row>
                     <Col>
-                        <Form.Control type="date" 
+                        <Form.Control type="date" value={state.startDate ? state.startDate : ''}
                         onChange={(e) => dispatch({type : SET_START_DATE, startDate : e.target.value})}></Form.Control>
                     </Col>
                     <Col>
-                        <Form.Control type="time" 
+                        <Form.Control type="time" value={state.startTime ? state.startTime : ''}
                         onChange={(e) => dispatch({type : SET_START_TIME, startTime : e.target.value})}></Form.Control>
                     </Col>
                 </Form.Row>
@@ -53,11 +59,11 @@ const NewPromotionsForm = ({pharmacyID}) => {
                 <Form.Label>Insert end date and time</Form.Label>
                 <Form.Row>
                     <Col>
-                        <Form.Control type="date" 
+                        <Form.Control type="date" value={state.endDate ? state.endDate : ''}
                         onChange={(e) => dispatch({type : SET_END_DATE, endDate : e.target.value})}></Form.Control>
                     </Col>
                     <Col>
-                        <Form.Control type="time" 
+                        <Form.Control type="time"  value={state.endTime ? state.endTime : ''}
                         onChange={(e) => dispatch({type : SET_END_TIME, endTime : e.target.value})}></Form.Control>
                     </Col>
                 </Form.Row>

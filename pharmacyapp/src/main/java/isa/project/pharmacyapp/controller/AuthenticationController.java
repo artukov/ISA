@@ -96,6 +96,11 @@ public class AuthenticationController {
         /** Setting up  port of the new uri */
         builder.port(origin[1]);
 
+        if(user.getLastPasswordResetDate() == null){
+            headers.setLocation(builder.path("/reset-password").buildAndExpand().toUri());
+            return new ResponseEntity<>(new UserTokenState(JWT,expires), headers,HttpStatus.OK);
+        }
+
         switch (user.getRole()){
             case PHARMACY_ADMIN : headers.setLocation(builder.path("/pharmacyAdmin").buildAndExpand().toUri()); break;
             case DERMATOLOGIST : headers.setLocation(builder.path("/dermatologist").buildAndExpand().toUri()); break;
@@ -164,7 +169,11 @@ public class AuthenticationController {
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChanger changer,
                                             HttpServletRequest request, UriComponentsBuilder builder){
-        userDetailsService.changePassword(changer.oldPassword,changer.newPassword);
+        try {
+            userDetailsService.changePassword(changer.oldPassword,changer.newPassword);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
 
         HttpHeaders headers = new HttpHeaders();

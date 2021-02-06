@@ -49,13 +49,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * Method that allows user to change password
      * */
-    public void changePassword(String oldPassword, String newPassword){
+    public void changePassword(String oldPassword, String newPassword) throws Exception {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
 
         if(authenticationManager != null){
             LOGGER.debug("Re-authenticating user '" + email + "' for password change request.");
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+           try{
+               authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+           }
+           catch (Exception e){
+               throw new Exception("Old password is not correct");
+           }
         }
         else {
             LOGGER.debug("No authentication manager set. can't change Password!");

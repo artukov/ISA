@@ -42,7 +42,7 @@ public class Patient extends User {
    public java.util.List<Allergy> allergy;
    /** @pdRoleInfo migr=no name=Promotions assc=association26 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-   @JoinColumn(name = "promotion_id")
+   @JoinColumn(name = "promotion_id",referencedColumnName = "id")
    public java.util.List<Promotions> promotions;
    /** @pdRoleInfo migr=no name=Complaints assc=association28 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

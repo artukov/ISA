@@ -9,7 +9,7 @@ INSERT INTO public.calendar(id) VALUES (200);
 
 INSERT INTO public.pharmacy(
     id, description, name, address_id, calendar_id)
-VALUES (200, 'description', 'name', 200, 200);
+VALUES (200, 'description', 'ISA Pharmacy', 200, 200);
 
 INSERT INTO public.pharmacy(
     id, description, name, address_id, calendar_id)
