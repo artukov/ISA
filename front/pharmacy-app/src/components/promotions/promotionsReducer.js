@@ -1,4 +1,5 @@
 function setStartDate(state,startDate) {
+    console.log(startDate,state.startDate)
     return {
         ...state,
         startDate
@@ -41,13 +42,13 @@ function setPharmacy(state,pharmacyID){
 }
 
 function init() {
-    console.log("init");
+    // console.log("init");
     return {
-        startDate : null,
-        startTime : null,
-        endDate : null,
-        endTime : null,
-        content : null,
+        startDate : '',
+        startTime : '',
+        endDate : '',
+        endTime : '',
+        content : '',
         pharmacyID : null
     }
 }

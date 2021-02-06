@@ -88,10 +88,10 @@ public class PromotionsServiceImpl implements PromotionsService {
         builder.append("We would like to alert You that we have a new promotion.\n");
         builder.append(promotions.getContent());
         builder.append("\n");
-        builder.append("Promotion starts at ");
+        builder.append("Promotion starts on ");
         builder.append(promotions.getStartDate());
         builder.append("\n");
-        builder.append("Promotion ends at ");
+        builder.append("Promotion ends on ");
         builder.append(promotions.getEndDate());
 
         emailService.sendSimpleMessage(user.getEmail(),"New Pharmacy "+ name+" promotion",builder.toString());

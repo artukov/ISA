@@ -11,6 +11,7 @@ import CurrentUserContextProvider, { CurrentUserContext } from './components/con
 import SupplierPage from './components/supplier/SupplierPage';
 import DermatologistPage from './components/dermatologist/DermatologistPage';
 import Pharmacistpage from './components/pharmacist/Pharmacistpage';
+import ResetPasswordPage from './components/reset-password/ResetPasswordPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/supplier" exact component={SupplierPage}></Route>
         <Route path="/dermatologist" exact component={DermatologistPage}></Route>
         <Route path="/pharmacist" exact component={Pharmacistpage}></Route>
+        <Route path='/reset-password' exact component={ResetPasswordPage}></Route>
         {/* <Route path='/'>404 not here sry</Route> */}
 
       </Switch>
