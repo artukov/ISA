@@ -34,4 +34,5 @@ public interface DrugService {
     void addToPharmacyDrug(Drug drug, Long pharmacyID, Integer amount) throws Exception;
 
     List<DrugDTO> findAllNotPharmacyDrugs(Long pharmacyID) throws Exception;
+    List<DrugDTO> checkForAllergy(Long patientId, Long drugId);
 }

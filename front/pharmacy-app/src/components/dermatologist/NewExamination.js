@@ -16,6 +16,7 @@ const NewExamination = () => {
     const [choosenDrugs, setChoosenDrugs] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState({});
     const [showForm, setShowForm] = useState(false);
+    const [substituteDrugs, setSubstituteDrugs] = useState([]);
 
     const openForm  = () => {
         setShowForm(true);
@@ -116,7 +117,7 @@ const NewExamination = () => {
             
         }
         for (let drug of choosenDrugs) {
-            examination.drugs = [... examination.drugs, drug.id]
+            examination.drugs = [...examination.drugs, drug.id]
         }
 
         try{
@@ -130,6 +131,16 @@ const NewExamination = () => {
             alert(err.response.data);
         }
     }
+
+     const loadSubstituteDrugs = async (patientId, drugId) => {
+            try {
+                const result = await axiosConfig.get('dermatologist/checkAllergy/'+patientId+'/'+drugId);
+                setSubstituteDrugs(result.data);
+            } catch (err) {
+                console.log(err);
+            }
+            
+        }
 
     const [state, dispatch] = useReducer(absencerequestReducers, {
         startDate: '',
@@ -220,8 +231,7 @@ const NewExamination = () => {
                         
                         <Button onClick={(e) => {
                             setChoosenDrugs([...choosenDrugs, selectedDrug]);
-                            console.log(selectedDrug);
-                            console.log(choosenDrugs);
+                          
                             setAllDrugs(allDrugs.filter(drug => drug.id !== selectedDrug.id));
                             }}>Add drug to the list</Button>
                         
@@ -253,6 +263,27 @@ const NewExamination = () => {
                                                     ])
                                                 }}
                                                  variant="warning">Delete from list</Button>
+                                            </ListGroup.Item>
+                                            <ListGroup.Item>
+                                                <Button onClick={() => {
+                                                    
+                                                    loadSubstituteDrugs(selectedAppointment.patient_id, drug.id);
+                                                }}
+                                                 variant="warning">Check for allergy</Button>
+                                            </ListGroup.Item>
+                                            <ListGroup.Item>
+                                                <Form.Label>If patient is allergic here is the list of substitute drugs</Form.Label>
+                                                    <Form.Control as="select">
+                                                            {
+                                                                substituteDrugs ? (
+                                                                    substituteDrugs.map(drug =>
+                                                                        <option key={drug.id} value={JSON.stringify({ id: drug.id, name: drug.name })}>
+                                                                            {drug.name} 
+                                                                        </option>
+                                                                    )
+                                                                ) : null}
+                        
+                                                </Form.Control>
                                             </ListGroup.Item>
                                         </ListGroup>
                                     )
