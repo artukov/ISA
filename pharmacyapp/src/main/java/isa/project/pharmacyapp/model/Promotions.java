@@ -22,6 +22,9 @@ public class Promotions {
    /** @pdOid 15feddbb-8638-4867-b5eb-5335b4d8b326 */
    @Column(nullable = false, name = "end_date")
    private Date endDate;
+
+   @Column(nullable = false, name = "content")
+   private String content;
    
    /** @pdRoleInfo migr=no name=Pharmacy assc=association21 mult=1..1 side=A */
    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -55,12 +58,24 @@ public class Promotions {
    public Promotions() {
    }
 
-   /** @pdGenerated default parent getter */
    public Pharmacy getPharmacy() {
       return pharmacy;
    }
-   
-//   /** @pdGenerated default parent setter
+   public void setPharmacy(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
+   }
+
+   public String getContent() {
+      return content;
+   }
+
+   public void setContent(String content) {
+      this.content = content;
+   }
+
+
+
+   //   /** @pdGenerated default parent setter
 //     * @param newPharmacy */
 //   public void setPharmacy(Pharmacy newPharmacy) {
 //      if (this.pharmacy == null || !this.pharmacy.equals(newPharmacy))
