@@ -21,7 +21,7 @@ const UserProfileComponent = ({setUser,hideRole, user}) => {
                 <Form.Group>
                     <Row>
                         <Col><Form.Label>Email of the user</Form.Label></Col>
-                        <Col><Form.Control type="email" placeholder={state.email ? state.email : ''} 
+                        <Col><Form.Control type="email" placeholder={state.email ? state.email : ''} readOnly ={user ? true : false}
                         onChange = {(e)=> dispatch({type : 'email', payload : e.target.value})} ></Form.Control></Col>
                     </Row>
                 </Form.Group>
@@ -68,12 +68,7 @@ const UserProfileComponent = ({setUser,hideRole, user}) => {
                         <Col><Form.Control type="text" onChange = {(e)=> dispatch({type : 'address', payload : e.target.value})} ></Form.Control></Col>
                     </Row>
                 </Form.Group>
-                {/* <Form.Group hidden = {user ? false : true}>
-                    <Form.Check type="checkbox" label="Reset password"></Form.Check>
-                    <Row>
-                        <Col><Form.Label>Enter old password</Form.Label></Col>
-                    </Row>
-                </Form.Group> */}
+          
             </Form>
         </div> 
     );

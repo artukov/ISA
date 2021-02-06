@@ -26,6 +26,8 @@ public class UserServiceFactory {
 
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private SystemAdminService systemAdminService;
 
 
     public UserService getUserService(UserRoles role){
@@ -52,9 +54,7 @@ public class UserServiceFactory {
             return supplierService;
         }
         if(role.equals(UserRoles.SYSTEM_ADMIN)){
-            /**
-             * TODO
-             * SystemAdminService*/
+            return systemAdminService;
         }
 
         return userService;

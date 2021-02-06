@@ -9,6 +9,8 @@ const ResetPasswordPage = () => {
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const [showPasswords, setshowPasswords] = useState(false);
+
     useEffect(() => {
         dispatch({type : ''});
       
@@ -40,22 +42,27 @@ const ResetPasswordPage = () => {
             <Form>
                <Form.Group>
                     <Form.Label>Enter Your old password</Form.Label>
-                    <Form.Control type="password"
+                    <Form.Control type={showPasswords ? "text" : "password"}
                         onChange={(e)=>dispatch({type : SET_OLD_PASSWORD, oldPassword : e.target.value})}
                     ></Form.Control>
                </Form.Group>
                <Form.Group>
                     <Form.Label>Enter Your new password</Form.Label>
-                    <Form.Control type="password"
+                    <Form.Control type={showPasswords ? "text" : "password"}
                         onChange={(e) => dispatch({type : SET_NEW_PASSWORD, newPassword : e.target.value})}
                     ></Form.Control>
                </Form.Group>
                <Form.Group>
                     <Form.Label>Confirm new password</Form.Label>
-                    <Form.Control type="password"
+                    <Form.Control type={showPasswords ? "text" : "password"}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     ></Form.Control>
                </Form.Group>
+                <Form.Check 
+                        type="checkbox"
+                        label = "See passwords"
+                        onClick = {() => setshowPasswords(!showPasswords)}
+                    ></Form.Check>
                 <Button onClick={(e) => handleSubmit(e)}>Save changes</Button>
             </Form>
        </div>

@@ -43,7 +43,7 @@ const ResetPassword = ({userOldPassword}) => {
                     <Modal.Header closeButton><Modal.Title>Reset password</Modal.Title></Modal.Header>
                     <Modal.Body>
                         <Modal.Title style={{color : 'red'}}>Warning!!!</Modal.Title>
-                        <p>If the password change, You will have to login again</p>
+                        <p>If the password changes, You will have to login again</p>
                         <Form>
                             <Form.Group>
                                 <Form.Label>Enter old password</Form.Label>
