@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
-import { Button, ButtonGroup, Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
-import formatDate from '../../config/DateFormatConfig';
 import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestReducer';
 
 const NewExamination = () => {
@@ -108,13 +107,16 @@ const NewExamination = () => {
             beggingDateTime: selectedAppointment.beggingDateTime,
             duration: selectedAppointment.duration,
             finished: true,
-            drugs: choosenDrugs,
+            drugs: [],
             patient_id: selectedAppointment.patient_id,
             pharmacyID: selectedAppointment.pharmacyID,
             price: price,
             diagnose: description,
             dermatologist_id: dermatologist.id
             
+        }
+        for (let drug of choosenDrugs) {
+            examination.drugs = [... examination.drugs, drug.id]
         }
 
         try{
@@ -191,7 +193,7 @@ const NewExamination = () => {
 
                     <Col>
                         <div>Diagnose</div>
-                        <Form.Control type="text" placeholder = "Description" onChange = { (e) => setDescription(e.target.value)}></Form.Control>
+                        <Form.Control type="text" placeholder = "Diagnose" onChange = { (e) => setDescription(e.target.value)}></Form.Control>
                     </Col>
                     <Col>
                         <div>Report</div>
@@ -215,40 +217,20 @@ const NewExamination = () => {
                         
                         </Form.Control>
                         </Col>
-                        <Col>
+                        
                         <Button onClick={(e) => {
                             setChoosenDrugs([...choosenDrugs, selectedDrug]);
                             console.log(selectedDrug);
                             console.log(choosenDrugs);
                             setAllDrugs(allDrugs.filter(drug => drug.id !== selectedDrug.id));
                             }}>Add drug to the list</Button>
-                        </Col>
+                        
                         <Col>
                         <div>Price</div>
                         <Form.Control type="number" placeholder = "Price" onChange = { (e) => setPrice(parseFloat(e.target.value)) }></Form.Control>
                         </Col>
 
                 </Row>
-                {/* <Row>
-                    <Col>
-                            <div>Selected drugs</div>
-                            <ListGroup>
-                            <ListGroup.Item>
-                                                <Button onClick={() => {
-                                                    setChoosenDrugs(choosenDrugs.filter(drug => drug.id !== selectedDrug.id))
-                                                    setAllDrugs([
-                                                        {
-                                                            id : drug.id,
-                                                            name : drug.name
-                                                        },
-                                                        ...drugs
-                                                    ])
-                                                }}
-                                                 variant="warning">Delete from list</Button>
-                                            </ListGroup.Item>
-                                        </ListGroup>
-                    </Col>
-                    </Row> */}
            <Form.Group>
                     <Form.Label>List of all the drug selected</Form.Label>
                         {
@@ -278,7 +260,9 @@ const NewExamination = () => {
                             ) : null
                         }
                 </Form.Group>
-                <Button>Save examination</Button>
+                <Button onClick={() => {
+                saveExamination();
+            }}>Save examination</Button>
                 
                 </Form> : null
             } 

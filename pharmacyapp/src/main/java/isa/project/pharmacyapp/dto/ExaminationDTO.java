@@ -39,6 +39,7 @@ public class ExaminationDTO extends AppointmentDTO {
         examination.setBeggingDateTime(examinationDTO.getBeggingDateTime());
         examination.setDuration(examinationDTO.getDuration());
         examination.setReport(examinationDTO.getReport());
+        examination.setFinished(examinationDTO.getFinished());
 
     }
 
