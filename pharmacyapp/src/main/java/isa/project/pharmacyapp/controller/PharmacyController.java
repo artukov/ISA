@@ -24,6 +24,7 @@ import java.util.NoSuchElementException;
 public class PharmacyController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+    private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
 
     @Autowired
     private PharmacyService pharmacyService;
@@ -60,7 +61,7 @@ public class PharmacyController {
     }
 
     @PostMapping(value = "/new",consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
+    @PreAuthorize(ADMIN_AUTHORITY)
     public ResponseEntity<?> createNewPharmacy(@RequestBody PharmacyDTO dto){
 
         try {

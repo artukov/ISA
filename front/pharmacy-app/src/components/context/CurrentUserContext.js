@@ -6,16 +6,11 @@ export const CurrentUserContext = createContext();
 
 const CurrentUserContextProvider = (props) => {
 
-    const [currentUser, setCurrentUser] = useState({});
-
-    const fetchUser = useCurrentUser();
+    const currentUser = useCurrentUser();
 
     useEffect(() => {
-        setCurrentUser(fetchUser);
-        console.log('context', currentUser);
-        return () => {
-        }
-    }, [fetchUser]);
+       
+    }, [currentUser]);
 
     return ( 
         <CurrentUserContext.Provider value = {{currentUser}}>

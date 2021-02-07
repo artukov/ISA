@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.dto;
 
 import isa.project.pharmacyapp.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PharmacyDTO {
@@ -64,7 +65,10 @@ public class PharmacyDTO {
     public static void dto2Pharmacy(Pharmacy pharmacy, PharmacyDTO pharmacyDTO) {
         pharmacy.setName(pharmacyDTO.getName());
         pharmacy.setDescription(pharmacyDTO.getDescription());
-        pharmacy.setRatings(pharmacyDTO.getRatings());
+        if(pharmacyDTO.getRatings() == null || pharmacyDTO.getRatings().size() == 0)
+            pharmacy.setRatings(new ArrayList<>());
+        else
+            pharmacy.setRatings(pharmacyDTO.getRatings());
 
     }
 
