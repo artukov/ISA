@@ -25,4 +25,5 @@ public interface ExaminationService {
     void createNewExaminationPharmacy(ExaminationDTO dto, Long pharmacyID) throws Exception;
 
     Date getExamDate(Long id);
+    ExaminationDTO findExamination(Long patientId, Date dateTime);
 }

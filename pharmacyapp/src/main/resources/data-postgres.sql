@@ -4,6 +4,7 @@
 insert into public.address(id, street, street_number, city, country) values (200,'street', 15,'city','country');
 
 INSERT INTO public.calendar(id) VALUES (200);
+INSERT INTO public.calendar(id) VALUES (300);
 
 --pharmacy
 
@@ -13,7 +14,7 @@ VALUES (200, 'description', 'ISA Pharmacy', 200, 200);
 
 INSERT INTO public.pharmacy(
     id, description, name, address_id, calendar_id)
-VALUES (300, 'description', 'name', 200, 200);
+VALUES (300, 'description', 'name', 200, 300);
 
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 4.5);
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 5.0);

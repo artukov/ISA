@@ -248,4 +248,13 @@ public class ExaminationServiceImpl implements ExaminationService {
                     "saving of the modified object did not excecute");
         }
     }
+
+    @Override
+    public ExaminationDTO findExamination(Long patientId, Date dateTime){
+        Examination e = repository.findExamination(patientId,dateTime);
+        Long pharmacyId = repository.getPharmacyIdByExamination(e.getId());
+        ExaminationDTO dto = ExaminationDTO.examination2DTO(e);
+        dto.setPharmacyID(pharmacyId);
+        return dto;
+    }
 }
