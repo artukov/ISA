@@ -330,7 +330,7 @@ public class DrugServiceImpl implements DrugService {
     public List<DrugDTO> checkForAllergy(Long patientId, Long drugId){
         ArrayList<DrugDTO> drugDTOS = new ArrayList<>();
         if(drugRepository.checkForAllergy(patientId,drugId).isEmpty()){
-
+            return drugDTOS;
         }
         List<Drug> drugs = drugRepository.checkForAllergy(patientId,drugId);
         for(Drug drug: drugs){

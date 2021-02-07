@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react'
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestReducer';
+import SubstituteDrugComponent from './SubstituteDrugsComponent';
 
 const NewExamination = () => {
 
@@ -17,6 +18,7 @@ const NewExamination = () => {
     const [selectedAppointment, setSelectedAppointment] = useState({});
     const [showForm, setShowForm] = useState(false);
     const [substituteDrugs, setSubstituteDrugs] = useState([]);
+    const [isAllergic, setIsAllergic] = useState({});
 
     const openForm  = () => {
         setShowForm(true);
@@ -133,28 +135,21 @@ const NewExamination = () => {
     }
 
      const loadSubstituteDrugs = async (patientId, drugId) => {
-            try {
-                const result = await axiosConfig.get('dermatologist/checkAllergy/'+patientId+'/'+drugId);
-                setSubstituteDrugs(result.data);
-            } catch (err) {
-                console.log(err);
-            }
-            
+        try {
+            const result = await axiosConfig.get('dermatologist/checkAllergy/'+patientId+'/'+drugId);
+            setSubstituteDrugs(result.data);
+        } catch (err) {
+            console.log(err);
         }
+        
+    }
 
     const [state, dispatch] = useReducer(absencerequestReducers, {
         startDate: '',
         startTime: ''
     });
 
-    const setStartDate = (date) => {
-        dispatch({ type: SET_START_DATE, startDate: date });
-
-    }
-
-    const setStartTime = (time) => {
-        dispatch({ type: SET_START_TIME, startTime: time });
-    }
+    
 
 
     return (  
@@ -172,8 +167,8 @@ const NewExamination = () => {
                                         </option>
                                     )
                                 ) : null}
-                        </Form.Control>
-                    </Col>
+                        </Form.Control> 
+                    </Col>1
                     <Col>
                         <div>Select date</div>
                     <Form.Control type = "date"  onChange = {(e) => dispatch({ type: SET_START_DATE, startDate: e.target.value })}></Form.Control>
@@ -264,15 +259,34 @@ const NewExamination = () => {
                                                 }}
                                                  variant="warning">Delete from list</Button>
                                             </ListGroup.Item>
-                                            <ListGroup.Item>
-                                                <Button onClick={() => {
-                                                    
-                                                    loadSubstituteDrugs(selectedAppointment.patient_id, drug.id);
+                                            <SubstituteDrugComponent patientId={selectedAppointment.patient_id} drugId={drug.id}></SubstituteDrugComponent>
+                                            {/* <ListGroup.Item>
+                                                <Button onClick={async () => {
+                                                    const id = drug.id;
+                                                    await loadSubstituteDrugs(selectedAppointment.patient_id, id);
+                                                    // if (substituteDrugs.length !== 0) {
+                                                    //    const temp =  choosenDrugs.filter(drug => drug.id !== id);
+                                                    //     setAllDrugs([
+                                                    //     {
+                                                    //         id : drug.id,
+                                                    //         name : drug.name
+                                                    //     },
+                                                    //         ...allDrugs
+                                                    //     ])
+                                                    //     setChoosenDrugs([
+                                                    //     {
+                                                    //         id : substituteDrugs[0].id,
+                                                    //         name : substituteDrugs[0].name
+                                                    //     },
+                                                    //         ...temp
+                                                    //     ])
+                                                    // }
+                                                    // setSubstituteDrugs([]);
                                                 }}
                                                  variant="warning">Check for allergy</Button>
-                                            </ListGroup.Item>
+                                            </ListGroup.Item> */}
                                             <ListGroup.Item>
-                                                <Form.Label>If patient is allergic here is the list of substitute drugs</Form.Label>
+                                                {/* <Form.Label>If patient is allergic here is the list of substitute drugs</Form.Label>
                                                     <Form.Control as="select">
                                                             {
                                                                 substituteDrugs ? (
@@ -283,7 +297,7 @@ const NewExamination = () => {
                                                                     )
                                                                 ) : null}
                         
-                                                </Form.Control>
+                                                </Form.Control> */}
                                             </ListGroup.Item>
                                         </ListGroup>
                                     )

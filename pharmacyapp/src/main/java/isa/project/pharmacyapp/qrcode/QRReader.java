@@ -20,7 +20,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-public class QRReader {
+public class
+QRReader {
     // Function to read the QR file
     public static String readQR(String path, String charset,
                                 Map hashMap)

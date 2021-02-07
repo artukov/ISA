@@ -43,7 +43,7 @@ public class Drug {
    @JoinColumn(name = "spec_id")
    private DrugSpecification drugSpecification;
    /** @pdRoleInfo migr=no name=Drug assc=association29 coll=java.util.List impl=java.util.ArrayList mult=0..* */
-   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    @JoinTable(
            name = "substitute_drugs",
            joinColumns = @JoinColumn(name = "original_id"),
