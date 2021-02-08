@@ -25,7 +25,7 @@ const PatientListP = () => {
         loadPatients();
     }, [])
 
-    const findPatients = async (firstName, lastName) => {
+    const findPatients = (firstName, lastName) => {
         // console.log(firstName.toUpperCase(), lastName);
         const foundPatient = patients.find(patient =>
             patient.lastname.toUpperCase() === lastName.toUpperCase()
