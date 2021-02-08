@@ -1,10 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.AppointmentDTO;
-import isa.project.pharmacyapp.dto.ConsultationDTO;
+import isa.project.pharmacyapp.dto.*;
 
-import isa.project.pharmacyapp.dto.DermatologistDTO;
-import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
 import isa.project.pharmacyapp.exception.InsertingDermatologistException;
 import isa.project.pharmacyapp.model.*;
@@ -151,5 +148,14 @@ public class ConsultationServiceImpl implements ConsultationService {
             throw new Exception("ConsultationServiceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
                     "saving of the modified object did not excecute");
         }
+    }
+
+    @Override
+    public ConsultationDTO findConsultation(Long patientId, Date dateTime){
+        Consultation c = consultationRepository.findConsultation(patientId,dateTime);
+        Long pharmacyId = consultationRepository.getPharmacyIdByConsultation(c.getId());
+        ConsultationDTO dto = ConsultationDTO.consultation2DTO(c);
+        dto.setPharmacyID(pharmacyId);
+        return dto;
     }
 }

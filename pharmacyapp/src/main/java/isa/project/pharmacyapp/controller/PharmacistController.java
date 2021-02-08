@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,6 +43,9 @@ public class PharmacistController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private DrugService drugService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -215,9 +220,9 @@ public class PharmacistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/addPenalty", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/addPenalty/{id}")
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> addPenalty(@RequestBody Long id){
+    public ResponseEntity<?> addPenalty(@PathVariable("id") Long id){
         try {
             patientService.addPenalty(id);
         }
@@ -299,6 +304,34 @@ public class PharmacistController {
         List<PatientDTO> patientDTOList = pharmacistService.getPharmacistPatientsDistinct(current.getId());
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findConsultation/{patientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> findConsultation(@PathVariable("patientId") Long patientId, @RequestParam("dateTime") Long dateTime){
+        Date newDate = new Date();
+        newDate.setTime(dateTime);
+        ConsultationDTO dto = null;
+        try{
+            dto =  consultationService.findConsultation(patientId,newDate);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/checkAllergy/{patientId}/{drugId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> checkAllergy(@PathVariable("patientId") Long patientId, @PathVariable("drugId") Long drugId){
+        List<DrugDTO> dtos = new ArrayList<>();
+        try{
+            dtos = drugService.checkForAllergy(patientId,drugId);
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
 

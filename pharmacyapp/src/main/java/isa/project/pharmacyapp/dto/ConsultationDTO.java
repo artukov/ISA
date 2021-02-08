@@ -1,7 +1,9 @@
 package isa.project.pharmacyapp.dto;
 
 import isa.project.pharmacyapp.model.Consultation;
+import isa.project.pharmacyapp.model.Examination;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,27 @@ public class ConsultationDTO extends AppointmentDTO {
         consultation.setDuration(consultationDTO.getDuration());
         consultation.setReport(consultationDTO.getReport());
         consultation.setFinished(consultationDTO.getFinished());
+    }
+
+    public static ConsultationDTO consultation2DTO(Consultation c) {
+        ConsultationDTO dto = new ConsultationDTO(
+                c.getId(),
+                c.getReport(),
+                c.getBeggingDateTime(),
+                c.getDuration(),
+                c.getFinished(),
+                new ArrayList<>(),
+                null,
+                c.getPharmacist().getId()
+        );
+        try{
+            if(c.getPatient().getId() != null)
+                dto.setPatient_id(c.getPatient().getId());
+        }
+        catch (NullPointerException npe){
+
+        }
+        return dto;
     }
 
 

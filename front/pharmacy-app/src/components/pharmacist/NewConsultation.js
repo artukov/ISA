@@ -75,7 +75,7 @@ const NewConsultation = () => {
         let dateTime = new Date(year, month, day, hours, minutes, 0);
         dateTime.setMonth(dateTime.getMonth() - 1);
             try {
-                const result = await axiosConfig.get('/pharmacist/findExamination/' + id, {
+                const result = await axiosConfig.get('/pharmacist/findConsultation/' + id, {
                     params: { dateTime: dateTime.getTime() }
                 })
                 setSelectedAppointment(result.data);
