@@ -239,20 +239,19 @@ public class PharmacistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping(value = "/dispense", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/dispense/{id}")
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> dispenseDrug(@RequestBody Long id){
+    public ResponseEntity<?> dispenseDrug(@PathVariable("id") Long id){
         try {
             reservationService.dispenseDrug(id);
         }
         catch (NoSuchElementException ele){
             ele.printStackTrace();
-            return new ResponseEntity<>("PharmacistController::dispenseDrug " +
-                    "Reservation with given id does not exists",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ele.getMessage(),HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("PharmacistController::dispenseDrug Server error"
+            return new ResponseEntity<>(e.getMessage()
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

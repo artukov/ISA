@@ -122,6 +122,9 @@ VALUES (201, now(), false,400, 200);
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
 VALUES (202, now(), true,400, 200);
 
+INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
+VALUES (203, '2022-02-10', false,400, 200);
+
 INSERT INTO reservation_drug(reservation_id, drug_id)
 VALUES (200, 200);
 
@@ -130,6 +133,9 @@ VALUES (201, 300);
 
 INSERT INTO reservation_drug(reservation_id, drug_id)
 VALUES (202, 300);
+
+INSERT INTO reservation_drug(reservation_id, drug_id)
+VALUES (203, 300);
 
 --pharmacist
 
