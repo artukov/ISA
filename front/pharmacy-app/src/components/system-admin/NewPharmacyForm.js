@@ -26,7 +26,6 @@ const NewPharmacyForm = () => {
         };
         try{
             await axiosConfig.post('/pharmacy/new', pharmacy);
-
         }
         catch(err){
             console.log(err.response);

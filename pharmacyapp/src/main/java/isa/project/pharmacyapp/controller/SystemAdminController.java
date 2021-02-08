@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,24 @@ public class SystemAdminController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @PostMapping(value="/new",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> postNewSystemAdmin(@RequestBody UserDTO userDTO){
+
+        SystemAdminService adminService = (SystemAdminService) serviceFactory.getUserService(UserRoles.SYSTEM_ADMIN);
+        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+        try {
+            adminService.createNewSystemAdmin(userDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PutMapping(value = "/modify/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)

@@ -26,8 +26,8 @@ const NewPharmacyAdminForm = () => {
     
 
     const saveChanges = async (e) => {
-        
-        console.log(selectedPharmacy);
+        e.preventDefault();
+        // console.log(selectedPharmacy);
         user.pharmacy_id = selectedPharmacy;
         user.address_id = 200;
         console.table(user);
@@ -40,22 +40,24 @@ const NewPharmacyAdminForm = () => {
     }
 
     return (
-        <Form>
+        <div>
             <UserProfileComponent setUser={setUser} hideRole={true} user={undefined}></UserProfileComponent>
-            <Form.Group>
-                <Form.Label>Choose pharmacy</Form.Label>
-                <Form.Control as="select" onClick={(e) => {setSelectedPharmacy(e.target.value)}}>
-                    {
-                        pharmacies ?  
-                            pharmacies.map(pharmacy => 
-                                    <option key={pharmacy.id} value={pharmacy.id}>{pharmacy.name}</option>
-                                )
-                        : <option></option>
-                    }
-                </Form.Control>
-            </Form.Group>
-            <Button onClick={(e) => saveChanges(e)}>Save changes</Button>
-        </Form>
+            <Form>
+                <Form.Group>
+                    <Form.Label>Choose pharmacy</Form.Label>
+                    <Form.Control as="select" onClick={(e) => {setSelectedPharmacy(e.target.value)}}>
+                        {
+                            pharmacies ?  
+                                pharmacies.map(pharmacy => 
+                                        <option key={pharmacy.id} value={pharmacy.id}>{pharmacy.name}</option>
+                                    )
+                            : <option></option>
+                        }
+                    </Form.Control>
+                </Form.Group>
+                <Button onClick={(e) => saveChanges(e)}>Save changes</Button>
+            </Form>
+        </div>
      );
 }
  

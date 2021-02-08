@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 public class DermatologistController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+    private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
 
     @Qualifier("userServiceImpl")
     @Autowired
@@ -175,6 +176,22 @@ public class DermatologistController {
         DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
         List<CalendarDTO> calendar = dermatologistService.getDermatologistCalendar(current.getId());
         return new ResponseEntity<>(calendar,HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(ADMIN_AUTHORITY)
+    public ResponseEntity<?> postNewDermatologist(@RequestBody DermatologistDTO dermatologistDTO){
+
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+        dermatologistDTO.setPassword(passwordEncoder.encode(dermatologistDTO.getPassword()));
+        try {
+            dermatologistService.createNewDermatologist(dermatologistDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
