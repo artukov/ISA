@@ -6,8 +6,8 @@ const PatientListP = () => {
     const [sortNameAsc, setSortNameAsc] = useState(true);
     const [sortSurnameAsc, setSortSurnameAsc] = useState(true);
     const [sortEmailAsc, setSortEmailAsc] = useState(true);
-    const [clientName, setClientName] = useState({});
-    const [clientLastname, setClientLastname] = useState({});    
+    const [clientName, setClientName] = useState('');
+    const [clientLastname, setClientLastname] = useState('');    
     const [foundPatients, setFoundPatients] = useState([]);
 
     useEffect(() => {
@@ -27,11 +27,13 @@ const PatientListP = () => {
 
     const findPatients = (firstName, lastName) => {
         // console.log(firstName.toUpperCase(), lastName);
+        
         const foundPatient = patients.find(patient =>
             patient.lastname.toUpperCase() === lastName.toUpperCase()
             && patient.firstname.toUpperCase() === firstName.toUpperCase()
         );
         setFoundPatients([foundPatient]);
+
         // console.log('patient',foundPatient);
         // try {
         //     const result = await axiosConfig.get('/pharmacist/getAllPatients/'+firstName+'/'+lastName);
@@ -142,21 +144,32 @@ const PatientListP = () => {
                 }>Find Client</Button>
             </Form>
                 <ListGroup>
-            
+             <ListGroup.Item>
+                    <Row>
+                        <Col>Name</Col>
+                        <Col >Surname</Col>
+                        <Col >Email</Col>
+                    </Row>
+                </ListGroup.Item>
                 {
                     foundPatients ? (
-                        foundPatients.map((patient,index) =>
+                        foundPatients.map((patient, index) => {
+                            
+                            if (patient) {
+                                return (
+                                    <ListGroup.Item key={index} >
+                                        <Row>
+                                            <Col>{patient.firstname}</Col>
+                                            <Col>{patient.lastname}</Col>
+                                            <Col>{patient.email}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                )
+                            }
+                            else return null
+                        }
 
-                            <ListGroup.Item /*onClick={() => {
-                                setStartHour(pharmacy.start_hour);
-                                setHours(pharmacy.hours);
-                            } }*/ key={index} >
-                                <Row>
-                                    <Col>{patient.firstname}</Col>
-                                    <Col>{patient.lastname}</Col>
-                                    <Col>{patient.email}</Col>
-                            </Row>
-                            </ListGroup.Item>
+                            
                             // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
                         )
                         

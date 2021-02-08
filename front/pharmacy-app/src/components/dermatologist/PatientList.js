@@ -10,8 +10,8 @@ const PatientList = () => {
     const [sortSurnameAsc, setSortSurnameAsc] = useState(true);
     const [sortEmailAsc, setSortEmailAsc] = useState(true);
     const [foundPatients, setFoundPatients] = useState([]);
-    const [clientName, setClientName] = useState({});
-    const [clientLastname, setClientLastname] = useState({});
+    const [clientName, setClientName] = useState('');
+    const [clientLastname, setClientLastname] = useState('');
 
 
     useEffect(() => {
@@ -176,19 +176,21 @@ const PatientList = () => {
             
                 {
                     foundPatients ? (
-                        foundPatients.map((patient,index) =>
+                        foundPatients.map((patient, index) => {
 
-                            <ListGroup.Item /*onClick={() => {
-                                setStartHour(pharmacy.start_hour);
-                                setHours(pharmacy.hours);
-                            } }*/ key={index} >
-                                <Row>
-                                    <Col>{patient.firstname}</Col>
-                                    <Col>{patient.lastname}</Col>
-                                    <Col>{patient.email}</Col>
-                            </Row>
-                            </ListGroup.Item>
-                            // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
+                            if (patient) {
+                                return (
+                                    <ListGroup.Item key={index} >
+                                        <Row>
+                                            <Col>{patient.firstname}</Col>
+                                            <Col>{patient.lastname}</Col>
+                                            <Col>{patient.email}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                )
+                            }
+                            else return null
+                        }
                         )
                         
                     ) : null
