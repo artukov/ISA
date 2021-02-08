@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import formatDate from '../../config/DateFormatConfig';
 import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from './AbsenceRequestPReducer';
 import SubstituteDrugsComponentP from './SubstituteDrugsComponentP';
 
@@ -18,12 +19,43 @@ const NewConsultation = () => {
     const [showForm, setShowForm] = useState(false);
     const [substituteDrugs, setSubstituteDrugs] = useState([]);
     const [isAllergic, setIsAllergic] = useState({});
+    const [showFormBookAppointment, setShowFormBookAppointment] = useState(false);
+    const [duration, setDuration] = useState({});
 
     const openForm  = () => {
         setShowForm(true);
 
     }
     
+    const openFormForAppointment = () => {
+        setShowFormBookAppointment(true);
+    }
+
+     const createAppointment = async () =>{
+        
+        console.log(state);
+        let newAppointment = {
+            beggingDateTime : formatDate(state.startDate,state.startTime),
+            duration: duration,
+            pharmacyID: pharmacist.pharmacyID,
+            patient_id: selectedPatient.id,
+            drugs: []
+        };
+        console.table(newAppointment);
+
+
+        try{
+            await axiosConfig.post('pharmacist/appointment/new',newAppointment);
+            // dispatch({type : INIT});
+            // setLatestPL(state);
+            //setReload(!reload);
+            alert("Appointment created");
+        }
+        catch(err){
+            console.log(err);
+            alert(err.response.data);
+        }
+    }
     useEffect(() => {
         const loadPharmacist = async () => {
             try {
@@ -299,11 +331,51 @@ const NewConsultation = () => {
                                 })
                             ) : null
                         }
-                </Form.Group>
+                    </Form.Group>
+                    <Row>
+                        <Col>
                 <Button onClick={() => {
                 saveConsultation();
-            }}>Save examination</Button>
-                
+                            }}>Save examination</Button>
+                        </Col>
+                        <Col>
+                    <Button onClick={() => {
+                        openFormForAppointment();
+                    }}>Book another appointment</Button>
+                        </Col>
+                         </Row>
+                    {showFormBookAppointment ?
+                        <Form onSubmit={(e) => e.preventDefault()}>
+                            <Row>
+                                <Col>
+                            <div>Set duration</div>
+                    <Form.Control type="number" onChange = {(e) => setDuration(parseInt(e.target.value))}>
+                        
+                            </Form.Control>
+                        </Col>
+                                <Col>
+                                    <div>Start date</div>
+                        <Form.Control type = "date"
+                                onChange = {(e) => dispatch({ type: SET_START_DATE, startDate: e.target.value })}
+                             ></Form.Control>
+                        </Col>
+                                <Col>
+                                    <div>Start time</div>
+                            <Form.Control type="time" onChange = {(e) => dispatch({type : SET_START_TIME, startTime : e.target.value})}></Form.Control>
+                            
+                                </Col>
+                                <Col>
+                                    
+                                </Col>
+                            </Row>
+                            <Button onClick={() => {
+                                        createAppointment();
+                                }}>Book</Button>
+                            </Form> : null
+                            }
+                           
+                       
+                             
                 </Form> : null
             } 
             
