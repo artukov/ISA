@@ -208,12 +208,11 @@ public class PharmacistController {
         }
         catch (NoSuchElementException ele){
             ele.printStackTrace();
-            return new ResponseEntity<>("ConsultationController::modifyConsultation " +
-                    "Consultation with given id does not exists",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ele.getMessage(),HttpStatus.BAD_REQUEST);
         }
         catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("ConsultationController::modifyConsultation Server error"
+            return new ResponseEntity<>(e.getMessage()
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

@@ -31,7 +31,7 @@ const NewConsultation = () => {
                 setPharmacist(result.data);
             }
             catch (err) {
-                console.log(err);
+                console.log(err.response.data);
             }
         }
 
@@ -46,7 +46,7 @@ const NewConsultation = () => {
                 setPatients(result.data);
 
             } catch (err) {
-                console.log(err);
+                console.log(err.response.data);
             }
             
         }
@@ -61,7 +61,7 @@ const NewConsultation = () => {
                 const result = await axiosConfig.get('/drug/allPharmacyDrugs/'+selectedAppointment.pharmacyID);
                 setAllDrugs(result.data);
             } catch (err) {
-                console.log(err);
+                console.log(err.response.data);
             }
             
         }
@@ -81,7 +81,7 @@ const NewConsultation = () => {
                 setSelectedAppointment(result.data);
 
             } catch (err) {
-                console.log(err);
+                console.log(err.response.data);
                 alert(err.response.data);
             }
             

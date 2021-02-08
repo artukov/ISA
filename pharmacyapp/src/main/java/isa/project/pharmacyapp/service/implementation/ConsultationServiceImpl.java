@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.*;
 
+import isa.project.pharmacyapp.exception.AllergyException;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
 import isa.project.pharmacyapp.exception.InsertingDermatologistException;
 import isa.project.pharmacyapp.model.*;
@@ -93,12 +94,14 @@ public class ConsultationServiceImpl implements ConsultationService {
                 Drug drug = drugRepository.findById(drugID).orElse(null);
                 allergiesNum += drugRepository.getAllergy(consultationDTO.getPatient_id(),drugID);
                 if(drug == null){
+
                     throw new Exception("Drug does not exist");
                 }
                 drugs.add(drug);
             }
             if(allergiesNum > 0){
-                throw new Exception("Patient is allergic to drugs");
+                throw new AllergyException("Patient is allergic to drug");
+
             }
             consultation.setDrug(drugs);
 
@@ -160,8 +163,7 @@ public class ConsultationServiceImpl implements ConsultationService {
             this.saveConsultation(consultation, consultationDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ConsultationServiceImpl::modifyConsultation(Long id, ConsultationDTO consultationDTO)" +
-                    "saving of the modified object did not excecute");
+            throw new Exception(e.getMessage());
         }
     }
 
