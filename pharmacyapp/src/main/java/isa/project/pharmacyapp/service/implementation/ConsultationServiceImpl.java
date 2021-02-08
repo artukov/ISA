@@ -45,6 +45,21 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Override
     public void createNewConsultation(ConsultationDTO dto) throws Exception {
         Consultation consultation = new Consultation();
+        Date endHours = new Date();
+        endHours.setTime(dto.getBeggingDateTime().getTime());
+        endHours.setHours(endHours.getHours() + dto.getDuration());
+        Double result = pharmacistRepository.overlappingWorkingHours(dto.getBeggingDateTime(), endHours,dto.getPharmacistID());
+        if(result != 0.0){
+            throw new InsertingConsultationException("Pharmacists hours are overlapping");
+        }
+        Double resultPatientConsultation = patientRepository.overlappingConsultationHours(dto.getBeggingDateTime(),endHours,dto.getPatient_id());
+        if(resultPatientConsultation != 0){
+            throw new InsertingConsultationException("Patient consultation hours are overlapping");
+        }
+        Double resultPatientExamination = patientRepository.overlappingExaminationHours(dto.getBeggingDateTime(),endHours,dto.getPatient_id());
+        if(resultPatientExamination != 0){
+            throw new InsertingConsultationException("Patient examination hours are overlapping");
+        }
         try {
             this.saveConsultation(consultation, dto);
         } catch (Exception e) {
@@ -87,21 +102,21 @@ public class ConsultationServiceImpl implements ConsultationService {
             }
             consultation.setDrug(drugs);
 
-        Date endHours = new Date();
-        endHours.setTime(consultationDTO.getBeggingDateTime().getTime());
-        endHours.setHours(endHours.getHours() + consultationDTO.getDuration());
-        Double result = pharmacistRepository.overlappingWorkingHours(consultationDTO.getBeggingDateTime(), endHours,consultationDTO.getPharmacistID());
-        if(result != 0.0){
-            throw new InsertingConsultationException("Pharmacists hours are overlapping");
-        }
-        Double resultPatientConsultation = patientRepository.overlappingConsultationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
-        if(resultPatientConsultation != 0){
-            throw new InsertingConsultationException("Patient consultation hours are overlapping");
-        }
-        Double resultPatientExamination = patientRepository.overlappingExaminationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
-        if(resultPatientExamination != 0){
-            throw new InsertingConsultationException("Patient examination hours are overlapping");
-        }
+//        Date endHours = new Date();
+//        endHours.setTime(consultationDTO.getBeggingDateTime().getTime());
+//        endHours.setHours(endHours.getHours() + consultationDTO.getDuration());
+//        Double result = pharmacistRepository.overlappingWorkingHours(consultationDTO.getBeggingDateTime(), endHours,consultationDTO.getPharmacistID());
+//        if(result != 0.0){
+//            throw new InsertingConsultationException("Pharmacists hours are overlapping");
+//        }
+//        Double resultPatientConsultation = patientRepository.overlappingConsultationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
+//        if(resultPatientConsultation != 0){
+//            throw new InsertingConsultationException("Patient consultation hours are overlapping");
+//        }
+//        Double resultPatientExamination = patientRepository.overlappingExaminationHours(consultationDTO.getBeggingDateTime(),endHours,consultationDTO.getPatient_id());
+//        if(resultPatientExamination != 0){
+//            throw new InsertingConsultationException("Patient examination hours are overlapping");
+//        }
         try {
             consultation =consultationRepository.save(consultation);
             /**
