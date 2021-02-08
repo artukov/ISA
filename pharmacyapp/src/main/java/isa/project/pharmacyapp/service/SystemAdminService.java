@@ -7,4 +7,6 @@ public interface SystemAdminService extends UserService{
     void modifySystemAdmin(Long id, UserDTO adminDTO) throws Exception;
 
     void saveSystemAdmin(SystemAdmin admin , UserDTO adminDTO) throws Exception;
+
+    void createNewSystemAdmin(UserDTO userDTO) throws Exception;
 }

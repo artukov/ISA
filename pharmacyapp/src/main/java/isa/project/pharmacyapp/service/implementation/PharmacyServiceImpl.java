@@ -202,19 +202,17 @@ public class PharmacyServiceImpl implements PharmacyService {
          * TODO
          * Deleting address if it has been changed, and checking if the deletion is allowed
          * */
+        Address address = new Address();
+        if(pharmacyDTO.getAddress() != null){
+            address = addressRepository.save(pharmacyDTO.getAddress());
+        }
+        else{
+            addressRepository.save(address);
+        }
 
-        Address savedAddress = addressRepository.save(pharmacyDTO.getAddress());
-        pharmacy.setAddress(savedAddress);
-//        if(savedAddress.getId() != pharmacyDTO.getAddress().getId()){
-//            addressRepository.delete(pharmacyDTO.getAddress());
-//
-//        }
-//        else
-//            pharmacy.setAddress(pharmacyDTO.getAddress());
+        pharmacy.setAddress(address);
 
-
-
-        pharmacy.setCalendar(calendarRepository.findById(pharmacyDTO.getCalendarID()).orElse(null));
+        pharmacy.setCalendar(calendarRepository.findById(pharmacyDTO.getCalendarID()).orElse(new Calendar()));
 
         if(pharmacy.getAddress() == null){
             throw new NoSuchElementException("PharmacyServiceImpl::savePharmacy there is no address by this id");

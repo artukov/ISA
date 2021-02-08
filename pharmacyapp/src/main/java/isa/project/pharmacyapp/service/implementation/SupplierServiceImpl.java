@@ -6,9 +6,11 @@ import isa.project.pharmacyapp.dto.SupplyOrderDTO;
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
+import isa.project.pharmacyapp.repository.AddressRepository;
 import isa.project.pharmacyapp.repository.SupplierRepository;
 import isa.project.pharmacyapp.repository.SupplyOrderRepository;
 import isa.project.pharmacyapp.repository.WareHouseRepository;
+import isa.project.pharmacyapp.service.AuthorityService;
 import isa.project.pharmacyapp.service.SupplierService;
 import org.aspectj.weaver.ast.Or;
 import org.hibernate.criterion.Order;
@@ -31,6 +33,12 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Autowired
     private SupplyOrderRepository orderRepository;
+
+    @Autowired
+    private AuthorityService authorityService;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Transactional
     @Override
@@ -120,6 +128,37 @@ public class SupplierServiceImpl implements SupplierService {
 
 
         return supplyOrderDTOS;
+    }
+
+    @Override
+    public void createNewSupplier(SupplierDTO supplierDTO) throws Exception {
+        Supplier supplier = new Supplier();
+        supplier.setAuthorities(authorityService.findByName("USER"));
+        supplier.setPassword(supplierDTO.getPassword());
+        supplier.setRole(UserRoles.SUPPLIER);
+        supplier.setLastPasswordResetDate(null);
+
+        saveSupplier(supplier, supplierDTO);
+
+    }
+
+    @Override
+    public void saveSupplier(Supplier supplier, SupplierDTO supplierDTO) throws Exception {
+        UserDTO.dto2User(supplier,supplierDTO);
+
+        if(supplier.getAddress() == null){
+            supplier.setAddress(addressRepository.save(supplierDTO.getAddress()));
+        }
+
+        try{
+            supplierRepository.save(supplier);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("Saving supplier");
+        }
+
+
     }
 
     /**

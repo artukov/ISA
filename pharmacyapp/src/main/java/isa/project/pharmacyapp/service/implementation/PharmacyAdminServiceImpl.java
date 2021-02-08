@@ -78,6 +78,9 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
         List<Authority> authorities = authorityService.findByName("USER");
         admin.setAuthorities(authorities);
+
+        admin.setRole(UserRoles.PHARMACY_ADMIN);
+        admin.setPassword(adminDTO.getPassword());
         admin.setLastPasswordResetDate(null);
 
         try {
@@ -134,30 +137,36 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
 
     @Override
     public PharmacyAdmin savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO) throws Exception {
-
-
         UserDTO.dto2User(admin,adminDTO);
 
-        try{
-            admin.setPharmacy(pharmacyRepository.findById(adminDTO.getPharmacy_id()).orElse(null));
-            admin.setAddress(addressRepository.findById(adminDTO.getAddress_id()).orElse(null));
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("PharmacyAdminSerivceImpl::savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO)" +
-                    "pharamcy or address does not exists");
+        /**
+         * TODO
+         * Saving address of the user
+         * */
+        if(admin.getAddress() == null){
+            admin.setAddress(addressRepository.save(adminDTO.getAddress()));
+        }
+        else if(adminDTO.getAddress().getId() == null){
+
         }
 
 
 
-//        List<Authority> authorities = authorityService.findByName("USER");
-//        admin.setAuthorities(authorities);
+        try{
+            admin.setPharmacy(pharmacyRepository.findById(adminDTO.getPharmacy_id()).orElse(null));
+//            admin.setAddress(addressRepository.findById(adminDTO.getAddress_id()).orElse(null));
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new Exception("PharmacyAdminServiceImpl::savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO)" +
+                    "pharmacy or address does not exists");
+        }
 
         try {
             adminRepository.save(admin);
         }
         catch(Exception e){
             e.printStackTrace();
-            throw new Exception("PharmacyAdminSerivceImpl::savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO)" +
+            throw new Exception("PharmacyAdminServiceImpl::savePharmacyAdmin(PharmacyAdmin admin, PharmacyAdminDTO adminDTO)" +
                     "saving admin exception ");
         }
 

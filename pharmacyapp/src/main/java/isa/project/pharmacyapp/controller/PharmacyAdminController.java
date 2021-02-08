@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,16 @@ import java.util.NoSuchElementException;
 public class PharmacyAdminController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+    private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
 
 //    @Autowired
 //    private PharmacyAdminService adminService;
 
     @Autowired
     private UserServiceFactory serviceFactory;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @GetMapping(value = "/find/{adminId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -77,11 +82,11 @@ public class PharmacyAdminController {
     }
 
     @PostMapping(value = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
+    @PreAuthorize(ADMIN_AUTHORITY)
     public ResponseEntity<?> createNewPharmacyAdmin(@RequestBody PharmacyAdminDTO adminDTO){
 
         PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);
-
+        adminDTO.setPassword(encoder.encode(adminDTO.getPassword()));
         try {
             adminService.createNewPharmacyAdmin(adminDTO);
         } catch (NoSuchElementException ele){

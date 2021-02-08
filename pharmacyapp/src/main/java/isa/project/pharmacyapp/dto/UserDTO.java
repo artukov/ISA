@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import isa.project.pharmacyapp.model.Address;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 
@@ -21,31 +22,12 @@ public class UserDTO {
 
     protected Timestamp  lastPasswordResetDate;
 
+    protected Address address;
+
     public UserDTO() {
     }
 
-//    public UserDTO(Long id, String email, String password, String firstname, String lastname,
-//                   Long address_id, String phoneNumber) {
-//        this.id = id;
-//        this.email = email;
-//        this.password = password;
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.address_id = address_id;
-//        this.phoneNumber = phoneNumber;
-//    }
 
-//    public UserDTO(Long id, String email, String password, String firstname,
-//                   String lastname, Long address_id, String phoneNumber, UserRoles role) {
-//        this.id = id;
-//        this.email = email;
-//        this.password = password;
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.address_id = address_id;
-//        this.phoneNumber = phoneNumber;
-//        this.role = role;
-//    }
 
     public UserDTO(Long id, String email, String password,
                    String firstname, String lastname, Long address_id, String phoneNumber, UserRoles role,
@@ -160,5 +142,13 @@ public class UserDTO {
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

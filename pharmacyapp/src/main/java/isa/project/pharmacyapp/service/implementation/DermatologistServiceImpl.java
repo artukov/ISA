@@ -176,14 +176,13 @@ public class DermatologistServiceImpl implements DermatologistService {
 
     @Override
     public void createNewDermatologist(DermatologistDTO dermatologistDTO) throws Exception {
-//        if(!dermatologistRepository.existsById(dermatologistDTO.getId())){
-//
-//        }
         Dermatologist dermatologist = new Dermatologist();
         List<Authority> authorities = new ArrayList<>();
-//        Authority authority = ;
+
         authorities.add(authenticationRepository.findByName("USER"));
         dermatologist.setAuthorities(authorities);
+        dermatologistDTO.setRole(UserRoles.DERMATOLOGIST);
+        dermatologist.setPassword(dermatologistDTO.getPassword());
         dermatologist.setLastPasswordResetDate(null);
 
         this.saveDermatologist(dermatologist,dermatologistDTO);
@@ -217,13 +216,17 @@ public class DermatologistServiceImpl implements DermatologistService {
     public Dermatologist saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO) throws Exception{
         UserDTO.dto2User(dermatologist,dermatologistDTO);
 
-        try{
-            dermatologist.setAddress(addressRepository.findById(dermatologistDTO.getAddress_id()).orElse(null));
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
-                    " address does not exists");
+        if(dermatologist.getAddress() == null){
+            dermatologist.setAddress(addressRepository.save(dermatologistDTO.getAddress()));
         }
+
+//        try{
+//            dermatologist.setAddress(addressRepository.findById(dermatologistDTO.getAddress_id()).orElse(null));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
+//                    " address does not exists");
+//        }
 
 
 
@@ -232,7 +235,7 @@ public class DermatologistServiceImpl implements DermatologistService {
         }
         catch(Exception e){
             e.printStackTrace();
-            throw new Exception("DermatologistSerivceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
+            throw new Exception("DermatologistServiceImpl::saveDermatologist(Dermatologist dermatologist, DermatologistDTO dermatologistDTO)" +
                     "saving dermatologist exception ");
         }
 

@@ -1,17 +1,20 @@
 
-import React, { useState, useEffect } from 'react';
-import useCurrentUser from '../../hooks/loadCurrentUser';
+import React, { useState, useEffect, useContext } from 'react';
+// import useCurrentUser from '../../hooks/loadCurrentUser';
 import ResetPassword from '../reset-password/ResetPasswordComponent';
 import UserProfileComponent from '../user/UserProfileComponent';
 import { Button } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import { CurrentUserContext } from '../context/CurrentUserContext';
 
 const SystemAdminInfo = () => {
+
+    const {currentUser} = useContext(CurrentUserContext);
 
     const [user, setUser] = useState({});
     
 
-    const currentUser = useCurrentUser();
+    // const currentUser = useCurrentUser();
 
     const saveChanges = async (user) => {
         console.table(user);
