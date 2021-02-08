@@ -30,7 +30,7 @@ public class Drug {
    private String type;
    /** @pdOid 3f713ddc-5b12-4212-ac64-0500a73dd538 */
    @Column(nullable = false)
-   private String shape;
+   private DrugShapes shape;
    /** @pdOid f9e070fe-5620-44b2-8262-fe4ef41ef25b */
    @Column(nullable = false)
    private String manufacturer;
@@ -104,15 +104,15 @@ public class Drug {
       this.type = type;
    }
 
-   public String getShape() {
-      return shape;
-   }
+    public DrugShapes getShape() {
+        return shape;
+    }
 
-   public void setShape(String shape) {
-      this.shape = shape;
-   }
+    public void setShape(DrugShapes shape) {
+        this.shape = shape;
+    }
 
-   public String getManufacturer() {
+    public String getManufacturer() {
       return manufacturer;
    }
 
