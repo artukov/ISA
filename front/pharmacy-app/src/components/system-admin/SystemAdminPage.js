@@ -5,13 +5,14 @@ import CurrentUserContextProvider from '../context/CurrentUserContext';
 import NewPharmacyForm from './NewPharmacyForm';
 import NewPharmacyAdminForm from './NewPharmacyAdminForm';
 import NewDermatologistForm from './NewDermatologistFrom';
-import NewSystemAdminForm from './NewSystemAdminForm';
+// import NewSystemAdminForm from './NewSystemAdminForm';
+import NewAdminSupplierForm from './NewAdminSupplierForm';
 
 const SystemAdminPage = () => {
 
     return ( 
         <CurrentUserContextProvider>
-            <Tabs defaultActiveKey="admin" onSelect={() => {}}>
+            <Tabs defaultActiveKey="admin-supplier" onSelect={() => {}}>
                 <Tab eventKey="pharmacy" title="Register pharmacy">
                     <NewPharmacyForm></NewPharmacyForm>
                 </Tab>
@@ -21,8 +22,8 @@ const SystemAdminPage = () => {
                 <Tab eventKey="dermatologist" title="Register dermatologist">
                     <NewDermatologistForm></NewDermatologistForm>
                 </Tab>
-                <Tab eventKey="admin" title="Register system's admins">
-                    <NewSystemAdminForm></NewSystemAdminForm>
+                <Tab eventKey="admin-supplier" title="Register system's admin or supplier">
+                   <NewAdminSupplierForm></NewAdminSupplierForm>
                 </Tab>
                 <Tab eventKey="drug" title="Creat drug"></Tab>
                 <Tab eventKey="complaints" title="Complaints"></Tab>
