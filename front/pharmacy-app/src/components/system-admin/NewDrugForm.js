@@ -7,6 +7,7 @@ import drugReducer, {SET_NAME,SET_CODE,SET_COMPOSITION,SET_MANUFACTURER,
 const NewDrugForm = () => {
 
     const [drugs, setDrugs] = useState([]);
+    const [shapes, setShapes] = useState([])
 
     const [state, dispatch] = useReducer(drugReducer, {
         drugSpecification : {},
@@ -23,13 +24,29 @@ const NewDrugForm = () => {
                 console.log(err.response);
             }
         }
+        const loadDrugShapes = async () => {
+            try{
+                const result = await axiosConfig.get('/drug/shapes');
+                setShapes(result.data);
+            }
+            catch(err){
+                console.log(err.respnse);
+            } 
+        }
         loadAllDrugs();
+        loadDrugShapes();
         dispatch({type : ''});
     }, []);
 
     const saveDrug = async (e) => {
         e.preventDefault();
         console.table(state);
+        try{
+            await axiosConfig.post('/drug/new',state);
+        }
+        catch(err){
+            console.log(err.response);
+        }
     }
 
     return ( 
@@ -49,11 +66,23 @@ const NewDrugForm = () => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Enter type of the drug</Form.Label>
-                    <Form.Control type="select"></Form.Control>
+                    <Form.Control type="text" 
+                        onChange={(e)=> dispatch({type : SET_TYPE, drugType : e.target.value}) }>
+
+                    </Form.Control>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Enter shape of the drug</Form.Label>
-                    <Form.Control type="select"></Form.Control>
+                    <Form.Control as="select"  onClick={(e) => dispatch({type : SET_SHAPE, shape : e.target.value})}>
+                        {
+                            shapes.length ? (
+                                shapes.map(shape => 
+                                        <option key={shape} value={shape}>{shape}</option>
+                                    )
+                            ) 
+                            : <option></option>
+                        }
+                    </Form.Control>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Enter manifacturer of the drug</Form.Label>

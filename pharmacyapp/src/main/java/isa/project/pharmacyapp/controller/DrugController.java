@@ -8,6 +8,7 @@ import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.DrugSpecDTO;
 import isa.project.pharmacyapp.dto.DrugsFromReceiptPriceinPharmacyDTO;
 import isa.project.pharmacyapp.dto.PharmaDrugDTO;
+import isa.project.pharmacyapp.model.DrugShapes;
 import isa.project.pharmacyapp.model.TimeSpam;
 import isa.project.pharmacyapp.qrcode.QRReader;
 import isa.project.pharmacyapp.service.DrugService;
@@ -62,6 +63,24 @@ public class DrugController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/shapes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(ALL_AUTHORITY)
+    public ResponseEntity<?> getAllDrugShapes(){
+        return new ResponseEntity<>(DrugShapes.values(),HttpStatus.OK);
+    }
+
+    @PostMapping(value="/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(ADMIN_AUTHORITY)
+    public ResponseEntity<?> postNewDrug(@RequestBody DrugDTO drugDTO){
+        try {
+            drugService.createNewDrug(drugDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/modify/{drugID}",consumes = MediaType.APPLICATION_JSON_VALUE)
