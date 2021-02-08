@@ -33,12 +33,15 @@ import java.util.Map;
 public class DrugController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+    private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
+    private static final String ALL_AUTHORITY = "hasAnyAuthority('ADMIN','USER')";
+
 
     @Autowired
     private DrugService drugService;
 
     @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
+    @PreAuthorize(ALL_AUTHORITY)
     public ResponseEntity<?> getAllSystemDrugs(){
 
         List<DrugDTO> drugDTOS = drugService.findAll();
