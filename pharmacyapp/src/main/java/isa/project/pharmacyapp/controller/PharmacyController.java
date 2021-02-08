@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,9 +26,12 @@ public class PharmacyController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
     private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
+    private static final String ALL_AUTHORITY = "hasAnyAuthority('USER','ADMIN')";
 
     @Autowired
     private PharmacyService pharmacyService;
+
+
 
     @GetMapping(value = "/find/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -48,7 +52,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
+    @PreAuthorize(ALL_AUTHORITY)
     public ResponseEntity<?> findAllPharmacies(){
 
         ArrayList<PharmacyDTO> pharmacyDTOS = (ArrayList<PharmacyDTO>) pharmacyService.findAll();
