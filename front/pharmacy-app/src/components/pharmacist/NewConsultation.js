@@ -365,11 +365,12 @@ const NewConsultation = () => {
                             
                                 </Col>
                                 <Col>
-                                    <Button onClick={() => {
+                                    
+                                </Col>
+                            </Row>
+                            <Button onClick={() => {
                                         createAppointment();
                                 }}>Book</Button>
-                                </Col>
-                </Row>
                             </Form> : null
                             }
                            

@@ -369,11 +369,12 @@ const NewExamination = () => {
                             
                                 </Col>
                                 <Col>
-                                    <Button onClick={() => {
-                                        createAppointment();
-                                }}>Book</Button>
+                                   
                                 </Col>
                             </Row>
+                             <Button onClick={() => {
+                                        createAppointment();
+                                }}>Book</Button>
                             </Form> : null
                             }
                 
