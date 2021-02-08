@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.ReservationDTO;
+import isa.project.pharmacyapp.exception.ReservationException;
 import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.Pharmacy;
@@ -124,12 +125,12 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
 
         if (reservation == null){
-            throw new Exception("Reservation does not exist");
+            throw new ReservationException("Reservation does not exist");
         }
         Date newDate = new Date(reservation.getAcceptanceDate().getTime() + 24*3600*1000);
         Date currentDate = new Date(System.currentTimeMillis());
         if(currentDate.after(newDate)){
-            throw new Exception("Reservation does not exist");
+            throw new ReservationException("Reservation does not exist");
         }
 
         drugAccepted(id);
