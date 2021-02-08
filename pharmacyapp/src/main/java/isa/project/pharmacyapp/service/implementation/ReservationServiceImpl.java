@@ -5,6 +5,7 @@ import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Patient;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.Reservation;
+import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
 import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
@@ -105,7 +106,16 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         for(Drug drug : reservation.getDrug()){
-            drugRepository.addDrugToPharmacy(drug.getId(),reservation.getPharmacy().getId(),-1);
+            for(PharmacyDrug pharmacyDrug : drug.getPharmacies()){
+                if(pharmacyDrug.getId().getDrug().getId().equals(drug.getId())
+                    && pharmacyDrug.getId().getPharmacy().getId().equals(reservation.getPharmacy().getId())){
+                    pharmacyDrug.setAmount(pharmacyDrug.getAmount() - 1);
+                    drugRepository.save(drug);
+                    break;
+                }
+
+            }
+//            drugRepository.addDrugToPharmacy(drug.getId(),reservation.getPharmacy().getId(),-1);
         }
     }
 
@@ -118,7 +128,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
         Date newDate = new Date(reservation.getAcceptanceDate().getTime() + 24*3600*1000);
         Date currentDate = new Date(System.currentTimeMillis());
-        if(newDate.after(currentDate)){
+        if(currentDate.after(newDate)){
             throw new Exception("Reservation does not exist");
         }
 
