@@ -29,7 +29,7 @@ public class ComplaintServiceImpl implements ComplaintService {
         complaints.setAnswer(complaintDTO.getAnswer());
 
         sendEmailWithAnswer(complaints.getSubmitter(),complaints.getAnswer(),complaints.getDescription());
-        
+
         try{
             complaintRepository.save(complaints);
         }

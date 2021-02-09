@@ -9,12 +9,14 @@ import NewDermatologistForm from './NewDermatologistFrom';
 import NewAdminSupplierForm from './NewAdminSupplierForm';
 import NewDrugForm from './NewDrugForm';
 import ComplaintsList from './ComplaintsList';
+import AbsenceRequestContextProvider from './absence-requests/AbsenceRequestsContext';
+import AbsenceRequestList from "./absence-requests/AbsenceRequestList"
 
 const SystemAdminPage = () => {
 
     return ( 
         <CurrentUserContextProvider>
-            <Tabs defaultActiveKey="complaints" onSelect={() => {}}>
+            <Tabs defaultActiveKey="absence-requests" onSelect={() => {}}>
                 <Tab eventKey="pharmacy" title="Register pharmacy">
                     <NewPharmacyForm></NewPharmacyForm>
                 </Tab>
@@ -32,6 +34,11 @@ const SystemAdminPage = () => {
                 </Tab>
                 <Tab eventKey="complaints" title="Complaints">
                     <ComplaintsList></ComplaintsList>
+                </Tab>
+                <Tab eventKey="absence-requests" title="Absence requesets">
+                    <AbsenceRequestContextProvider>
+                        <AbsenceRequestList></AbsenceRequestList>
+                    </AbsenceRequestContextProvider>
                 </Tab>
                 <Tab eventKey="loyalty-program" title="Loyalty program"></Tab>
                 <Tab eventKey="personal-info" title="Personal info">

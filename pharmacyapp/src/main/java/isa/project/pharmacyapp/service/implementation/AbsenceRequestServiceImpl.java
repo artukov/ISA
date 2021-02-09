@@ -84,6 +84,18 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
     }
 
     @Override
+    public List<AbsenceRequestDTO> findAllDermatologistsAbsenceRequests() {
+        List<AbsenceRequest> absenceRequests = absenceRequestRepository.findAllDermatologistsRequests();
+
+        ArrayList<AbsenceRequestDTO> requestDTOS = new ArrayList<>();
+        for(AbsenceRequest absenceRequest : absenceRequests){
+            requestDTOS.add(AbsenceRequestDTO.request2DTO(absenceRequest));
+        }
+
+        return requestDTOS;
+    }
+
+    @Override
     public List<AbsenceRequestDTO> findAllPharmacyPharmacistUnanswered(Long pharmacyID) {
         List<AbsenceRequest> requests = absenceRequestRepository.findAllPharmacyPharmacistUnanswered(pharmacyID);
 

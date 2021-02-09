@@ -22,6 +22,8 @@ import java.util.List;
 public class AbsenceRequestController {
 
     private static final String AUTHORITY = "hasAuthority('USER')";
+    private static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
+    private static final String ALL_AUTHORITY = "hasAnyAuthority('ADMIN','USER')";
 
     @Autowired
     private AbsenceRequestService absenceRequestService;
@@ -64,9 +66,16 @@ public class AbsenceRequestController {
         List<AbsenceRequestDTO> absenceRequestDTOS = this.absenceRequestService.findAllPharmacyPharmacistUnanswered(pharmacyID);
         return new ResponseEntity<>(absenceRequestDTOS, HttpStatus.OK);
     }
+
+    @GetMapping(value="/allDermatologistRequests", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(ADMIN_AUTHORITY)
+    public ResponseEntity<?> getDermatologistsAllRequests(){
+        List<AbsenceRequestDTO> absenceRequestDTOS = this.absenceRequestService.findAllDermatologistsAbsenceRequests();
+        return new ResponseEntity<>(absenceRequestDTOS,HttpStatus.OK);
+    }
     
     @PutMapping(value = "/answerRequest/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(AUTHORITY)
+    @PreAuthorize(ALL_AUTHORITY)
     public ResponseEntity<?> answerToTheRequest(@RequestBody AbsenceRequestDTO requestDTO){
         try {
             absenceRequestService.modifyWithStatus(requestDTO.getId(), requestDTO);
