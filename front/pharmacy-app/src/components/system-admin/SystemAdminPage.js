@@ -8,6 +8,7 @@ import NewDermatologistForm from './NewDermatologistFrom';
 // import NewSystemAdminForm from './NewSystemAdminForm';
 import NewAdminSupplierForm from './NewAdminSupplierForm';
 import NewDrugForm from './NewDrugForm';
+import DrugList from '../drug/DrugList';
 
 const SystemAdminPage = () => {
 
@@ -33,6 +34,9 @@ const SystemAdminPage = () => {
                 <Tab eventKey="loyalty-program" title="Loyalty program"></Tab>
                 <Tab eventKey="personal-info" title="Personal info">
                     <SystemAdminInfo></SystemAdminInfo>
+                </Tab>
+                <Tab eventKey = "drugList" title="Drug List">
+                      <DrugList></DrugList>
                 </Tab>
         </Tabs>
         </CurrentUserContextProvider>

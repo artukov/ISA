@@ -110,6 +110,9 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey = "personal-info" title="Personal info">
                             <PharmacyAdminInfoComponent pharmacyID={pharmacy.id}></PharmacyAdminInfoComponent>
                     </Tab>
+                    <Tab eventKey = "drugList" title="Drug List">
+                      <DrugList></DrugList>
+                </Tab>
                  </Tabs>
             </div>
         ) : (<p>Loading...</p>)}
