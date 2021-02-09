@@ -151,10 +151,10 @@ public class DrugController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/specification/{drugId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/specification/{drugName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> getDrugSpec(@PathVariable("drugId") Long drugId){
-        List<DrugSpecDTO> dtos = this.drugService.getDrugSpec(drugId);
+    public ResponseEntity<?> getDrugSpec(@PathVariable("drugName") String drugName){
+        List<DrugSpecDTO> dtos = this.drugService.getDrugSpec(drugName);
 
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
