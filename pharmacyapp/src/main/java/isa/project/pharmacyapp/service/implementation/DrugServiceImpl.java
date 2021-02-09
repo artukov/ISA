@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.Drug;
+import isa.project.pharmacyapp.model.DrugShapes;
 import isa.project.pharmacyapp.model.Pharmacy;
 import isa.project.pharmacyapp.model.many2many.PharmacyDrug;
 import isa.project.pharmacyapp.model.TimeSpam;
@@ -72,19 +73,19 @@ public class DrugServiceImpl implements DrugService {
         for(Object[] obj : drugs){
             PharmaDrugDTO dto = new PharmaDrugDTO();
 
-            dto.setName((String) obj[0]);
-            dto.setType((String) obj[1]);
-            dto.setPharmacy_id((BigInteger) obj[2]);
-            dto.setPrice((Double) obj[3]);
+//            dto.setName((Big) obj[0]);
+//            dto.setType((String) obj[1]);
+            dto.setPharmacy_id((BigInteger) obj[0]);
+            dto.setPrice((Double) obj[1]);
             drugDTOs.add(dto);
         }
         return drugDTOs;
     }
 
     @Override
-    public List<DrugSpecDTO> getDrugSpec(Long drugId){
+    public List<DrugSpecDTO> getDrugSpec(String drugName){
 
-        List<Object[]> specs = this.drugRepository.getDrugSpec(drugId);
+        List<Object[]> specs = this.drugRepository.getDrugSpec(drugName);
 
         ArrayList<DrugSpecDTO> dtos = new ArrayList<>();
 
@@ -95,7 +96,15 @@ public class DrugServiceImpl implements DrugService {
             dto.setCode((BigInteger) obj[1]);
             dto.setManufacturer((String) obj[2]);
             dto.setName((String) obj[3]);
-            dto.setShape((String) obj[4]);
+//            switch (obj[4]){
+//                case 0:
+//                    dto.setShape();
+//                case 1:
+//                    dto.setShape();
+//                case 2:
+//                case 3:
+//            }
+            dto.setShape(DrugShapes.values() [(Integer) obj[4]]);
             dto.setType((String) obj[5]);
             dto.setComposition((String) obj[6]);
             dto.setRecom_consum((String) obj[7]);

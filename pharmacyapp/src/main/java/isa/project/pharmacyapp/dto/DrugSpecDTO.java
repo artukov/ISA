@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.dto;
 
+import isa.project.pharmacyapp.model.DrugShapes;
 import isa.project.pharmacyapp.model.DrugSpecification;
 
 import java.math.BigInteger;
@@ -11,7 +12,7 @@ public class DrugSpecDTO {
     private BigInteger code;
     private String manufacturer;
     private String name;
-    private String shape;
+    private DrugShapes shape;
     private String type;
     private String composition;
     private String recom_consum;
@@ -20,7 +21,7 @@ public class DrugSpecDTO {
     public DrugSpecDTO() {
     }
 
-    public DrugSpecDTO(BigInteger id, BigInteger code, String manufacturer, String name, String shape, String type, String composition, String recom_consum, String side_effects) {
+    public DrugSpecDTO(BigInteger id, BigInteger code, String manufacturer, String name, DrugShapes shape, String type, String composition, String recom_consum, String side_effects) {
         this.id = id;
         this.code = code;
         this.manufacturer = manufacturer;
@@ -64,11 +65,11 @@ public class DrugSpecDTO {
         this.name = name;
     }
 
-    public String getShape() {
+    public DrugShapes getShape() {
         return shape;
     }
 
-    public void setShape(String shape) {
+    public void setShape(DrugShapes shape) {
         this.shape = shape;
     }
 

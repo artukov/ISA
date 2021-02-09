@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, ListGroup, Modal, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 
 
@@ -13,7 +13,11 @@ const DrugList = () => {
     const [sortPriceAsc, setSortPriceAsc] = useState(true);
     const [drugName, setDrugName] = useState({});
     const [pharmDrug, setPharmDrug] = useState([]);
+    const [specification, setSpecification] = useState({});
+    const [showSpecification, setShowSpecification] = useState(false);
+    const [drugINeed, setDrugINeed] = useState({});
 
+    const closeModal = () => setShowSpecification(false);
     const sortDrugsName = () => {
         let result = null
         if (sortNameAsc) {
@@ -76,6 +80,28 @@ const DrugList = () => {
     }
         setDrugs([...result]);
     }
+
+    const setSelectedDrug = (name) => {
+        const selectedDrug = drugs.find(drug => drug.name === name);
+        console.log(selectedDrug);
+
+        setSpecification({
+            ...selectedDrug.drugSpecification,
+            shape : selectedDrug.shape
+        }); 
+        setShowSpecification(true);
+    }
+
+    // const loadSpecification = async (drugName) => {
+    //     try {
+    //         const result = await axiosConfig.get('/drug/specification/'+drugName);
+    //         setSpecification(result.data);
+    //         // setShowSpecification(true);
+    //     } catch (err) {
+    //         console.log(err);
+    //         alert(err.response.data);
+    //     }
+    // }
 
     const findPharmDrug = async (name) => {
         
@@ -144,7 +170,12 @@ const DrugList = () => {
                 <Row>
                 <Col>
                         <div>Drug Name</div>
-                        <Form.Control type="text" placeholder = "Drug Name" onChange = { (e) => setDrugName(e.target.value) }></Form.Control>
+                        <Form.Control type="text" placeholder="Drug Name" onChange={(e) => {
+                            
+                            setDrugName(e.target.value);
+                            setDrugINeed(drugs.find(x => x.name === e.target.value));
+                            
+                        }}></Form.Control>
                     </Col>
                 </Row>
                 <Button onClick={(e) => {
@@ -163,36 +194,63 @@ const DrugList = () => {
                             } }>Pharmacy</Col>
                         <Col onClick={() => {
                             sortDrugPrice();
-                            } }>Price</Col>
+                        }}>Price</Col>
+                        <Col></Col>
                     </Row>
                 </ListGroup.Item>
                 {
                     [pharmDrug] ? (
                         pharmDrug.map((drug, index) => {
                             
-                            if (drug) {
+                            if (drug && drugINeed) {
                                 return (
+                                    
                                     <ListGroup.Item key={index} >
                                         <Row>
-                                            <Col>{drug.name}</Col>
-                                            <Col>{drug.type}</Col>
+                                            <Col>{drugINeed.name}</Col>
+                                            <Col>{drugINeed.type}</Col>
                                             <Col>{drug.pharmacy_id}</Col>
                                             <Col>{drug.price}</Col>
-                                            <Col><Button>Show specification</Button></Col>
+                                            <Col><Button onClick={(e) => {
+                                                
+                                                setSelectedDrug(drugINeed.name);
+                                                
+                                            }}>Show specification</Button></Col>
                                         </Row>
                                     </ListGroup.Item>
                                 )
                             }
                             else return null
                         }
-
-                            
-                            // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
                         )
                         
                     ) : null
                 }
             </ListGroup>
+            <Modal show={showSpecification} onHide={()=>closeModal()}>
+                <Modal.Header closeButton><Modal.Title>Drug Specification</Modal.Title></Modal.Header>
+                <Modal.Body>
+                   
+                            <Row>
+                                
+                                <Col>Composition</Col>
+                                <Col>Recommended consumption</Col>
+                        <Col>Side Effects</Col>
+                        <Col>Shape</Col>
+                            </Row>
+                            <Row>
+                               
+                                <Col>{specification.composition}</Col>
+                                <Col>{specification.recommendedConsumption}</Col>
+                        <Col>{specification.sideEffects}</Col>
+                        <Col>{specification.shape}</Col>
+                        </Row>
+                        
+                </Modal.Body>
+                <Modal.Footer>
+                    
+                </Modal.Footer>
+            </Modal>
          </div>
     );
 }
