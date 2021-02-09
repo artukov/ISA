@@ -7,6 +7,7 @@ import isa.project.pharmacyapp.repository.AbsenceRequestRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.repository.UserRepository;
 import isa.project.pharmacyapp.service.AbsenceRequestService;
+import isa.project.pharmacyapp.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
 
     @Autowired
     private AbsenceRequestRepository absenceRequestRepository;
+
+    @Autowired
+    private EmailService emailService;
 
 
 
@@ -43,11 +47,7 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
     public void saveAbsenceRequest(AbsenceRequest absenceRequest, AbsenceRequestDTO absenceRequestDTO) throws Exception {
 
         AbsenceRequestDTO.dto2request(absenceRequest,absenceRequestDTO);
-//        absenceRequest.setId(absenceRequestDTO.getId());
-//        absenceRequest.setDescription(absenceRequestDTO.getDescription());
-//        absenceRequest.setEndDate(absenceRequestDTO.getEndDate());
-//        absenceRequest.setStartDate(absenceRequestDTO.getStartDate());
-//        absenceRequest.setStatus(absenceRequestDTO.getStatus());
+
 
         Pharmacy pharmacy = pharmacyRepository.findById(absenceRequestDTO.getPharmacyId()).orElse(null);
         if(pharmacy == null){
@@ -69,6 +69,37 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
             throw new Exception("Saving absenceRequest");
         }
 
+        sendNotification(absenceRequest);
+
+
+
+    }
+
+    private void sendNotification(AbsenceRequest absenceRequest) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Dear, ");
+        builder.append(absenceRequest.getUser().getFirstname());
+        builder.append(' ');
+        builder.append(absenceRequest.getUser().getLastname());
+        builder.append("\n");
+        if(absenceRequest.getStatus()){
+            builder.append("Yours request for holiday has been accepted \n");
+        }
+        else{
+            builder.append("Yours request for holiday has been denied \n");
+            builder.append("The reason was \n");
+            builder.append(absenceRequest.getDescription());
+            builder.append("\n");
+        }
+        builder.append("Holiday starts on ");
+        builder.append(absenceRequest.getStartDate());
+        builder.append("\n");
+        builder.append("Holiday end on ");
+        builder.append(absenceRequest.getEndDate());
+        builder.append("\n");
+
+        emailService.sendSimpleMessage(absenceRequest.getUser().getEmail(),"Request for a holiday at pharmacy "
+                + absenceRequest.getPharmacy().getName(), builder.toString());
 
     }
 

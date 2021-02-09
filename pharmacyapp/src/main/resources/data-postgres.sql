@@ -53,7 +53,7 @@ INSERT INTO pharmacy_drug(amount, price, drug_id, pharmacy_id) VALUES (0,0.0,601
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname',
+VALUES (300, 'dermatologistonepharmacyapp@gmail.com', true, 'dermatologist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
