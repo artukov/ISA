@@ -142,7 +142,7 @@ VALUES (203, 300);
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
                               pharmacy_id,start_hour,hours )
-VALUES (500, 'pharmacist@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (500, 'pharmacistonepharmacyapp@gmail.com' ,true, 'pharmacist', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
@@ -175,16 +175,16 @@ VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
 
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (700, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
+VALUES (700, 'supplieronepharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
+VALUES (701, 'suppliertwopharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password,
                      phone_number, role, address_id)
-VALUES (702, 'supplier2@live.com', true, 'system admin', null, 'lastname',
+VALUES (702, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
