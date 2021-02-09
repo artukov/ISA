@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import PharmDrugList from './PharmDrugList';
 
 const DrugList = () => {
 
@@ -24,6 +25,30 @@ const DrugList = () => {
             setSortNameAsc(true);
     }
         setDrugs([...result]);
+    }
+    const sortPharmName = () => {
+        let result = null
+        if (sortPharmaAsc) {
+            result = pharmDrug.sort((a, b) => (a.pharmacy_id > b.pharmacy_id) ? 1 : -1);
+            setSortPharmaAsc(false);
+        }
+        else { 
+            result = pharmDrug.sort((a, b) => (a.pharmacy_id < b.pharmacy_id) ? 1 : -1);
+            setSortPharmaAsc(true);
+    }
+        setPharmDrug([...result]);
+    }
+    const sortDrugPrice = () => {
+        let result = null
+        if (sortPriceAsc) {
+            result = pharmDrug.sort((a, b) => (a.price > b.price) ? 1 : -1);
+            setSortPriceAsc(false);
+        }
+        else { 
+            result = pharmDrug.sort((a, b) => (a.price < b.price) ? 1 : -1);
+            setSortPriceAsc(true);
+    }
+        setPharmDrug([...result]);
     }
 
     const sortDrugsType = () => {
@@ -130,8 +155,12 @@ const DrugList = () => {
                     <Row>
                         <Col>Name</Col>
                         <Col >Type</Col>
-                        <Col >Pharmacy</Col>
-                        <Col >Price</Col>
+                        <Col onClick={() => {
+                            sortPharmName();
+                            } }>Pharmacy</Col>
+                        <Col onClick={() => {
+                            sortDrugPrice();
+                            } }>Price</Col>
                     </Row>
                 </ListGroup.Item>
                 {
