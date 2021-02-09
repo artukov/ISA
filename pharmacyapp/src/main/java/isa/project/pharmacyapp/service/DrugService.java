@@ -17,7 +17,7 @@ public interface DrugService {
     public List<DrugDTO> findAllPharmacyDrugs(Long pharmacyId);
     public List<DrugDTO> findAllPatientDrugs(Long patientId);
     public List<PharmaDrugDTO> searchDrugs(String drugName);
-    public List<DrugSpecDTO> getDrugSpec(Long drugId);
+    public List<DrugSpecDTO> getDrugSpec(String drugName);
     public void createNewDrug(DrugDTO drugDTO) throws Exception;
     public void modifyDrug(Long id, DrugDTO drugDTO) throws Exception;
     public void deleteDrug(Long id, Long pharmacyID) throws Exception;

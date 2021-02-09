@@ -66,8 +66,8 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
     @Query(value = "select d.id, d.code,d.manufacturer,d.name,d.shape, d.type,ds.composition,ds.recom_consum,ds.side_effects\n" +
             "from drug d inner join drug_spec ds on d.spec_id = ds.id\n" +
-            "where d.id = :drugId", nativeQuery = true)
-    List<Object[]> getDrugSpec(@Param("drugId") Long id);
+            "where d.name = :drugName", nativeQuery = true)
+    List<Object[]> getDrugSpec(@Param("drugName") String drugName);
 
 
     @Modifying
