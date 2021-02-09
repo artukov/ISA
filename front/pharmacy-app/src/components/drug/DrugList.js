@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 
 const DrugList = () => {
@@ -8,6 +8,10 @@ const DrugList = () => {
     const [sortNameAsc, setSortNameAsc] = useState(true);
     const [sortTypeAsc, setSortTypeAsc] = useState(true);
     const [sortManufacturerAsc, setSortManufacturerAsc] = useState(true);
+    const [sortPharmaAsc, setSortPharmaAsc] = useState(true);
+    const [sortPriceAsc, setSortPriceAsc] = useState(true);
+    const [drugName, setDrugName] = useState({});
+    const [pharmDrug, setPharmDrug] = useState([]);
 
     const sortDrugsName = () => {
         let result = null
@@ -48,6 +52,16 @@ const DrugList = () => {
         setDrugs([...result]);
     }
 
+    const findPharmDrug = async (name) => {
+        try {
+            const result = await axiosConfig.get('/drug/search/' + name);
+            setPharmDrug(result.data);
+        } catch (err) {
+            console.log(err);
+                alert(err.response.data);
+        }
+    }
+
     useEffect(() => {
          const loadDrugs = async () => {
             try {
@@ -62,6 +76,7 @@ const DrugList = () => {
 
         loadDrugs();
     }, [])
+
     return (  
         <div>
             <div>List of Drugs</div>
@@ -93,6 +108,52 @@ const DrugList = () => {
                                     <Col>{ drug.manufacturer}</Col>
                             </Row>
                             </ListGroup.Item>
+                            // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
+                        )
+                        
+                    ) : null
+                }
+            </ListGroup>
+            <Form onSubmit={(e) => e.preventDefault()}>
+                <Row>
+                <Col>
+                        <div>Drug Name</div>
+                        <Form.Control type="text" placeholder = "Drug Name" onChange = { (e) => setDrugName(e.target.value) }></Form.Control>
+                    </Col>
+                </Row>
+                <Button onClick={(e) => {
+                    findPharmDrug(drugName);
+                }}>Find Drug</Button>
+            </Form>
+               <ListGroup>
+             <ListGroup.Item>
+                    <Row>
+                        <Col>Name</Col>
+                        <Col >Type</Col>
+                        <Col >Pharmacy</Col>
+                        <Col >Price</Col>
+                    </Row>
+                </ListGroup.Item>
+                {
+                    [pharmDrug] ? (
+                        pharmDrug.map((drug, index) => {
+                            
+                            if (drug) {
+                                return (
+                                    <ListGroup.Item key={index} >
+                                        <Row>
+                                            <Col>{drug.name}</Col>
+                                            <Col>{drug.type}</Col>
+                                            <Col>{drug.pharmacy_id}</Col>
+                                            <Col>{drug.price}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                )
+                            }
+                            else return null
+                        }
+
+                            
                             // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
                         )
                         
