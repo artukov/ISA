@@ -5,6 +5,9 @@ import { axiosConfig } from '../../config/AxiosConfig';
 const PharmaciesList = () => {
 
     const [pharmacies, setPharmacies] = useState([]);
+    const [sortNameAsc, setSortNameAsc] = useState(true);
+    const [sortRatingAsc, setSortRatingAsc] = useState(true);
+    const [sortCityAsc, setSortCityAsc] = useState(true);
 
     useEffect(() => {
         const loadPharmacies = async () => {
@@ -20,14 +23,59 @@ const PharmaciesList = () => {
         loadPharmacies();
     }, [])
 
+    const sortPharmacyName = () => {
+        let result = null
+        if (sortNameAsc) {
+            result = pharmacies.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortNameAsc(false);
+        }
+        else { 
+            result = pharmacies.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortNameAsc(true);
+    }
+        setPharmacies([...result]);
+    }
+
+    const sortPharmacyRating = () => {
+        let result = null
+        if (sortRatingAsc) {
+            result = pharmacies.sort((a, b) => (a.ratings > b.ratings) ? 1 : -1);
+            setSortRatingAsc(false);
+        }
+        else { 
+            result = pharmacies.sort((a, b) => (a.ratings < b.ratings) ? 1 : -1);
+            setSortRatingAsc(true);
+    }
+        setPharmacies([...result]);
+    }
+
+    const sortPharmacyCity = () => {
+        let result = null
+        if (sortCityAsc) {
+            result = pharmacies.sort((a, b) => (a.address.city > b.address.city) ? 1 : -1);
+            setSortCityAsc(false);
+        }
+        else { 
+            result = pharmacies.sort((a, b) => (a.address.city < b.address.city) ? 1 : -1);
+            setSortCityAsc(true);
+    }
+        setPharmacies([...result]);
+    }
+
     return (  
         <div>
             <ListGroup>
                 <ListGroup.Item>
                     <Row>
-                        <Col>Name</Col>
-                        <Col>Rating</Col>
-                        <Col >City</Col>
+                        <Col onClick={() => {
+                            sortPharmacyName();
+                            } }>Name</Col>
+                        <Col onClick={() => {
+                            sortPharmacyRating();
+                            } }>Rating</Col>
+                        <Col onClick={() => {
+                            sortPharmacyCity();
+                            } }>City</Col>
                         
                     </Row>
                 </ListGroup.Item>
