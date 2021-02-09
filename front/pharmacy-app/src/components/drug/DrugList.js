@@ -15,6 +15,7 @@ const DrugList = () => {
     const [pharmDrug, setPharmDrug] = useState([]);
     const [specification, setSpecification] = useState({});
     const [showSpecification, setShowSpecification] = useState(false);
+    const [drugINeed, setDrugINeed] = useState({});
 
     const closeModal = () => setShowSpecification(false);
     const sortDrugsName = () => {
@@ -169,7 +170,12 @@ const DrugList = () => {
                 <Row>
                 <Col>
                         <div>Drug Name</div>
-                        <Form.Control type="text" placeholder = "Drug Name" onChange = { (e) => setDrugName(e.target.value) }></Form.Control>
+                        <Form.Control type="text" placeholder="Drug Name" onChange={(e) => {
+                            
+                            setDrugName(e.target.value);
+                            setDrugINeed(drugs.find(x => x.name === e.target.value));
+                            
+                        }}></Form.Control>
                     </Col>
                 </Row>
                 <Button onClick={(e) => {
@@ -196,17 +202,18 @@ const DrugList = () => {
                     [pharmDrug] ? (
                         pharmDrug.map((drug, index) => {
                             
-                            if (drug) {
+                            if (drug && drugINeed) {
                                 return (
+                                    
                                     <ListGroup.Item key={index} >
                                         <Row>
-                                            <Col>{drug.name}</Col>
-                                            <Col>{drug.type}</Col>
+                                            <Col>{drugINeed.name}</Col>
+                                            <Col>{drugINeed.type}</Col>
                                             <Col>{drug.pharmacy_id}</Col>
                                             <Col>{drug.price}</Col>
-                                            <Col><Button onClick={ (e) => {
-                                            
-                                                setSelectedDrug(drug.name);
+                                            <Col><Button onClick={(e) => {
+                                                
+                                                setSelectedDrug(drugINeed.name);
                                                 
                                             }}>Show specification</Button></Col>
                                         </Row>
@@ -244,9 +251,6 @@ const DrugList = () => {
                     
                 </Modal.Footer>
             </Modal>
-            
-        
-           
          </div>
     );
 }
