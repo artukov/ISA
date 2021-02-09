@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
-import PharmDrugList from './PharmDrugList';
+
 
 const DrugList = () => {
 
@@ -78,6 +78,7 @@ const DrugList = () => {
     }
 
     const findPharmDrug = async (name) => {
+        
         try {
             const result = await axiosConfig.get('/drug/search/' + name);
             setPharmDrug(result.data);
@@ -147,7 +148,9 @@ const DrugList = () => {
                     </Col>
                 </Row>
                 <Button onClick={(e) => {
-                    findPharmDrug(drugName);
+                    if (drugName !== '') {
+                        findPharmDrug(drugName);
+                    }
                 }}>Find Drug</Button>
             </Form>
                <ListGroup>
@@ -175,6 +178,7 @@ const DrugList = () => {
                                             <Col>{drug.type}</Col>
                                             <Col>{drug.pharmacy_id}</Col>
                                             <Col>{drug.price}</Col>
+                                            <Col><Button>Show specification</Button></Col>
                                         </Row>
                                     </ListGroup.Item>
                                 )
