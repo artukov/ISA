@@ -1,11 +1,14 @@
 package isa.project.pharmacyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigInteger;
 import java.util.Date;
 
 public class PharmaDermaDTO {
 
     private Integer hours;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     private Date start_hour;
     private Long pharmacy_id;
     private Long derma_id;
