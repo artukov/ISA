@@ -8,12 +8,13 @@ import NewDermatologistForm from './NewDermatologistFrom';
 // import NewSystemAdminForm from './NewSystemAdminForm';
 import NewAdminSupplierForm from './NewAdminSupplierForm';
 import NewDrugForm from './NewDrugForm';
+import ComplaintsList from './ComplaintsList';
 
 const SystemAdminPage = () => {
 
     return ( 
         <CurrentUserContextProvider>
-            <Tabs defaultActiveKey="drug" onSelect={() => {}}>
+            <Tabs defaultActiveKey="complaints" onSelect={() => {}}>
                 <Tab eventKey="pharmacy" title="Register pharmacy">
                     <NewPharmacyForm></NewPharmacyForm>
                 </Tab>
@@ -29,7 +30,9 @@ const SystemAdminPage = () => {
                 <Tab eventKey="drug" title="Creat drug">
                     <NewDrugForm></NewDrugForm>
                 </Tab>
-                <Tab eventKey="complaints" title="Complaints"></Tab>
+                <Tab eventKey="complaints" title="Complaints">
+                    <ComplaintsList></ComplaintsList>
+                </Tab>
                 <Tab eventKey="loyalty-program" title="Loyalty program"></Tab>
                 <Tab eventKey="personal-info" title="Personal info">
                     <SystemAdminInfo></SystemAdminInfo>

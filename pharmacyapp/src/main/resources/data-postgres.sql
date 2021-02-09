@@ -110,7 +110,7 @@ VALUES (400, 'nikolartukov@gmail.com ', true, 'patient', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
-VALUES (401, 'srdjan_kralj_97@live.com', true, 'Nikola', null, 'Artukov',
+VALUES (401, 'salecovic@hotmail.com', true, 'Nikola', null, 'Artukov',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
@@ -433,3 +433,8 @@ VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,2
 ----subscribers to pharmacy promotions-----------
 INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,400);
 INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,401);
+
+INSERT INTO complaints(id, description, referred_id, submitter_id, pharmacy_id ,complaint_id)
+VALUES (200,'The service was terrible, there was no  magazines to read while I was waiting',null,400,200, null);
+INSERT INTO complaints(id, description, referred_id, submitter_id, pharmacy_id ,complaint_id)
+VALUES (201, 'He was rude, dirty and cold towards me',300,401,null,null);
