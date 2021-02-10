@@ -265,6 +265,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         for(Examination exam: examinations){
             ExaminationDTO dto = new ExaminationDTO();
+            dto.setId(exam.getId());
             dto.setBeggingDateTime(exam.getBeggingDateTime());
             dto.setPrice(exam.getPrice());
             dto.setDuration(exam.getDuration());
