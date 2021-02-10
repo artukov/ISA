@@ -125,6 +125,6 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
     //and r.acceptance_date < now() - interval '1 day'
     @Query(value = "select d.*\n" +
             "from reservation r inner join reservation_drug rd on r.id = rd.reservation_id inner join drug d on rd.drug_id = d.id\n" +
-            "where r.patient_id = :patientId", nativeQuery = true)
+            "where r.patient_id = :patientId and r.acceptance_date < now() - interval '1 day'", nativeQuery = true)
     List<Drug> getPatientsDrugsFromReservation(Long patientId);
 }

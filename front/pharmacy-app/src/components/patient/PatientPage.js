@@ -6,6 +6,7 @@ import FutureAppointments from './FutureAppointments';
 import PatientInfo from './PatientInfo';
 import PharmaciesList from './PharmaciesList';
 import PharmacistVisits from './PharmacistVisists';
+import ReservedDrugs from './ReservedDrugs';
 
 const PatientPage = () => {
     return ( 
@@ -30,7 +31,7 @@ const PatientPage = () => {
                         <Ereceipts></Ereceipts>
             </Tab>
             <Tab eventKey = "reservedDrugs" title="Reserved Drugs">
-                        
+                        <ReservedDrugs></ReservedDrugs>
             </Tab>
             <Tab eventKey = "drugsFromEReceipt" title="History od drugs from eReceipt">
                         
