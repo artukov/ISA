@@ -4,6 +4,10 @@ import { axiosConfig } from '../../config/AxiosConfig';
 
 const EReceiptDrugs = () => {
     const [drugs, setDrugs] = useState([]);
+    const [sortNameAsc, setSortNameAsc] = useState({});
+    const [sortManufacturerAsc, setSortManufacturerAsc] = useState({});
+    const [sortTypeAsc, setSortTypeAsc] = useState({});
+    const [sortShapeAsc, setSortShapeAsc] = useState({});
 
     useEffect(() => {
         const laodDrugs = async () => {
@@ -18,15 +22,75 @@ const EReceiptDrugs = () => {
         laodDrugs();
     }, [])
 
+    const sortDrugName = () => {
+        let result = null
+        if (sortNameAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortNameAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortNameAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugManufacturer = () => {
+        let result = null
+        if (sortManufacturerAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortManufacturerAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortManufacturerAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugType = () => {
+        let result = null
+        if (sortTypeAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortTypeAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortTypeAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugShape = () => {
+        let result = null
+        if (sortShapeAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortShapeAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortShapeAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
     return (
         <div>
                         <ListGroup>
                 <ListGroup.Item>
                     <Row>
-                        <Col>Name</Col>
-                        <Col>Manufacturer</Col>
-                        <Col>Type</Col>
-                        <Col>Shape</Col>
+                        <Col onClick={() => {
+                            sortDrugName();
+                            } }>Name</Col>
+                        <Col onClick={() => {
+                            sortDrugManufacturer();
+                            } }>Manufacturer</Col>
+                        <Col onClick={() => {
+                            sortDrugType();
+                            } }>Type</Col>
+                        <Col onClick={() => {
+                            sortDrugShape();
+                            } }>Shape</Col>
                         
                     </Row>
                 </ListGroup.Item>
