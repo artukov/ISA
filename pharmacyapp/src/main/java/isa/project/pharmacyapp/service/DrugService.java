@@ -35,4 +35,5 @@ public interface DrugService {
 
     List<DrugDTO> findAllNotPharmacyDrugs(Long pharmacyID) throws Exception;
     List<DrugDTO> checkForAllergy(Long patientId, Long drugId);
+    List<DrugDTO> getPatientDrugsFromReservation(Long patientId);
 }

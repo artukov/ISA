@@ -29,10 +29,7 @@ const PatientPage = () => {
              <Tab eventKey = "eReceipts" title="eReceipts">
                         <Ereceipts></Ereceipts>
             </Tab>
-            <Tab eventKey = "reservedDrugs" title="reservedDrugs">
-                        
-            </Tab>
-            <Tab eventKey = "penalties" title="Penalties">
+            <Tab eventKey = "reservedDrugs" title="Reserved Drugs">
                         
             </Tab>
             <Tab eventKey = "drugsFromEReceipt" title="History od drugs from eReceipt">
