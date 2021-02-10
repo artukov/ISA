@@ -22,6 +22,7 @@ import AbsenceRequestContextProvider from '../absence-request/AbsenceRequestCont
 import AbsenceRequestsList from '../absence-request/AbsenceRequestList';
 import PharmacyAdminInfoComponent from './PharmacyAdminInfo';
 import NewPromotionsForm from '../promotions/NewPromotionsForm';
+import DermatologistSearchFilter from '../dermatologist/DermatologistSearchFilter';
 
 
 
@@ -74,8 +75,9 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey="dermatologist" title = "Dermatologists">
 
                         <DermatologistContextProvider pharmacyID = {pharmacy.id}>
-                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
+                            <DermatologistSearchFilter></DermatologistSearchFilter>
                             <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
+                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                         </DermatologistContextProvider>
                        
                     </Tab>
