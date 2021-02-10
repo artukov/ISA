@@ -112,4 +112,13 @@ public class PatientController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/eReceiptDrugs", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getEReceiptDrugs(Principal user){
+        User current = userService.findByEmail(user.getName());
+        List<DrugDTO> dtos = drugService.getPatientDrugsFromEReceipt(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
 }
