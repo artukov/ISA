@@ -61,4 +61,9 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             "from examination e\n" +
             "where e.patient_id = :patientId and e.finished = true")
     List<Examination> getPatientsDermaAppointments(@Param("patientId") Long patientId);
+
+    @Query(nativeQuery = true, value = "select e.*\n" +
+            "from examination e\n" +
+            "where e.patient_id = :patientId and e.finished != true")
+    List<Examination> getPatientsDermaAppointmentsNotFinished(@Param("patientId") Long patientId);
 }

@@ -276,4 +276,23 @@ public class ExaminationServiceImpl implements ExaminationService {
         return dtos;
 
     }
+
+    @Override
+    public List<ExaminationDTO> getPatientsDermaAppointmentsNotFinished(Long patientId){
+        List<Examination> examinations = repository.getPatientsDermaAppointmentsNotFinished(patientId);
+        List<ExaminationDTO> dtos = new ArrayList<>();
+
+        for(Examination exam: examinations){
+            ExaminationDTO dto = new ExaminationDTO();
+            dto.setId(exam.getId());
+            dto.setBeggingDateTime(exam.getBeggingDateTime());
+            dto.setPrice(exam.getPrice());
+            dto.setDuration(exam.getDuration());
+            dtos.add(dto);
+
+        }
+
+        return dtos;
+
+    }
 }

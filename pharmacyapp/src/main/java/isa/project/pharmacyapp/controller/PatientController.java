@@ -50,6 +50,16 @@ public class PatientController {
 
     }
 
+    @GetMapping(value = "/examinationsNotFinished", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getDermaAppointmentsNotFinished(Principal user){
+        User current = userService.findByEmail(user.getName());
+        List<ExaminationDTO> dtos = examinationService.getPatientsDermaAppointmentsNotFinished(current.getId());
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+
+    }
+
     @GetMapping(value = "/consultations", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getPharmacistAppointments(Principal user) {

@@ -28,4 +28,5 @@ public interface ExaminationService {
     ExaminationDTO findExamination(Long patientId, Date dateTime);
 
     List<ExaminationDTO> getPatientsDermaAppointments(Long patientId);
+    List<ExaminationDTO> getPatientsDermaAppointmentsNotFinished(Long patientId);
 }
