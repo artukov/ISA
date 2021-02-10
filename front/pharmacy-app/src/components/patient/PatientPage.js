@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import DermaVisists from './DermaVisists';
 import FutureAppointments from './FutureAppointments';
+import PatientInfo from './PatientInfo';
 import PharmaciesList from './PharmaciesList';
 import PharmacistVisits from './PharmacistVisists';
 
@@ -9,7 +10,7 @@ const PatientPage = () => {
     return ( 
          <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Patient info">
-                        
+                        <PatientInfo></PatientInfo>
             </Tab>
              <Tab eventKey = "pharmacies" title="Pharmacies">
                         <PharmaciesList></PharmaciesList>
