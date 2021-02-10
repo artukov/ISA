@@ -27,4 +27,9 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
             "from consultation c\n" +
             "where c.patient_id = :patientId and c.finished = true", nativeQuery = true)
     List<Consultation> getPatientsConsultations(@Param("patientId") Long patientId);
+
+    @Query(value = "select c.*\n" +
+            "from consultation c\n" +
+            "where c.patient_id = :patientId and c.finished != true", nativeQuery = true)
+    List<Consultation> getPatientsConsultationsNotFinished(@Param("patientId") Long patientId);
 }

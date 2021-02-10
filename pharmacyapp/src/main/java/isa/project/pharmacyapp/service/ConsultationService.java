@@ -17,4 +17,5 @@ public interface ConsultationService {
     void saveConsultation(Consultation consultation, ConsultationDTO consultationDTO) throws Exception;
     ConsultationDTO findConsultation(Long patientId, Date dateTime);
     List<ConsultationDTO> getPatientsConsultations(Long patientId);
+    List<ConsultationDTO> getPatientsConsultationsNotFinished(Long patientId);
 }

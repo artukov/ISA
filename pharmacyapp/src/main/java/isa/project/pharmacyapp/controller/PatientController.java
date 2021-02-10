@@ -68,4 +68,13 @@ public class PatientController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/consultationsNotFinished", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacistAppointmentsNotFinished(Principal user) {
+        User current = userService.findByEmail(user.getName());
+        List<ConsultationDTO> dtos = consultationService.getPatientsConsultationsNotFinished(current.getId());
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }

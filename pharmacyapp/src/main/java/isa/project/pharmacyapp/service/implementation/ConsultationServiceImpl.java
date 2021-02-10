@@ -190,4 +190,19 @@ public class ConsultationServiceImpl implements ConsultationService {
         }
         return  dtos;
     }
+
+    @Override
+    public List<ConsultationDTO> getPatientsConsultationsNotFinished(Long patientId){
+        List<Consultation> consultations = consultationRepository.getPatientsConsultationsNotFinished(patientId);
+        List<ConsultationDTO> dtos = new ArrayList<>();
+        for(Consultation c: consultations) {
+            ConsultationDTO dto = new ConsultationDTO();
+            dto.setBeggingDateTime(c.getBeggingDateTime());
+            dto.setDuration(c.getDuration());
+            dto.setPrice(c.getPrice());
+            dto.setId(c.getId());
+            dtos.add(dto);
+        }
+        return  dtos;
+    }
 }
