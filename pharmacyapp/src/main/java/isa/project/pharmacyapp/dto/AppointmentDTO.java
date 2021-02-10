@@ -15,6 +15,7 @@ public class AppointmentDTO {
     protected Boolean finished;
     protected List<Long> drugs;
     protected Long patient_id;
+    protected Double price;
 
     protected Long pharmacyID;
 
@@ -94,5 +95,13 @@ public class AppointmentDTO {
 
     public void setPharmacyID(Long pharmacyID) {
         this.pharmacyID = pharmacyID;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

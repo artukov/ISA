@@ -175,4 +175,18 @@ public class ConsultationServiceImpl implements ConsultationService {
         dto.setPharmacyID(pharmacyId);
         return dto;
     }
+
+    @Override
+    public List<ConsultationDTO> getPatientsConsultations(Long patientId){
+        List<Consultation> consultations = consultationRepository.getPatientsConsultations(patientId);
+        List<ConsultationDTO> dtos = new ArrayList<>();
+        for(Consultation c: consultations) {
+            ConsultationDTO dto = new ConsultationDTO();
+            dto.setBeggingDateTime(c.getBeggingDateTime());
+            dto.setDuration(c.getDuration());
+            dto.setPrice(c.getPrice());
+            dto.setId(c.getId());
+        }
+        return  null;
+    }
 }

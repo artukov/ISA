@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ExaminationDTO extends AppointmentDTO {
 
-    private Double price;
+//    private Double price;
     private String diagnose;
     private Long dermatologist_id;
 
@@ -65,14 +65,14 @@ public class ExaminationDTO extends AppointmentDTO {
        }
         return dto;
     }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
 
     public String getDiagnose() {
         return diagnose;

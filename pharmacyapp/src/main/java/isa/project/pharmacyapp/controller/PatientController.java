@@ -1,12 +1,10 @@
 package isa.project.pharmacyapp.controller;
 
+import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
-import isa.project.pharmacyapp.service.DrugService;
-import isa.project.pharmacyapp.service.ExaminationService;
-import isa.project.pharmacyapp.service.PharmacistService;
-import isa.project.pharmacyapp.service.UserService;
+import isa.project.pharmacyapp.service.*;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,6 +37,9 @@ public class PatientController {
     @Autowired
     private ExaminationService examinationService;
 
+    @Autowired
+    private ConsultationService consultationService;
+
     @GetMapping(value = "/examinations", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getDermaAppointments(Principal user){
@@ -47,5 +48,14 @@ public class PatientController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/consultations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getPharmacistAppointments(Principal user) {
+        User current = userService.findByEmail(user.getName());
+        List<ConsultationDTO> dtos = consultationService.getPatientsConsultations(current.getId());
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }
