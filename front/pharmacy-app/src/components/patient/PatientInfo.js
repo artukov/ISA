@@ -34,6 +34,7 @@ const PatientInfo = () => {
                             <Card.Text>Phone number : {patient.phoneNumber}</Card.Text>
                             <Card.Text>Points : {patient.points}</Card.Text>
                             <Card.Text>Category : {patient.category}</Card.Text>
+                            <Card.Text>Penalties: {patient.penalties}</Card.Text>
                     </Card.Body>
                     <Card.Footer>
                     </Card.Footer>
