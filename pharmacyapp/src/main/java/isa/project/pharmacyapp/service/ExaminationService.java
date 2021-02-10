@@ -26,4 +26,6 @@ public interface ExaminationService {
 
     Date getExamDate(Long id);
     ExaminationDTO findExamination(Long patientId, Date dateTime);
+
+    List<ExaminationDTO> getPatientsDermaAppointments(Long patientId);
 }
