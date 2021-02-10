@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.ConsultationDTO;
+import isa.project.pharmacyapp.dto.EReceiptDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.model.User;
@@ -40,6 +41,9 @@ public class PatientController {
 
     @Autowired
     private ConsultationService consultationService;
+
+    @Autowired
+    private ERecepitService eRecepitService;
 
     @GetMapping(value = "/examinations", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -88,6 +92,15 @@ public class PatientController {
         PatientDTO dto = patientService.getPatient(current.getId());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/eReceipts", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getEreceipts(Principal user){
+        User current = userService.findByEmail(user.getName());
+        List<EReceiptDTO> dtos = eRecepitService.findByPatient(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
 }
