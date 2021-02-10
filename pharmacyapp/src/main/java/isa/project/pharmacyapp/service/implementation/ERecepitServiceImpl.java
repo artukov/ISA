@@ -26,6 +26,7 @@ public class ERecepitServiceImpl implements ERecepitService {
             dto.setCode(e.getCode());
             dto.setIssue_date(e.getIssueDate());
             dto.setPatientId(e.getPatient().getId());
+            dtos.add(dto);
         }
         return dtos;
     }

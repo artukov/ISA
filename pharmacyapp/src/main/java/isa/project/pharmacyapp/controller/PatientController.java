@@ -94,7 +94,7 @@ public class PatientController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/eReceipts", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/eReceipts", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getEreceipts(Principal user){
         User current = userService.findByEmail(user.getName());
