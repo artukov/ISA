@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ConsultationDTO extends AppointmentDTO {
 
+
     private Long pharmacistID;
 
     public ConsultationDTO() {
@@ -54,6 +55,8 @@ public class ConsultationDTO extends AppointmentDTO {
         }
         return dto;
     }
+
+
 
 
     public Long getPharmacistID() {

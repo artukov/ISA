@@ -257,4 +257,42 @@ public class ExaminationServiceImpl implements ExaminationService {
         dto.setPharmacyID(pharmacyId);
         return dto;
     }
+
+    @Override
+    public List<ExaminationDTO> getPatientsDermaAppointments(Long patientId){
+        List<Examination> examinations = repository.getPatientsDermaAppointments(patientId);
+        List<ExaminationDTO> dtos = new ArrayList<>();
+
+        for(Examination exam: examinations){
+            ExaminationDTO dto = new ExaminationDTO();
+            dto.setId(exam.getId());
+            dto.setBeggingDateTime(exam.getBeggingDateTime());
+            dto.setPrice(exam.getPrice());
+            dto.setDuration(exam.getDuration());
+            dtos.add(dto);
+
+        }
+
+        return dtos;
+
+    }
+
+    @Override
+    public List<ExaminationDTO> getPatientsDermaAppointmentsNotFinished(Long patientId){
+        List<Examination> examinations = repository.getPatientsDermaAppointmentsNotFinished(patientId);
+        List<ExaminationDTO> dtos = new ArrayList<>();
+
+        for(Examination exam: examinations){
+            ExaminationDTO dto = new ExaminationDTO();
+            dto.setId(exam.getId());
+            dto.setBeggingDateTime(exam.getBeggingDateTime());
+            dto.setPrice(exam.getPrice());
+            dto.setDuration(exam.getDuration());
+            dtos.add(dto);
+
+        }
+
+        return dtos;
+
+    }
 }

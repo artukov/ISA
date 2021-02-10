@@ -12,4 +12,5 @@ public interface PatientService extends UserService{
     public abstract List<PatientDTO> getAllPatients();
     public abstract Patient savePatient(Patient patient, PatientDTO patientDTO) throws Exception;
     public abstract void addPenalty(Long id) throws Exception;
+    public abstract PatientDTO getPatient(Long id);
 }

@@ -53,7 +53,7 @@ class homePage extends Component {
                 <Button onClick={() => window.location = '/pharmacyAdmin'}>PharmacyAdmin</Button>
                 <Button onClick={() => window.location = '/supplier'}>Supplier</Button>
                 <Button onClick={() => window.location = '/dermatologist'}>Dermatologist</Button>
-                <Button onClick={() => window.location='/pharmacist'}>Pharmacist</Button>
+                <Button onClick={() => window.location = '/pharmacist'}>Pharmacist</Button>
             </div>
         );
     }

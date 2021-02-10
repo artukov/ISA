@@ -418,4 +418,36 @@ public class DrugServiceImpl implements DrugService {
         }
         return pharmacies;
     }
+
+    @Override
+    public List<DrugDTO> getPatientDrugsFromReservation(Long patientId){
+        List<Drug> drugs = drugRepository.getPatientsDrugsFromReservation(patientId);
+        List<DrugDTO> dtos = new ArrayList<>();
+
+        for(Drug d: drugs){
+            DrugDTO dto = new DrugDTO();
+            dto.setName(d.getName());
+            dto.setManufacturer(d.getManufacturer());
+            dto.setType(d.getType());
+            dto.setShape(d.getShape());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<DrugDTO> getPatientDrugsFromEReceipt(Long patientId){
+        List<Drug> drugs = drugRepository.getPatientDrugsFromEReceipt(patientId);
+        List<DrugDTO> dtos = new ArrayList<>();
+
+        for(Drug d: drugs){
+            DrugDTO dto = new DrugDTO();
+            dto.setName(d.getName());
+            dto.setManufacturer(d.getManufacturer());
+            dto.setType(d.getType());
+            dto.setShape(d.getShape());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 }

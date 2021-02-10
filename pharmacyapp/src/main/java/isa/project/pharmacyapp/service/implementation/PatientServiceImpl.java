@@ -122,4 +122,12 @@ public class PatientServiceImpl implements PatientService {
                     "saving of the modified object did not excecute");
         }
     }
+
+    @Override
+    public PatientDTO getPatient(Long id){
+        Patient p = patientRepository.findById(id).orElse(null);
+        PatientDTO dto = new PatientDTO();
+        return dto.patient2Dto(p);
+
+    }
 }
