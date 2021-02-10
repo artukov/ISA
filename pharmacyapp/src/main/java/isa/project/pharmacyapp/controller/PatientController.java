@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.controller;
 
 import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.dto.PatientDTO;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.*;
@@ -77,4 +78,16 @@ public class PatientController {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/current", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getCurrentPatient(Principal user) {
+        PatientService patientService = (PatientService) serviceFactory.getUserService(UserRoles.PATIENT);
+
+        User current = userService.findByEmail(user.getName());
+        PatientDTO dto = patientService.getPatient(current.getId());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
 }
