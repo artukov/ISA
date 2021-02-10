@@ -186,7 +186,8 @@ public class ConsultationServiceImpl implements ConsultationService {
             dto.setDuration(c.getDuration());
             dto.setPrice(c.getPrice());
             dto.setId(c.getId());
+            dtos.add(dto);
         }
-        return  null;
+        return  dtos;
     }
 }
