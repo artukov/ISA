@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.repository;
 
 import isa.project.pharmacyapp.model.Dermatologist;
+import isa.project.pharmacyapp.model.Drug;
 import isa.project.pharmacyapp.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

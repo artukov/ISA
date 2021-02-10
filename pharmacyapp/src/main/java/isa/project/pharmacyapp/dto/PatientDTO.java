@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.model.*;
 
 import java.sql.Timestamp;
@@ -13,6 +14,7 @@ public class PatientDTO extends UserDTO {
     private String category;
     private Integer penalties = 0;
     public Address address;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss Z")
     public Date appointmentDate;
     public List<Long> reservation;
     public List<Long> appointment;

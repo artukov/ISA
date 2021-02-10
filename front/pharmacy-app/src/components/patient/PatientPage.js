@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import DermaVisists from './DermaVisists';
+import EReceiptDrugs from './EReceiptDrugs';
+import Ereceipts from './EReceipts';
 import FutureAppointments from './FutureAppointments';
 import PatientInfo from './PatientInfo';
 import PharmaciesList from './PharmaciesList';
 import PharmacistVisits from './PharmacistVisists';
+import ReservedDrugs from './ReservedDrugs';
 
 const PatientPage = () => {
     return ( 
@@ -26,16 +29,13 @@ const PatientPage = () => {
                         <FutureAppointments></FutureAppointments>
             </Tab>
              <Tab eventKey = "eReceipts" title="eReceipts">
-                        
+                        <Ereceipts></Ereceipts>
             </Tab>
-            <Tab eventKey = "reservedDrugs" title="reservedDrugs">
-                        
-            </Tab>
-            <Tab eventKey = "penalties" title="Penalties">
-                        
+            <Tab eventKey = "reservedDrugs" title="Reserved Drugs">
+                        <ReservedDrugs></ReservedDrugs>
             </Tab>
             <Tab eventKey = "drugsFromEReceipt" title="History od drugs from eReceipt">
-                        
+                        <EReceiptDrugs></EReceiptDrugs>
             </Tab>
             <Tab eventKey = "promotions" title="List of pharamcies and promotions">
                         
