@@ -142,24 +142,30 @@ VALUES (203, 300);
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
                               pharmacy_id,start_hour,hours )
-VALUES (500, 'pharmacistonepharmacyapp@gmail.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (500, 'pharmacistonepharmacyapp@gmail.com' ,true, 'Dzej', null, 'Ramadanovski',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
-VALUES (501, 'pharmacist1@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (501, 'pharmacist1@live.com' ,true, 'Aca', null, 'Lukas',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
-VALUES (502, 'pharmacist2@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (502, 'pharmacist2@live.com' ,true, 'Mira', null, 'Skoric',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 5.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 3.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 5.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 3.5);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 2.7);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (502 , 2.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (502 , 1.0);
 
 
 INSERT INTO public.pharmacy_admin(
