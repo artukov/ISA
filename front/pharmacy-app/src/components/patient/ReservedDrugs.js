@@ -4,6 +4,10 @@ import { axiosConfig } from '../../config/AxiosConfig';
 
 const ReservedDrugs = () => {
     const [drugs, setDrugs] = useState([]);
+    const [sortNameAsc, setSortNameAsc] = useState({});
+    const [sortManufacturerAsc, setSortManufacturerAsc] = useState({});
+    const [sortTypeAsc, setSortTypeAsc] = useState({});
+    const [sortShapeAsc, setSortShapeAsc] = useState({});
 
     useEffect(() => {
         const laodDrugs = async () => {
@@ -17,6 +21,59 @@ const ReservedDrugs = () => {
         }
         laodDrugs();
     }, [])
+
+    const sortDrugName = () => {
+        let result = null
+        if (sortNameAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortNameAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortNameAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugManufacturer = () => {
+        let result = null
+        if (sortManufacturerAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortManufacturerAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortManufacturerAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugType = () => {
+        let result = null
+        if (sortTypeAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortTypeAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortTypeAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
+    const sortDrugShape = () => {
+        let result = null
+        if (sortShapeAsc) {
+            result = drugs.sort((a, b) => (a.name > b.name) ? 1 : -1);
+            setSortShapeAsc(false);
+        }
+        else { 
+            result = drugs.sort((a, b) => (a.name < b.name) ? 1 : -1);
+            setSortShapeAsc(true);
+    }
+        setDrugs([...result]);
+    }
+
     return (  
         <div>
             <ListGroup>
@@ -38,10 +95,18 @@ const ReservedDrugs = () => {
                                 setHours(pharmacy.hours);
                             } }*/ key={index} >
                                 <Row>
-                                    <Col>{drug.name}</Col>
-                                    <Col>{drug.manufacturer}</Col>
-                                    <Col>{drug.type}</Col>
-                                    <Col>{drug.shape}</Col>
+                                    <Col onClick={() => {
+                            sortDrugName();
+                            } }>{drug.name}</Col>
+                                    <Col onClick={() => {
+                            sortDrugManufacturer();
+                            } }>{drug.manufacturer}</Col>
+                                    <Col onClick={() => {
+                            sortDrugType();
+                            } }>{drug.type}</Col>
+                                    <Col onClick={() => {
+                            sortDrugShape();
+                            } }>{drug.shape}</Col>
                                     
                             </Row>
                             </ListGroup.Item>
