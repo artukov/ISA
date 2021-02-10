@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import absencerequestReducers, { SET_START_DATE, SET_START_TIME } from '../pharmacist/AbsenceRequestPReducer';
 
@@ -88,8 +88,12 @@ const BookConsultation = () => {
                             <Form.Control type="time" onChange = {(e) => dispatch({type : SET_START_TIME, startTime : e.target.value})}></Form.Control>
                             
                     </Col>
-                </Row>
+                    </Row>
+                    <Row>
+                        <Button>Find pharmacies</Button>
+                    </Row>
                 </Form.Group>
+
             </Form>
             <ListGroup>
                 Pharmacies
