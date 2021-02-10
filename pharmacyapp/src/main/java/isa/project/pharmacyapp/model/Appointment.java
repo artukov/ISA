@@ -32,6 +32,9 @@ public abstract class Appointment {
 
    @Column
    protected Boolean finished;
+
+   @Column(name = "price", nullable = true)
+   protected Double price;
    
    /** @pdRoleInfo migr=no name=Drug assc=association24 coll=java.util.List impl=java.util.ArrayList mult=0..* */
    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -69,6 +72,14 @@ public abstract class Appointment {
 
    public void setFinished(Boolean finished) {
       this.finished = finished;
+   }
+
+   public Double getPrice() {
+      return price;
+   }
+
+   public void setPrice(Double price) {
+      this.price = price;
    }
 
    /** @pdGenerated default getter */

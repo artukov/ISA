@@ -17,9 +17,7 @@ public class Examination extends Appointment {
 //   @GeneratedValue(strategy = GenerationType.AUTO)
 //   private Long id;
 
-   /** @pdOid 6e4a99ff-5418-4c20-b5c0-2089f3848932 */
-   @Column(nullable = true)
-   private Double price;
+
    /** @pdOid 3e0ec50d-3567-4c56-a345-5676b9968aa4 */
    @Column(nullable = true)
    private String diagnose;
@@ -46,13 +44,6 @@ public class Examination extends Appointment {
       this.id = id;
    }
 
-   public Double getPrice() {
-      return price;
-   }
-
-   public void setPrice(Double price) {
-      this.price = price;
-   }
 
    public String getDiagnose() {
       return diagnose;
