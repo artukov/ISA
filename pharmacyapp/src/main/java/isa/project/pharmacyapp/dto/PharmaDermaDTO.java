@@ -12,6 +12,15 @@ public class PharmaDermaDTO {
     private Date start_hour;
     private Long pharmacy_id;
     private Long derma_id;
+    private String pharmaName;
+
+    public String getPharmaName() {
+        return pharmaName;
+    }
+
+    public void setPharmaName(String pharmaName) {
+        this.pharmaName = pharmaName;
+    }
 
     public PharmaDermaDTO() {
     }

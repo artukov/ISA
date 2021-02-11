@@ -339,4 +339,16 @@ public class DermatologistController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/pharmaciesComplete", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getCompletePharmacies(Principal user){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        List<PharmacyDTO> dtos = dermatologistService.getDermatologistPharmacies(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
 }

@@ -1,10 +1,7 @@
 package isa.project.pharmacyapp.service;
 
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.DermatologistDTO;
-import isa.project.pharmacyapp.dto.PatientDTO;
-import isa.project.pharmacyapp.dto.PharmaDermaDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.Dermatologist;
 
 import java.util.List;
@@ -30,4 +27,5 @@ public interface DermatologistService extends UserService {
     List<DermatologistDTO> findAllNotInPharmacy(Long pharmacyID) throws Exception;
 
     List<PatientDTO> getDermaPatientsDistinct(Long dermaId);
+    List<PharmacyDTO> getDermatologistPharmacies(Long dermaId);
 }

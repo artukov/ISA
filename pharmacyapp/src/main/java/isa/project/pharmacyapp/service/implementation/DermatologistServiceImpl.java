@@ -321,6 +321,7 @@ public class DermatologistServiceImpl implements DermatologistService {
 
          for(PharmacyDermatologist pd: derma.getPharmacies()){
              PharmaDermaDTO dto = new PharmaDermaDTO();
+             dto.setPharmaName(pd.getId().getPharmacy().getName());
              dto.setStart_hour(pd.getStartHour());
              dto.setHours(pd.getHours());
              dto.setDerma_id(dermaId);
@@ -331,6 +332,14 @@ public class DermatologistServiceImpl implements DermatologistService {
             return dtos;
     }
 
+    public List<PharmacyDTO> getDermatologistPharmacies(Long dermaId){
+        List<Pharmacy> pharmacies = pharmacyRepository.getDermatologistPharmacies(dermaId);
+        List<PharmacyDTO> dtos = new ArrayList();
+        for(Pharmacy p: pharmacies){
+            dtos.add(PharmacyDTO.pharmacy2DTO(p));
+        }
+        return dtos;
+    }
 
 
 }

@@ -76,4 +76,6 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
     void deleteRatingsFromPharmacy(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
 
 
+
+
 }
