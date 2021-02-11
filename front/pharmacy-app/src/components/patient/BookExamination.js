@@ -61,9 +61,9 @@ const BookExamination = () => {
         loadPharmacies();
     }, [])
 
-    const loadFreeExaminations = async () => {
+    const loadFreeExaminations = async (id) => {
         try {
-             const result = await axiosConfig.get('/pharmacy/findAll');
+             const result = await axiosConfig.get('/patient/freeExaminations/'+id);
              setExaminations(result.data);
         } catch (err) {
             console.log(err);
@@ -106,6 +106,7 @@ const BookExamination = () => {
                                     <Col><Button onClick={(e) => {
                                         // loadPharmacists(pharmacy.id);
                                         // setChoosenPharmacy(pharmacy.id);
+                                        loadFreeExaminations(pharmacy.id);
                                     }}>Choose</Button></Col>
                                     
                             </Row>
