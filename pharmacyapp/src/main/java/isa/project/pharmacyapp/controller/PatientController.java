@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
@@ -183,5 +184,35 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
+    @GetMapping(value = "/freeExaminations/{pharmacyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getFreeExaminations(@PathVariable("pharmacyId") Long pharmacyId){
+
+        List<ExaminationDTO> dtos = examinationService.getFreeExaminationsFromPharmacy(pharmacyId);
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/examination/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyExamination(@RequestBody ExaminationDTO examinationDTO, Principal user){
+        try {
+            examinationService.modifyExamination(examinationDTO);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("ExaminationController::modifyExamination " +
+                    "examination with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("ExaminationController::modifyExamination Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

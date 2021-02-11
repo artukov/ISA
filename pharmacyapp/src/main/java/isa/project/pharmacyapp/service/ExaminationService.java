@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.model.Examination;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface ExaminationService {
 
     List<ExaminationDTO> getPatientsDermaAppointments(Long patientId);
     List<ExaminationDTO> getPatientsDermaAppointmentsNotFinished(Long patientId);
+
+    List<ExaminationDTO> getFreeExaminationsFromPharmacy(Long pharmacyId);
 }
