@@ -154,4 +154,34 @@ public class PatientController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PostMapping(value = "/consultation/new", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> createNewConsultationAppointment(@RequestBody ConsultationDTO consultationDTO, Principal user){
+
+//        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+//
+//        User current = pharmacistService.findByEmail(user.getName());
+//
+//        if(current.getRole() == UserRoles.PATIENT){
+//            return new ResponseEntity<>("Not allowed", HttpStatus.UNAUTHORIZED);
+//        }
+
+        //consultationDTO.setPharmacistID(current.getId());
+        consultationDTO.setFinished(false);
+        /**
+         * TODO
+         * Create consultation context on front
+         * */
+
+        try {
+            consultationService.createNewConsultation(consultationDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
 }

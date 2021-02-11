@@ -115,7 +115,7 @@ const BookConsultation = () => {
         };
 
         try{
-            await axiosConfig.post('pharmacist/appointment/new',newAppointment);
+            await axiosConfig.post('patient/consultation/new',newAppointment);
             // dispatch({type : INIT});
             // setLatestPL(state);
             //setReload(!reload);
