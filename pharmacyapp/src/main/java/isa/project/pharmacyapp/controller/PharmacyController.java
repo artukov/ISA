@@ -52,7 +52,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(ALL_AUTHORITY)
+//    @PreAuthorize(ALL_AUTHORITY)
     public ResponseEntity<?> findAllPharmacies(){
 
         ArrayList<PharmacyDTO> pharmacyDTOS = (ArrayList<PharmacyDTO>) pharmacyService.findAll();
