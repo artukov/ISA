@@ -17,7 +17,8 @@ const PatientList = () => {
     useEffect(() => {
         const loadPatients = async () => {
             try {
-                const result = await axiosConfig.get('/dermatologist/patients');
+               // const result = await axiosConfig.get('/dermatologist/patients');
+                const result = await axiosConfig.get('/dermatologist/allClients');
                 setPatients(result.data);
             }
             catch (err) {
@@ -129,10 +130,10 @@ const PatientList = () => {
                                 setHours(pharmacy.hours);
                             } }*/ key={index} >
                                 <Row>
-                                    <Col>{patient.firstname}</Col>
-                                    <Col>{patient.lastname}</Col>
+                                    <Col>{patient.firstName}</Col>
+                                    <Col>{patient.lastName}</Col>
                                     <Col>{patient.email}</Col>
-                                    <Col>{ patient.date}</Col>
+                                    <Col>{patient.appointmentDate}</Col>
                             </Row>
                             </ListGroup.Item>
                             // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
