@@ -4,8 +4,11 @@ import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Address;
+import isa.project.pharmacyapp.model.Pharmacy;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,4 +29,6 @@ public interface PharmacyService {
     Address getAddress(Long id);
 
     DermatologistDTO addNewDermatologist(Long dermaID, Long pharmacyID, WorkingHoursDTO workingHoursDTO) throws Exception;
+
+    List<PharmacyDTO> getPharmaciesWithFreeConsultation(Date dateTime);
 }

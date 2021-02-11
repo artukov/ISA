@@ -11,13 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -44,6 +42,9 @@ public class PatientController {
 
     @Autowired
     private DrugService drugService;
+
+    @Autowired
+    private PharmacyService pharmacyService;
 
     @GetMapping(value = "/examinations", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -117,6 +118,14 @@ public class PatientController {
     public ResponseEntity<?> getEReceiptDrugs(Principal user){
         User current = userService.findByEmail(user.getName());
         List<DrugDTO> dtos = drugService.getPatientDrugsFromEReceipt(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getFreeConsultationPharmacies/{dateTime}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getFreeConsultationPharmacies(@PathVariable("dateTime") Date dateTime){
+        List<PharmacyDTO> dtos = pharmacyService.getPharmaciesWithFreeConsultation(dateTime);
 
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
