@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
+import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
@@ -294,5 +295,16 @@ public class ExaminationServiceImpl implements ExaminationService {
 
         return dtos;
 
+    }
+
+    @Override
+    public List<ExaminationDTO> getFreeExaminationsFromPharmacy(Long pharmacyId){
+        List<Examination> examinations = repository.getFreeExaminationsFromPharmacy(pharmacyId);
+        List<ExaminationDTO> dtos = new ArrayList<>();
+
+        for(Examination e: examinations){
+            dtos.add(ExaminationDTO.examination2DTO(e));
+        }
+        return dtos;
     }
 }
