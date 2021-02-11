@@ -1,9 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.CalendarDTO;
-import isa.project.pharmacyapp.dto.PatientDTO;
-import isa.project.pharmacyapp.dto.PharmacistDTO;
-import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.PharmacistService;
@@ -37,6 +34,9 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Autowired
     private PharmacyRepository pharmacyRepository;
 
+    @Autowired
+    private ConsultationRepository consultationRepository;
+
 //    @Autowired
 //    private PasswordEncoder encoder;
 
@@ -51,7 +51,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     public PharmacistDTO findById(Long id) {
         Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
 
-        if(pharmacist == null)
+        if (pharmacist == null)
             throw new NoSuchElementException(EXCEPTION_TEXT + "findById" + DOES_NOT_EXISTS);
 
         PharmacistDTO dto = PharmacistDTO.pharmacist2Dto(pharmacist);
@@ -64,7 +64,7 @@ public class PharmacistServiceImpl implements PharmacistService {
         List<Pharmacist> pharmacistList = pharmacistRepository.findAllByPharmacy(pharmacyId);
 
         ArrayList<PharmacistDTO> pharmacistDTOS = new ArrayList<>();
-        for(Pharmacist pharmacist : pharmacistList){
+        for (Pharmacist pharmacist : pharmacistList) {
             pharmacistDTOS.add(PharmacistDTO.pharmacist2Dto(pharmacist));
         }
 
@@ -74,11 +74,11 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public List<PatientDTO> findAllPharmacistPatients(Long pharmaId, String orderCondition) {
-        List<Patient> patientList = this.patientRepository.findPharmacistPatients(pharmaId,orderCondition);
+        List<Patient> patientList = this.patientRepository.findPharmacistPatients(pharmaId, orderCondition);
 
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
 
-        for(Patient patient : patientList){
+        for (Patient patient : patientList) {
             PatientDTO dto = PatientDTO.patient2Dto(patient);
             patientDTOs.add(dto);
         }
@@ -86,22 +86,23 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public List<PatientDTO> getAllPatients(){
+    public List<PatientDTO> getAllPatients() {
         List<Patient> patientList = this.patientRepository.findAll();
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
 
-        for(Patient patient : patientList){
+        for (Patient patient : patientList) {
             PatientDTO dto = PatientDTO.patient2Dto(patient);
             patientDTOs.add(dto);
         }
         return patientDTOs;
     }
+
     @Override
-    public List<PatientDTO> findPatientbyNameAndSurname(String firstName, String lastName){
-        List<Patient> patientList = this.patientRepository.findPatientByNameAndSurname(firstName,lastName);
+    public List<PatientDTO> findPatientbyNameAndSurname(String firstName, String lastName) {
+        List<Patient> patientList = this.patientRepository.findPatientByNameAndSurname(firstName, lastName);
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
 
-        for(Patient patient : patientList){
+        for (Patient patient : patientList) {
             PatientDTO dto = PatientDTO.patient2Dto(patient);
             patientDTOs.add(dto);
         }
@@ -109,10 +110,10 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public List<CalendarDTO> getPharmacistCalendar(Long pharmaId){
+    public List<CalendarDTO> getPharmacistCalendar(Long pharmaId) {
         List<Object[]> calendar = this.calendarRepository.getPharmacistCalendar(pharmaId);
         ArrayList<CalendarDTO> calendarDTOs = new ArrayList<>();
-        for(Object[] obj : calendar){
+        for (Object[] obj : calendar) {
             CalendarDTO dto = new CalendarDTO();
             dto.setCalendar_id((BigInteger) obj[0]);
             dto.setAppointment_id((BigInteger) obj[1]);
@@ -125,7 +126,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void createNewPharmacist(PharmacistDTO dto) throws Exception {
-        if(!pharmacyRepository.existsById(dto.getPharmacyID()))
+        if (!pharmacyRepository.existsById(dto.getPharmacyID()))
             throw new Exception("Pharmacy with given id does not exists");
 
         Pharmacist pharmacist = new Pharmacist();
@@ -141,7 +142,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     public void modifyPharmacist(Long id, PharmacistDTO dto) throws Exception {
         Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
 
-        if(pharmacist == null){
+        if (pharmacist == null) {
             throw new NoSuchElementException("PharmacistSerivceImpl::modifyPharmacist(Long id, PharmacistDTO dto)" +
                     "pharmacist could not be find by the given id");
         }
@@ -159,18 +160,17 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public void deletePharmacistById(Long id) throws Exception {
 //        Pharmacist pharmacist = pharmacistRepository.findById(id).orElse(null);
-        if(!pharmacistRepository.existsById(id)){
+        if (!pharmacistRepository.existsById(id)) {
             throw new Exception("There is no pharmacist with given id");
         }
 
-        if(pharmacistRepository.existsUnfinishedConsultation(id) != 0.0){
+        if (pharmacistRepository.existsUnfinishedConsultation(id) != 0.0) {
             throw new Exception("Pharmacist has a consultation");
         }
 
-        try{
+        try {
             pharmacistRepository.deletePharmacistFromPharmacy(id);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("Deleting pharmacist from the pharmacy");
         }
@@ -178,7 +178,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception{
+    public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception {
 
 //        pharmacistDTO.setPassword(encoder.encode(pharmacistDTO.getPassword()));
         UserDTO.dto2User(pharmacist, pharmacistDTO);
@@ -186,10 +186,10 @@ public class PharmacistServiceImpl implements PharmacistService {
         pharmacist.setHours(pharmacistDTO.getHours());
         pharmacist.setStart_hour(pharmacistDTO.getStart_hour());
 //        pharmacist.setPassword(encoder.encode(pharmacist.getPassword()));
-        try{
+        try {
             pharmacist.setAddress(addressRepository.findById(pharmacistDTO.getAddress_id()).orElse(null));
             pharmacist.setPharmacy(pharmacyRepository.getOne(pharmacistDTO.getPharmacyID()));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +
                     " address does not exists");
@@ -198,8 +198,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
         try {
             pharmacistRepository.save(pharmacist);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +
                     "saving pharmacist exception ");
@@ -210,8 +209,8 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public Double getAvgRating(Long id) throws Exception {
 
-        if(pharmacistRepository.findById(id).orElse(null) == null){
-            throw new Exception(getClass().getName()+"::getAvgRating pharmacist does not exists");
+        if (pharmacistRepository.findById(id).orElse(null) == null) {
+            throw new Exception(getClass().getName() + "::getAvgRating pharmacist does not exists");
         }
 
 
@@ -231,22 +230,22 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public User saveNewUser(UserDTO userDTO) {
         try {
-           return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
-        }
-        catch(Exception e){
+            return this.savePharmacist(new Pharmacist(), (PharmacistDTO) userDTO);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public List<PatientDTO> getPharmacistPatients(Long pharmacistId){
+    public List<PatientDTO> getPharmacistPatients(Long pharmacistId) {
         List<Patient> patientList = this.patientRepository.getPharmacistPatients(pharmacistId);
 
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
 
-        for(Patient patient : patientList){
+        for (Patient patient : patientList) {
             PatientDTO dto = PatientDTO.patient2Dto(patient);
+
 
 //            List<Examination> exams = examinationRepository.findByDermaIdAndPatientId(dermaId,patient.getId());
 //            for(Examination exam : exams){
@@ -260,12 +259,12 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public List<PatientDTO> getPharmacistPatientsDistinct(Long pharmacistId){
+    public List<PatientDTO> getPharmacistPatientsDistinct(Long pharmacistId) {
         List<Patient> patientList = this.patientRepository.getPharmacistPatientsDistinct(pharmacistId);
 
         ArrayList<PatientDTO> patientDTOs = new ArrayList<>();
 
-        for(Patient patient : patientList){
+        for (Patient patient : patientList) {
             PatientDTO dto = PatientDTO.patient2Dto(patient);
 
 //            List<Examination> exams = examinationRepository.findByDermaIdAndPatientId(dermaId,patient.getId());
@@ -278,4 +277,24 @@ public class PharmacistServiceImpl implements PharmacistService {
         return patientDTOs;
 
     }
+    @Override
+    public List<PatConsDTO> getPharmacistConsultations(Long pharmacistId){
+        List<PatConsDTO> dtos = new ArrayList<>();
+        List<Object[]> consultations = consultationRepository.getPharmacistsConsultations(pharmacistId);
+
+        for(Object[] obj: consultations){
+            PatConsDTO dto = new PatConsDTO();
+            dto.setAppointmentDate((Date) obj[0]);
+            dto.setFirstName((String) obj[1]);
+            dto.setLastName((String) obj[2]);
+            dto.setEmail((String) obj[3]);
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+
+
+
 }

@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -292,6 +293,16 @@ public class PharmacistController {
         List<PatientDTO> patientDTOList = pharmacistService.getPharmacistPatients(current.getId());
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
+    }
+    @GetMapping(value = "/allClients",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllClients(Principal user){
+        User current = userService.findByEmail(user.getName());
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        List<PatConsDTO> dtos = pharmacistService.getPharmacistConsultations(current.getId());
+        
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
     @GetMapping(value = "/patientsDistinct", produces = MediaType.APPLICATION_JSON_VALUE)

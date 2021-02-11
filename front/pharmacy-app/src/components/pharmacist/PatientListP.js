@@ -110,7 +110,7 @@ const PatientListP = () => {
                                     <Col>{patient.firstname}</Col>
                                     <Col>{patient.lastname}</Col>
                                     <Col>{patient.email}</Col>
-                                    <Col>{ patient.date}</Col>
+                                    <Col>{patient.appointmentDate}</Col>
                             </Row>
                             </ListGroup.Item>
                             // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
