@@ -341,5 +341,20 @@ public class DermatologistServiceImpl implements DermatologistService {
         return dtos;
     }
 
+    public List<PatConsDTO> getDermatologistsExaminations(Long dermaId){
+        List<PatConsDTO> dtos = new ArrayList<>();
+        List<Object[]> examinations = dermatologistRepository.getDermatologistsExaminations(dermaId);
+        for(Object[] obj: examinations){
+            PatConsDTO dto = new PatConsDTO();
+            dto.setAppointmentDate((Date) obj[0]);
+            dto.setFirstName((String) obj[1]);
+            dto.setLastName((String) obj[2]);
+            dto.setEmail((String) obj[3]);
+
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
 
 }

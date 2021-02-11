@@ -351,4 +351,17 @@ public class DermatologistController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/allClients",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllclients(Principal user){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        List<PatConsDTO> dtos = dermatologistService.getDermatologistsExaminations(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+
+    }
+
 }

@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.Dermatologist;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -28,4 +29,5 @@ public interface DermatologistService extends UserService {
 
     List<PatientDTO> getDermaPatientsDistinct(Long dermaId);
     List<PharmacyDTO> getDermatologistPharmacies(Long dermaId);
+    List<PatConsDTO> getDermatologistsExaminations(Long dermaId);
 }
