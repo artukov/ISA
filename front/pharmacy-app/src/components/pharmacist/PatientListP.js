@@ -13,7 +13,8 @@ const PatientListP = () => {
     useEffect(() => {
         const loadPatients = async () => {
             try {
-                const result = await axiosConfig.get('/pharmacist/patients');
+                //const result = await axiosConfig.get('/pharmacist/patients');
+                const result = await axiosConfig.get('/pharmacist/allClients');
                 setPatients(result.data);
             }
             catch (err) {
@@ -107,8 +108,8 @@ const PatientListP = () => {
                                 setHours(pharmacy.hours);
                             } }*/ key={index} >
                                 <Row>
-                                    <Col>{patient.firstname}</Col>
-                                    <Col>{patient.lastname}</Col>
+                                    <Col>{patient.firstName}</Col>
+                                    <Col>{patient.lastName}</Col>
                                     <Col>{patient.email}</Col>
                                     <Col>{patient.appointmentDate}</Col>
                             </Row>

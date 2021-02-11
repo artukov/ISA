@@ -301,7 +301,7 @@ public class PharmacistController {
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
 
         List<PatConsDTO> dtos = pharmacistService.getPharmacistConsultations(current.getId());
-        
+
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
