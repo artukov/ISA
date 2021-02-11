@@ -50,11 +50,13 @@ public class UserDTO {
                 user.getPassword(),
                 user.getFirstname(),
                 user.getLastname(),
-                user.getAddress().getId(),
+                 null,
                 user.getPhoneNumber(),
                 user.getRole(),
                 user.getLastPasswordResetDate()
         );
+
+        userDTO.setAddress(user.getAddress());
 
         return userDTO;
 
