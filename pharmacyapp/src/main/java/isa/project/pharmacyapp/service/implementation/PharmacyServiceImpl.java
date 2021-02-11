@@ -230,4 +230,15 @@ public class PharmacyServiceImpl implements PharmacyService {
         }
 
     }
+
+    public List<PharmacyDTO> getPharmaciesWithFreeConsultation(Date dateTime){
+        List<Pharmacy> pharmacies = pharmacyRepository.getPharmaciesWithFreeConsultation(dateTime);
+        List<PharmacyDTO> dtos = new ArrayList<>();
+        for(Pharmacy p: pharmacies){
+            //PharmacyDTO dto = new PharmacyDTO();
+            dtos.add(PharmacyDTO.pharmacy2DTO(p));
+        }
+
+        return dtos;
+    }
 }

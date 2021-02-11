@@ -40,4 +40,9 @@ public interface PharmacyRepository extends JpaRepository<Pharmacy, Long> {
             "from pharmacy_derma\n" +
             "where derma_id = :dermaId", nativeQuery = true)
     List<Object[]> getDermaPharmacy(@Param("dermaId") Long dermaId);
+
+    @Query(value = "select distinct p.*\n" +
+            "from pharmacy p inner join pharmacist ps on p.id = ps.pharmacy_id inner join consultation c on ps.id = c.pharmacist_id\n" +
+            "where c.beg_date != :dateTime", nativeQuery = true)
+    List<Pharmacy> getPharmaciesWithFreeConsultation(@Param("dateTime") Date dateTime);
 }
