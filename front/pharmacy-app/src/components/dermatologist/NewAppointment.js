@@ -150,7 +150,7 @@ const NewAppointment = () => {
                                 pharmacies ? (
                                     pharmacies.map(pharmacy =>
                                         <option key={pharmacy.pharmacy_id} value={JSON.stringify({id : pharmacy.pharmacy_id, name : pharmacy.name})}>
-                                            {pharmacy.pharmacy_id}
+                                            {pharmacy.pharmaName}
                                         </option>
                                         )
                                 ) : null

@@ -59,10 +59,10 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             ,nativeQuery = true)
     Double getYearlyDrugConsumptionStatistics(@Param("id") Long id, @Param("year") Double year);
 
-    @Query(value = "select  distinct p.pharmacy_id,pl.price\n" +
-            "from drug d inner join pharmacy_drug pd\n" +
-            "    on d.id = pd.drug_id inner join pl_drug pl on d.id = pl.drug_id inner join price_list p on pl.pricelist_id = p.id\n" +
-            "where d.name = :drugName and  pd.amount != 0 and p.active = true",nativeQuery = true)
+    @Query(value = "select  distinct p.pharmacy_id,pl.price, p2.name\n" +
+            " from drug d inner join pharmacy_drug pd\n" +
+            " on d.id = pd.drug_id inner join pl_drug pl on d.id = pl.drug_id inner join price_list p on pl.pricelist_id = p.id inner join pharmacy p2 on p.pharmacy_id = p2.id\n" +
+            " where d.name = :drugName and  pd.amount != 0 and p.active = true",nativeQuery = true)
     List<Object[]> searchDrugs(@Param("drugName") String drugName);
 
     @Query(value = "select d.id, d.code,d.manufacturer,d.name,d.shape, d.type,ds.composition,ds.recom_consum,ds.side_effects\n" +

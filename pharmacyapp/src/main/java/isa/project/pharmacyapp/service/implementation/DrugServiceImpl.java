@@ -77,6 +77,7 @@ public class DrugServiceImpl implements DrugService {
 //            dto.setType((String) obj[1]);
             dto.setPharmacy_id((BigInteger) obj[0]);
             dto.setPrice((Double) obj[1]);
+            dto.setPharmaName((String) obj[2]);
             drugDTOs.add(dto);
         }
         return drugDTOs;
