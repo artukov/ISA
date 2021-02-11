@@ -6,13 +6,17 @@ import isa.project.pharmacyapp.model.Authority;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.dto.UserTokenState;
 import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.model.VerificationToken;
+import isa.project.pharmacyapp.registration_event.IUserService;
+import isa.project.pharmacyapp.registration_event.OnRegistrationCompleteEvent;
 import isa.project.pharmacyapp.security.TokenUtils;
 import isa.project.pharmacyapp.security.authetication.JwtAuthenticationRequest;
+import isa.project.pharmacyapp.service.PatientService;
 import isa.project.pharmacyapp.service.UserService;
 import isa.project.pharmacyapp.service.implementation.CustomUserDetailsService;
-import isa.project.pharmacyapp.user_factory.UserFactory;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,19 +29,15 @@ import org.springframework.security.core.AuthenticationException;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponents;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -57,6 +57,12 @@ public class AuthenticationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    private IUserService iUserService;
 
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -131,6 +137,10 @@ public class AuthenticationController {
 
         try {
             user  = service.saveNewUser(userDTO);
+
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,request.getLocale(),appUrl));
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(this.getClass().getName() +"::singUpAnUser saving user",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -181,6 +191,7 @@ public class AuthenticationController {
         String[] origin = request.getHeader("Origin").split("http://localhost:");
         builder.port(origin[1]);
 
+
         headers.setLocation(builder.path("/login").buildAndExpand().toUri());
 
         Map<String, String> result = new HashMap<String, String>();
@@ -197,6 +208,39 @@ public class AuthenticationController {
 
         public PasswordChanger() {
         }
+    }
+
+    @GetMapping(value="/registrationConfirm")
+    public ResponseEntity<?> confirmRegistration(WebRequest request,@RequestParam("token") String token, UriComponentsBuilder builder){
+        Locale locale = request.getLocale();
+
+        VerificationToken verificationToken = iUserService.getVerificationToken(token);
+        if(verificationToken == null){
+            return new ResponseEntity<>("invalid token",HttpStatus.BAD_REQUEST);
+        }
+
+        User user = verificationToken.getUser();
+        Calendar calendar = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - calendar.getTime().getTime()) <= 0){
+            return new ResponseEntity<>("token has expired", HttpStatus.BAD_REQUEST);
+        }
+
+        user.setEnabled(true);
+        PatientService patientService = (PatientService) serviceFactory.getUserService(UserRoles.PATIENT);
+        try {
+            patientService.saveNewUser(UserDTO.user2DTO(user));
+            iUserService.deleteUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//        iUserService.saveRegisteredUser(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers","Location");
+        builder.port(3000);
+        headers.setLocation(builder.path("/login").buildAndExpand().toUri());
+        return new ResponseEntity<>(null,headers,HttpStatus.PERMANENT_REDIRECT);
     }
 
 

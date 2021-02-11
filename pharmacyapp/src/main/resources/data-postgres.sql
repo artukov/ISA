@@ -53,17 +53,17 @@ INSERT INTO pharmacy_drug(amount, price, drug_id, pharmacy_id) VALUES (0,0.0,601
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (300, 'derma@live.com', true, 'dermatologist', null, 'lastname',
+VALUES (300, 'dermatologistonepharmacyapp@gmail.com', true, 'Haris', null, 'Dzinovic',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (301, 'nikolartukov@gmail.com', true, 'dermatologist', null, 'lastname',
+VALUES (301, 'nikolartukov@gmail.com', true, 'Toma', null, 'Zdravkovic',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (302, 'derma2@live.com', true, 'dermatologist', null, 'lastname',
+VALUES (302, 'derma2@live.com', true, 'Ljuba', null, 'Alicic',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
 
 INSERT INTO public.dermatologist(
@@ -110,7 +110,7 @@ VALUES (400, 'nidza@gmail.com', true, 'patient', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
-VALUES (401, 'srdjan_kralj_97@live.com', true, 'Nikola', null, 'Artukov',
+VALUES (401, 'salecovic@hotmail.com', true, 'Nikola', null, 'Artukov',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
 
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
@@ -142,24 +142,30 @@ VALUES (203, 300);
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
                               pharmacy_id,start_hour,hours )
-VALUES (500, 'pharmacist@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (500, 'pharmacistonepharmacyapp@gmail.com' ,true, 'Dzej', null, 'Ramadanovski',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
-VALUES (501, 'pharmacist1@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (501, 'pharmacist1@live.com' ,true, 'Aca', null, 'Lukas',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
-VALUES (502, 'pharmacist2@live.com' ,true, 'pharmacist', null, 'lastname',
+VALUES (502, 'pharmacist2@live.com' ,true, 'Mira', null, 'Skoric',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
 
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 5.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 3.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 5.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 3.5);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (501 , 2.7);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (502 , 2.0);
+INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (502 , 1.0);
 
 
 INSERT INTO public.pharmacy_admin(
@@ -175,16 +181,16 @@ VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
 
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (700, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
+VALUES (700, 'supplieronepharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
-VALUES (701, 'supplier1@live.com', true, 'system admin', null, 'lastname',
+VALUES (701, 'suppliertwopharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password,
                      phone_number, role, address_id)
-VALUES (702, 'supplier2@live.com', true, 'system admin', null, 'lastname',
+VALUES (702, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
 
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
@@ -419,17 +425,22 @@ insert into recepit_drug(recepit_id,drug_id) values (2,300);
 
 ---absence request---------------
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
-VALUES (200,'Holiday to the sea',date('2021-06-21'),date('2021-06-10'),null,200,300);
+VALUES (200,null,date('2021-06-21'),date('2021-06-10'),null,200,300);
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
-VALUES (201,'Holiday to the woods',date('2021-09-10'),date('2021-08-15'),null,200,301);
+VALUES (201,null,date('2021-09-10'),date('2021-08-15'),null,200,301);
 
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
-VALUES (202,'Holiday to the Sahara',date('2021-07-10'),date('2021-06-28'),null,200,500);
+VALUES (202,null,date('2021-07-10'),date('2021-06-28'),null,200,500);
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
-VALUES (203,'Holiday to the Spain',date('2021-10-10'),date('2021-09-28'),null,200,501);
+VALUES (203,null,date('2021-10-10'),date('2021-09-28'),null,200,501);
 INSERT INTO absence_request(id, description, end_date, start_date, status, pharmacy_id, user_id)
-VALUES (204,'Holiday to the Sahara',date('2021-05-15'),date('2021-04-30'),null,200,502);
+VALUES (204,null,date('2021-05-15'),date('2021-04-30'),null,200,502);
 
 ----subscribers to pharmacy promotions-----------
 INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,400);
 INSERT INTO pharmacy_subscriber(pharmacy_id, subscriber_id) VALUES (200,401);
+
+INSERT INTO complaints(id, description, referred_id, submitter_id, pharmacy_id ,complaint_id)
+VALUES (200,'The service was terrible, there was no  magazines to read while I was waiting',null,400,200, null);
+INSERT INTO complaints(id, description, referred_id, submitter_id, pharmacy_id ,complaint_id)
+VALUES (201, 'He was rude, dirty and cold towards me',300,401,null,null);

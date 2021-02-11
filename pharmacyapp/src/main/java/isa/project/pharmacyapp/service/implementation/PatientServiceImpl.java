@@ -47,13 +47,15 @@ public class PatientServiceImpl implements PatientService {
     public Patient savePatient(Patient patient, PatientDTO patientDTO) throws Exception{
         UserDTO.dto2User(patient,patientDTO);
 
-        try{
-            patient.setAddress(addressRepository.findById(patientDTO.getAddress_id()).orElse(null));
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new Exception("PatientSerivceImpl::savePatient(Patient patient, PatientDTO patientDTO)" +
-                    " address does not exists");
-        }
+        patient.setAddress(addressRepository.save(patientDTO.getAddress()));
+
+//        try{
+//            patient.setAddress(addressRepository.findById(patientDTO.getAddress_id()).orElse(null));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            throw new Exception("PatientSerivceImpl::savePatient(Patient patient, PatientDTO patientDTO)" +
+//                    " address does not exists");
+//        }
 
         if(patient.getAuthorities() == null){
             List<Authority> authorities = this.authorityService.findByName("USER");
@@ -80,7 +82,8 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public User saveNewUser(UserDTO userDTO) throws Exception {
+    public Patient saveNewUser(UserDTO userDTO) throws Exception {
+        Patient patient = new Patient();
         PatientDTO patientDTO = new PatientDTO(
                 userDTO.getId(),
                 userDTO.getEmail(),
@@ -89,11 +92,14 @@ public class PatientServiceImpl implements PatientService {
                 userDTO.getLastname(),
                 userDTO.getAddress_id(),
                 userDTO.getPhoneNumber(),
-                userDTO.getRole(),
+                UserRoles.PATIENT,
                 null
         );
+        patientDTO.setAddress(new Address());
+        patient.setPassword(patientDTO.getPassword());
+        patient.setEnabled(true);
 
-        return this.savePatient(new Patient(), patientDTO);
+        return this.savePatient(patient, patientDTO);
     }
 
     @Override

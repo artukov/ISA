@@ -66,7 +66,7 @@ public  class User implements UserDetails {
    protected Timestamp lastPasswordResetDate;
 
    @Column(name = "enabled")
-   protected Boolean enabled = true;
+   protected Boolean enabled;
 
 
    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -85,6 +85,7 @@ public  class User implements UserDetails {
 
    public User() {
       // TODO: implement
+      this.enabled = false;
    }
 
    public Long getId() {

@@ -22,9 +22,15 @@ public class Complaints {
    @JoinColumn(name = "referred_id")
    private User referred;
 
-   /** @pdOid 0f33ebe8-b599-463c-9e51-9138e3bab218 */
+   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   @JoinColumn(name = "pharmacy_id")
+   private Pharmacy pharmacy;
+
    @Column(nullable = false)
    private String description;
+
+   @Column(nullable = true)
+   private String answer;
 
    public Complaints() {
    }
@@ -59,5 +65,21 @@ public class Complaints {
 
    public void setDescription(String description) {
       this.description = description;
+   }
+
+   public String getAnswer() {
+      return answer;
+   }
+
+   public void setAnswer(String answer) {
+      this.answer = answer;
+   }
+
+   public Pharmacy getPharmacy() {
+      return pharmacy;
+   }
+
+   public void setPharmacy(Pharmacy pharmacy) {
+      this.pharmacy = pharmacy;
    }
 }

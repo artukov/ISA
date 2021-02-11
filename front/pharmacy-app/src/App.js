@@ -14,29 +14,46 @@ import Pharmacistpage from './components/pharmacist/Pharmacistpage';
 import ResetPasswordPage from './components/reset-password/ResetPasswordPage';
 import SystemAdminPage from './components/system-admin/SystemAdminPage';
 import PatientPage from './components/patient/PatientPage';
+import  {Nav, Navbar, Button} from 'react-bootstrap';
 
 function App() {
   return (
     // <CurrentUserContextProvider>
-    <Router>
-      <Switch>
-        <Route path='/login' exact component={LoginPage} />
-        <Route path='/registration' exact component={RegistrationPage} />
+    <div>
+      <Navbar  bg="light" expand="lg" sticky="top">
+          <Nav  className="mr-auto">
+              <Nav.Link onClick={()=> window.location = '/home'}>Home</Nav.Link>
+          </Nav>
+          <Nav>
+              <Button onClick={()=>window.location = '/login'}>Login</Button>
+          </Nav>
+          <Nav>
+            <Button variant="secondary" onClick={()=>window.location = '/registration'}>Sign in</Button>
+          </Nav>
+          <Nav>
+            <Nav.Link  onClick={() => {}}>Sign out</Nav.Link>
+          </Nav>
+      </Navbar>
+        <Router>
+        <Switch>
+            <Route path='/login' exact component={LoginPage} />
+            <Route path='/registration' exact component={RegistrationPage} />
 
-        <Route path={['/','/home']} exact component={HomePage} />
+            <Route path={['/','/home']} exact component={HomePage} />
 
-        <Route path='/pharmacy' exact component={PharmacyComponent}></Route>
-        <Route path='/pharmacyAdmin' exact component={PharmacyAdminPage}></Route>
-        <Route path="/supplier" exact component={SupplierPage}></Route>
-        <Route path="/dermatologist" exact component={DermatologistPage}></Route>
-        <Route path="/pharmacist" exact component={Pharmacistpage}></Route>
-        <Route path='/reset-password' exact component={ResetPasswordPage}></Route>
-        <Route path="/systemAdmin" exact component={SystemAdminPage}></Route>
-        <Route path="/patient" exact component={PatientPage}></Route>
-        {/* <Route path='/'>404 not here sry</Route> */}
+            <Route path='/pharmacy/:id' exact component={PharmacyComponent}></Route>
+            <Route path='/pharmacyAdmin' exact component={PharmacyAdminPage}></Route>
+            <Route path="/supplier" exact component={SupplierPage}></Route>
+            <Route path="/dermatologist" exact component={DermatologistPage}></Route>
+            <Route path="/pharmacist" exact component={Pharmacistpage}></Route>
+            <Route path='/reset-password' exact component={ResetPasswordPage}></Route>
+            <Route path="/systemAdmin" exact component={SystemAdminPage}></Route>
+            <Route path="/patient" exact component={PatientPage}></Route>
+            {/* <Route path='/'>404 not here sry</Route> */}
 
-      </Switch>
-    </Router>
+        </Switch>
+        </Router>
+    </div>
     // </CurrentUserContextProvider>
   );
 }
