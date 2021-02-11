@@ -1,5 +1,6 @@
 package isa.project.pharmacyapp.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.User;
 import isa.project.pharmacyapp.model.UserRoles;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,10 +124,32 @@ public class PatientController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getFreeConsultationPharmacies/{dateTime}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getFreeConsultationPharmacies",/*consumes = MediaType.APPLICATION_JSON_VALUE,*/ produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> getFreeConsultationPharmacies(@PathVariable("dateTime") Date dateTime){
-        List<PharmacyDTO> dtos = pharmacyService.getPharmaciesWithFreeConsultation(dateTime);
+    public ResponseEntity<?> getFreeConsultationPharmacies(@RequestParam("dateTime") String dateTime){
+
+
+        String[] dateTimeParts = dateTime.split(" ");
+        String dateString = dateTimeParts[0];
+        String timeString = dateTimeParts[1];
+        String timeZone = dateTimeParts[2];
+
+        String[] dateParts = dateString.split("-");
+
+        String day = dateParts[0];
+        String month = dateParts[1];
+        String year = dateParts[2];
+
+        String[] timeParts = timeString.split(":");
+
+        String hours = timeParts[0];
+        String minutes = timeParts[1];
+        String seconds = timeParts[2];
+
+        Date newDate = new Date(Integer.parseInt(year) ,Integer.parseInt(month),Integer.parseInt(day),Integer.parseInt(hours),Integer.parseInt(minutes),Integer.parseInt(seconds));
+
+
+        List<PharmacyDTO> dtos = pharmacyService.getPharmaciesWithFreeConsultation(newDate);
 
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
