@@ -8,6 +8,51 @@ const BookExamination = () => {
     const [sortCityAsc, setSortCityAsc] = useState(true);
     const [pharmacies, setPharmacies] = useState([]);
     const [examinations, setExaminations] = useState([]);
+    const [patient, setPatient] = useState({});
+    const [choosenPharmacy, setChoosenPharmacy] = useState({});
+     
+    useEffect(() => {
+        const loadPatient = async () => {
+            try {
+                const result = await axiosConfig.get('patient/current');
+                setPatient(result.data);
+            } catch (err) {
+                console.log(err);
+                alert(err.response.data);
+            }
+        }
+        loadPatient();
+    }, [])
+    const bookExamination = async (exam,patientId) => {
+        let examination = {
+            id: exam.id,
+            report: exam.report,
+            beggingDateTime: exam.beggingDateTime,
+            duration: exam.duration,
+            finished: exam.finished,
+             drugs: [],
+            patient_id: patientId,
+            pharmacyID: choosenPharmacy,
+            price: exam.price,
+            diagnose: exam.diagnose,
+            dermatologist_id: exam.dermatologist_id
+            
+        }
+        // for (let drug of choosenDrugs) {
+        //     examination.drugs = [...examination.drugs, drug.id]
+        // }
+
+        try{
+            await axiosConfig.put('/patient/examination/new',examination);
+            //dispatch({type : INIT});
+            // setLatestPL(state);
+            alert("Examination saved");
+        }
+        catch(err){
+            console.log(err);
+            alert(err.response.data);
+        }
+    }
 
     const sortPharmacyName = () => {
         let result = null
@@ -106,7 +151,44 @@ const BookExamination = () => {
                                     <Col><Button onClick={(e) => {
                                         // loadPharmacists(pharmacy.id);
                                         // setChoosenPharmacy(pharmacy.id);
+                                        setChoosenPharmacy(pharmacy.id);
                                         loadFreeExaminations(pharmacy.id);
+                                    }}>Choose</Button></Col>
+                                    
+                            </Row>
+                            </ListGroup.Item>
+                            // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
+                        )
+                        
+                    ) : null
+                }
+            </ListGroup>
+
+            <ListGroup>
+                Pharmacies
+                <ListGroup.Item>
+                    <Row>
+                        <Col>Date and Time</Col>
+                        <Col>Dermatologist</Col>
+                        <Col>Price</Col>
+                        <Col></Col>
+                        
+                    </Row>
+                </ListGroup.Item>
+                {
+                    examinations ? (
+                        examinations.map((examination,index) =>
+
+                            <ListGroup.Item /*onClick={() => {
+                                setStartHour(pharmacy.start_hour);
+                                setHours(pharmacy.hours);
+                            } }*/ key={index} >
+                                <Row>
+                                    <Col>{examination.beggingDateTime}</Col>
+                                    <Col>{examination.dermatologist_id}</Col>
+                                    <Col>{examination.price}</Col>
+                                    <Col><Button onClick={(e) => {
+                                        bookExamination(examination,patient.id);
                                     }}>Choose</Button></Col>
                                     
                             </Row>
