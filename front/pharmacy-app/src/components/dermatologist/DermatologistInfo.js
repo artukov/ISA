@@ -29,7 +29,7 @@ const DermatologistInfo = () => {
 
         try{
             await axiosConfig.put('/dermatologist/modify/',user);
-
+            alert("Success");
         }
         catch(err){
             console.log(err.response);
