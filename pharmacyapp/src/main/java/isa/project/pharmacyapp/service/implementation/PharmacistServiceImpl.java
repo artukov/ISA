@@ -184,8 +184,11 @@ public class PharmacistServiceImpl implements PharmacistService {
 
         UserDTO.dto2User(pharmacist, pharmacistDTO);
         pharmacist.setRole(UserRoles.PHARMACIST);
-        pharmacist.setHours(pharmacistDTO.getHours());
-        pharmacist.setStart_hour(pharmacistDTO.getStart_hour());
+        if(pharmacist.getId() == null){
+            pharmacist.setHours(pharmacistDTO.getHours());
+            pharmacist.setStart_hour(pharmacistDTO.getStart_hour());
+
+        }
 
 
 
