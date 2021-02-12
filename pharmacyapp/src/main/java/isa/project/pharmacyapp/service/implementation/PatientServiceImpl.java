@@ -3,6 +3,8 @@ package isa.project.pharmacyapp.service.implementation;
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.repository.AddressRepository;
+import isa.project.pharmacyapp.repository.AllergyRepository;
+import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -21,6 +24,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private DrugRepository drugRepository;
+
+    @Autowired
+    private AllergyRepository allergyRepository;
 
     @Autowired
     private AuthorityServiceImpl authorityService;
@@ -150,6 +159,24 @@ public class PatientServiceImpl implements PatientService {
         PatientDTO dto = new PatientDTO();
         return dto.patient2Dto(p);
 
+    }
+
+    @Override
+    public void addAllergy(Long patientId, Long drugId) throws Exception{
+        Allergy allergy = new Allergy();
+        Drug drug = drugRepository.findById(drugId).orElse(null);
+        if(allergy.getDrug()==null){
+            allergy.setDrug(new ArrayList<>());
+        }
+        allergy.getDrug().add(drug);
+        allergy.setPatient(patientRepository.findById(patientId).orElse(null));
+        try {
+            //consultation =consultationRepository.save(consultation);
+            allergyRepository.save(allergy);
+        }
+        catch (Exception e){
+            throw new Exception();
+        }
     }
 
 }

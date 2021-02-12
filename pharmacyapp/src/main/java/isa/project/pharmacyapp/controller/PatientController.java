@@ -238,5 +238,16 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/addAllergy/{drugId}")
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> addAllergy(@PathVariable("drugId") Long drugId,Principal user) throws Exception {
+
+        User current = userService.findByEmail(user.getName());
+        PatientService patientService = (PatientService) serviceFactory.getUserService(UserRoles.PATIENT);
+
+        patientService.addAllergy(current.getId(),drugId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

@@ -16,5 +16,6 @@ public interface PatientService extends UserService{
     public abstract void addPenalty(Long id) throws Exception;
     public abstract PatientDTO getPatient(Long id);
     public abstract void modifyPatient(Long id, PatientDTO dto) throws Exception;
+    public abstract void addAllergy(Long patientId, Long drugId) throws Exception;
     //public abstract Patient savePatient(Patient patient, PatientDTO patientDTO) throws Exception;
 }

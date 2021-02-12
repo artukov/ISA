@@ -25,7 +25,7 @@ public class Allergy {
            joinColumns = @JoinColumn(name = "allergy_id"),
            inverseJoinColumns = @JoinColumn(name = "drug_id")
    )
-   public java.util.Set<Drug> drug;
+   public java.util.List<Drug> drug;
 
    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
    @JoinColumn(name = "patient_id")
@@ -50,53 +50,11 @@ public class Allergy {
       this.patient = patient;
    }
 
-   /** @pdGenerated default getter */
-   public java.util.Set<Drug> getDrug() {
-      if (drug == null)
-         drug = new java.util.HashSet<Drug>();
+   public List<Drug> getDrug() {
       return drug;
    }
-   
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorDrug() {
-      if (drug == null)
-         drug = new java.util.HashSet<Drug>();
-      return drug.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newDrug */
-   public void setDrug(java.util.Set<Drug> newDrug) {
-      removeAllDrug();
-      for (java.util.Iterator iter = newDrug.iterator(); iter.hasNext();)
-         addDrug((Drug)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newDrug */
-   public void addDrug(Drug newDrug) {
-      if (newDrug == null)
-         return;
-      if (this.drug == null)
-         this.drug = new java.util.HashSet<Drug>();
-      if (!this.drug.contains(newDrug))
-         this.drug.add(newDrug);
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldDrug */
-   public void removeDrug(Drug oldDrug) {
-      if (oldDrug == null)
-         return;
-      if (this.drug != null)
-         if (this.drug.contains(oldDrug))
-            this.drug.remove(oldDrug);
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllDrug() {
-      if (drug != null)
-         drug.clear();
-   }
 
+   public void setDrug(List<Drug> drug) {
+      this.drug = drug;
+   }
 }
