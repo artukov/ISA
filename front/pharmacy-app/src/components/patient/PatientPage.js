@@ -9,6 +9,7 @@ import FutureAppointments from './FutureAppointments';
 import PatientInfo from './PatientInfo';
 import PharmaciesList from './PharmaciesList';
 import PharmacistVisits from './PharmacistVisists';
+import QRCode from './QRCode';
 import ReservedDrugs from './ReservedDrugs';
 
 const PatientPage = () => {
@@ -53,6 +54,9 @@ const PatientPage = () => {
             </Tab>
             <Tab eventKey = "newExamination" title="Book Examination">
                         <BookExamination></BookExamination>
+            </Tab>
+            <Tab eventKey = "QRCode" title="Upload QR Code">
+                        <QRCode></QRCode>
             </Tab>
                 
                 
