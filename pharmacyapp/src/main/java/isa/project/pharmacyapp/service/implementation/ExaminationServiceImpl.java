@@ -97,7 +97,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         if(resultPatientExamination != 0){
             throw new ExaminationOverlappingException("Patient examination hours are overlapping",examinationDTO.getBeggingDateTime(),endHours);
         }
-            Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null));
+            Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null);
             this.saveExamination(examination, examinationDTO);
             emailService.sendSimpleMessage(patient.getEmail(),"New Appointment","New Appointment has been booked");
 
