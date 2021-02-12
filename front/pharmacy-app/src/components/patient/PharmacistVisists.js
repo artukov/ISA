@@ -4,6 +4,7 @@ import { axiosConfig } from '../../config/AxiosConfig';
 
 const PharmacistVisits = () => {
 
+    
     const [consultations, setConsultations] = useState([]);
     const [dateAsc, setDateAsc] = useState({});
     const [priceAsc, setPriceAsc] = useState({});
