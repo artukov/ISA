@@ -19,16 +19,19 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
     List<Timestamp> getDateExaminations(Long id);
 
 
-    @Query(value = "SELECT COUNT(appointment_date) FROM calendar_appointments WHERE calendar_id = :id" +
-            " AND EXTRACT(month FROM appointment_date) = :month " +
+    @Query(value = "SELECT COUNT(appointment_date) FROM calendar_appointments " +
+            "INNER JOIN examination e on calendar_appointments.appointment_id = e.id \n" +
+            "WHERE calendar_id = :id  AND e.finished = true \n" +
+            "AND EXTRACT(month FROM appointment_date) = :month " +
             "AND EXTRACT(year FROM appointment_date) = :year"
             ,nativeQuery = true)
     Double getMonthlyExaminations(@Param("id") Long id,@Param("month") int month, @Param("year") Double year );
 
 
 
-    @Query(value = "SELECT COUNT(appointment_date) from calendar_appointments " +
-            "WHERE calendar_id = :id " +
+    @Query(value = "SELECT COUNT(appointment_date) from calendar_appointments  " +
+            "INNER JOIN examination e on calendar_appointments.appointment_id = e.id \n" +
+            "WHERE calendar_id = :id AND e.finished = true \n" +
             "AND " +
             "EXTRACT(month FROM appointment_date) BETWEEN  :month AND :month+3 " +
             "AND " +
@@ -38,7 +41,8 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
 
     @Query(value = "SELECT COUNT( appointment_date)  FROM calendar_appointments " +
-            "WHERE calendar_id = :id " +
+            "INNER JOIN examination e on calendar_appointments.appointment_id = e.id \n" +
+            "WHERE calendar_id = :id AND e.finished = true \n " +
             "GROUP BY EXTRACT(year FROM appointment_date)", nativeQuery = true)
     List<Double> getYearlyExaminations(@Param("id") Long id);
 
@@ -72,4 +76,17 @@ public interface CalendarRepository extends JpaRepository<Calendar, Long> {
             "WHERE calendar_id = :calendarID and appointment_id = :appointmentID"
             ,nativeQuery = true)
     Double appointmentAlreadyExists(@Param("calendarID")Long calendarID,@Param("appointmentID") Long appointmentID);
+
+    @Query(value = "SELECT SUM(COALESCE(con.price,0)) + SUM(COALESCE(e.price,0)) AS SUM FROM calendar_appointments ca\n" +
+            "INNER JOIN calendar c ON c.id = ca.calendar_id\n" +
+            "INNER JOIN pharmacy p ON c.id = p.calendar_id\n" +
+            "LEFT OUTER JOIN examination e ON e.id = ca.appointment_id\n" +
+            "LEFT OUTER JOIN consultation con ON con.id = ca.appointment_id\n" +
+            "WHERE p.id= :pharmacyID AND  \n" +
+            "(( e.finished = true AND EXTRACT(month from  e.beg_date) = :month AND EXTRACT(year FROM e.beg_date) = :year)\n" +
+            "OR " +
+            "( con.finished = true AND EXTRACT(month from con.beg_date)= :month AND EXTRACT(year FROM con.beg_date) = :year ));"
+            ,nativeQuery = true)
+    Double getAppointmentsPriceBasedOnDate(@Param("month")Integer month, @Param("year") Integer year,
+                                           @Param("pharmacyID") Long pharmacyID);
 }

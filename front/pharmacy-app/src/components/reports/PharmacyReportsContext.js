@@ -20,6 +20,12 @@ const PharmacyReportsContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(reportReducer, initState);
 
+    const [limits, setLimits] = useState({
+        lowerLimit : '',
+        upperLimit : ''
+    })
+    const [finances, setFinances] = useState([]);
+
     useEffect(() => {
         const loadYears = async (id) => {
             try{
@@ -59,6 +65,17 @@ const PharmacyReportsContextProvider = (props) => {
         }
     }
 
+    const getFinances = async () => {
+        console.log(limits);
+        try{
+            const result  = await axiosConfig.post('/pharmacy/finances/' + props.pharmacyID,limits);
+            setFinances(result.data);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
 
     return ( 
         <PharmacyReportsContext.Provider
@@ -66,7 +83,11 @@ const PharmacyReportsContextProvider = (props) => {
                 state,
                 dispatch,
                 loadAppointmentStats,
-                loadDrugConsumption
+                loadDrugConsumption,
+                setLimits,
+                limits,
+                getFinances,
+                finances
             }}
         >
             {props.children}

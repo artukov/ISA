@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -132,4 +134,19 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
             "from erecepit e inner join recepit_drug rd on e.id = rd.recepit_id inner join drug d on rd.drug_id = d.id\n" +
             "where e.patient_id = :patientId", nativeQuery = true)
     List<Drug> getPatientDrugsFromEReceipt(@Param("patientId") Long patientId);
+    @Query(value = "SELECT  SUM(COALESCE(pd.price,0)) FROM reservation r\n" +
+            "INNER JOIN reservation_drug rd on r.id = rd.reservation_id\n" +
+            "INNER JOIN drug d on d.id = rd.drug_id\n" +
+            "INNER JOIN pl_drug pd on d.id = pd.drug_id\n" +
+            "INNER JOIN price_list pl on pd.pricelist_id = pl.id\n" +
+            "WHERE r.accepted = true AND r.pharmacy_id = :pharmacyID\n" +
+            "  AND (EXTRACT(month FROM r.acceptance_date) =  :month " +
+            "AND EXTRACT(year FROM r.acceptance_date) = :year )\n" +
+            "AND pl.id =  (\n" +
+            "    SELECT MAX(pl2.id) FROM price_list pl2\n" +
+            "    WHERE ( :date BETWEEN pl2.start_date AND pl2.end_date)\n" +
+            "    );"
+            ,nativeQuery = true)
+    Double getAcceptedReservationPrice(@Param("date") Timestamp date, @Param("month")Integer month, @Param("year") Integer year
+            , @Param("pharmacyID") Long pharmacyID);
 }

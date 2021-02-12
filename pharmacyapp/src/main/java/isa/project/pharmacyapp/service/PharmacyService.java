@@ -4,8 +4,6 @@ import isa.project.pharmacyapp.dto.DermatologistDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
 import isa.project.pharmacyapp.model.Address;
-import isa.project.pharmacyapp.model.Pharmacy;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,7 +22,7 @@ public interface PharmacyService {
 
     public abstract void deletePharmacy(Long id) throws Exception;
 
-    Double calculateFinances(DateLimitsDTO limitsDTO, Long id);
+    List<Double> calculateFinances(DateLimitsDTO limitsDTO, Long id);
 
     Address getAddress(Long id);
 
