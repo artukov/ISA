@@ -2,7 +2,7 @@ import React, { useEffect,useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { MapContainer } from '../map/MapContainer';
 
-const AddressComponent = ({address,setAddress,dispatch}) => {
+const AddressComponent = ({address,setAddress,dispatch, read}) => {
 
    
     const [street, setStreet] = useState({});
@@ -19,7 +19,7 @@ const AddressComponent = ({address,setAddress,dispatch}) => {
                     <Row>
                         <Col>
                             <Form.Label>Street</Form.Label>
-                            <Form.Control type="text" onChange={(e) => {
+                            <Form.Control type="text" readOnly={read} onChange={(e) => {
                                 setStreet(e.target.value); dispatch(
                                     {
                                         type: "address",
@@ -28,11 +28,11 @@ const AddressComponent = ({address,setAddress,dispatch}) => {
                                             street : e.target.value
                                         }
                                 }
-                            )}}></Form.Control>
+                            )}}  placeholder={address ? address.street : ''} defaultValue={address ? address.street : ''}></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>Street Number</Form.Label>
-                            <Form.Control type="number" onChange={(e) => {
+                            <Form.Control type="number" readOnly={read} onChange={(e) => {
                                 setStreet(e.target.value); dispatch(
                                     {
                                         type: "address",
@@ -42,11 +42,11 @@ const AddressComponent = ({address,setAddress,dispatch}) => {
                                         }
                                     }
                                 )
-                            }}></Form.Control>
+                            }} placeholder={address ? address.streetNumber : ''} defaultValue={address ? address.streetNumber : ''}></Form.Control>
                         </Col>
                         <Col>
                             <Form.Label>City</Form.Label>
-                            <Form.Control type="text" onChange={(e) => {
+                            <Form.Control type="text" readOnly={read} onChange={(e) => {
                                 setStreet(e.target.value); dispatch(
                                     {
                                         type: "address",
@@ -56,11 +56,11 @@ const AddressComponent = ({address,setAddress,dispatch}) => {
                                         }
                                     }
                                 )
-                            }}></Form.Control>
+                            }}placeholder={address ? address.city : ''} defaultValue={address ? address.city : ''}></Form.Control>
                         </Col>
                         <Col>
                         <Form.Label>Country</Form.Label>
-                            <Form.Control type="text" onChange={(e) => {
+                            <Form.Control type="text" readOnly={read} onChange={(e) => {
                                 setStreet(e.target.value); dispatch(
                                     {
                                         type: "address",
@@ -70,7 +70,7 @@ const AddressComponent = ({address,setAddress,dispatch}) => {
                                         }
                                     }
                                 )
-                            }}></Form.Control>
+                            }}placeholder={address ? address.country : ''} defaultValue={address ? address.country : ''}></Form.Control>
                         </Col>
                     </Row>
                </Form>

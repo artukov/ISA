@@ -99,7 +99,9 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
             Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null);
             this.saveExamination(examination, examinationDTO);
-            emailService.sendSimpleMessage(patient.getEmail(),"New Appointment","New Appointment has been booked");
+            if(patient != null){
+                emailService.sendSimpleMessage(patient.getEmail(),"New Appointment","New Appointment has been booked");
+            }
 
 
     }
@@ -131,9 +133,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             throw  new Exception("Dermatologist does not exists");
         }
         Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null);
-        if(patient == null){
-            throw  new Exception("Patient does not exists");
-        }
+
         examination.setDermatologist(dermatologist);
         examination.setPatient(patient);
         //moram slati "drugs": [] da bi radilo nmg  da uospte ne posaljem

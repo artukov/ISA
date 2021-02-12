@@ -13,6 +13,7 @@ import PharmacyDermatologistList from './list/DermatologistList';
 import PharmacyDrugList from './list/DrugList';
 import PharmacyPharmacistList from './list/PharmacistList';
 import PharmacistList from './PharmacistList';
+import PharmacyAddressComponents from './address/PharmacyAddress'
 
 const PharmacyComponent = (props) => {
 
@@ -79,8 +80,8 @@ const PharmacyComponent = (props) => {
                         </Row>
                     </Container>
                         <RatingsComponent ratings = {pharmacy.ratings} ></RatingsComponent>
-                        <p>{pharmacy.description}</p>
-                        <AddressComponent address = {pharmacy.address} ></AddressComponent>
+                        <p>Description  : {pharmacy.description}</p>
+                        <PharmacyAddressComponents address={pharmacy.address}></PharmacyAddressComponents>
                 </Tab>
                 <Tab eventKey="examination" title="Examinations">
                     <ExaminationList pharmacyID = {pharmacy.id} ></ExaminationList>

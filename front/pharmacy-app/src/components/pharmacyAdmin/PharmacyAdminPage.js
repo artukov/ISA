@@ -60,7 +60,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="report"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
@@ -70,9 +70,6 @@ const PharmacyAdminPage = () => {
                             <ReportsDetails></ReportsDetails>
                         </PharmacyReportsContextProvider>
                       
-                    </Tab>
-                    <Tab eventKey="examinations" title = "Examinations">
-
                     </Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
 
@@ -115,9 +112,7 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey = "personal-info" title="Personal info">
                             <PharmacyAdminInfoComponent pharmacyID={pharmacy.id}></PharmacyAdminInfoComponent>
                     </Tab>
-                    <Tab eventKey = "drugList" title="Drug List">
-                      <DrugList></DrugList>
-                </Tab>
+                  
                  </Tabs>
             </div>
         ) : (<p>Loading...</p>)}

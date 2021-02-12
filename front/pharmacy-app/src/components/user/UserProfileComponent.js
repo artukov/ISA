@@ -68,7 +68,7 @@ const UserProfileComponent = ({ setUser, hideRole, user }) => {
                     <Row>
                         <Col><Form.Label>Address of the user</Form.Label></Col>
                         {/* <Col><Form.Control type="text" onChange = {(e)=> dispatch({type : 'address', payload : e.target.value})} ></Form.Control></Col> */}
-                        <AddressComponent dispatch={dispatch} setAddress={ setAddress} address={state.address}></AddressComponent>
+                        <AddressComponent dispatch={dispatch} setAddress={setAddress} address={state.address}></AddressComponent>
                     </Row>
                 </Form.Group>
           

@@ -20,13 +20,7 @@ const PharmacyInfoComponent = ({pharmacy}) => {
         street,
         streetNumber
     });
-
-    
-
-
     const [showChange, setShowChange] = useState(true);
-
-
 
     useEffect(() => {
         setName(pharmacy.name);
@@ -106,7 +100,7 @@ const PharmacyInfoComponent = ({pharmacy}) => {
                         </Form.Row>
                         
                         <Form.Row >
-                            <AddressComponent address = {pharmacy.address}></AddressComponent>
+                            <AddressComponent address = {pharmacy.address} read={true}></AddressComponent>
                         </Form.Row>
 
                         <Form.Row className="align-items-center" hidden={showChange}>
@@ -153,7 +147,7 @@ const PharmacyInfoComponent = ({pharmacy}) => {
                         <Form.Check 
                                     type="checkbox"
                                     label = "Change pharmacy info"
-                                    onClick = {() => setShowChange(false)}
+                                    onClick = {() => setShowChange(!showChange)}
                                 ></Form.Check>
                         </Form.Group>
                         <Button variant = 'primary' onClick = {(e) => savePharmacyChanges(e)}>Save changes</Button>
