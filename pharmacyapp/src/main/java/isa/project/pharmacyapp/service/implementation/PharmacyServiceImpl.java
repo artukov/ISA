@@ -10,15 +10,13 @@ import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.embedded_ids.DermaPharmacyId;
 import isa.project.pharmacyapp.model.many2many.DermatologistRatings;
 import isa.project.pharmacyapp.model.many2many.PharmacyDermatologist;
-import isa.project.pharmacyapp.repository.AddressRepository;
-import isa.project.pharmacyapp.repository.CalendarRepository;
-import isa.project.pharmacyapp.repository.DermatologistRepository;
-import isa.project.pharmacyapp.repository.PharmacyRepository;
+import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.PharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +36,9 @@ public class PharmacyServiceImpl implements PharmacyService {
 
     @Autowired
     private DermatologistRepository dermatologistRepository;
+
+    @Autowired
+    private DrugRepository drugRepository;
 
     @Override
     public PharmacyDTO findById(Long id) throws NoSuchElementException {
@@ -110,10 +111,35 @@ public class PharmacyServiceImpl implements PharmacyService {
     }
 
     @Override
-    public Double calculateFinances(DateLimitsDTO limitsDTO, Long id) {
+    public List<Double> calculateFinances(DateLimitsDTO limitsDTO, Long id) {
         Pharmacy pharmacy = pharmacyRepository.findById(id).orElse(null);
-        return calendarRepository.getAppointmentsBasedOnDate(pharmacy.getCalendar().getId(),
-                limitsDTO.getLowerLimit(), limitsDTO.getUpperLimit());
+        ArrayList<Double> finances = new ArrayList<>();
+//        System.out.println(limitsDTO.getLowerLimit().getMonth() + " " + limitsDTO.getUpperLimit().getMonth());
+//        System.out.println(limitsDTO.getLowerLimit().getYear() + " " + limitsDTO.getUpperLimit().getYear());
+        Double lowerDrugPriceSum = drugRepository.getAcceptedReservationPrice(new Timestamp(limitsDTO.getLowerLimit().getTime()),
+                limitsDTO.getLowerLimit().getMonth() + 1,limitsDTO.getLowerLimit().getYear() + 1900, id);
+        Double lowerAppointmentPriceSum = calendarRepository.getAppointmentsPriceBasedOnDate(
+                limitsDTO.getLowerLimit().getMonth() + 1 , limitsDTO.getLowerLimit().getYear() + 1900
+                ,id);
+        if(lowerAppointmentPriceSum == null)
+            lowerAppointmentPriceSum = 0.0;
+        if(lowerDrugPriceSum == null)
+            lowerDrugPriceSum = 0.0;
+        finances.add(lowerAppointmentPriceSum + lowerDrugPriceSum);
+
+        Double upperAppointmentPriceSum = calendarRepository.getAppointmentsPriceBasedOnDate(limitsDTO.getUpperLimit().getMonth() + 1, limitsDTO.getUpperLimit().getYear() + 1900, id);
+        Double upperDrugPriceSum = drugRepository.getAcceptedReservationPrice(new Timestamp (limitsDTO.getUpperLimit().getTime()),
+                limitsDTO.getUpperLimit().getMonth() + 1, limitsDTO.getUpperLimit().getYear() + 1900, id);
+        if(upperAppointmentPriceSum == null)
+            upperAppointmentPriceSum = 0.0;
+        if(upperDrugPriceSum == null)
+            upperDrugPriceSum = 0.0;
+        finances.add(upperDrugPriceSum + upperAppointmentPriceSum);
+
+
+        return finances;
+//        return calendarRepository.getAppointmentsBasedOnDate(pharmacy.getCalendar().getId(),
+//                limitsDTO.getLowerLimit(), limitsDTO.getUpperLimit());
 
     }
 

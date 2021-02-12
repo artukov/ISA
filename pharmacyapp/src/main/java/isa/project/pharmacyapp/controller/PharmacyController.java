@@ -117,7 +117,7 @@ public class PharmacyController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getPharmacyFinances(@RequestBody DateLimitsDTO limitsDTO , @PathVariable("pharmacyID") Long pharmacyID){
 
-        Double priceSum = this.pharmacyService.calculateFinances(limitsDTO, pharmacyID);
+        List<Double> priceSum = this.pharmacyService.calculateFinances(limitsDTO, pharmacyID);
 
         if(priceSum == null){
             return new ResponseEntity<>(0,HttpStatus.OK);

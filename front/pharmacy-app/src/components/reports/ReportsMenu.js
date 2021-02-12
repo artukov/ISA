@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {Col, Form, Navbar, Button, Row } from 'react-bootstrap';
+import formatDate from '../../config/DateFormatConfig';
 import { PharmacyReportsContext } from './PharmacyReportsContext';
 import { SET_TIMESPAM_APPOINTMENTS, SET_TIMESPAM_DRUGS } from './reportReducer';
 
 const ReportsMenu = () => {
-    const {dispatch, loadAppointmentStats,loadDrugConsumption} = useContext(PharmacyReportsContext);
+    const {dispatch, loadAppointmentStats,loadDrugConsumption, setLimits, limits, getFinances} = useContext(PharmacyReportsContext);
+
+
 
 
     return ( 
@@ -29,9 +32,12 @@ const ReportsMenu = () => {
                         <Button onClick={()=> loadDrugConsumption()}>See reports for drug consumption</Button>
                </Form.Group>
                <Form.Group>
-                   <Form.Control type="date"></Form.Control>
-                   <Form.Control type="date"></Form.Control>
-                   <Button>See pharmacy finances</Button>
+                   <Form.Control type="date" 
+                        onChange = {(e)=>setLimits({...limits,lowerLimit : formatDate(e.target.value,"00:00")}) } />
+                   <Form.Control type="date"
+                         onChange = {(e)=>setLimits({...limits,upperLimit : formatDate(e.target.value,"00:00")}) }
+                   />
+                   <Button onClick={()=> getFinances()}>See pharmacy finances</Button>
                </Form.Group>
             </Form>
         </Navbar>
