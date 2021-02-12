@@ -214,5 +214,29 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> modifyPharmacist(@RequestBody PatientDTO patientDTO, Principal user){
+
+        User current = userService.findByEmail(user.getName());
+        PatientService patientService = (PatientService) serviceFactory.getUserService(UserRoles.PATIENT);
+
+        try {
+            patientService.modifyPatient(current.getId(),patientDTO);
+        }
+        catch (NoSuchElementException ele){
+            ele.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient " +
+                    "Patient with given id does not exists",HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("PatientController::modifyPatient Server error"
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

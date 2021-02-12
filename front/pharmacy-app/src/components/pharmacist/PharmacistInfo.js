@@ -28,7 +28,8 @@ const PharmacistInfo = ({pharmacyID}) => {
         console.table(user);
 
         try{
-            await axiosConfig.put('/pharmacist/modify/',user);
+            await axiosConfig.put('/pharmacist/modify/', user);
+            alert("Success");
 
         }
         catch(err){

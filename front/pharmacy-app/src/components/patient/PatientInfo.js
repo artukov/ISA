@@ -1,8 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import useCurrentUser from '../../hooks/loadCurrentUser';
+import ResetPassword from '../reset-password/ResetPasswordComponent';
+import UserProfileComponent from '../user/UserProfileComponent';
 
 const PatientInfo = () => {
+
+
+    const [user, setUser] = useState({});
+    
+
+    const currentUser = useCurrentUser();
+
+    useEffect(() => {
+        // console.table(currentUser);
+        
+    }, [currentUser]);
+
+    const saveChanges = async (user) =>{
+        //user.pharmacyID = pharmacist.pharmacyID;
+        console.table(currentUser);
+        if(user.id === undefined)
+            user  = {
+                ...user,
+                ...currentUser
+            }
+        console.table(user);
+
+        try{
+            await axiosConfig.put('/patient/modify/',user);
+            alert("Success");
+        }
+        catch(err){
+            console.log(err.response);
+        }
+    }
 
     const [patient, setPatient] = useState({});
 
@@ -42,6 +75,12 @@ const PatientInfo = () => {
 
                 ) : null
             }
+
+            <div>
+            <ResetPassword userOldPassword={currentUser.password}></ResetPassword>
+            <UserProfileComponent user={currentUser ? currentUser : {}} setUser={setUser} hideRole={true}></UserProfileComponent>
+            <Button onClick={()=> saveChanges(user) }>Save changes</Button>
+        </div>
         </div>
     );
 }
