@@ -111,7 +111,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     public void modifyExamination(Long id, ExaminationDTO examinationDTO) throws Exception {
         Examination examination = this.repository.findById(id).orElse(null);
 
-        this.saveExamination(examination,examinationDTO);
+
+            this.saveExamination(examination, examinationDTO);
+
     }
 
     @Override
@@ -255,8 +257,8 @@ public class ExaminationServiceImpl implements ExaminationService {
             this.saveExamination(examination, examinationDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ExaminationServiceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
-                    "saving of the modified object did not excecute");
+            throw new Exception(e.getMessage());
+            //throw new Exception();
         }
     }
 
