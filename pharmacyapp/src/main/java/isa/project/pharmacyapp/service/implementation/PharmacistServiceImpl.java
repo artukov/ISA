@@ -133,6 +133,8 @@ public class PharmacistServiceImpl implements PharmacistService {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(authenticationRepository.findByName("USER"));
         pharmacist.setAuthorities(authorities);
+        pharmacist.setRatings(new ArrayList<>());
+        pharmacist.setPassword(dto.getPassword());
         pharmacist.setLastPasswordResetDate(null);
 
         this.savePharmacist(pharmacist, dto);
@@ -180,15 +182,20 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public Pharmacist savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO) throws Exception {
 
-//        pharmacistDTO.setPassword(encoder.encode(pharmacistDTO.getPassword()));
         UserDTO.dto2User(pharmacist, pharmacistDTO);
         pharmacist.setRole(UserRoles.PHARMACIST);
         pharmacist.setHours(pharmacistDTO.getHours());
         pharmacist.setStart_hour(pharmacistDTO.getStart_hour());
-//        pharmacist.setPassword(encoder.encode(pharmacist.getPassword()));
-        try {
-            pharmacist.setAddress(addressRepository.findById(pharmacistDTO.getAddress_id()).orElse(null));
-            pharmacist.setPharmacy(pharmacyRepository.getOne(pharmacistDTO.getPharmacyID()));
+
+
+
+        pharmacist.setAddress(addressRepository.save(pharmacistDTO.getAddress()));
+
+
+
+        try{
+//            pharmacist.setAddress(addressRepository.findById(pharmacistDTO.getAddress_id()).orElse(null));
+           pharmacist.setPharmacy(pharmacyRepository.getOne(pharmacistDTO.getPharmacyID()));
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("PharmacistSerivceImpl::savePharmacist(Pharmacist pharmacist, PharmacistDTO pharmacistDTO)" +

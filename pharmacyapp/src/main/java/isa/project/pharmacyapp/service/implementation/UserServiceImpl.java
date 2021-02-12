@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service.implementation;
 
 import isa.project.pharmacyapp.dto.UserDTO;
 import isa.project.pharmacyapp.model.User;
+import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.repository.UserRepository;
 import isa.project.pharmacyapp.service.AuthorityService;
 import isa.project.pharmacyapp.service.UserService;
@@ -44,10 +45,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveNewUser(UserDTO userDTO) throws Exception {
-        /**
-         * TODO
-         * Save unregistered user
-         * */
-        return null;
+        User user = new User();
+        UserDTO.dto2User(user,userDTO);
+        user.setRole(UserRoles.UNREGISTERED);
+        user.setPassword(userDTO.getPassword());
+        user.setLastPasswordResetDate(null);
+        user = userRepository.save(user);
+
+        return user;
     }
 }

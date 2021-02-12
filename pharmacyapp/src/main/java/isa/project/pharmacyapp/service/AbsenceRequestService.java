@@ -16,4 +16,6 @@ public interface AbsenceRequestService {
     List<AbsenceRequestDTO> findAllPharmacyPharmacistUnanswered(Long pharmacyID);
 
     void modifyWithStatus(Long id, AbsenceRequestDTO requestDTO) throws Exception;
+
+    List<AbsenceRequestDTO> findAllDermatologistsAbsenceRequests();
 }

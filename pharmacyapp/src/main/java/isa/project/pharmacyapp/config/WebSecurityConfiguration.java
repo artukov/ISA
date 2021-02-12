@@ -56,9 +56,9 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //super.configure(web);
 
-        web.ignoring().antMatchers(HttpMethod.POST, "/auth/login","/auth/refresh");
+        web.ignoring().antMatchers(HttpMethod.POST, "/auth/login","/auth/refresh","/auth/signup");
         web.ignoring().antMatchers(HttpMethod.GET,"/","/*.html", "/favicon.ico","/**/*.html",
-                "/**/*.css", "/**/*.js");
+                "/**/*.css", "/**/*.js","/auth/registrationConfirm","/pharmacy/findAll", "/drug/findAll");
     }
 
     @Override

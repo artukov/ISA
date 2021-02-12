@@ -10,13 +10,19 @@ import DrugList from './DrugList';
 import ExaminationList from './ExaminationList';
 import PharmacistList from './PharmacistList';
 
-const PharmacyComponent = ({pharmacyID}) => {
+const PharmacyComponent = (props) => {
 
     const [pharmacy, setPharmacy] = useState({});
     const [isLoaded, setIsLoaded] = useState(false);
     // const fetchPharmacy = usePharmacy(200);
 
     useEffect(() => {
+        console.log(props);
+        const search = props.match.params; // returns the URL query String
+        const params = new URLSearchParams(search); 
+        const IdFromURL = params.get('id'); 
+
+        
         async function loadPharmacy(id){
             try{
                 const resault = await axiosConfig.get(urlGetPharmacy + id);
@@ -27,12 +33,12 @@ const PharmacyComponent = ({pharmacyID}) => {
                 alert(e.response.data.message);
             }
         }
-        if(pharmacyID !== undefined){
+        if(props.pharmacyID !== undefined){
             
             
         }
 
-        loadPharmacy(200);
+        loadPharmacy(IdFromURL);
 
         // pharmacyID = 200;
         

@@ -7,8 +7,10 @@ import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.SupplyOrder;
 import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.service.DrugService;
+import isa.project.pharmacyapp.service.EmailService;
 import isa.project.pharmacyapp.service.SupplierService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
@@ -36,6 +38,9 @@ public class SupplyOrderController {
 
     @Autowired
     private UserServiceFactory serviceFactory;
+    
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -130,9 +135,30 @@ public class SupplyOrderController {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        StringBuilder builder = new StringBuilder();
+        for(SupplierOrder supplier : order.getSuppliers()){
+            Supplier user = supplier.getId().getSupplier();
+            builder.append("Dear, ");
+            builder.append(user.getFirstname());
+            builder.append(" ");
+            builder.append(user.getLastname());
+            builder.append("\n");
+            if(user.getId().equals(dto.getSupplierID())){
+                builder.append("Yours offer has been accepted\n");
+                emailService.sendSimpleMessage(user.getEmail(),"Offered accepted",builder.toString());
+                builder.delete(0,builder.length());
+                continue;
+            }
+            builder.append("Yours offer has been denied\n");
+            builder.append("We would like to continue our engagement in further business");
+
+            emailService.sendSimpleMessage(user.getEmail(),"Offered denied",builder.toString());
+            builder.delete(0,builder.length());
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize(AUTHORITY)

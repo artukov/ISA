@@ -15,24 +15,26 @@ public class AbsenceRequestDTO {
     private Date startDate;
     private Boolean status;
     private Long pharmacyId;
+    private String pharmacyName;
     private Long userId;
     private String userEmail;
 
     public AbsenceRequestDTO() {
     }
 
-    public AbsenceRequestDTO(Long id, String description,
-                             Date endDate, Date startDate, Boolean status, Long pharmacyId, Long userId, String userEmail) {
+    public AbsenceRequestDTO(Long id, String description, Date endDate,
+                             Date startDate, Boolean status, Long pharmacyId, String pharmacyName,
+                             Long userId, String userEmail) {
         this.id = id;
         this.description = description;
         this.endDate = endDate;
         this.startDate = startDate;
         this.status = status;
         this.pharmacyId = pharmacyId;
+        this.pharmacyName = pharmacyName;
         this.userId = userId;
         this.userEmail = userEmail;
     }
-
 
     public static AbsenceRequestDTO request2DTO(AbsenceRequest absenceRequest) {
         AbsenceRequestDTO dto = new AbsenceRequestDTO(
@@ -42,6 +44,7 @@ public class AbsenceRequestDTO {
                 absenceRequest.getStartDate(),
                 absenceRequest.getStatus(),
                 absenceRequest.getPharmacy().getId(),
+                absenceRequest.getPharmacy().getName(),
                 absenceRequest.getUser().getId(),
                 absenceRequest.getUser().getEmail()
         );
@@ -119,5 +122,13 @@ public class AbsenceRequestDTO {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getPharmacyName() {
+        return pharmacyName;
+    }
+
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
     }
 }

@@ -14,12 +14,18 @@ const DermatologistContextProvider = (props) => {
         showAddForm : false
     });
 
+    const [allEmployed, setAllEmployed] = useState([]);
+    const [sortHoursOrder, setSortHoursOrder] = useState(false);
+    const [sortRatingOrder, setSortRatingOrder] = useState(false);
+
+
     useEffect(() => {
         const loadDermatologists = async (id) =>{
             try{
                 const result = await axiosConfig.get(urlGetPhramacyDermatologists + id);
                 // console.log('dermatologists \n', resault.data);
                 dispatch({type : SET_DERMATOLOGISTS, employed : result.data});
+                setAllEmployed(result.data);
             }
             catch(err){
                 console.log(err.response);
@@ -72,6 +78,44 @@ const DermatologistContextProvider = (props) => {
         }
 
     }
+    const searchList = (firstname,lastname) => {
+        console.table(firstname,lastname);
+        if(firstname === '' && lastname === ''){
+            dispatch({type : SET_DERMATOLOGISTS, employed : allEmployed});
+            return;
+        }
+           
+        if(firstname === '' || lastname === ''){
+            alert('Both firstname and lastname must be inserted');
+            return;
+        }
+        const filterEmployed = state.employed.filter(derma => derma.firstname.toUpperCase() === firstname.toUpperCase()
+                                                            && derma.lastname.toUpperCase() === lastname.toUpperCase());
+        dispatch({type : SET_DERMATOLOGISTS, employed : filterEmployed});
+        return;
+    }
+
+    const sortByRatings = () => {
+        let sortedByRatings = null;
+        if(sortRatingOrder)
+             sortedByRatings = state.employed.sort((a,b) => a.ratings - b.ratings);
+        else
+            sortedByRatings = state.employed.sort((a, b) => b.ratings - a.ratings);
+        dispatch({type : SET_DERMATOLOGISTS, employed : sortedByRatings});
+        setSortRatingOrder(!sortRatingOrder);
+        
+    }
+
+    const sortByHours = () => {
+        let sortedByHours = null;
+        if(sortHoursOrder)
+            sortedByHours = state.employed.sort((a, b) => a.hours - b.hours);
+        else
+            sortedByHours = state.employed.sort((a, b) => b.hours - a.hours);
+        dispatch({type : SET_DERMATOLOGISTS, employed : sortedByHours});
+        setSortHoursOrder(!sortHoursOrder);
+       
+    }
 
 
     return (  
@@ -80,7 +124,10 @@ const DermatologistContextProvider = (props) => {
             dispatch,
             loadDermatologistNotInPharmacy,
             addDermaToList,
-            deleteDermatologist
+            deleteDermatologist,
+            searchList,
+            sortByRatings,
+            sortByHours
         }}>
             {props.children}
         </DermatologistContext.Provider>

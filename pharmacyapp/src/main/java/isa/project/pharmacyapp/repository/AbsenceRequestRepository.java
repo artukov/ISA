@@ -17,4 +17,9 @@ public interface AbsenceRequestRepository  extends JpaRepository<AbsenceRequest,
             "AND ar.status IS NULL"
             ,nativeQuery = true)
     List<AbsenceRequest> findAllPharmacyPharmacistUnanswered(Long pharmacyID);
+
+    @Query(value="SELECT ar.* FROM absence_request ar\n" +
+            "INNER JOIN dermatologist d ON d.id = ar.user_id\n" +
+            "WHERE ar.status IS NULL",nativeQuery = true)
+    List<AbsenceRequest> findAllDermatologistsRequests();
 }

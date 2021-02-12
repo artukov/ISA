@@ -52,7 +52,7 @@ public class PharmacyController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize(ALL_AUTHORITY)
+//    @PreAuthorize(ALL_AUTHORITY)
     public ResponseEntity<?> findAllPharmacies(){
 
         ArrayList<PharmacyDTO> pharmacyDTOS = (ArrayList<PharmacyDTO>) pharmacyService.findAll();
@@ -117,7 +117,7 @@ public class PharmacyController {
     @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getPharmacyFinances(@RequestBody DateLimitsDTO limitsDTO , @PathVariable("pharmacyID") Long pharmacyID){
 
-        Double priceSum = this.pharmacyService.calculateFinances(limitsDTO, pharmacyID);
+        List<Double> priceSum = this.pharmacyService.calculateFinances(limitsDTO, pharmacyID);
 
         if(priceSum == null){
             return new ResponseEntity<>(0,HttpStatus.OK);

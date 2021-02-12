@@ -40,7 +40,8 @@ function closeAddForm(state){
 function setDermatologistsInPharmacy(state,employed){
     return {
         ...state,
-        employed
+        employed,
+      
     }
 }
 

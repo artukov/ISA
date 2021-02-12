@@ -9,6 +9,7 @@ import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.security.TimeProvider;
+import isa.project.pharmacyapp.service.EmailService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     @Autowired
     private TimeProvider timeProvider;
+
+    @Autowired
+    private EmailService emailService;
 
 
     @Override
