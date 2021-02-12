@@ -22,8 +22,12 @@ const SupplyOrderContextProvider = (props) => {
     }, [props.pharmacyID]);
 
     const [showAddForm, setShowAddForm] = useState(false);
-    const closeAddForm = () => {setShowAddForm(false);  setOrder(null);};
+    const closeAddForm = () => {setShowAddForm(false);};
     const openAddForm = () => setShowAddForm(true);
+
+    const [showModifyModal, setShowModifyModal] = useState(false);
+    const closeModifyModal = () => {setOrder(null); setShowModifyModal(false)};
+    const openModifyModal = () => setShowModifyModal(true);
 
     const [orders, dispatch] = useReducer(supplyOrderReducer, []);
 
@@ -34,7 +38,7 @@ const SupplyOrderContextProvider = (props) => {
         // console.log('modified order', id);
         setModifying(true);
         setOrder(orders.find(order => order.id === id));
-        openAddForm();
+        openModifyModal();
 
     }
 
@@ -95,7 +99,7 @@ const SupplyOrderContextProvider = (props) => {
     }
 
     const saveOrder = async (order) =>{
-        // console.log('old order',order);
+        console.log('old order',order);
         let newOrder = {
             deadlineDate : formatDate(order.date,order.time),
             adminID : 200,
@@ -103,7 +107,7 @@ const SupplyOrderContextProvider = (props) => {
             amount : order.drugs.map(drug => drug.amount),
             supplierDTOS : []
         }
-        // console.log('new order', newOrder);
+        console.log('new order', newOrder);
 
         for(let supplier of order.suppliers){
             // console.log('supplier : ',supplier);
@@ -122,18 +126,21 @@ const SupplyOrderContextProvider = (props) => {
                 newOrder.id = order.id;
                 await axiosConfig.put("/supplyorder/modify/", newOrder);
                 setModifying(false);
+
             }
             else{
                 await axiosConfig.post(urlNewSupplyOrder, newOrder);
             }
             
             dispatch({type : ADD_ORDER, order : newOrder});
+            console.log(orders);
         }
         catch(err){
             console.log(err.response);
         }
 
         closeAddForm();
+        closeModifyModal();
        
         
     }
@@ -155,7 +162,9 @@ const SupplyOrderContextProvider = (props) => {
                 saveOrder,
                 dispatch,
                 isModifying,
-                order
+                order,
+                showModifyModal,
+                closeModifyModal
             }}
         >
             {props.children}

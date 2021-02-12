@@ -24,6 +24,7 @@ import PharmacyAdminInfoComponent from './PharmacyAdminInfo';
 import NewPromotionsForm from '../promotions/NewPromotionsForm';
 import DermatologistSearchFilter from '../dermatologist/DermatologistSearchFilter';
 import PharmacyDrugList from './drugs/PharmacyDrugList';
+import ModifyOrderDetails from '../supply-order/ModifyOrderDetails';
 
 
 
@@ -76,9 +77,9 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey="dermatologist" title = "Dermatologists">
 
                         <DermatologistContextProvider pharmacyID = {pharmacy.id}>
+                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                             <DermatologistSearchFilter></DermatologistSearchFilter>
                             <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
-                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                         </DermatologistContextProvider>
                        
                     </Tab>
@@ -99,6 +100,7 @@ const PharmacyAdminPage = () => {
                             <SupplyOrderMenu></SupplyOrderMenu>
                             <NewSupplyOrder></NewSupplyOrder>
                             <SupplyOrderList ></SupplyOrderList>
+                            <ModifyOrderDetails></ModifyOrderDetails>
                         </SupplyOrderContextProvider>
                         
                     </Tab>

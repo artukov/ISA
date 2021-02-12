@@ -20,7 +20,7 @@ function App() {
   return (
     // <CurrentUserContextProvider>
     <div>
-      <Navbar  bg="light" expand="lg" sticky="top">
+      <Navbar  bg="light" expand="lg" >
           <Nav  className="mr-auto">
               <Nav.Link onClick={()=> window.location = '/home'}>Home</Nav.Link>
           </Nav>

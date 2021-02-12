@@ -50,10 +50,6 @@ function setTime(state,time){
 
 
 function checkButtonsVisibility(state){
-
-    
-
-
 }
 
 function init(payload){
@@ -64,6 +60,7 @@ function init(payload){
         time : null
     }
 }
+
 
 function setID(state,id){
     return {...state,id};

@@ -20,7 +20,7 @@ const SupplyOrderList = () => {
                     return (
                         <SupplyOrderDetails order = {order} key = {index}></SupplyOrderDetails>
                     )
-                }) : <p> Loading orders...</p>
+                }) : null
             }
             </CardDeck>
         </div>

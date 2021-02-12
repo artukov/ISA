@@ -62,7 +62,11 @@ function checkButtonVisibility(state,order){
 }
 
 function addOrder(state,order){
-
+    const id = order.id;
+    
+    if(state.find(order => order.id === id )){
+        state = state.filter(order => order.id === id);
+    }
     return [
         ...state,
         order
