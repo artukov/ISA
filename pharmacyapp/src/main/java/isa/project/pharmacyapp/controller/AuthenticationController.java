@@ -37,6 +37,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 @RestController
@@ -148,10 +149,10 @@ public class AuthenticationController {
 
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Expose-Headers","Location");
-        String[] origin = request.getHeader("Origin").split("http://localhost:");
-        builder.port(origin[1]);
-        headers.setLocation(builder.path("/home").buildAndExpand().toUri());
+//        headers.add("Access-Control-Expose-Headers","Location");
+//        String[] origin = request.getHeader("Origin").split("http://localhost:");
+//        builder.port(origin[1]);
+//        headers.setLocation(builder.path("/home").buildAndExpand().toUri());
 
         return new ResponseEntity<>(user, headers,HttpStatus.CREATED);
 
@@ -241,6 +242,17 @@ public class AuthenticationController {
         builder.port(3000);
         headers.setLocation(builder.path("/login").buildAndExpand().toUri());
         return new ResponseEntity<>(null,headers,HttpStatus.PERMANENT_REDIRECT);
+    }
+
+    @PostMapping(value = "/logout")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    public ResponseEntity<?> logout(Principal user, UriComponentsBuilder builder){
+        SecurityContextHolder.getContext().setAuthentication(null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers","Location");
+        builder.port(3000);
+        headers.setLocation(builder.path("/login").buildAndExpand().toUri());
+        return new ResponseEntity<>(null,headers,HttpStatus.OK);
     }
 
 
