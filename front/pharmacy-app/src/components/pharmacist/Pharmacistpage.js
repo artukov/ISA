@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
 import DrugList from '../drug/DrugList';
 import PharmacistInfo from '../pharmacist/PharmacistInfo';
+import CalendarConsultations from './CalendarConsultations';
 import DispenseDrug from './DispenseDrug';
 import NewAppointment from './NewAppointmentP';
 import NewConsultation from './NewConsultation';
@@ -22,7 +23,7 @@ const Pharmacistpage = () => {
                       <NewConsultation></NewConsultation>
                 </Tab>
                 <Tab eventKey = "calendar" title="Calendar">
-                      
+                      <CalendarConsultations></CalendarConsultations>
                 </Tab>
                 <Tab eventKey = "dispenseDrugs" title="Dispense Drugs">
                       <DispenseDrug></DispenseDrug>

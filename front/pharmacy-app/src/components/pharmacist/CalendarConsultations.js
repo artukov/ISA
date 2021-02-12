@@ -1,0 +1,82 @@
+import React, { useState, useEffect } from 'react';
+import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
+import { axiosConfig } from '../../config/AxiosConfig';
+
+const CalendarConsultations = () => {
+
+
+    const [choosenMonth, setChoosenMonth] = useState({});
+    const [consultations, setConsultations] = useState([]);
+    const [choosenYear, setChoosenYear] = useState({});
+
+    const loadConsultations = async () => {
+        try {
+            // const result = await axiosConfig.get('/dermatologist/patients');
+            const result = await axiosConfig.get('/pharmacist/allConsultations/'+choosenMonth+'/'+choosenYear);
+            setConsultations(result.data);
+        }
+        catch (err) {
+            console.log(err);
+            alert(err.response.data);
+        }
+    }
+
+    return (  
+        <div>
+            <Form onSubmit={(e) => e.preventDefault()}>
+                <div>Choose month</div>
+                <Form.Control as="select" onClick={(e) => setChoosenMonth(e.target.value)}>
+                    <option value={1}>JANUARY</option>
+                    <option value={2}>FEBRUARY</option>
+                    <option value={3}>MARCH</option>
+                    <option value={4}>APRIL</option>
+                    <option value={5}>MAY</option>
+                    <option value={6}>JUNE</option>
+                    <option value={7}>JULY</option>
+                    <option value={8}>AUGUST</option>
+                    <option value={9}>SEPTEMBER</option>
+                    <option value = {10}>OCTOBER</option>
+                    <option value = {11}>NOVEMBER</option>
+                    <option value = {12}>DECEMBER</option>
+                    
+                </Form.Control>
+                <div>Enter year</div>
+                <Form.Control type="text" onChange={(e) => setChoosenYear(e.target.value)}></Form.Control>
+                <Button onClick={(e) => {
+                    loadConsultations();
+                }}>Find</Button>
+            </Form>
+             <ListGroup>
+                <ListGroup.Item>
+                    <Row>
+                        <Col>Examination Date</Col>
+                        <Col>Patient Name</Col>
+                        <Col>Patient Surname</Col>
+                        <Col>Patient Email</Col>
+                        
+                    </Row>
+                </ListGroup.Item>
+                {
+                    consultations ? (
+                        consultations.map((consultation,index)=>
+
+                            <ListGroup.Item key={index} >
+                                <Row>
+                                    <Col>{consultation.appointmentDate}</Col>
+                                    <Col>{consultation.firstName}</Col>
+                                    <Col>{consultation.lastName}</Col>
+                                    <Col>{consultation.email}</Col>
+                                    
+                            </Row>
+                            </ListGroup.Item>
+                            // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
+                        )
+                        
+                    ) : null
+                }
+            </ListGroup>
+        </div>
+    );
+}
+ 
+export default CalendarConsultations;
