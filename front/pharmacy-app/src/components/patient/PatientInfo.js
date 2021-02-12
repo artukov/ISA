@@ -20,12 +20,13 @@ const PatientInfo = () => {
 
     const saveChanges = async (user) =>{
         //user.pharmacyID = pharmacist.pharmacyID;
-        console.table(currentUser);
+        //console.table(currentUser);
         if(user.id === undefined)
             user  = {
                 ...user,
                 ...currentUser
             }
+        
         console.table(user);
 
         try{

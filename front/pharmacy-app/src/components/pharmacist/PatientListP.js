@@ -30,8 +30,8 @@ const PatientListP = () => {
         // console.log(firstName.toUpperCase(), lastName);
         
         const foundPatient = patients.find(patient =>
-            patient.lastname.toUpperCase() === lastName.toUpperCase()
-            && patient.firstname.toUpperCase() === firstName.toUpperCase()
+            patient.lastName.toUpperCase() === lastName.toUpperCase()
+            && patient.firstName.toUpperCase() === firstName.toUpperCase()
         );
         setFoundPatients([foundPatient]);
 
@@ -160,8 +160,8 @@ const PatientListP = () => {
                                 return (
                                     <ListGroup.Item key={index} >
                                         <Row>
-                                            <Col>{patient.firstname}</Col>
-                                            <Col>{patient.lastname}</Col>
+                                            <Col>{patient.firstName}</Col>
+                                            <Col>{patient.lastName}</Col>
                                             <Col>{patient.email}</Col>
                                         </Row>
                                     </ListGroup.Item>

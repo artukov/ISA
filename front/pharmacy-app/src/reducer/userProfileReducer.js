@@ -32,12 +32,14 @@ function setRole(state,role){
 
 function setAddress(state,address){
     // state.address = address;
-    state.address = 200;
+    // console.log(address);
+    state.address = address;
     return state;
 }
 
 function init(state,initState){
     state = initState;
+    state.address = {}
     return state;
 }
 
@@ -52,7 +54,7 @@ function userProfile(state, action){
         case 'password' : return setPassword(state,action.payload);
         case 'phoneNumber' :  return setPhoneNumber(state,action.payload); 
         case 'role' : return setRole(state,action.payload); 
-        case 'address' : return setAddress(state,action.payload);
+        case 'address' : return setAddress(state,action.address );
         case 'init' : return init(state,action.payload); 
         default : throw Error("user profile reducer error");
     }

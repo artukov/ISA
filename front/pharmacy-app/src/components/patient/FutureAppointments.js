@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, ListGroup, Row } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 
 const FutureAppointments = () => {
@@ -101,7 +101,7 @@ const FutureAppointments = () => {
                                     <Col>{appointment.beggingDateTime}</Col>
                                     <Col>{appointment.price}</Col>
                                     <Col>{appointment.duration}</Col>
-                                    
+                                    <Col><Button>Cancel</Button></Col>
                             </Row>
                             </ListGroup.Item>
                             // <ListGroup.Item key={patient.name}>{patient.name}</ListGroup>
