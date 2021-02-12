@@ -15,15 +15,46 @@ import ResetPasswordPage from './components/reset-password/ResetPasswordPage';
 import SystemAdminPage from './components/system-admin/SystemAdminPage';
 import PatientPage from './components/patient/PatientPage';
 import  {Nav, Navbar, Button} from 'react-bootstrap';
+import useCurrentUser from './hooks/loadCurrentUser';
+import { useEffect } from 'react';
+import { axiosConfig } from './config/AxiosConfig';
 
 function App() {
+
+  const signOut = async () => {
+        try{
+          await axiosConfig.post('/auth/logout');
+          localStorage.setItem('token', JSON.stringify('token'));
+
+        }
+        catch(err){
+
+        }
+  }
+  const redirectToUserPage = async () =>{
+    try{
+      await axiosConfig.get('/user/userPage');
+    }
+    catch(err){
+      console.log(err.response);
+    }
+  }
+
+  const currentUser = useCurrentUser();
+
+  useEffect(() => {
+    
+  }, [currentUser])
+
   return (
     // <CurrentUserContextProvider>
     <div>
-      <Navbar  bg="light" expand="lg" sticky="top">
+      <Navbar  bg="light" expand="lg" >
           <Nav  className="mr-auto">
               <Nav.Link onClick={()=> window.location = '/home'}>Home</Nav.Link>
+               <Nav.Link onClick={()=> redirectToUserPage()}>User</Nav.Link>
           </Nav>
+          
           <Nav>
               <Button onClick={()=>window.location = '/login'}>Login</Button>
           </Nav>
@@ -31,7 +62,7 @@ function App() {
             <Button variant="secondary" onClick={()=>window.location = '/registration'}>Sign in</Button>
           </Nav>
           <Nav>
-            <Nav.Link  onClick={() => {}}>Sign out</Nav.Link>
+            <Nav.Link  onClick={() => {signOut()}}>Sign out</Nav.Link>
           </Nav>
       </Navbar>
         <Router>

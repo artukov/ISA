@@ -2,6 +2,7 @@ package isa.project.pharmacyapp.service;
 
 import isa.project.pharmacyapp.dto.SupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
+import isa.project.pharmacyapp.dto.WareHouseDTO;
 import isa.project.pharmacyapp.model.OrderStatus;
 import isa.project.pharmacyapp.model.Supplier;
 import isa.project.pharmacyapp.model.SupplyOrder;
@@ -23,4 +24,8 @@ public interface SupplierService extends UserService {
 
     void createNewSupplier(SupplierDTO supplierDTO) throws Exception;
     void saveSupplier(Supplier supplier, SupplierDTO supplierDTO) throws Exception;
+
+    void modifySupplier(SupplierDTO supplierDTO) throws Exception;
+
+    WareHouseDTO getWarehouse(Long supplierID);
 }

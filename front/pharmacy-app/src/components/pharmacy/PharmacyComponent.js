@@ -3,12 +3,17 @@ import { Col, Container, Navbar, Row, Tab, Tabs } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 import { urlGetPharmacy } from '../../services/UrlService';
 import AddressComponent from '../address/AddressComponent';
+import DermatologistContextProvider, { DermatologistContext } from '../dermatologist/DermatologistContext';
 import RatingsComponent from '../ratings/RatingsComponent';
 import ConsultationList from './ConsultationList';
 import DermatologistList from './DermatologistList';
 import DrugList from './DrugList';
 import ExaminationList from './ExaminationList';
+import PharmacyDermatologistList from './list/DermatologistList';
+import PharmacyDrugList from './list/DrugList';
+import PharmacyPharmacistList from './list/PharmacistList';
 import PharmacistList from './PharmacistList';
+import PharmacyAddressComponents from './address/PharmacyAddress'
 
 const PharmacyComponent = (props) => {
 
@@ -30,7 +35,7 @@ const PharmacyComponent = (props) => {
                 setIsLoaded(true);
             }
             catch(e){
-                alert(e.response.data.message);
+                alert(e.response);
             }
         }
         if(props.pharmacyID !== undefined){
@@ -59,30 +64,27 @@ const PharmacyComponent = (props) => {
                     <Container>
                         <Row> 
                             <Col sm={4}>
-                                <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
+                                {/* <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList> */}
+                                <PharmacyPharmacistList pharmacyID={pharmacy.id}></PharmacyPharmacistList>
                             </Col>
                             <Col sm={4}>
-                                <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
+                               {/* <DermatologistContextProvider>
+                                    <DermatologistList pharmacyID = {pharmacy.id}></DermatologistList>
+                               </DermatologistContextProvider> */}
+                               <PharmacyDermatologistList pharmacyID = {pharmacy.id}></PharmacyDermatologistList>
                             </Col>
                             <Col sm={4}>
-                                <DrugList pharmacyID = {pharmacy.id}></DrugList>
+                               {/*  <DrugList pharmacyID = {pharmacy.id}></DrugList> */}
+                               <PharmacyDrugList pharmacyID={pharmacy.id}></PharmacyDrugList>
                             </Col>
                         </Row>
                     </Container>
-                    <RatingsComponent ratings = {pharmacy.ratings} ></RatingsComponent>
-                    <p>{pharmacy.description}</p>
-                    <AddressComponent address = {pharmacy.address} ></AddressComponent>
+                        <RatingsComponent ratings = {pharmacy.ratings} ></RatingsComponent>
+                        <p>Description  : {pharmacy.description}</p>
+                        <PharmacyAddressComponents address={pharmacy.address}></PharmacyAddressComponents>
                 </Tab>
                 <Tab eventKey="examination" title="Examinations">
                     <ExaminationList pharmacyID = {pharmacy.id} ></ExaminationList>
-                </Tab>
-                <Tab eventKey="consultation" title="Conslutations">
-                    <ConsultationList pharmacyID = {pharmacy.id}></ConsultationList>
-                </Tab>
-                <Tab eventKey="drugReservation" title="Reserve drug" disabled = {false}
-               >
-                </Tab>
-                <Tab eventKey="promotion" title="Pharmacy promotions">
                 </Tab>
             </Tabs>
             </div>) 

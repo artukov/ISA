@@ -3,16 +3,10 @@ package isa.project.pharmacyapp.controller;
 import isa.project.pharmacyapp.dto.DrugDTO;
 import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
-import isa.project.pharmacyapp.model.OrderStatus;
-import isa.project.pharmacyapp.model.Supplier;
-import isa.project.pharmacyapp.model.SupplyOrder;
-import isa.project.pharmacyapp.model.UserRoles;
+import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.many2many.SupplierOrder;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
-import isa.project.pharmacyapp.service.DrugService;
-import isa.project.pharmacyapp.service.EmailService;
-import isa.project.pharmacyapp.service.SupplierService;
-import isa.project.pharmacyapp.service.SupplyOrderService;
+import isa.project.pharmacyapp.service.*;
 import isa.project.pharmacyapp.user_factory.UserServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -106,7 +101,17 @@ public class SupplyOrderController {
 
     @PutMapping(value = "/acceptOffer", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public  ResponseEntity<?> acceptOfferForOrder(@RequestBody OrderSupplierDTO dto){
+    public  ResponseEntity<?> acceptOfferForOrder(@RequestBody OrderSupplierDTO dto, Principal currentUser){
+        PharmacyAdminService adminService = (PharmacyAdminService) serviceFactory.getUserService(UserRoles.PHARMACY_ADMIN);
+
+        User admin =  adminService.findByEmail(currentUser.getName());
+
+        try {
+            adminService.checkIfAdminCreatedOrder(admin,dto.getOrderID());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
 
         SupplyOrder order = null;
 

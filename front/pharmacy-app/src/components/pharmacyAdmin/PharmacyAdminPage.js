@@ -23,6 +23,8 @@ import AbsenceRequestsList from '../absence-request/AbsenceRequestList';
 import PharmacyAdminInfoComponent from './PharmacyAdminInfo';
 import NewPromotionsForm from '../promotions/NewPromotionsForm';
 import DermatologistSearchFilter from '../dermatologist/DermatologistSearchFilter';
+import PharmacyDrugList from './drugs/PharmacyDrugList';
+import ModifyOrderDetails from '../supply-order/ModifyOrderDetails';
 
 
 
@@ -58,7 +60,7 @@ const PharmacyAdminPage = () => {
     return ( <div>
         { pharmacy ? (
             <div>
-                <Tabs  defaultActiveKey="report"   onSelect = {()=> { }}>
+                <Tabs  defaultActiveKey="info"   onSelect = {()=> { }}>
                     <Tab eventKey = "info" title="Pharmacy info">
                         <PharmacyInfoComponent pharmacy = {pharmacy}></PharmacyInfoComponent>
                     </Tab>
@@ -69,15 +71,12 @@ const PharmacyAdminPage = () => {
                         </PharmacyReportsContextProvider>
                       
                     </Tab>
-                    <Tab eventKey="examinations" title = "Examinations">
-
-                    </Tab>
                     <Tab eventKey="dermatologist" title = "Dermatologists">
 
                         <DermatologistContextProvider pharmacyID = {pharmacy.id}>
+                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                             <DermatologistSearchFilter></DermatologistSearchFilter>
                             <DermatologistList pharmacyID = {pharmacy.id} reload = {reload}></DermatologistList>
-                            <AddDermatologist pharmacyID = {pharmacy.id} invokeChange = {addedDermatologist}></AddDermatologist>
                         </DermatologistContextProvider>
                        
                     </Tab>
@@ -85,7 +84,7 @@ const PharmacyAdminPage = () => {
                         <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
                     </Tab>
                     <Tab eventKey="drugs" title = "Pharmacy drugs">
-                        <DrugList pharmacyID = {pharmacy.id}></DrugList>
+                        <PharmacyDrugList pharmacyID={pharmacy.id}></PharmacyDrugList>
                     </Tab>
                     <Tab eventKey="pricelist" title = "Pharmacy price list">
                         <PriceListContextProvider pharmacyID = {pharmacy.id}>
@@ -98,6 +97,7 @@ const PharmacyAdminPage = () => {
                             <SupplyOrderMenu></SupplyOrderMenu>
                             <NewSupplyOrder></NewSupplyOrder>
                             <SupplyOrderList ></SupplyOrderList>
+                            <ModifyOrderDetails></ModifyOrderDetails>
                         </SupplyOrderContextProvider>
                         
                     </Tab>
@@ -112,9 +112,7 @@ const PharmacyAdminPage = () => {
                     <Tab eventKey = "personal-info" title="Personal info">
                             <PharmacyAdminInfoComponent pharmacyID={pharmacy.id}></PharmacyAdminInfoComponent>
                     </Tab>
-                    <Tab eventKey = "drugList" title="Drug List">
-                      <DrugList></DrugList>
-                </Tab>
+                  
                  </Tabs>
             </div>
         ) : (<p>Loading...</p>)}

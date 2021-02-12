@@ -27,4 +27,7 @@ public interface PharmacyAdminRepository extends JpaRepository<PharmacyAdmin, Lo
     //PharmacyAdmin findByPharmacy(Long pharmacyID);
 
     PharmacyAdmin findByPharmacy_id(Long pharmacyID);
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM supply_order so WHERE so.admin_id = :adminID AND so.id = :orderID")
+    Double createdOrder(@Param("adminID")Long adminID,@Param("orderID") Long orderID);
 }

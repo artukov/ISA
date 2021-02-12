@@ -1,6 +1,7 @@
 package isa.project.pharmacyapp.config;
 
 import isa.project.pharmacyapp.security.TokenUtils;
+import isa.project.pharmacyapp.security.authetication.CustomLogoutSuccessHandler;
 import isa.project.pharmacyapp.security.authetication.RestAuthenticationEntryPoint;
 import isa.project.pharmacyapp.security.authetication.TokenAuthenticationFilter;
 import isa.project.pharmacyapp.service.implementation.CustomUserDetailsService;
@@ -17,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
@@ -50,6 +53,11 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     @Autowired
     public TokenUtils tokenUtils;
 
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
+    }
+
 
     //General web security on application level
     @Override
@@ -74,6 +82,10 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
                 //every request must be authenticated
                 .anyRequest().authenticated().and()
+                .logout().logoutSuccessUrl("/home").logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .and()
 
                 .cors().and()
 
