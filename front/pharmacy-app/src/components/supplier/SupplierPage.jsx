@@ -8,6 +8,8 @@ import AllOrdersList from './all-orders/AllOrdersList';
 import AllOrdersMenu from './all-orders/AllOrdersMenu';
 import IncomingOrdersContextProvider from './incoming-orders/IncomingOrdersContext';
 import IncomingOrdersList from './incoming-orders/IncomingOrdersList';
+import SupplierInfo from './profile/SupplierInfo';
+import WareHouseList from './warehouse/WareHouseList';
 
 const SupplierPage = () => {
 
@@ -43,7 +45,12 @@ const SupplierPage = () => {
                     <AllOrdersList></AllOrdersList>
                 </AllOrdersContextProvider>
             </Tab>
-            <Tab eventKey="personalInfo" title="Personal info"></Tab>
+            <Tab eventKey="personalInfo" title="Personal info">
+                <SupplierInfo></SupplierInfo>
+            </Tab>
+            <Tab eventKey="warehouse" title="Warehouse">
+                <WareHouseList supplierID= {supplier.id}></WareHouseList>
+            </Tab>
         </Tabs>
     </div> );
 }

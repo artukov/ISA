@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.controller;
 import isa.project.pharmacyapp.dto.OrderSupplierDTO;
 import isa.project.pharmacyapp.dto.SupplierDTO;
 import isa.project.pharmacyapp.dto.SupplyOrderDTO;
+import isa.project.pharmacyapp.dto.WareHouseDTO;
 import isa.project.pharmacyapp.model.UserRoles;
 import isa.project.pharmacyapp.service.SupplierService;
 import isa.project.pharmacyapp.service.SupplyOrderService;
@@ -46,6 +47,18 @@ public class SupplierController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value="/modify", consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> putModifiedSupplier(@RequestBody SupplierDTO supplierDTO){
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        try {
+            supplierService.modifySupplier(supplierDTO);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -95,6 +108,16 @@ public class SupplierController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/warehouse/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getWarehouse(@PathVariable("id") Long supplierID){
+        SupplierService supplierService = (SupplierService) serviceFactory.getUserService(UserRoles.SUPPLIER);
+        WareHouseDTO wareHouseDTO = supplierService.getWarehouse(supplierID);
+
+        return new ResponseEntity<>(wareHouseDTO, HttpStatus.OK);
 
     }
 }

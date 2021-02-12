@@ -1,9 +1,6 @@
 package isa.project.pharmacyapp.service.implementation;
 
-import isa.project.pharmacyapp.dto.OrderSupplierDTO;
-import isa.project.pharmacyapp.dto.SupplierDTO;
-import isa.project.pharmacyapp.dto.SupplyOrderDTO;
-import isa.project.pharmacyapp.dto.UserDTO;
+import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.*;
 import isa.project.pharmacyapp.model.many2many.SupplyOrderDrug;
 import isa.project.pharmacyapp.repository.AddressRepository;
@@ -158,6 +155,20 @@ public class SupplierServiceImpl implements SupplierService {
             throw new Exception("Saving supplier");
         }
 
+
+    }
+
+    @Override
+    public void modifySupplier(SupplierDTO supplierDTO) throws Exception {
+        Supplier supplier = supplierRepository.getOne(supplierDTO.getId());
+        saveSupplier(supplier,supplierDTO);
+    }
+
+    @Override
+    public WareHouseDTO getWarehouse(Long supplierID) {
+        WareHouse wareHouse = wareHouseRepository.findBySupplier_id(supplierID);
+        WareHouseDTO wareHouseDTO = WareHouseDTO.warehouse2dto(wareHouse);
+        return wareHouseDTO;
 
     }
 
