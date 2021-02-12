@@ -39,27 +39,6 @@ const WareHouseList = ({supplierID}) => {
      
     }, [supplierID]);
 
-    useEffect(() => {
-        // const settingDrugs = () => {
-        //     console.table(warehouse);
-        //     console.log(warehouse.drugsID.length);
-        //     for(let i = 0; i < warehouse.drugsID.length; i++){
-        //         console.log(warehouse.drugsID[i],warehouse.drugsNames[i],warehouse.amount[i])
-        //         setDrugs([
-                    
-        //             {
-        //                 id : warehouse.drugsID[i],
-        //                 name : warehouse.drugsNames[i],
-        //                 amount : warehouse.amount[i]
-        //             },
-        //             ...drugs
-        //         ]);
-        //         console.table(drugs);
-        //     }
-        // }
-        // settingDrugs();
-   
-    }, [warehouse])
 
     return ( 
         <div>

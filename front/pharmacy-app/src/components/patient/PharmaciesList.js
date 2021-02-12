@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { Col, ListGroup, Row, Button } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
 
 const PharmaciesList = () => {
@@ -62,6 +62,11 @@ const PharmaciesList = () => {
         setPharmacies([...result]);
     }
 
+    const redirectToPage = (id) => {
+        window.location.state = id;
+        window.location.href = "/pharmacy/" +id;
+    }
+
     return (  
         <div>
             <ListGroup>
@@ -88,7 +93,7 @@ const PharmaciesList = () => {
                                 setHours(pharmacy.hours);
                             } }*/ key={index} >
                                 <Row>
-                                    <Col>{pharmacy.name}</Col>
+                                    <Col><Button variant="link" onClick={()=>redirectToPage(pharmacy.id)}>{pharmacy.name}</Button></Col>
                                     <Col>{pharmacy.ratings}</Col>
                                     <Col>{pharmacy.address.city}</Col>
                                     
