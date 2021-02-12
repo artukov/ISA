@@ -43,3 +43,21 @@ GitHub account | Name and surname
    - java -jar pharmacyapp-0.0.1-SNAPSHOT
   
 * run application from IDE
+
+## Manual application
+
+***pharmacy-app***
+ *every input filed must be changed(if placeholder shows anything, You still must input something)
+ *if the changes of some CRUD operations does not show immediately, You can reload the page
+ *searching through list both fields for firstname and lastname must be inserted
+ *when sorting You can click on the column name (example: patients list, column patient fisrtname)
+ *when adding drugs to appointment or supply order, you must select drug than click on a button to add it to the list
+ *when as a pharmacy admin You are generating a report for pharmacy's incomes, choose lower date limit and upper date limit, the result will be calculated based on the month and year of the limits
+ *when a user registers, he/she must go to their mail and click on the registration link
+
+***pharmacyapp***
+
+ *create in PostgreSQL database a database with a name pharmacy, user's username is postgres and password is postgre. If you want to change it you must do it in the application.properties file
+ *email account for sending emails is also defined in application.properties
+
+
