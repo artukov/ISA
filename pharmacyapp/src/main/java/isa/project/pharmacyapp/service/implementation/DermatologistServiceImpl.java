@@ -332,6 +332,7 @@ public class DermatologistServiceImpl implements DermatologistService {
             return dtos;
     }
 
+    @Override
     public List<PharmacyDTO> getDermatologistPharmacies(Long dermaId){
         List<Pharmacy> pharmacies = pharmacyRepository.getDermatologistPharmacies(dermaId);
         List<PharmacyDTO> dtos = new ArrayList();
@@ -341,9 +342,26 @@ public class DermatologistServiceImpl implements DermatologistService {
         return dtos;
     }
 
+    @Override
     public List<PatConsDTO> getDermatologistsExaminations(Long dermaId){
         List<PatConsDTO> dtos = new ArrayList<>();
         List<Object[]> examinations = dermatologistRepository.getDermatologistsExaminations(dermaId);
+        for(Object[] obj: examinations){
+            PatConsDTO dto = new PatConsDTO();
+            dto.setAppointmentDate((Date) obj[0]);
+            dto.setFirstName((String) obj[1]);
+            dto.setLastName((String) obj[2]);
+            dto.setEmail((String) obj[3]);
+
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<PatConsDTO> getDermatologistCalendar(Long dermaId,Integer month,Integer year){
+        List<PatConsDTO> dtos = new ArrayList<>();
+        List<Object[]> examinations = dermatologistRepository.getDermatologistCalendar(dermaId,month,year);
         for(Object[] obj: examinations){
             PatConsDTO dto = new PatConsDTO();
             dto.setAppointmentDate((Date) obj[0]);

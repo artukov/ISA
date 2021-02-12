@@ -30,4 +30,5 @@ public interface DermatologistService extends UserService {
     List<PatientDTO> getDermaPatientsDistinct(Long dermaId);
     List<PharmacyDTO> getDermatologistPharmacies(Long dermaId);
     List<PatConsDTO> getDermatologistsExaminations(Long dermaId);
+    List<PatConsDTO> getDermatologistCalendar(Long dermaId,Integer month,Integer year);
 }

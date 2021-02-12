@@ -25,18 +25,18 @@ const CalendarExaminations = () => {
             <Form onSubmit={(e) => e.preventDefault()}>
                 <div>Choose month</div>
                 <Form.Control as="select" onClick={(e) => setChoosenMonth(e.target.value)}>
-                    <option value={0}>JANUARY</option>
-                    <option value={1}>FEBRUARY</option>
-                    <option value={2}>MARCH</option>
-                    <option value={3}>APRIL</option>
-                    <option value={4}>MAY</option>
-                    <option value={5}>JUNE</option>
-                    <option value={6}>JULY</option>
-                    <option value={7}>AUGUST</option>
-                    <option value={8}>SEPTEMBER</option>
-                    <option value = {9}>OCTOBER</option>
-                    <option value = {10}>NOVEMBER</option>
-                    <option value = {11}>DECEMBER</option>
+                    <option value={1}>JANUARY</option>
+                    <option value={2}>FEBRUARY</option>
+                    <option value={3}>MARCH</option>
+                    <option value={4}>APRIL</option>
+                    <option value={5}>MAY</option>
+                    <option value={6}>JUNE</option>
+                    <option value={7}>JULY</option>
+                    <option value={8}>AUGUST</option>
+                    <option value={9}>SEPTEMBER</option>
+                    <option value = {10}>OCTOBER</option>
+                    <option value = {11}>NOVEMBER</option>
+                    <option value = {12}>DECEMBER</option>
                     
                 </Form.Control>
                 <div>Enter year</div>
@@ -59,10 +59,7 @@ const CalendarExaminations = () => {
                     examinations ? (
                         examinations.map((examination,index)=>
 
-                            <ListGroup.Item /*onClick={() => {
-                                setStartHour(pharmacy.start_hour);
-                                setHours(pharmacy.hours);
-                            } }*/ key={index} >
+                            <ListGroup.Item key={index} >
                                 <Row>
                                     <Col>{examination.appointmentDate}</Col>
                                     <Col>{examination.firstName}</Col>
