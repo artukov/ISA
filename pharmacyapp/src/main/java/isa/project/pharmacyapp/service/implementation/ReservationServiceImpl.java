@@ -11,6 +11,7 @@ import isa.project.pharmacyapp.repository.DrugRepository;
 import isa.project.pharmacyapp.repository.PatientRepository;
 import isa.project.pharmacyapp.repository.PharmacyRepository;
 import isa.project.pharmacyapp.repository.ReservationRepository;
+import isa.project.pharmacyapp.service.EmailService;
 import isa.project.pharmacyapp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public void createNewReservation(ReservationDTO reservationDTO) throws Exception {
@@ -134,6 +138,8 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         drugAccepted(id);
+        Patient p = reservation.getPatient();
+        emailService.sendSimpleMessage(p.getEmail(),"Drug accepted","YOu have accepted drugs from your reservation");
     }
 
     @Override

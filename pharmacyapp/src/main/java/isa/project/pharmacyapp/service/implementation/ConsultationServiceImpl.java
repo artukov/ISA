@@ -15,6 +15,7 @@ import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.CalendarService;
 import isa.project.pharmacyapp.service.ConsultationService;
+import isa.project.pharmacyapp.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,8 @@ public class ConsultationServiceImpl implements ConsultationService {
     private DrugRepository drugRepository;
     @Autowired
     private CalendarService calendarService;
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private PharmacyRepository pharmacyRepository;
@@ -61,8 +64,11 @@ public class ConsultationServiceImpl implements ConsultationService {
         if(resultPatientExamination != 0){
             throw new InsertingConsultationException("Patient examination hours are overlapping");
         }
+        Patient p = patientRepository.findById(dto.getPatient_id()).orElse(null);
         try {
+
             this.saveConsultation(consultation, dto);
+            emailService.sendSimpleMessage(p.getEmail(),"New Appointment","New Appointment has been booked");
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(e.getMessage());
