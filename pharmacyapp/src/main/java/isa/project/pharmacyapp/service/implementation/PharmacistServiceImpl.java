@@ -294,7 +294,20 @@ public class PharmacistServiceImpl implements PharmacistService {
         return dtos;
     }
 
+    @Override
+    public List<PatConsDTO> getPharmacistCalendar(Long pharmacistId, Integer month, Integer year){
+        List<PatConsDTO> dtos = new ArrayList<>();
+        List<Object[]> consultations = consultationRepository.getPharmacistCalendar(pharmacistId,month,year);
 
+        for(Object[] obj: consultations){
+            PatConsDTO dto = new PatConsDTO();
+            dto.setAppointmentDate((Date) obj[0]);
+            dto.setFirstName((String) obj[1]);
+            dto.setLastName((String) obj[2]);
+            dto.setEmail((String) obj[3]);
+            dtos.add(dto);
+        }
 
-
+        return dtos;
+    }
 }

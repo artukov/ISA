@@ -3,6 +3,7 @@ package isa.project.pharmacyapp.service;
 import isa.project.pharmacyapp.dto.*;
 import isa.project.pharmacyapp.model.AbsenceRequest;
 import isa.project.pharmacyapp.model.Pharmacist;
+import org.springframework.data.repository.query.Param;
 
 
 import java.util.List;
@@ -25,4 +26,5 @@ public interface PharmacistService extends UserService {
 
     List<PatientDTO> getPharmacistPatientsDistinct(Long pharmacistId);
     List<PatConsDTO> getPharmacistConsultations(Long pharmacistId);
+    List<PatConsDTO> getPharmacistCalendar(Long pharmacistId, Integer month, Integer year);
 }
