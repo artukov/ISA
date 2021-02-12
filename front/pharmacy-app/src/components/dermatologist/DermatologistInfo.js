@@ -9,6 +9,7 @@ const DermatologistInfo = () => {
     const [pharmacies, setPharmacies] = useState([]);
     const [startHour, setStartHour] = useState([]);
     const [hours, setHours] = useState([]);
+    const [completePharmacies, setCompletePharmacies] = useState([]);
 
     
 
@@ -38,6 +39,15 @@ const DermatologistInfo = () => {
             }
             
         }
+        const loadCompletePharmacies = async () => {
+            try {
+                 const result = await axiosConfig.get('/dermatologist/pharmaciesComplete');
+                setPharmacies(result.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        loadCompletePharmacies();
         if (dermatologist.id !== undefined)
             loadDermatologistPharmacies(dermatologist.id);
             
@@ -79,7 +89,7 @@ const DermatologistInfo = () => {
                                 pharmacies ? (
                                     pharmacies.map(pharmacy =>
                                         <option key={pharmacy.pharmacy_id} value={JSON.stringify({id : pharmacy.pharmacy_id, startHour : pharmacy.start_hour, hours: pharmacy.hours})}>
-                                            {pharmacy.pharmacy_id}
+                                            {pharmacy.pharmaName}
                                         </option>
                                         )
                                 ) : null

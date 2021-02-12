@@ -339,4 +339,42 @@ public class DermatologistController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/pharmaciesComplete", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getCompletePharmacies(Principal user){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        List<PharmacyDTO> dtos = dermatologistService.getDermatologistPharmacies(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/allClients",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllclients(Principal user){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        List<PatConsDTO> dtos = dermatologistService.getDermatologistsExaminations(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+
+    }
+
+    @GetMapping(value = "/allExaminations/{month}/{year}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllExaminations(Principal user, @PathVariable("month") Integer month, @PathVariable("year") Integer year){
+        DermatologistService dermatologistService = (DermatologistService) serviceFactory.getUserService(UserRoles.DERMATOLOGIST);
+
+        User current = dermatologistService.findByEmail(user.getName());
+
+        List<PatConsDTO> dtos = dermatologistService.getDermatologistCalendar(current.getId(), month, year);
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+
+    }
+
 }

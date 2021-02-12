@@ -75,5 +75,15 @@ public interface DermatologistRepository  extends JpaRepository<Dermatologist, L
             ,nativeQuery = true)
     void deleteRatingsFromPharmacy(@Param("dermaID") Long dermaID,@Param("pharmacyID") Long pharmacyID);
 
+    @Query(value = "select e.beg_date, p.firstname, p.lastname, p.email\n" +
+            "from examination e inner join patient p on e.patient_id = p.id\n" +
+            "where e.derma_id = :dermaId", nativeQuery = true)
+    List<Object[]> getDermatologistsExaminations(@Param("dermaId") Long dermaId);
+
+    @Query(value = "select e.beg_date, p.firstname, p.lastname, p.email\n" +
+            "from examination e left outer join patient p on e.patient_id = p.id\n" +
+            "where e.derma_id = :dermaId and extract(month from e.beg_date) = :month and extract(year from e.beg_date) = :year",nativeQuery = true)
+    List<Object[]> getDermatologistCalendar(@Param("dermaId") Long dermaId, @Param("month") Integer month, @Param("year") Integer year);
+
 
 }

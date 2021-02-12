@@ -15,24 +15,35 @@ public class PharmaDrugDTO {
     private String name;
     private String type;
     private BigInteger pharmacy_id;
+    private String pharmaName;
     private Double price;
 
 
     public PharmaDrugDTO() {
     }
 
-    public PharmaDrugDTO(String name, String type, BigInteger pharmacy_id, Double price) {
+    public PharmaDrugDTO(String name, String type, BigInteger pharmacy_id,String pharmaName, Double price) {
         this.name = name;
         this.type = type;
         this.pharmacy_id = pharmacy_id;
+        this.pharmaName =pharmaName;
         this.price = price;
     }
 
-    public static PharmaDrugDTO pharmaDrug2Dto(String name, String type, BigInteger pharmacy_id, Double price){
+    public String getPharmaName() {
+        return pharmaName;
+    }
+
+    public void setPharmaName(String pharmaName) {
+        this.pharmaName = pharmaName;
+    }
+
+    public static PharmaDrugDTO pharmaDrug2Dto(String name, String type, BigInteger pharmacy_id,String pharmaName, Double price){
         PharmaDrugDTO retDto = new PharmaDrugDTO(
           name,
           type,
           pharmacy_id,
+          pharmaName,
           price
         );
         return retDto;

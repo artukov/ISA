@@ -209,7 +209,7 @@ const DrugList = () => {
                                         <Row>
                                             <Col>{drugINeed.name}</Col>
                                             <Col>{drugINeed.type}</Col>
-                                            <Col>{drug.pharmacy_id}</Col>
+                                            <Col>{drug.pharmaName}</Col>
                                             <Col>{drug.price}</Col>
                                             <Col><Button onClick={(e) => {
                                                 

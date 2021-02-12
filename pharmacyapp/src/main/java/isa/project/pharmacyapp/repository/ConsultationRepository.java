@@ -32,4 +32,14 @@ public interface ConsultationRepository extends JpaRepository<Consultation, Long
             "from consultation c\n" +
             "where c.patient_id = :patientId and c.finished != true", nativeQuery = true)
     List<Consultation> getPatientsConsultationsNotFinished(@Param("patientId") Long patientId);
+
+    @Query(value = "select c.beg_date, p.firstname, p.lastname, p.email\n" +
+            "from consultation c inner join patient p on c.patient_id = p.id\n" +
+            "where c.pharmacist_id = :pharmacistId", nativeQuery = true)
+    List<Object[]> getPharmacistsConsultations(@Param("pharmacistId") Long pharmacistId);
+
+    @Query(value = "select c.beg_date, p.firstname, p.lastname, p.email\n" +
+            "from consultation c left outer join patient p on c.patient_id = p.id\n" +
+            "where c.pharmacist_id = :pharmacistId and extract(month from c.beg_date) = :month and extract(year from c.beg_date) = :year", nativeQuery = true)
+    List<Object[]> getPharmacistCalendar(@Param("pharmacistId") Long pharmacistId, @Param("month") Integer month, @Param("year") Integer year);
 }

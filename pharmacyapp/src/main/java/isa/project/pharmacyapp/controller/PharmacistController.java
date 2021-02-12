@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -293,6 +294,16 @@ public class PharmacistController {
 
         return new ResponseEntity<>(patientDTOList, HttpStatus.OK);
     }
+    @GetMapping(value = "/allClients",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(AUTHORITY)
+    public ResponseEntity<?> getAllClients(Principal user){
+        User current = userService.findByEmail(user.getName());
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
+
+        List<PatConsDTO> dtos = pharmacistService.getPharmacistConsultations(current.getId());
+
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
 
     @GetMapping(value = "/patientsDistinct", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
@@ -319,18 +330,20 @@ public class PharmacistController {
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
-    @GetMapping(value = "/checkAllergy/{patientId}/{drugId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/allConsultations/{month}/{year}",produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> checkAllergy(@PathVariable("patientId") Long patientId, @PathVariable("drugId") Long drugId){
-        List<DrugDTO> dtos = new ArrayList<>();
-        try{
-            dtos = drugService.checkForAllergy(patientId,drugId);
+    public ResponseEntity<?> getAllConsultations(Principal user,@PathVariable("month") Integer month, @PathVariable("year") Integer year){
+        User current = userService.findByEmail(user.getName());
+        PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);
 
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        List<PatConsDTO> dtos = pharmacistService.getPharmacistCalendar(current.getId(),month,year);
+
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
+
+
+
+
 
 
 }
