@@ -9,7 +9,7 @@ const SubstituteDrugsComponentP = ({ patientId, drugId }) => {
     useEffect(() => {
         const loadSubstituteDrugs = async (patientId, drugId) => {
             try {
-                const result = await axiosConfig.get('pharmacist/checkAllergy/' + patientId + '/' + drugId);
+                const result = await axiosConfig.get('dermatologist/checkAllergy/' + patientId + '/' + drugId);
                 setSubstitute(result.data);
             } catch (err) {
                 console.log(err.response.data);

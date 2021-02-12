@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.AllergyException;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
@@ -112,7 +113,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     public void modifyExamination(Long id, ExaminationDTO examinationDTO) throws Exception {
         Examination examination = this.repository.findById(id).orElse(null);
 
-        this.saveExamination(examination,examinationDTO);
+
+            this.saveExamination(examination, examinationDTO);
+
     }
 
     @Override
@@ -148,7 +151,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             drugs.add(drug);
         }
         if(allergiesNum > 0){
-            throw new Exception("Patient is allergic to drugs");
+            throw new AllergyException("Patient is allergic to drug");
         }
         examination.setDrug(drugs);
 
@@ -254,8 +257,8 @@ public class ExaminationServiceImpl implements ExaminationService {
             this.saveExamination(examination, examinationDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("ExaminationServiceImpl::modifyExamination(ExaminationDTO examiantionDTO)" +
-                    "saving of the modified object did not excecute");
+            throw new Exception(e.getMessage());
+            //throw new Exception();
         }
     }
 

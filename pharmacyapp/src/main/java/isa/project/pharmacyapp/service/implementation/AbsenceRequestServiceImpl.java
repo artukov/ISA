@@ -68,7 +68,7 @@ public class AbsenceRequestServiceImpl implements AbsenceRequestService {
             e.printStackTrace();
             throw new Exception("Saving absenceRequest");
         }
-
+    if(absenceRequest.getStatus() != null)
         sendNotification(absenceRequest);
 
 

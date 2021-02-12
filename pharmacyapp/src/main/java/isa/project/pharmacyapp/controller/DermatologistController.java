@@ -280,7 +280,7 @@ public class DermatologistController {
         }
         catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("ExaminationController::modifyExamination Server error"
+            return new ResponseEntity<>(e.getMessage()
                     ,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

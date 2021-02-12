@@ -82,7 +82,8 @@ public class ExaminationController {
             examinationService.modifyExamination(id, modifyDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(this.getClass().getName()+"::modifyExamination Server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            //return new ResponseEntity<>(this.getClass().getName()+"::modifyExamination Server error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
