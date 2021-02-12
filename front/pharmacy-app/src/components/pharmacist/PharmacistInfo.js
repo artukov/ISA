@@ -1,8 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import useCurrentUser from '../../hooks/loadCurrentUser';
+import ResetPassword from '../reset-password/ResetPasswordComponent';
+import UserProfileComponent from '../user/UserProfileComponent';
 
-const PharmacistInfo = () => {
+const PharmacistInfo = ({pharmacyID}) => {
+
+    const [user, setUser] = useState({});
+    
+
+    const currentUser = useCurrentUser();
+
+    useEffect(() => {
+        // console.table(currentUser);
+        
+    }, [currentUser]);
+
+    const saveChanges = async (user) =>{
+        user.pharmacyID = pharmacist.pharmacyID;
+        console.table(currentUser);
+        if(user.id === undefined)
+            user  = {
+                ...user,
+                ...currentUser
+            }
+        console.table(user);
+
+        try{
+            await axiosConfig.put('/pharmacist/modify/', user);
+            alert("Success");
+
+        }
+        catch(err){
+            console.log(err.response);
+        }
+    }
 
     const [pharmacist, setPharmacist] = useState([]);
     const [pharmacyName, setPharmacyName] = useState('');
@@ -59,6 +92,11 @@ const PharmacistInfo = () => {
 
                 ) : null
             }
+            <div>
+            <ResetPassword userOldPassword={currentUser.password}></ResetPassword>
+            <UserProfileComponent user={currentUser ? currentUser : {}} setUser={setUser} hideRole={true}></UserProfileComponent>
+            <Button onClick={()=> saveChanges(user) }>Save changes</Button>
+        </div>
         </div>
     );
 }

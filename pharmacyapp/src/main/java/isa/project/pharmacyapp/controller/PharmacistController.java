@@ -122,7 +122,7 @@ public class PharmacistController {
 
     @PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize(AUTHORITY)
-    public ResponseEntity<?> modifyDermatologist(@RequestBody PharmacistDTO pharmacistDTO, Principal user){
+    public ResponseEntity<?> modifyPharmacist(@RequestBody PharmacistDTO pharmacistDTO, Principal user){
 
         User current = userService.findByEmail(user.getName());
         PharmacistService pharmacistService = (PharmacistService) serviceFactory.getUserService(UserRoles.PHARMACIST);

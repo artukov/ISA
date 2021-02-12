@@ -1,9 +1,40 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Form, ListGroup } from 'react-bootstrap';
+import { Button, Card, Form, ListGroup } from 'react-bootstrap';
 import { axiosConfig } from '../../config/AxiosConfig';
+import useCurrentUser from '../../hooks/loadCurrentUser';
+import ResetPassword from '../reset-password/ResetPasswordComponent';
+import UserProfileComponent from '../user/UserProfileComponent';
 import { SET_PHARMACY } from './dermatologistReducer';
 const DermatologistInfo = () => {
 
+    const [user, setUser] = useState({});
+    
+
+    const currentUser = useCurrentUser();
+
+    useEffect(() => {
+        // console.table(currentUser);
+        
+    }, [currentUser]);
+
+    const saveChanges = async (user) =>{
+       // user.pharmacyID = pharmacist.pharmacyID;
+        console.table(currentUser);
+        if(user.id === undefined)
+            user  = {
+                ...user,
+                ...currentUser
+            }
+        console.table(user);
+
+        try{
+            await axiosConfig.put('/dermatologist/modify/',user);
+            alert("Success");
+        }
+        catch(err){
+            console.log(err.response);
+        }
+    }
 
     const [dermatologist, setDermatologist] = useState({});
     const [pharmacies, setPharmacies] = useState([]);
@@ -96,7 +127,13 @@ const DermatologistInfo = () => {
                             }
             </Form.Control>
             </Form>
+            <div>
+            <ResetPassword userOldPassword={currentUser.password}></ResetPassword>
+            <UserProfileComponent user={currentUser ? currentUser : {}} setUser={setUser} hideRole={true}></UserProfileComponent>
+            <Button onClick={()=> saveChanges(user) }>Save changes</Button>
         </div>
+        </div>
+        
       );
 }
  

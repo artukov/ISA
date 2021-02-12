@@ -1,7 +1,25 @@
 
 -- alter table calendar_appointments add appointment_date timestamp;
 
-insert into public.address(id, street, street_number, city, country) values (200,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (1000,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (1001,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2000,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2001,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2002,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2003,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2004,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2005,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2006,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2007,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2008,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2009,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2010,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2011,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2012,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2013,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2014,'street', 15,'city','country');
+insert into public.address(id, street, street_number, city, country) values (2015,'street', 15,'city','country');
+
 
 INSERT INTO public.calendar(id) VALUES (200);
 INSERT INTO public.calendar(id) VALUES (300);
@@ -10,11 +28,11 @@ INSERT INTO public.calendar(id) VALUES (300);
 
 INSERT INTO public.pharmacy(
     id, description, name, address_id, calendar_id)
-VALUES (200, 'description', 'ISA Pharmacy', 200, 200);
+VALUES (200, 'description', 'ISA Pharmacy', 1000, 200);
 
 INSERT INTO public.pharmacy(
     id, description, name, address_id, calendar_id)
-VALUES (300, 'description', 'name', 200, 300);
+VALUES (300, 'description', 'name', 1001, 300);
 
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 4.5);
 INSERT INTO pharmacy_ratings(pharmacy_id, ratings) VALUES (200, 5.0);
@@ -54,22 +72,22 @@ INSERT INTO pharmacy_drug(amount, price, drug_id, pharmacy_id) VALUES (0,0.0,601
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (300, 'dermatologistonepharmacyapp@gmail.com', true, 'Haris', null, 'Dzinovic',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 2000);
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (301, 'nikolartukov@gmail.com', true, 'Toma', null, 'Zdravkovic',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 2001);
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (302, 'derma2@live.com', true, 'Ljuba', null, 'Alicic',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 2002);
 
 INSERT INTO public.dermatologist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (303, 'derma3@live.com', true, 'dermatologist', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4517', 1, 2003);
 
 
 --inserting dermatologist's working hours in a pharmacy
@@ -107,11 +125,11 @@ VALUES (300,300,5.0);
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
 VALUES (400, 'nidza@gmail.com', true, 'patient', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 2004, null, null, null);
 INSERT INTO public.patient(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, category, penalties, points)
 VALUES (401, 'salecovic@hotmail.com', true, 'Nikola', null, 'Artukov',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 200, null, null, null);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 0, 2005, null, null, null);
 
 INSERT INTO reservation(id, acceptance_date, accepted,patient_id, pharmacy_id)
 VALUES (200, date('2020-05-23'), true,400, 200);
@@ -143,19 +161,19 @@ INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
                               pharmacy_id,start_hour,hours )
 VALUES (500, 'pharmacistonepharmacyapp@gmail.com' ,true, 'Dzej', null, 'Ramadanovski',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 2006, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
 VALUES (501, 'pharmacist1@live.com' ,true, 'Aca', null, 'Lukas',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 2007, 200, now(),8);
 
 INSERT INTO public.pharmacist(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id,
     pharmacy_id,start_hour,hours )
 VALUES (502, 'pharmacist2@live.com' ,true, 'Mira', null, 'Skoric',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 200, 200, now(),8);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '4576', 2, 2008, 200, now(),8);
 
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 3.0);
 INSERT INTO pharmacist_ratings(pharmacist_id, ratings) VALUES (500 , 2.0);
@@ -172,26 +190,26 @@ INSERT INTO public.pharmacy_admin(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id, pharmacy_id)
 VALUES (200, 'phAdmin@live.com', true, 'pharmacy admin', null, 'lastname',
         '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6',
-        '45613',3,200, 200);
+        '45613',3,2010, 200);
 
 INSERT INTO public.system_admin(
     id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (600, 'sysadmin@live.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764', 5,200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764', 5,2011);
 
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (700, 'supplieronepharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,2012);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password, phone_number, role, address_id)
 VALUES (701, 'suppliertwopharmacyapp@gmail.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,2013);
 
 INSERT INTO supplier(id, email, enabled, firstname, last_password_reset_date, lastname, password,
                      phone_number, role, address_id)
 VALUES (702, 'srdjan_kralj_97@live.com', true, 'system admin', null, 'lastname',
-        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,200);
+        '$2a$04$wF4uiW.ZCgD3EoPIHpDBAulwKDZ.i9.754dzkw7EtRzIiVcC8NPy6', '764',4 ,2014);
 
 INSERT INTO warehouse(id, size, supplier_id) VALUES (100, 500, 700);
 INSERT INTO warehouse(id, size, supplier_id) VALUES (101, 500, 701);

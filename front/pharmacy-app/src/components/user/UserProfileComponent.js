@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import userProfile from '../../reducer/userProfileReducer';
+import AddressComponent from '../address/AddressComponent';
 
 let initialState = {};
 
-const UserProfileComponent = ({setUser,hideRole, user}) => {
+const UserProfileComponent = ({ setUser, hideRole, user }) => {
+    const [address, setAddress] = useState({});
 
     useEffect(() => {
         const initState = () =>{
             if(user !== undefined)
-                dispatch({type : 'init', payload : user});
+                dispatch({type : 'init', payload :  user});
         }
         initState();
     }, [user]);
@@ -65,11 +67,12 @@ const UserProfileComponent = ({setUser,hideRole, user}) => {
                 <Form.Group>
                     <Row>
                         <Col><Form.Label>Address of the user</Form.Label></Col>
-                        <Col><Form.Control type="text" onChange = {(e)=> dispatch({type : 'address', payload : e.target.value})} ></Form.Control></Col>
+                        {/* <Col><Form.Control type="text" onChange = {(e)=> dispatch({type : 'address', payload : e.target.value})} ></Form.Control></Col> */}
+                        <AddressComponent dispatch={dispatch} setAddress={ setAddress} address={state.address}></AddressComponent>
                     </Row>
                 </Form.Group>
           
-            </Form>
+            </Form> 
         </div> 
     );
 }
