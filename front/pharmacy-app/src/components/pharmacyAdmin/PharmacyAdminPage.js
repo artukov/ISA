@@ -23,6 +23,7 @@ import AbsenceRequestsList from '../absence-request/AbsenceRequestList';
 import PharmacyAdminInfoComponent from './PharmacyAdminInfo';
 import NewPromotionsForm from '../promotions/NewPromotionsForm';
 import DermatologistSearchFilter from '../dermatologist/DermatologistSearchFilter';
+import PharmacyDrugList from './drugs/PharmacyDrugList';
 
 
 
@@ -85,7 +86,7 @@ const PharmacyAdminPage = () => {
                         <PharmacistList pharmacyID = {pharmacy.id}></PharmacistList>
                     </Tab>
                     <Tab eventKey="drugs" title = "Pharmacy drugs">
-                        <DrugList pharmacyID = {pharmacy.id}></DrugList>
+                        <PharmacyDrugList pharmacyID={pharmacy.id}></PharmacyDrugList>
                     </Tab>
                     <Tab eventKey="pricelist" title = "Pharmacy price list">
                         <PriceListContextProvider pharmacyID = {pharmacy.id}>

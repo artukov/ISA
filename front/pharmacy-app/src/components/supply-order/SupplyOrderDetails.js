@@ -22,7 +22,7 @@ const SupplyOrderDetails = ({order}) => {
     }
 
     useEffect(() => {
-        dispatch({type : CHECK_BUTTON_VISIBILITY, order : order}); 
+        dispatch({type : CHECK_BUTTON_VISIBILITY, order : order});
     }, [order])
 
 

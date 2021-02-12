@@ -211,6 +211,14 @@ public class PharmacyAdminServiceImpl implements PharmacyAdminService {
     }
 
     @Override
+    public void checkIfAdminCreatedOrder(User admin, Long orderID) throws Exception {
+        if(adminRepository.createdOrder(admin.getId(), orderID) == 0.0){
+            throw  new Exception("Admin that created the order can only accept order");
+        }
+        return;
+    }
+
+    @Override
     public PharmacyAdmin findByEmail(String email) {
         return this.adminRepository.findByEmail(email);
     }
