@@ -4,6 +4,7 @@ import isa.project.pharmacyapp.dto.ConsultationDTO;
 import isa.project.pharmacyapp.dto.ExaminationDTO;
 import isa.project.pharmacyapp.dto.PharmacyDTO;
 import isa.project.pharmacyapp.dto.WorkingHoursDTO;
+import isa.project.pharmacyapp.exception.AllergyException;
 import isa.project.pharmacyapp.exception.DermatologistNotWorkingException;
 import isa.project.pharmacyapp.exception.ExaminationOverlappingException;
 import isa.project.pharmacyapp.exception.InsertingConsultationException;
@@ -148,7 +149,7 @@ public class ExaminationServiceImpl implements ExaminationService {
             drugs.add(drug);
         }
         if(allergiesNum > 0){
-            throw new Exception("Patient is allergic to drugs");
+            throw new AllergyException("Patient is allergic to drug");
         }
         examination.setDrug(drugs);
 
