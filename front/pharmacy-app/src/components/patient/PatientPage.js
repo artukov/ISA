@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tab, Tabs } from 'react-bootstrap';
+import AddressComponent from '../address/AddressComponent';
 import BookConsultation from './BookConsultation';
 import BookExamination from './BookExamination';
 import DermaVisists from './DermaVisists';
@@ -59,9 +60,12 @@ const PatientPage = () => {
                         <QRCode></QRCode>
             </Tab>
                 
-                
+                 <Tab eventKey = "address" title="Address">
+                        <AddressComponent></AddressComponent>
+            </Tab>
                     
-                 </Tabs>
+        </Tabs>
+        
      );
 }
  
