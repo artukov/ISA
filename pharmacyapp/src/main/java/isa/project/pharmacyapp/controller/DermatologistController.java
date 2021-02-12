@@ -48,6 +48,9 @@ public class DermatologistController {
     private PharmacyService pharmacyService;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private DrugService drugService;
 
     @Autowired
@@ -244,6 +247,7 @@ public class DermatologistController {
 
         try {
             examinationService.createNewExamination(examinationDTO);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

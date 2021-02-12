@@ -12,7 +12,9 @@ import isa.project.pharmacyapp.model.embedded_ids.CalendarAppointmentsID;
 import isa.project.pharmacyapp.model.many2many.CalendarAppointments;
 import isa.project.pharmacyapp.repository.*;
 import isa.project.pharmacyapp.service.CalendarService;
+import isa.project.pharmacyapp.service.EmailService;
 import isa.project.pharmacyapp.service.ExaminationService;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private DrugRepository drugRepository;
@@ -92,7 +97,10 @@ public class ExaminationServiceImpl implements ExaminationService {
         if(resultPatientExamination != 0){
             throw new ExaminationOverlappingException("Patient examination hours are overlapping",examinationDTO.getBeggingDateTime(),endHours);
         }
-        this.saveExamination(examination, examinationDTO);
+            Patient patient = patientRepository.findById(examinationDTO.getPatient_id()).orElse(null));
+            this.saveExamination(examination, examinationDTO);
+            emailService.sendSimpleMessage(patient.getEmail(),"New Appointment","New Appointment has been booked");
+
 
     }
 
@@ -117,6 +125,7 @@ public class ExaminationServiceImpl implements ExaminationService {
          * TODO
          * Check if examination is possible
          * */
+
         Dermatologist dermatologist = dermatologistRepository.findById(examinationDTO.getDermatologist_id()).orElse(null);
         if(dermatologist == null){
             throw  new Exception("Dermatologist does not exists");
